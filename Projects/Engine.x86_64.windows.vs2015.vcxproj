@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\Core\File.cpp" />
+    <ClCompile Include="..\Source\Core\MemoryBuffer.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\Main.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\PlatformWindows.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\Timer.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp" />
+    <ClCompile Include="..\Source\Scene\BundleSceneImporter.cpp" />
+    <ClCompile Include="..\Source\Scene\SceneCamera.cpp" />
+    <ClCompile Include="..\Source\Scene\SceneNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\CompileConfig.h" />
+    <ClInclude Include="..\Source\Core\CoreGlobal.h" />
+    <ClInclude Include="..\Source\Core\File.h" />
+    <ClInclude Include="..\Source\Core\MemoryBuffer.h" />
+    <ClInclude Include="..\Source\Core\Windows\PlatformWindows.h" />
+    <ClInclude Include="..\Source\Core\Windows\Timer.h" />
+    <ClInclude Include="..\Source\Math\AABBox3D.h" />
+    <ClInclude Include="..\Source\Math\Color.h" />
+    <ClInclude Include="..\Source\Math\Common.h" />
+    <ClInclude Include="..\Source\Math\DualQuaternion.h" />
+    <ClInclude Include="..\Source\Math\Frustum.h" />
+    <ClInclude Include="..\Source\Math\Geometry.h" />
+    <ClInclude Include="..\Source\Math\Line2D.h" />
+    <ClInclude Include="..\Source\Math\Line3D.h" />
+    <ClInclude Include="..\Source\Math\Matrix4.h" />
+    <ClInclude Include="..\Source\Math\Plane3D.h" />
+    <ClInclude Include="..\Source\Math\Point2D.h" />
+    <ClInclude Include="..\Source\Math\Quaternion.h" />
+    <ClInclude Include="..\Source\Math\Rect2D.h" />
+    <ClInclude Include="..\Source\Math\Size2D.h" />
+    <ClInclude Include="..\Source\Math\Triangle3D.h" />
+    <ClInclude Include="..\Source\Math\Vector2D.h" />
+    <ClInclude Include="..\Source\Math\Vector3D.h" />
+    <ClInclude Include="..\Source\Math\Vector4D.h" />
+    <ClInclude Include="..\Source\Pharos.h" />
+    <ClInclude Include="..\Source\PreCompile.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.h" />
+    <ClInclude Include="..\Source\Render\RenderGlobal.h" />
+    <ClInclude Include="..\Source\Scene\BundleSceneImporter.h" />
+    <ClInclude Include="..\Source\Scene\SceneCamera.h" />
+    <ClInclude Include="..\Source\Scene\SceneGlobal.h" />
+    <ClInclude Include="..\Source\Scene\SceneNode.h" />
+    <ClInclude Include="..\Source\TypesDef.h" />
+    <ClInclude Include="..\Source\Utils\Factory.h" />
+    <ClInclude Include="..\Source\Utils\Path.h" />
+    <ClInclude Include="..\Source\Utils\Singleton.h" />
+    <ClInclude Include="..\Source\Utils\Thread.h" />
+    <ClInclude Include="..\Source\Utils\Util.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C71BDBB0-12DC-4ED5-BB04-BCBC7368BD10}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Enginex86_64windowsvs2015</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>Engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\Binaries\</OutDir>
+    <IntDir>..\Builds\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName).$(Platform).$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Binaries\</OutDir>
+    <IntDir>..\Builds\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName).$(Platform).$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\Binaries\</OutDir>
+    <IntDir>..\Builds\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName).$(Platform).$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\Binaries\</OutDir>
+    <IntDir>..\Builds\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName).$(Platform).$(Configuration)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

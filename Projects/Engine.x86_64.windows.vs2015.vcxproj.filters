@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Source\Core\Windows\PlatformWindows.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\Main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\Timer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\File.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\MemoryBuffer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\BundleSceneImporter.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\SceneNode.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.cpp">
+      <Filter>Render\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp">
+      <Filter>Render\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\SceneCamera.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.cpp">
+      <Filter>Render\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.cpp">
+      <Filter>Render\Renderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\TypesDef.h" />
+    <ClInclude Include="..\Source\CompileConfig.h" />
+    <ClInclude Include="..\Source\Pharos.h" />
+    <ClInclude Include="..\Source\PreCompile.h" />
+    <ClInclude Include="..\Source\Core\Windows\PlatformWindows.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\AABBox3D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Color.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Common.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\DualQuaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Frustum.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Geometry.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Line2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Line3D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Matrix4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Plane3D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Point2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Quaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Rect2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Size2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Triangle3D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Vector2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Vector3D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Math\Vector4D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\Timer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\CoreGlobal.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\File.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\SceneGlobal.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\MemoryBuffer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\BundleSceneImporter.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\Factory.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\Path.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\Singleton.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\Thread.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\Util.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\SceneNode.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\RenderGlobal.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\SceneCamera.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{a7fceffc-36cd-4890-9b99-79fcbb0c7f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{43d90325-fcd4-4b51-94ea-f4eb96e37042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{6d25fc66-0681-4aa6-9f3c-ff8f4500b114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{4efb8087-4a2f-48b3-808f-658d6b7f5918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{09871c94-6a36-4b7f-8644-95cbd4ecd357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Renderer">
+      <UniqueIdentifier>{3bd96b2f-c9e5-4279-bee0-844a330994b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
