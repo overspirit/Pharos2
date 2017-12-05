@@ -2,31 +2,33 @@
 
 #include "Pharos.h"
 
-// #include "Resource/ResBase.h"
+#include "File.h"
+#include "ResBase.h"
 // #include "Resource/MyXmlAttribute.h"
 // #include "Resource/MyXmlNode.h"
 // #include "Resource/MyXmlDocument.h"
-// #include "Resource/Font.h"
-// #include "Resource/Image.h"
-#include "File.h"
+//#include "Font.h"
+#include "Image.h"
+
 //#include "Properties.h"
 
 
 #if defined(_WINDOWS_PLATFORM_)
 
-// #include "Windows/InputSystem/InputDevice.h"
-// #include "Windows/InputSystem/KeyBoardDevice.h"
-// #include "Windows/InputSystem/MouseDevice.h"
-// #include "Windows/InputSystem/SofeMouseDevice.h"
-// #include "Windows/InputSystem/GamepadDevice.h"
-// #include "Windows/InputSystem/XInputDevice.h"
-// #include "Windows/InputSystem/InputManager.h"
+#include "Windows/InputSystem/InputDevice.h"
+#include "Windows/InputSystem/KeyBoardDevice.h"
+#include "Windows/InputSystem/MouseDevice.h"
+#include "Windows/InputSystem/SofeMouseDevice.h"
+#include "Windows/InputSystem/GamepadDevice.h"
+#include "Windows/InputSystem/XInputDevice.h"
+#include "Windows/InputSystem/InputManager.h"
 
 #include "Windows/Timer.h"
 #include "Windows/PlatformWindows.h"
 
-// #define sInputMgr CInputManager::Inst()
+#define sInputMgr CInputManager::Inst()
 #define sPlatform PlatformWindows::Inst()
+
 #endif
 
 
@@ -65,7 +67,7 @@ const char* GetMainBundleDirectory();
 #endif
 
 #include "MemoryBuffer.h"
-//#include "Kernel.h"
+#include "Kernel.h"
 
 #define sKernel Kernel::Inst()
 

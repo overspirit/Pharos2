@@ -12,13 +12,7 @@ D3D11RenderLayout::D3D11RenderLayout(ID3D11Device* pDevice, ID3D11DeviceContext*
 	m_layout = nullptr;
 
 	ZeroMemory(&m_indexBufDesc, sizeof(D3D11_BUFFER_DESC));
-	m_indexBufType = EB_Static;
-	m_indexNum = 0;
-
 	ZeroMemory(&m_vertBufDesc, sizeof(D3D11_BUFFER_DESC));
-	m_vertBufType = EB_Static;
-	m_vertStride = 0;
-	m_vertBufSize = 0;
 }
 
 D3D11RenderLayout::~D3D11RenderLayout()

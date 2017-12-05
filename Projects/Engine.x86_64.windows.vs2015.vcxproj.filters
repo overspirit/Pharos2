@@ -22,20 +22,68 @@
     <ClCompile Include="..\Source\Scene\SceneNode.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.cpp">
-      <Filter>Render\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp">
-      <Filter>Render\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Scene\SceneCamera.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Core\Kernel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\GamepadDevice.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\InputDevice.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\InputManager.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\KeyBoardDevice.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\MouseDevice.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\SofeMouseDevice.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\XInputDevice.cpp">
+      <Filter>Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.cpp">
-      <Filter>Render\Renderer</Filter>
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11DepthStencilState.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RasterizerState.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Renderer.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Texture.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Image.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\Renderer.cpp">
       <Filter>Render\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11SamplerState.cpp">
+      <Filter>Render\Renderer\D3D11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,22 +184,112 @@
     <ClInclude Include="..\Source\Scene\SceneNode.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.h">
-      <Filter>Render\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Render\RenderGlobal.h">
       <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.h">
-      <Filter>Render\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Scene\SceneCamera.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.h">
+    <ClInclude Include="..\Source\Core\IApplication.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Kernel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\GamepadDevice.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\InputDevice.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\InputManager.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\KeyBoardDevice.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\MouseDevice.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\SofeMouseDevice.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\XInputDevice.h">
+      <Filter>Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\EventDefine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\RenderDefine.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderBlendState.h">
       <Filter>Render\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderDepthStencilState.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderRasterizerState.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11DepthStencilState.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RasterizerState.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11Renderer.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11Texture.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11Utils.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderTexture.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Image.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\ResBase.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\Renderer.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderFrameBuffer.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderLayout.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderProgram.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderShaderData.h">
+      <Filter>Render\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11SamplerState.h">
+      <Filter>Render\Renderer\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Renderer\RenderSamplerState.h">
       <Filter>Render\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -173,6 +311,12 @@
     </Filter>
     <Filter Include="Render\Renderer">
       <UniqueIdentifier>{3bd96b2f-c9e5-4279-bee0-844a330994b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\InputSystem">
+      <UniqueIdentifier>{5708de68-917d-4327-9189-5d09a9a626d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Renderer\D3D11">
+      <UniqueIdentifier>{6a2186c3-924e-4991-9edb-f34ab6fcb8d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

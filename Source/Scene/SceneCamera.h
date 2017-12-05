@@ -96,6 +96,4 @@ namespace Pharos
 			virtual float32 GetFarClip() const { return m_fFarPlane; }		//远平面	
 		};
 	}
-
-	typedef shared_ptr<Scene::SceneCamera>	SceneCameraPtr;
 }

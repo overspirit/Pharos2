@@ -20,14 +20,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Core\File.cpp" />
+    <ClCompile Include="..\Source\Core\Image.cpp" />
+    <ClCompile Include="..\Source\Core\Kernel.cpp" />
     <ClCompile Include="..\Source\Core\MemoryBuffer.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\GamepadDevice.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\InputDevice.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\InputManager.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\KeyBoardDevice.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\MouseDevice.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\SofeMouseDevice.cpp" />
+    <ClCompile Include="..\Source\Core\Windows\InputSystem\XInputDevice.cpp" />
     <ClCompile Include="..\Source\Core\Windows\Main.cpp" />
     <ClCompile Include="..\Source\Core\Windows\PlatformWindows.cpp" />
     <ClCompile Include="..\Source\Core\Windows\Timer.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11DepthStencilState.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RasterizerState.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Renderer.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11SamplerState.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Texture.cpp" />
+    <ClCompile Include="..\Source\Render\Renderer\Renderer.cpp" />
     <ClCompile Include="..\Source\Scene\BundleSceneImporter.cpp" />
     <ClCompile Include="..\Source\Scene\SceneCamera.cpp" />
     <ClCompile Include="..\Source\Scene\SceneNode.cpp" />
@@ -35,8 +51,20 @@
   <ItemGroup>
     <ClInclude Include="..\Source\CompileConfig.h" />
     <ClInclude Include="..\Source\Core\CoreGlobal.h" />
+    <ClInclude Include="..\Source\Core\EventDefine.h" />
     <ClInclude Include="..\Source\Core\File.h" />
+    <ClInclude Include="..\Source\Core\IApplication.h" />
+    <ClInclude Include="..\Source\Core\Image.h" />
+    <ClInclude Include="..\Source\Core\Kernel.h" />
     <ClInclude Include="..\Source\Core\MemoryBuffer.h" />
+    <ClInclude Include="..\Source\Core\ResBase.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\GamepadDevice.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\InputDevice.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\InputManager.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\KeyBoardDevice.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\MouseDevice.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\SofeMouseDevice.h" />
+    <ClInclude Include="..\Source\Core\Windows\InputSystem\XInputDevice.h" />
     <ClInclude Include="..\Source\Core\Windows\PlatformWindows.h" />
     <ClInclude Include="..\Source\Core\Windows\Timer.h" />
     <ClInclude Include="..\Source\Math\AABBox3D.h" />
@@ -59,10 +87,28 @@
     <ClInclude Include="..\Source\Math\Vector4D.h" />
     <ClInclude Include="..\Source\Pharos.h" />
     <ClInclude Include="..\Source\PreCompile.h" />
+    <ClInclude Include="..\Source\Render\RenderDefine.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11DepthStencilState.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11FrameBuffer.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RasterizerState.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11Renderer.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11RenderLayout.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11SamplerState.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11Texture.h" />
+    <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11Utils.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderFrameBuffer.h" />
+    <ClInclude Include="..\Source\Render\Renderer\Renderer.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderLayout.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderProgram.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderShaderData.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderTexture.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderBlendState.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderDepthStencilState.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderRasterizerState.h" />
+    <ClInclude Include="..\Source\Render\Renderer\RenderSamplerState.h" />
     <ClInclude Include="..\Source\Render\RenderGlobal.h" />
     <ClInclude Include="..\Source\Scene\BundleSceneImporter.h" />
     <ClInclude Include="..\Source\Scene\SceneCamera.h" />
@@ -74,6 +120,26 @@
     <ClInclude Include="..\Source\Utils\Singleton.h" />
     <ClInclude Include="..\Source\Utils\Thread.h" />
     <ClInclude Include="..\Source\Utils\Util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\FreeImage-3.17.0\Projects\FreeImage.x86_64.windows.vs2015.vcxproj">
+      <Project>{3a65b2a2-2636-4a3d-a16d-4b3448943754}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\freetype-2.8\Projects\freetype.x86_64.windows.vs2015.vcxproj">
+      <Project>{7d96fabc-3358-4cf8-ad20-25869e23468f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\gflags\Projects\gflags.vcxproj">
+      <Project>{db9910f1-d821-4091-9a15-49726c769039}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\libjpeg-9b\Projects\libjpeg.x86_64.windows.vs2015.vcxproj">
+      <Project>{5f08808d-8515-4ae7-b0ea-2fa38a76e282}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\libpng-1.6.29\Projects\libpng.x86_64.windows.vs2015.vcxproj">
+      <Project>{813d6577-e332-4b1f-a181-8cd4e56cb880}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\External\zlib-1.2.11\Projects\zlib.x86_64.windows.vs2015.vcxproj">
+      <Project>{d9210d04-9dfd-4349-ac52-1dc233065061}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C71BDBB0-12DC-4ED5-BB04-BCBC7368BD10}</ProjectGuid>
@@ -154,7 +220,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage-3.17.0/Include;../External/freetype-2.8/Include;../External/gflags/Source;../Source;../Source/Core;../Source/Render;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,7 +233,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage-3.17.0/Include;../External/freetype-2.8/Include;../External/gflags/Source;../Source;../Source/Core;../Source/Render;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -182,7 +248,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage-3.17.0/Include;../External/freetype-2.8/Include;../External/gflags/Source;../Source;../Source/Core;../Source/Render;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -199,7 +265,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Source;../Source/Core;../Source/Render;../Source/Script;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage-3.17.0/Include;../External/freetype-2.8/Include;../External/gflags/Source;../Source;../Source/Core;../Source/Render;../Source/Scene;../Source/Desktop</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

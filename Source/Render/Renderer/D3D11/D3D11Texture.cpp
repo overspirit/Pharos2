@@ -1,4 +1,5 @@
 ﻿#include "PreCompile.h"
+#include "CoreGlobal.h"
 #include "RenderGlobal.h"
 
 D3D11Texture::D3D11Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -9,7 +10,7 @@ D3D11Texture::D3D11Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	m_pTexture = nullptr;
 	m_pView = nullptr;
 
-	m_pSamplerImpl = nullptr;
+	m_pState = nullptr;
 
 	m_width = 0;
 	m_height = 0;
@@ -27,24 +28,21 @@ bool D3D11Texture::LoadFromFile(const char8* szPath)
 {
 	if (szPath == nullptr || *szPath == '\0') return false;
 
-	IImagePtr image = g_pKernel->QueryImageResource(szPath);
-	if (image == nullptr) return false;
+	Image image;
+	if (!image.Open(szPath)) return false;
+
+	if (image.GetBPP() != 32)
+	{
+		if (!image.ConvertTo32Bits()) return false;
+	}
+
 	return LoadFromImage(image);
 }
 
-bool D3D11Texture::LoadFromImage(IImagePtr pImage)
+bool D3D11Texture::LoadFromImage(const Image& image)
 {
-	if(pImage == nullptr) return false;
-
-	uint32 bpp = pImage->GetBPP();
-	uint32 width = pImage->GetWidth();
-	uint32 height = pImage->GetHeight();
-
-	if (bpp != 32)
-	{
-		if (!pImage->ConvertTo32Bits()) return false;
-		bpp = 32;
-	}
+	uint32 width = image.GetWidth();
+	uint32 height = image.GetHeight();
 
 	D3D11_TEXTURE2D_DESC desc;
 	desc.Width = width;
@@ -60,7 +58,7 @@ bool D3D11Texture::LoadFromImage(IImagePtr pImage)
 	desc.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA data;
-	data.pSysMem = pImage->GetDataPointer();
+	data.pSysMem = image.GetDataPointer();
 	data.SysMemPitch = width * 4;
 	data.SysMemSlicePitch = 0;
 
@@ -216,14 +214,14 @@ bool D3D11Texture::CopyRectFromData(const void* pData, uint32 nDataSize, const R
 	return true;
 }
 
-bool D3D11Texture::CopyFromTexture(IRenderTexturePtr srcTex)
+bool D3D11Texture::CopyFromTexture(RenderTexture* srcTex)
 {
-	return true;
+	return false;
 }
 
-bool D3D11Texture::CopyRectFromTexture(IRenderTexturePtr srcTex, const Rect2Di& srcRect, const Rect2Di& destRect)
+bool D3D11Texture::CopyRectFromTexture(RenderTexture* srcTex, const Rect2Di& srcRect, const Rect2Di& destRect)
 {
-	D3D11TexturePtr d3d11Tex = static_pointer_cast<D3D11Texture>(srcTex);
+	D3D11Texture* d3d11Tex = static_cast<D3D11Texture*>(srcTex);
 	if (d3d11Tex == nullptr) return false;
 
 	ID3D11Texture2D* d3d11TexRes = d3d11Tex->GetTexture();
@@ -235,9 +233,9 @@ bool D3D11Texture::CopyRectFromTexture(IRenderTexturePtr srcTex, const Rect2Di& 
 	return true;
 }
 
-void D3D11Texture::SetSampleState(IRenderSampleStatePtr state)
+void D3D11Texture::SetSampleState(RenderSamplerState* state)
 {
-	m_pSamplerImpl = static_pointer_cast<D3D11SampleState>(state);
+	m_pState = static_cast<D3D11SamplerState*>(state);
 }
 
 void D3D11Texture::ApplyToDevice(uint32 slot)
@@ -249,8 +247,8 @@ void D3D11Texture::ApplyToDevice(uint32 slot)
 	m_pContext->DSSetShaderResources(slot, 1, &m_pView);
 	m_pContext->CSSetShaderResources(slot, 1, &m_pView);
 
-	if (m_pSamplerImpl != nullptr)
+	if (m_pState != nullptr)
 	{
-		m_pSamplerImpl->ApplyToDevice(slot);
+		m_pState->ApplyToDevice(slot);
 	}
 }

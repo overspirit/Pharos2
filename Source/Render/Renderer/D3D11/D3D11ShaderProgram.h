@@ -4,7 +4,7 @@ namespace Pharos
 {
 	namespace Render
 	{
-		class D3D11ShaderProgram// : public IRenderProgram
+		class D3D11ShaderProgram : public RenderProgram
 		{
 		public:
 			D3D11ShaderProgram(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -40,6 +40,4 @@ namespace Pharos
 			virtual void ApplyToDevice();
 		};
 	}
-
-	typedef shared_ptr<Render::D3D11ShaderProgram> D3D11ShaderProgramPtr;
 }

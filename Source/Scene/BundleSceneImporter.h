@@ -39,7 +39,7 @@ namespace Pharos
 			{
 				string samplerName;
 				string texPath;
-				//SampleStateDesc	stateDesc;
+				//SamplerStateDesc	stateDesc;
 			};
 
 // 			struct TypeValue
@@ -201,15 +201,9 @@ namespace Pharos
 
 			void uncompressFixedPointBuffer(uint8* vertexData, uint8* zippedBuffer, uint32 vertexCount, Element* vertexElements, uint32 vertexElementCount);
 
-			SceneNode* BuildSceneNode(const SceneNodeData& data, SceneNode* parent);
-
 		public:
 			virtual bool LoadSceneFile(const char8* file);
 			virtual bool LoadModelFile(const char8* file);
-
-			void FillSceneNodeList(vector<SceneNode*>& sceneNodeList);
 		};
 	}
-
-	typedef shared_ptr<Scene::BundleSceneImporter>	BundleSceneImporterPtr;
 }

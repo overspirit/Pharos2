@@ -35,7 +35,7 @@
 
 //Engine
 ////////////////////////////////////////////////////////////////////////
-// #include "Engine/EventDefine.h"
+#include "EventDefine.h"
 // #include "Engine/ITimer.h"
 // #include "Engine/IResource.h"
 // #include "Engine/IFile.h"
@@ -45,7 +45,7 @@
 // #include "Engine/IXmlNode.h"
 // #include "Engine/IXmlDocument.h"
 // #include "Engine/IProperties.h"
-// #include "Engine/IApplication.h"
+#include "IApplication.h"
 //#include "Engine/IMemBuffer.h"
 // #include "Engine/IKernel.h"
 ////////////////////////////////////////////////////////////////////////
@@ -93,8 +93,8 @@
 
 using namespace Pharos;
 
-// IApplicationPtr NewApplication();
-// #define IMPL_CREATE_APPLICATION(myApp) IApplicationPtr NewApplication(){return MakeSharedPtr<myApp>();}
+IApplication* NewApplication();
+#define IMPL_CREATE_APPLICATION(myApp) IApplication* NewApplication(){return new myApp();}
 // 
 // extern Engine::IKernel* g_pKernel;
 // extern Render::IRenderMgr* g_pRenderMgr;

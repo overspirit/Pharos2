@@ -50,40 +50,6 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 	return true;
 }
 
-void BundleSceneImporter::FillSceneNodeList(vector<SceneNode*>& sceneNodeList)
-{
-	for (auto& sceneData : m_nodeDataList)
-	{
-		SceneNode* sceneNode = BuildSceneNode(sceneData, nullptr);
-		sceneNodeList.push_back(sceneNode);
-	}
-}
-
-SceneNode* BundleSceneImporter::BuildSceneNode(const SceneNodeData& data, SceneNode* parent)
-{
-	SceneNode* sceneNode = new SceneNode();
-	sceneNode->InitNode(data.nodeName.c_str(), parent);
-	sceneNode->SetLocalTransform(data.localTrans);
-
-	if (data.modelData.meshDataList.size() > 1)
-	{
-		int test = 0;
-	}
-
-	for (auto& meshData : data.modelData.meshDataList)
-	{
-		sceneNode->InitModelData(meshData.vertexData, meshData.vertDesc, meshData.indexData);
-	}
-
-	for (auto& sceneData : data.childData)
-	{
-		SceneNode* childNode = BuildSceneNode(sceneData, sceneNode);
-		sceneNode->AddChildNode(childNode);
-	}
-
-	return sceneNode;
-}
-
 bool BundleSceneImporter::LoadModelFile(const char8* file)
 {
 	return true;

@@ -15,9 +15,10 @@ D3D11ConstantBuffer::~D3D11ConstantBuffer()
 	SAFE_RELEASE(m_pBuffer);
 }
 
-void D3D11ConstantBuffer::CopyData(const MemoryBuffer& data)
+void D3D11ConstantBuffer::CopyData(MemoryBuffer* data)
 {
-	m_data = data;
+	//注意，重载了MemoryBuffer的赋值操作符
+	m_data = (*data);
 }
 
 void D3D11ConstantBuffer::CopyData(const void* data, uint32 len)
@@ -27,13 +28,12 @@ void D3D11ConstantBuffer::CopyData(const void* data, uint32 len)
 
 void D3D11ConstantBuffer::ApplyToDevice(uint32 slot)
 {
-// 	if (m_data == nullptr)
-// 	{
-// 		assert(false);
-// 		return;
-// 	}
-
 	uint32 dataSize = m_data.GetLength();
+	if (dataSize == 0)
+	{
+		assert(false);
+		return;
+	}
 
 	//D3D11要求ConstantBuffer的大小必须是16的整数倍...
 	if (dataSize < 16) dataSize = 16;
@@ -62,7 +62,7 @@ void D3D11ConstantBuffer::ApplyToDevice(uint32 slot)
 		if (FAILED(hr))
 		{
 			//建立失败...
-			//assert(false);
+			assert(false);
 			return;
 		}
 	}

@@ -6,22 +6,34 @@
 // #include "Effect/RenderTechnique.h"
 // #include "Effect/RenderEffectLoader.h"
 // #include "Effect/RenderBlock.h"
-// #include "Renderer/Renderer.h"
+
+#include "RenderDefine.h"
+
+#include "Renderer/RenderSamplerState.h"
+#include "Renderer/RenderBlendState.h"
+#include "Renderer/RenderDepthStencilState.h"
+#include "Renderer/RenderRasterizerState.h"
+#include "Renderer/RenderTexture.h"
+#include "Renderer/RenderFrameBuffer.h"
+#include "Renderer/RenderShaderData.h"
+#include "Renderer/RenderProgram.h"
+#include "Renderer/RenderLayout.h"
+#include "Renderer/Renderer.h"
+
 
 #if defined(_WINDOWS_PLATFORM_)
 
-// #include "Renderer/D3D11/D3D11Utils.h"
-// 
-// #include "Renderer/D3D11/D3D11SampleState.h"
-// #include "Renderer/D3D11/D3D11BlendState.h"
-// #include "Renderer/D3D11/D3D11DepthStencilState.h"
-// #include "Renderer/D3D11/D3D11RasterizerState.h"
-// #include "Renderer/D3D11/D3D11Texture.h"
+#include "Renderer/D3D11/D3D11Utils.h"
+#include "Renderer/D3D11/D3D11SamplerState.h"
+#include "Renderer/D3D11/D3D11BlendState.h"
+#include "Renderer/D3D11/D3D11DepthStencilState.h"
+#include "Renderer/D3D11/D3D11RasterizerState.h"
+#include "Renderer/D3D11/D3D11Texture.h"
 #include "Renderer/D3D11/D3D11FrameBuffer.h"
 #include "Renderer/D3D11/D3D11ConstantBuffer.h"
 #include "Renderer/D3D11/D3D11RenderLayout.h"
 #include "Renderer/D3D11/D3D11ShaderProgram.h"
-// #include "Renderer/D3D11/D3D11Renderer.h"
+#include "Renderer/D3D11/D3D11Renderer.h"
 // 
 // #include "Effect/D3D11/D3D11EffectLoader.h"
 // #include "Effect/D3D11/D3D11RenderPass.h"

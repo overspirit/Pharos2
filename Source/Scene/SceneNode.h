@@ -28,12 +28,8 @@ namespace Pharos
 			SceneNode*					m_parent;
 			vector<SceneNode*>		m_childList;
 
-			D3D11RenderLayout*		m_renderLayout;
-			static D3D11ShaderProgram*		s_shaderProgram;
-
 		public:
 			virtual void InitNode(const char8* name, SceneNode* parent);
-			virtual void InitModelData(const MemoryBuffer& vertData, const vector<VertLayoutDesc>& vertDesc, const MemoryBuffer& indexData);
 
 			virtual const char8* GetNodeName() { return m_name.c_str(); }
 			

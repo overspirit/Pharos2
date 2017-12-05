@@ -36,7 +36,7 @@ namespace Pharos
 
 		class D3D11SampleState;
 
-		class D3D11Texture : public IRenderTexture
+		class D3D11Texture : public RenderTexture
 		{
 		public:
 			D3D11Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -49,7 +49,7 @@ namespace Pharos
 			ID3D11Texture2D*			m_pTexture;
 			ID3D11ShaderResourceView*	m_pView;
 
-			D3D11SampleStatePtr			m_pSamplerImpl;
+			D3D11SamplerState*			m_pState;
 
 			uint32			m_width;
 			uint32			m_height;
@@ -58,7 +58,7 @@ namespace Pharos
 
 		public:
 			virtual bool LoadFromFile(const char8* szPath);
-			virtual bool LoadFromImage(IImagePtr pImage);
+			virtual bool LoadFromImage(const Image& pImage);
 
 			//建立一个纹理
 			virtual bool Create(int32 width, int32 height, EPixelFormat fmt = EPF_RGBA8_UNORM);
@@ -70,10 +70,10 @@ namespace Pharos
 			virtual bool CopyRectFromData(const void* pData, uint32 nDataSize, const Rect2Di& rt);
 
 			//从另一个纹理数据上更新纹理
-			virtual bool CopyFromTexture(IRenderTexturePtr srcTex);
-			virtual bool CopyRectFromTexture(IRenderTexturePtr srcTex, const Rect2Di& srcRect, const Rect2Di& destRect);
+			virtual bool CopyFromTexture(RenderTexture* srcTex);
+			virtual bool CopyRectFromTexture(RenderTexture* srcTex, const Rect2Di& srcRect, const Rect2Di& destRect);
 
-			virtual void SetSampleState(IRenderSampleStatePtr state);
+			virtual void SetSampleState(RenderSamplerState* state);
 
 			virtual uint32 GetWidth() const { return m_width; }
 			virtual uint32 GetHeight() const { return m_height; }
@@ -81,10 +81,8 @@ namespace Pharos
 
 			virtual void ApplyToDevice(uint32 slot);
 
-			virtual ID3D11Texture2D* GetTexture(){ return m_pTexture; }
-			virtual ID3D11ShaderResourceView* GetTextureView(){ return m_pView; }
+			virtual ID3D11Texture2D* GetTexture() const { return m_pTexture; }
+			virtual ID3D11ShaderResourceView* GetTextureView() const { return m_pView; }
 		};
 	}
-
-	typedef shared_ptr<Render::D3D11Texture> D3D11TexturePtr;
 }

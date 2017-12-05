@@ -8,11 +8,20 @@ using namespace Pharos::Core;
 
 int main(int argc, char* argv[])
 {
-	PlatformWindows platform;
-	
-	platform.Init();
-	platform.Run();
-	platform.Destroy();
-	
-	return 0;
+	//_CrtSetBreakAlloc(1734);
+
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	//解析命令参数
+	gflags::ParseCommandLineFlags(&argc, &argv, true);
+
+	if (!sPlatform->Init()) return -1;
+
+	int32 ret = sPlatform->Run();
+
+	sPlatform->Destroy();
+
+	gflags::ShutDownCommandLineFlags();
+
+	return ret;
 }

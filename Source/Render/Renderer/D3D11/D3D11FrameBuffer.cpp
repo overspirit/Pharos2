@@ -11,22 +11,21 @@ D3D11FrameBuffer::D3D11FrameBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* p
 	m_height = 0;
 
 	ZeroMemory(m_pTargetSlots, sizeof(m_pTargetSlots));
-	//ZeroMemory(m_pTargetTexs, sizeof(m_pTargetTexs));
+	ZeroMemory(m_pTargetTexs, sizeof(m_pTargetTexs));
 	m_pDepthView = nullptr;
-	//m_pDepthTex = nullptr;
+	m_pDepthTex = nullptr;
 }
 
 D3D11FrameBuffer::~D3D11FrameBuffer(void)
 {
-	for(int i = 0; i < D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT; i++)
+	for (int i = 0; i < D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT; i++)
 	{
-		if(m_pTargetSlots[i] != nullptr)
-		{
-			SAFE_RELEASE(m_pTargetSlots[i]);
-		}
+		SAFE_RELEASE(m_pTargetSlots[i]);
+		SAFE_DELETE(m_pTargetTexs[i]);
 	}
 
-	SAFE_RELEASE(m_pDepthView); 
+	SAFE_RELEASE(m_pDepthView);
+	SAFE_DELETE(m_pDepthTex);
 }
 
 bool D3D11FrameBuffer::InitFrameBuffer(int32 width, int32 height)
@@ -46,8 +45,8 @@ bool D3D11FrameBuffer::InitFrameBuffer(int32 width, int32 height)
 	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	descDepth.CPUAccessFlags = 0;
 	descDepth.MiscFlags = 0;
-	HRESULT result = m_pDevice->CreateTexture2D( &descDepth, nullptr, &pDepthStencil );
-	if( FAILED( result ) ) return false;
+	HRESULT result = m_pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+	if (FAILED(result)) return false;
 
 	// Create the depth stencil view
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
@@ -55,9 +54,9 @@ bool D3D11FrameBuffer::InitFrameBuffer(int32 width, int32 height)
 	descDSV.Flags = 0;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0;
-	result = m_pDevice->CreateDepthStencilView( pDepthStencil, &descDSV, &m_pDepthView );
+	result = m_pDevice->CreateDepthStencilView(pDepthStencil, &descDSV, &m_pDepthView);
 	SAFE_RELEASE(pDepthStencil);
-	if( FAILED( result ) ) return false;
+	if (FAILED(result)) return false;
 
 	m_width = width;
 	m_height = height;
@@ -74,10 +73,10 @@ bool D3D11FrameBuffer::GenerateDefaultFrameBuffer(IDXGISwapChain* pSwapChain)
 {
 	ID3D11Texture2D* pBackBufferTexture = nullptr;
 	HRESULT result = pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBufferTexture);
-	if(FAILED(result)) return false;
+	if (FAILED(result)) return false;
 
-	result = m_pDevice->CreateRenderTargetView(pBackBufferTexture, 0, &m_pTargetSlots[0]);	
-	if(FAILED(result))
+	result = m_pDevice->CreateRenderTargetView(pBackBufferTexture, 0, &m_pTargetSlots[0]);
+	if (FAILED(result))
 	{
 		SAFE_RELEASE(pBackBufferTexture);
 		return false;
@@ -85,7 +84,7 @@ bool D3D11FrameBuffer::GenerateDefaultFrameBuffer(IDXGISwapChain* pSwapChain)
 
 	D3D11_TEXTURE2D_DESC texDesc;
 	pBackBufferTexture->GetDesc(&texDesc);
-	if(!InitFrameBuffer(texDesc.Width, texDesc.Height))
+	if (!InitFrameBuffer(texDesc.Width, texDesc.Height))
 	{
 		SAFE_RELEASE(pBackBufferTexture);
 		return false;
@@ -108,92 +107,77 @@ void D3D11FrameBuffer::ClearFrameBuffer(Color4 color, float32 depth, uint32 sten
 {
 	Color4f clearColor = color;
 
-	for(int i = 0; i < D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT; i++)
+	for (int i = 0; i < D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT; i++)
 	{
-		if(m_pTargetSlots[i] != nullptr)
+		if (m_pTargetSlots[i] != nullptr)
 		{
 			m_pContext->ClearRenderTargetView(m_pTargetSlots[i], (float32*)&clearColor);
 		}
 	}
 
-	if(m_pDepthView != nullptr)
+	if (m_pDepthView != nullptr)
 	{
 		m_pContext->ClearDepthStencilView(m_pDepthView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depth, stencil);
 	}
 }
 
-// IRenderTexturePtr D3D11FrameBuffer::CreateRenderTexture(uint32 slot, EPixelFormat fmt)
-// {
-// 	if(slot >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT) return nullptr;
-// 
-// 	m_pTargetTexs[slot] = nullptr;
-// 	SAFE_RELEASE(m_pTargetSlots[slot]);
-// 
-// 	m_pTargetTexs[slot] = MakeSharedPtr<D3D11Texture>(m_pDevice, m_pContext);
-// 	if(!m_pTargetTexs[slot]->CreateTargetTexture(m_width, m_height, fmt))
-// 	{
-// 		m_pTargetTexs[slot] = nullptr;
-// 		return nullptr;
-// 	}
-// 
-// 	ID3D11Texture2D* pTexture = m_pTargetTexs[slot]->GetTexture();
-// 
-// 	D3D11_RENDER_TARGET_VIEW_DESC desc;
-// 	desc.Format = PF2D3D11FMT(fmt);
-// 	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-// 	desc.Texture2D.MipSlice = 0;
-// 	HRESULT hr = m_pDevice->CreateRenderTargetView(pTexture, &desc, &m_pTargetSlots[slot]);
-// 	if(FAILED(hr)) 
-// 	{
-// 		m_pTargetTexs[slot] = nullptr;
-// 		return nullptr;
-// 	}
-// 
-// 	return m_pTargetTexs[slot];
-// }
-// 
-// IRenderTexturePtr D3D11FrameBuffer::CreateDepthTexture()
-// {
-// 	SAFE_RELEASE(m_pDepthView);
-// 
-// 	m_pDepthTex = MakeSharedPtr<D3D11Texture>(m_pDevice, m_pContext);
-// 	if(!m_pDepthTex->CreateDepthTexture(m_width, m_height))
-// 	{
-// 		m_pDepthTex = nullptr;
-// 		return nullptr;
-// 	}
-// 
-// 	ID3D11Texture2D* pTexture = m_pDepthTex->GetTexture();
-// 
-// 	D3D11_DEPTH_STENCIL_VIEW_DESC desc;
-// 	desc.Format = DXGI_FORMAT_D32_FLOAT;
-// 	desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-// 	desc.Flags = 0;//D3D11_DSV_READ_ONLY_DEPTH | D3D11_DSV_READ_ONLY_STENCIL;	//设置READ_ONLY就不能写入关联的纹理了...
-// 	desc.Texture2D.MipSlice = 0;
-// 	HRESULT hr = m_pDevice->CreateDepthStencilView(pTexture, &desc, &m_pDepthView);
-// 	if(FAILED(hr)) 
-// 	{
-// 		m_pDepthTex = nullptr;
-// 		return nullptr;
-// 	}
-// 
-// 	return m_pDepthTex;
-// }
-// 
-// IRenderTexturePtr D3D11FrameBuffer::GetRenderTexture(uint32 slot)
-// {
-// 	if(slot >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
-// 	{
-// 		return nullptr;
-// 	}
-// 
-// 	return m_pTargetTexs[slot];
-// }
-// 
-// IRenderTexturePtr D3D11FrameBuffer::GetDepthTexture()
-// {
-// 	return m_pDepthTex;
-// }
+const RenderTexture& D3D11FrameBuffer::CreateRenderTexture(uint32 slot, EPixelFormat fmt)
+{
+	//if (slot >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT) return nullptr;
+
+	SAFE_DELETE(m_pTargetTexs[slot]);
+	SAFE_RELEASE(m_pTargetSlots[slot]);
+
+	m_pTargetTexs[slot] = new D3D11Texture(m_pDevice, m_pContext);
+	if (m_pTargetTexs[slot]->CreateTargetTexture(m_width, m_height, fmt))
+	{
+		ID3D11Texture2D* pTexture = m_pTargetTexs[slot]->GetTexture();
+
+		D3D11_RENDER_TARGET_VIEW_DESC desc;
+		desc.Format = PF2D3D11FMT(fmt);
+		desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		desc.Texture2D.MipSlice = 0;
+		m_pDevice->CreateRenderTargetView(pTexture, &desc, &m_pTargetSlots[slot]);
+	}
+
+	return (*m_pTargetTexs[slot]);
+}
+
+const RenderTexture& D3D11FrameBuffer::CreateDepthTexture()
+{
+	SAFE_DELETE(m_pDepthTex);
+	SAFE_RELEASE(m_pDepthView);
+
+	m_pDepthTex = new D3D11Texture(m_pDevice, m_pContext);
+	if (m_pDepthTex->CreateDepthTexture(m_width, m_height))
+	{
+		ID3D11Texture2D* pTexture = m_pDepthTex->GetTexture();
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC desc;
+		desc.Format = DXGI_FORMAT_D32_FLOAT;
+		desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		desc.Flags = 0;//D3D11_DSV_READ_ONLY_DEPTH | D3D11_DSV_READ_ONLY_STENCIL;	//设置READ_ONLY就不能写入关联的纹理了...
+		desc.Texture2D.MipSlice = 0;
+		m_pDevice->CreateDepthStencilView(pTexture, &desc, &m_pDepthView);
+	}
+
+	return (*m_pDepthTex);
+}
+
+const RenderTexture& D3D11FrameBuffer::GetRenderTexture(uint32 slot)
+{
+	if (slot >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
+	{
+		assert(false);
+	}
+
+	return *m_pTargetTexs[slot];
+}
+
+const RenderTexture& D3D11FrameBuffer::GetDepthTexture()
+{
+	return *m_pDepthTex;
+}
 
 void D3D11FrameBuffer::ApplyDevice()
 {
