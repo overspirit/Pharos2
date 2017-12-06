@@ -27,18 +27,18 @@ bool Font::Open(const char8* szFile)
 	// 	int32 ret = FT_New_Face(m_fontLib, fullPath.c_str(), 0, &m_face);
 	// 	if (ret != 0) return false;
 
-	File font_file;
-	if (!font_file.Open(szFile)) return false;
+	File* font_file = sKernel->OpenFileStream(szFile);
+	if (font_file == nullptr) return false;
 
-	uint32 font_file_size = font_file.GetSize();
+	uint32 font_file_size = font_file->GetSize();
 	m_fontData.Alloc(font_file_size);
-	font_file.Read(m_fontData.GetPointer(), font_file_size);
+	font_file->Read(m_fontData.GetPointer(), font_file_size);
 	
 	int32 ret = FT_New_Memory_Face(m_fontLib, (const FT_Byte*)m_fontData.GetPointer(), font_file_size, 0, &m_face);
 	//int32 ret = FT_New_Face(m_fontLib, szFile, 0, &m_face);
 	if (ret != 0) return false;
 
-	m_strFilePath = font_file.GetPath();
+	m_strFilePath = font_file->GetPath();
 
 	m_char_index.resize(65536);
 	memset(&m_char_index[0], 0xFF, sizeof(uint16) * m_char_index.size());

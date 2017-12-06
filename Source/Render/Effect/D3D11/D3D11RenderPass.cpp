@@ -4,12 +4,26 @@
 
 D3D11RenderPass::D3D11RenderPass()
 {
+	m_renderer = nullptr;
 
+	m_shader = nullptr;
+
+	m_blendState = nullptr;
+	m_depthState = nullptr;
+	m_rasterizerState = nullptr;
+
+	m_frameBuf = nullptr;
 }
 
 D3D11RenderPass::~D3D11RenderPass()
 {
+	SAFE_DELETE(m_shader);
 
+	SAFE_DELETE(m_blendState);
+	SAFE_DELETE(m_depthState);
+	SAFE_DELETE(m_rasterizerState);
+
+	SAFE_DELETE(m_frameBuf);
 }
 
 bool D3D11RenderPass::Create(const char8* shaderText, const PassInfo& info)
@@ -20,7 +34,7 @@ bool D3D11RenderPass::Create(const char8* shaderText, const PassInfo& info)
 	if (!m_shader->CompileVertexShader(shaderText, info.vertEnter.c_str())
 		|| !m_shader->CompilePixelShader(shaderText, info.pixelEnter.c_str()))
 		return false;
-	
+
 	m_depthState = static_cast<D3D11DepthStencilState*>(m_renderer->CreateDepthStencilState(info.depthDesc));
 	m_rasterizerState = static_cast<D3D11RasterizerState*>(m_renderer->CreateRasterizerState(info.rasterDesc));
 	m_blendState = static_cast<D3D11BlendState*>(m_renderer->CreateBlendState(info.blendDesc));
@@ -34,9 +48,9 @@ D3D11RenderPass* D3D11RenderPass::Clone()
 
 	pass->m_renderer = m_renderer;
 
-	pass->m_shader = m_shader;
+	pass->m_shader = static_cast<D3D11ShaderProgram*>(m_shader->Clone());
 
-	if(m_blendState != nullptr) pass->m_blendState = static_cast<D3D11BlendState*>(m_blendState->Clone());
+	if (m_blendState != nullptr) pass->m_blendState = static_cast<D3D11BlendState*>(m_blendState->Clone());
 	if (m_depthState != nullptr) pass->m_depthState = static_cast<D3D11DepthStencilState*>(m_depthState->Clone());
 	if (m_rasterizerState != nullptr) pass->m_rasterizerState = static_cast<D3D11RasterizerState*>(m_rasterizerState->Clone());
 

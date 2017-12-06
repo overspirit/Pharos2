@@ -94,6 +94,8 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "Model.h"
+
+#include "IRenderCallback.h"
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()

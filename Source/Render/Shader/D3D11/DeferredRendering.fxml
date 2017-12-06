@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+
+  <variable type="Texture2D" name="g_gbuffer0" bind="t0"/>
+  <variable type="Texture2D" name="g_gbuffer1" bind="t1"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <shader>
+    <![CDATA[
+
+void DeferredRenderingVS(float4 pos : POSITION,
+              float2 tex0 : TEXCOORD,
+              out float2 oTex : TEXCOORD,
+              out float4 oPos : SV_Position)
+{
+	oPos = pos;
+	oTex = tex0;
+}
+
+float4 DeferredRenderingPS(float2 tex : TEXCOORD) : SV_TARGET
+{
+  float4 diff = g_gbuffer0.Sample(g_sam, tex);
+  float3 normal = g_gbuffer1.Sample(g_sam, tex).xyz * 2.0 - 1.0;
+  float s = dot(float3(1.0, 0, 0), normalize(normal));
+  if(s < 0.3) s = 0.3;
+  return diff * s;
+}
+    ]]>
+  </shader>
+
+  <technique name="DeferredRendering">
+    <pass name="p0">
+      <param name="vertex_shader" value="DeferredRenderingVS"/>
+      <param name="pixel_shader" value="DeferredRenderingPS"/>
+    </pass>
+  </technique>
+  
+</effect>

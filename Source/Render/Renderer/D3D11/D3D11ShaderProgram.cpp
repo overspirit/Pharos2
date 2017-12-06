@@ -102,6 +102,62 @@ bool D3D11ShaderProgram::CompilePixelShader(const char8* shader, const char8* en
 	return true;
 }
 
+RenderProgram* D3D11ShaderProgram::Clone()
+{
+	D3D11ShaderProgram* shader = new D3D11ShaderProgram(m_pDevice, m_pContext);
+
+	if (m_pVertexBlob != nullptr)
+	{
+		m_pVertexBlob->AddRef();
+		shader->m_pVertexBlob = m_pVertexBlob;
+	}
+
+	if (m_pVertexShader != nullptr)
+	{
+		m_pVertexShader->AddRef();
+		shader->m_pVertexShader = m_pVertexShader;
+	}
+
+	if (m_pPixelShader != nullptr)
+	{
+		m_pPixelShader->AddRef();
+		shader->m_pPixelShader = m_pPixelShader;
+	}
+
+	if (m_pHullShader != nullptr)
+	{
+		m_pHullShader->AddRef();
+		shader->m_pHullShader = m_pHullShader;
+	}
+
+	if (m_pDomainShader != nullptr)
+	{
+		m_pDomainShader->AddRef();
+		shader->m_pDomainShader = m_pDomainShader;
+	}
+
+	if (m_pGeometryShader != nullptr)
+	{
+		m_pGeometryShader->AddRef();
+		shader->m_pGeometryShader = m_pGeometryShader;
+	}
+
+	if (m_pComputeShader != nullptr)
+	{
+		m_pComputeShader->AddRef();
+		shader->m_pComputeShader = m_pComputeShader;
+	}
+
+	shader->m_strError = m_strError;
+
+	shader->m_vertShaderText = m_vertShaderText;
+	shader->m_vertShaderEnter = m_vertShaderEnter;
+	shader->m_pixelShaderText = m_pixelShaderText;
+	shader->m_pixelShaderEnter = m_pixelShaderEnter;
+
+	return shader;
+}
+
 void D3D11ShaderProgram::ApplyToDevice()
 {
 	if (m_pVertexShader != nullptr) m_pContext->VSSetShader(m_pVertexShader, nullptr, 0);

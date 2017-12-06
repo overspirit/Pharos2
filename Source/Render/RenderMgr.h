@@ -36,6 +36,7 @@ namespace Pharos
 			RenderFrameBuffer*		m_finalFrameBuf;
 			RenderTexture*			m_finalTargetTex;
 			
+			RenderTechnique*		m_copyTech;
 			RenderProgram*			m_copyShader;
 			RenderLayout*			m_copyLayout;
 
@@ -45,7 +46,7 @@ namespace Pharos
 
 			list<RenderBlock*>		m_blockList;
 			
-			//IRenderCallbackPtr		m_renderCallback;
+			IRenderCallback*		m_renderCallback;
 
 			map<string, RenderTechnique*>	m_techList;
 
@@ -82,7 +83,7 @@ namespace Pharos
 
 			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
 			
-			//virtual void RegisterRenderCallback(IRenderCallbackPtr callback);
+			virtual void RegisterRenderCallback(IRenderCallback* callback);
 
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);

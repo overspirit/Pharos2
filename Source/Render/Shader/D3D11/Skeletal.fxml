@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+
+  <variable type="Texture2D" name="g_tex" bind="t0"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <constant name="cbPerScene" bind="b0">
+    <member type="row_major matrix" name="g_view"/>
+    <member type="row_major matrix" name="g_proj"/>
+  </constant>
+
+  <constant name="cbPerObject" bind="b1">
+    <member type="row_major matrix" name="g_world"/>
+    <member type="row_major matrix" name="g_boneMatrix[255]"/>
+  </constant>
+
+  <struct name="VS_INPUT">
+    <member type="float4" name="pos" semantic="POSITION"/>
+    <member type="float3" name="normal" semantic="NORMAL"/>
+    <member type="float3" name="tangent" semantic="TANGENT"/>
+    <member type="float4" name="weights" semantic="WEIGHT"/>
+    <member type="uint4" name="bones" semantic="INDICES"/>
+    <member type="float2" name="tex" semantic="TEXCOORD"/>
+  </struct>
+
+  <struct name="PS_INPUT">
+    <member type="float4" name="pos" semantic="SV_POSITION"/>
+    <member type="float3" name="normal" semantic="NORMAL"/>
+    <member type="float3" name="tangent" semantic="TANGENT"/>
+    <member type="float2" name="tex" semantic="TEXCOORD"/>
+  </struct>
+
+  <shader vertex_shader="" pixel_shader="">
+    <![CDATA[
+
+    PS_INPUT SkeletalVS(VS_INPUT input)
+    {
+      float4 pos = float4(0, 0, 0, 1.0);
+      float3 normal = float3(0, 0, 0);
+      float3 tangent = float3(0, 0, 0);
+
+      uint iBone = input.bones.x;
+      float fWeight = input.weights.x;
+      matrix m = g_boneMatrix[iBone];
+      pos += fWeight * mul(input.pos, m);
+      normal += fWeight * mul(input.normal, (float3x3)m);
+      tangent += fWeight * mul(input.tangent, (float3x3)m);
+
+      iBone = input.bones.y;
+      fWeight = input.weights.y;
+      m = g_boneMatrix[iBone];
+      pos += fWeight * mul(input.pos, m);
+      normal += fWeight * mul(input.normal, (float3x3)m);
+      tangent += fWeight * mul(input.tangent, (float3x3)m);
+
+      iBone = input.bones.z;
+      fWeight = input.weights.z;
+      m = g_boneMatrix[iBone];
+      pos += fWeight * mul(input.pos, m);
+      normal += fWeight * mul(input.normal, (float3x3)m);
+      tangent += fWeight * mul(input.tangent, (float3x3)m);
+
+      iBone = input.bones.w;
+      fWeight = input.weights.w;
+      m = g_boneMatrix[iBone];
+      pos += fWeight * mul(input.pos, m);
+      normal += fWeight * mul(input.normal, (float3x3)m);
+      tangent += fWeight * mul(input.tangent, (float3x3)m);
+      
+      PS_INPUT output = (PS_INPUT)0;
+      output.pos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+      output.normal = normalize(normal);
+      output.tangent = normalize(tangent);
+      output.tex = input.tex;
+      return output;
+    }
+
+    float4 SkeletalPS(PS_INPUT frag) : SV_TARGET
+    {
+      return g_tex.Sample(g_sam, frag.tex);
+    }
+    ]]>
+  </shader>
+
+  <technique name="Skeletal">
+    <pass name="p0">
+      <param name="cull_mode" value="none"/>
+      <!--<param name="fill_mode" value="wireframe"/>-->
+
+      <param name="vertex_shader" value="SkeletalVS"/>
+      <param name="pixel_shader" value="SkeletalPS"/>
+    </pass>
+  </technique>
+
+</effect>

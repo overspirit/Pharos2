@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+    
+    <uniform type="sampler2D" name="g_tex" bind="0"/>
+    
+    <attribute type="highp vec4" name="pos" semantic="POSITION0"/>
+    <attribute type="highp vec4" name="color" semantic="COLOR0"/>
+    <attribute type="highp vec3" name="normal" semantic="NORMAL0"/>
+    <attribute type="highp vec2" name="tex" semantic="TEXCOORD0"/>
+    
+    <varying type="highp vec4" name="oPos"/>
+    <varying type="highp vec4" name="oColor"/>
+    <varying type="highp vec2" name="oTex"/>
+    
+    <target type="highp vec4" name="fragColor" bind="0"/>
+    
+    <block name="perScene" layout="row_major" bind="0" size="128">
+        <member type="highp mat4" name="g_view"/>
+        <member type="highp mat4" name="g_proj"/>
+    </block>
+    
+    <block name="perObject" layout="row_major" bind="1" size="64">
+        <member type="highp mat4" name="g_world"/>
+    </block>
+    
+    <block name="cbSceneLight" layout="row_major"  bind="2" size="64">
+        <member type="highp vec4" name="g_light_color"/>
+        <member type="highp vec4" name="g_environment_color"/>
+        <member type="highp vec3" name="g_light_direction"/>
+    </block>
+    
+    <shader type="vertex_shader" name="Sprite3DTextureWithColorVS">
+        <![CDATA[
+            void main()
+            {
+                oPos = pos * (g_world * g_view * g_proj);
+                oColor = color;
+                oTex = tex;
+            
+                gl_Position = oPos;
+            }
+        ]]>
+    </shader>
+    
+    <shader type="vertex_shader" name="Sprite3DTextureWithNormalVS">
+        <![CDATA[
+            void main()
+            {
+                oPos = pos * (g_world * g_view * g_proj);
+                oColor = dot(-g_light_direction, normal) * g_light_color + g_environment_color;
+                oTex = tex;
+            
+                gl_Position = oPos;
+            }
+        ]]>
+    </shader>
+    
+    <shader type="vertex_shader" name="Sprite3DColorVS">
+        <![CDATA[
+            void main()
+            {
+                oPos = pos * (g_world * g_view * g_proj);
+                oColor = color;
+            
+                gl_Position = oPos;
+            }
+        ]]>
+    </shader>
+    
+    <shader type="vertex_shader" name="Sprite3DNormalVS">
+        <![CDATA[
+            void main()
+            {
+                oPos = pos * (g_world * g_view * g_proj);
+                oColor = clamp(dot(-g_light_direction, normal), 0.0, 1.0) * g_light_color + g_environment_color;
+            
+                gl_Position = oPos;
+            }
+        ]]>
+    </shader>
+    <shader type="pixel_shader" name="Sprite3DColorPS">
+        <![CDATA[
+            void main()
+            {
+                fragColor = oColor;
+            }
+            
+        ]]>
+    </shader>
+    <shader type="pixel_shader" name="Sprite3DTexturePS">
+        <![CDATA[
+            void main()
+            {
+                fragColor = texture(g_tex, oTex) * oColor;
+            }
+        ]]>
+    </shader>
+    
+    <technique name="Sprite3DTextureWithColor">
+        <pass name="p0">
+            <param name="cull_mode" value="none"/>
+            <!--<param name="fill_mode" value="wireframe"/>-->
+            
+            <param name="vertex_shader" value="Sprite3DTextureWithColorVS"/>
+            <param name="pixel_shader" value="Sprite3DTexturePS"/>
+        </pass>
+    </technique>
+    
+    <technique name="Sprite3DTextureWithNormal">
+        <pass name="p0">
+            <param name="cull_mode" value="none"/>
+            <!--<param name="fill_mode" value="wireframe"/>-->
+            
+            <param name="vertex_shader" value="Sprite3DTextureWithNormalVS"/>
+            <param name="pixel_shader" value="Sprite3DTexturePS"/>
+        </pass>
+    </technique>
+    
+    <technique name="Sprite3DColor">
+        <pass name="p0">
+            <param name="cull_mode" value="none"/>
+            <!--<param name="fill_mode" value="wireframe"/>-->
+            
+            <param name="vertex_shader" value="Sprite3DColorVS"/>
+            <param name="pixel_shader" value="Sprite3DColorPS"/>
+        </pass>
+    </technique>
+    
+    <technique name="Sprite3DNormal">
+        <pass name="p0">
+            <param name="cull_mode" value="none"/>
+            <!--<param name="fill_mode" value="wireframe"/>-->
+            
+            <param name="vertex_shader" value="Sprite3DNormalVS"/>
+            <param name="pixel_shader" value="Sprite3DColorPS"/>
+        </pass>
+    </technique>
+    
+    
+</effect>

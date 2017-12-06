@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+  
+  <variable type="Texture2D" name="g_tex" bind="t0"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <struct name="VS_INPUT">
+    <member type="float4" name="pos" semantic="POSITION"/>
+    <member type="float4" name="color" semantic="COLOR"/>
+    <member type="float2" name="tex" semantic="TEXCOORD"/>
+  </struct>
+
+  <struct name="VS_OUTPUT">    
+    <member type="float4" name="color" semantic="COLOR"/>
+    <member type="float2" name="tex" semantic="TEXCOORD"/>
+    <member type="float4" name="pos" semantic="SV_POSITION"/>
+  </struct>
+  
+  <shader vertex_shader="Sprite2DVS">
+    <![CDATA[
+    
+VS_OUTPUT Sprite2DVS(VS_INPUT input)    
+{
+  VS_OUTPUT output = (VS_OUTPUT)0;
+  output.pos = input.pos;
+  output.color = input.color;
+  output.tex = input.tex;
+  return output;
+}
+
+float4 Sprite2DBlendPS(float4 color : COLOR, float2 tex : TEXCOORD) : SV_TARGET
+{
+  float a = g_tex.Sample(g_sam, tex).a;
+  return float4(color.xyz, a);
+}
+
+float4 Sprite2DColorPS(float4 color : COLOR) : SV_TARGET
+{
+  return color;
+}
+
+float4 Sprite2DGrayPS(float4 color : COLOR, float2 tex : TEXCOORD) : SV_TARGET
+{
+  float4 texColor = g_tex.Sample(g_sam, tex);
+  float g = texColor.x * 0.114 + texColor.y * 0.587 + texColor.z * 0.299;
+  return float4(g, g, g, texColor.w);
+}
+
+float4 Sprite2DImagePS(float4 color : TEXCOORD, float4 tex : COLOR) : SV_TARGET
+{
+  return g_tex.Sample(g_sam, tex.xy) * color;
+}
+    ]]>
+  </shader>
+  <technique name="Sprite2DBlend">
+    <pass name="p0">
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+      
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="Sprite2DVS"/>
+      <param name="pixel_shader" value="Sprite2DBlendPS"/>
+    </pass>
+  </technique>
+  
+  <technique name="Sprite2DColor">
+    <pass name="p0">
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+      
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="Sprite2DVS"/>
+      <param name="pixel_shader" value="Sprite2DColorPS"/>
+    </pass>
+  </technique>
+  
+  <technique name="Sprite2DGray">
+    <pass name="p0">
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+      
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="Sprite2DVS"/>
+      <param name="pixel_shader" value="Sprite2DGrayPS"/>
+    </pass>
+  </technique>
+  
+  <technique name="Sprite2DImage">
+    <pass name="p0">
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+      
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="Sprite2DVS"/>
+      <param name="pixel_shader" value="Sprite2DImagePS"/>
+    </pass>
+  </technique>
+  
+</effect>

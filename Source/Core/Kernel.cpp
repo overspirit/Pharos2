@@ -44,6 +44,11 @@ bool Kernel::StartUp()
 
 void Kernel::Destroy()
 {
+	for (File* file : m_fileList)
+	{
+		SAFE_DELETE(file);
+	}
+
 	//由于Kernel的析构函数会进行一些内存回收工作
 	//所以要求Kernel持有的所有对象必须在Destroy方法内回收...
 	m_pApp->Destroy();
@@ -94,38 +99,64 @@ void Kernel::Render(float32 fElapsed)
 	if (m_pApp != nullptr) m_pApp->Render(fElapsed);
 }
 
-// IFilePtr Kernel::CreateFileStream(const char8* path, bool truncate)
-// {
-// 	string fullPath = path;
-// 
-// 	FilePtr file = MakeSharedPtr<File>();
-// 	if (file->Create(fullPath.c_str(), truncate)) return file;
-// 
-// 	fullPath = m_homePath + path;
-// 	if (file->Create(fullPath.c_str(), truncate)) return file;
-// 
-// 	fullPath = m_bundlePath + path;
-// 	if (file->Create(fullPath.c_str(), truncate)) return file;
-// 
-// 	return nullptr;
-// }
-// 
-// IFilePtr Kernel::OpenFileStream(const char8* path)
-// {
-// 	string fullPath = path;
-//     if(fullPath.empty()) return nullptr;
-// 
-// 	FilePtr file = MakeSharedPtr<File>();
-// 	if (file->Open(fullPath.c_str())) return file;
-// 
-// 	fullPath = m_homePath + path;
-// 	if (file->Open(fullPath.c_str())) return file;
-// 
-// 	fullPath = m_bundlePath + path;
-// 	if (file->Open(fullPath.c_str())) return file;
-// 
-// 	return nullptr;
-// }
+File* Kernel::CreateFileStream(const char8* path, bool truncate)
+{
+	string fullPath = path;
+
+	File* file = new File();
+	if (file->Create(fullPath.c_str(), truncate))
+	{
+		m_fileList.push_back(file);
+		return file;
+	}
+
+	fullPath = m_homePath + path;
+	if (file->Create(fullPath.c_str(), truncate))
+	{
+		m_fileList.push_back(file);
+		return file;
+	}
+
+	fullPath = m_bundlePath + path;
+	if (file->Create(fullPath.c_str(), truncate))
+	{
+		m_fileList.push_back(file);
+		return file;
+	}
+
+	SAFE_DELETE(file);
+	return nullptr;
+}
+
+File* Kernel::OpenFileStream(const char8* path)
+{
+	string fullPath = path;
+    if(fullPath.empty()) return nullptr;
+
+	File* file = new File();
+	if (file->Open(fullPath.c_str()))
+	{
+		m_fileList.push_back(file);
+		return file;
+	}
+
+	fullPath = m_homePath + path;
+	if (file->Open(fullPath.c_str()))
+	{
+		m_fileList.push_back(file);
+		return file;
+	}
+
+	fullPath = m_bundlePath + path;
+	if (file->Open(fullPath.c_str()))
+	{
+		m_fileList.push_back(file);
+		return file;
+	}
+
+	SAFE_DELETE(file);
+	return nullptr;
+}
 // 
 // IXmlDocumentPtr Kernel::QueryXmlDocResource(const char8* path)
 // {

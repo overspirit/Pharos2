@@ -20,8 +20,15 @@ namespace Pharos
 		class Renderer 
 		{
 		public:
-			Renderer(void);
-			virtual ~Renderer(void);
+			Renderer(void)
+			{
+
+			}
+
+			virtual ~Renderer(void)
+			{
+
+			}
 
 		protected:
 

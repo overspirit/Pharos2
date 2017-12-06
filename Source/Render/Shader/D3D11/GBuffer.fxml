@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+
+  <constant name="cbPerScene" bind="b0">
+
+    <member type="row_major matrix" name="g_view" bind="c0" size="64"/>
+    <member type="row_major matrix" name="g_proj" bind="c4" size="64"/>
+
+  </constant>
+
+  <constant name="cbPerScene" bind="b1">
+
+    <member type="row_major matrix" name="g_world" bind="c0" size="64"/>
+
+  </constant>
+  
+  <variable type="Texture2D" name="g_diff" bind="t0"/>
+  <variable type="Texture2D" name="g_bump" bind="t1"/>
+  <variable type="Texture2D" name="g_spec" bind="t2"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <shader>
+    <![CDATA[
+
+void CommonVS(float4 pos : POSITION,
+              float4 tangent : TANGENT,
+              float2 tex0 : TEXCOORD,
+              out float2 oTex : TEXCOORD,
+              out float4 oTangent: NORMAL,
+              out float4 oPos : SV_Position)
+{
+	oPos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+  oTangent = tangent;
+  //oColor = dot(float3(1.0, 0, 0), normal);
+	oTex = tex0;
+}
+
+void GBufferPS(float2 tex : TEXCOORD, float4 tangent : TANGENT, out float4 out1 : SV_TARGET0, out float4 out2 : SV_TARGET1)
+{
+  float4 result_tangent = normalize(tangent);
+  float x = result_tangent.x;
+  float y = result_tangent.y;
+  float z = result_tangent.z;
+  float w = result_tangent.w;
+  
+  float3x3 obj;
+  obj[0].x = 1.0f - 2.0f*y*y - 2.0f*z*z;
+  obj[0].y = 2.0f*x*y + 2.0f*z*w;
+  obj[0].z = 2.0f*x*z - 2.0f*y*w;
+  
+  obj[1].x = 2.0f*x*y - 2.0f*z*w;
+  obj[1].y = 1.0f - 2.0f*x*x - 2.0f*z*z;
+  obj[1].z = 2.0f*z*y + 2.0f*x*w;
+  
+  obj[2].x = 2.0f*x*z + 2.0f*y*w;
+  obj[2].y = 2.0f*z*y - 2.0f*x*w;
+  obj[2].z = 1.0f - 2.0f*x*x - 2.0f*y*y;      
+	
+  float4 bump = g_bump.Sample(g_sam, tex) * 2 - 1.0;
+  float3 normal = normalize(mul(normalize(bump.xyz), obj));
+  //float s = dot(float3(1.0, 0, 0), normal);//float4(normalize(mul(bump.xyz, obj)), 1.0);
+  
+  //if(s < 0.3) s = 0.3;
+  float4 diff = g_diff.Sample(g_sam, tex);// + g_spec.Sample(g_sam, tex);
+  out1 = diff;// * s;
+  out2 = float4(normal / 2.0 + 0.5, 0);
+}
+    ]]>
+  </shader>
+
+  <technique name="GBuffer">
+    <pass name="p0">
+      <param name="vertex_shader" value="CommonVS"/>
+      <param name="pixel_shader" value="GBufferPS"/>
+    </pass>
+  </technique>
+  
+</effect>

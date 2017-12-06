@@ -11,7 +11,7 @@ namespace Pharos
 			virtual ~XmlDocument();
 
 		private:
-			File		m_file;
+			File*		m_file;
 
 		public:
 			virtual xml_node<char8>* allocate_node(node_type type, const char8* name = 0, const char8* value = 0, size_t name_size = 0, size_t value_size = 0);

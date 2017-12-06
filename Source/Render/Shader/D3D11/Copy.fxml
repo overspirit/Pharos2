@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+  
+  <variable type="Texture2D" name="g_tex" bind="t0"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <shader>
+    <![CDATA[
+
+void CopyVS(float4 pos : POSITION,
+              float2 tex0 : TEXCOORD,
+              out float2 oTex : TEXCOORD,
+              out float4 oPos : SV_Position)
+{
+	oPos = pos;
+	oTex = tex0;
+}
+
+float4 CopyPS(float2 tex : TEXCOORD) : SV_Target
+{
+	return g_tex.Sample(g_sam, tex);
+}
+    ]]>
+  </shader>
+
+  <technique name="Copy">
+    <pass name="p0">
+      
+      <param name="vertex_shader" value="CopyVS"/>
+      <param name="pixel_shader" value="CopyPS"/>
+      
+    </pass>
+  </technique>
+  
+</effect>

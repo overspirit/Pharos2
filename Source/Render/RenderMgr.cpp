@@ -7,6 +7,8 @@ RenderMgr::RenderMgr()
 	m_fps = 0;
 	m_renderCount = 0;
 
+	m_renderCallback = nullptr;
+
 	m_clearColor = 0xFF7F7F7F;//R=43,G=147,B=223
 	m_clearDepth = 1.0f;
 	m_clearStencil = 0;
@@ -29,7 +31,18 @@ bool RenderMgr::Init()
 
 void RenderMgr::Destroy()
 {
+	SAFE_DELETE(m_copyTech);
+	SAFE_DELETE(m_copyLayout);
+
+	SAFE_DELETE(m_finalFrameBuf);
+
+	for (auto iter : m_techList)
+	{
+		SAFE_DELETE(iter.second);
+	}
+
 	m_renderer->Destroy();
+	SAFE_DELETE(m_renderer);
 }
 
 bool RenderMgr::StartUp(const RenderParam& param)
@@ -48,16 +61,16 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	m_renderParam = param;
 
+	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();	
+
 	this->LoadEffectFile("Shader/Sprite3D.fxml");
 	this->LoadEffectFile("Shader/Sprite2D.fxml");
 	this->LoadEffectFile("Shader/Font.fxml");
 	this->LoadEffectFile("Shader/Skeletal.fxml");
 	this->LoadEffectFile("Shader/Copy.fxml");
 
-	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();
-
-	RenderTechnique* copyTech = this->GenerateRenderTechnique("Copy");
-	RenderPass* copyPass = copyTech->GetPass(0);
+	m_copyTech = this->GenerateRenderTechnique("Copy");
+	RenderPass* copyPass = m_copyTech->GetPass(0);
 	m_copyShader = copyPass->GetShaderProgram();
 
 	Vertex vertData[] =
@@ -118,7 +131,11 @@ void RenderMgr::DoRender(RenderBlock* block)
 bool RenderMgr::LoadEffectFile(const char8* szPath)
 {
 	RenderEffectLoader* effectLoader = MakeEffectLoader();
-	if (!effectLoader->Load(szPath)) return false;
+	if (!effectLoader->Load(szPath))
+	{
+		SAFE_DELETE(effectLoader);
+		return false;
+	}
 
 	for (uint32 i = 0; i < effectLoader->GetRenderTechniqueNum(); i++)
 	{
@@ -126,6 +143,8 @@ bool RenderMgr::LoadEffectFile(const char8* szPath)
 		string techName = tech->GetTechName();
 		m_techList[techName] = tech;
 	}
+
+	SAFE_DELETE(effectLoader);
 
 	return true;
 }
@@ -157,10 +176,10 @@ void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil
 	m_clearStencil = stencil;
 }
 
-// void RenderMgr::RegisterRenderCallback(IRenderCallbackPtr callback)
-// {
-// 	m_renderCallback = callback;
-// }
+void RenderMgr::RegisterRenderCallback(IRenderCallback* callback)
+{
+	m_renderCallback = callback;
+}
 
 Vector2Df RenderMgr::GetPosFromWindowPos(int32 x, int32 y)
 {
@@ -203,26 +222,26 @@ void RenderMgr::Update(float32 fElapsed)
 
 void RenderMgr::Render(float32 fElapsed)
 {
-	m_defaultFrameBuf->ClearFrameBuffer();
+	m_defaultFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
 
-	m_renderer->BindFrameBuffer(m_finalFrameBuf);
-	m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
+	//m_renderer->BindFrameBuffer(m_finalFrameBuf);
+	//m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
 
 	for (auto& block : m_blockList)
 	{
 		block->ApplyToDevice();
 	}
 
-	m_renderer->BindFrameBuffer(nullptr);
-	m_renderer->BindTexture(0, m_finalTargetTex);
-	m_renderer->BindLayout(m_copyLayout);
-	m_renderer->BindProgram(m_copyShader);
-	m_renderer->DrawImmediate(Render::EDT_TRIANGLELIST, 0, 6);
+	// 	m_renderer->BindFrameBuffer(nullptr);
+	// 	m_renderer->BindTexture(0, m_finalTargetTex);
+	// 	m_renderer->BindLayout(m_copyLayout);
+	// 	m_renderer->BindProgram(m_copyShader);
+	// 	m_renderer->DrawImmediate(Render::EDT_TRIANGLELIST, 0, 6);
 
-// 	if (m_renderCallback != nullptr)
-// 	{
-// 		m_renderCallback->onRender(fElapsed);
-// 	}
+	if (m_renderCallback != nullptr)
+	{
+		m_renderCallback->onRender(fElapsed);
+	}
 
 	m_renderer->Present();
 
@@ -236,5 +255,9 @@ void RenderMgr::Render(float32 fElapsed)
 		m_timer.Reset();
 		m_fps = m_renderCount;
 		m_renderCount = 0;
+
+		char8 buf[32];
+		sprintf(buf, "FPS:%d\n", m_fps);
+		OutputDebugStringA(buf);
 	}
 }

@@ -40,12 +40,11 @@ BundleSceneImporter::~BundleSceneImporter(void)
 
 bool BundleSceneImporter::LoadSceneFile(const char8* file)
 {
-	File bundleFile;// = g_pKernel->OpenFileStream(file);
-	//if (bundleFile == nullptr) return false;
-	if (!bundleFile.Open(file)) return false;
+	File* bundleFile = sKernel->OpenFileStream(file);
+	if (bundleFile == nullptr) return false;
 
-	if (!ReadBundleHeader(&bundleFile)) return false;
-	if (!ReadBundleScene(&bundleFile)) return false;
+	if (!ReadBundleHeader(bundleFile)) return false;
+	if (!ReadBundleScene(bundleFile)) return false;
 	
 	return true;
 }

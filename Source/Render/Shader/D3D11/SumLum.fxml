@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+  
+  <include file="PostProcess.fxml"/>
+  
+  <variable type="Texture2D" name="src_tex"/>
+  <variable type="SamplerState" name="src_sampler"/>
+
+  <variable type="Texture2D" name="last_lum_tex"/>
+  <variable type="SamplerState" name="last_lum_sampler"/>
+
+  <constant name="cbPerObject" bind="b3">
+    <member type="float4" name="tex_coord_offset[2]" size="16"/>
+    <member type="float" name="frame_delta" size="16"/>
+  </constant>
+  
+  <shader vertex_shader="SumLumVS" pixel_shader="SumLum4x4LogPS">
+    <![CDATA[
+    
+float CalcAdaptedLum(float adapted_lum, float current_lum)
+{
+	return adapted_lum + (current_lum - adapted_lum) * (1 - pow(0.98f, 50 * frame_delta));
+}
+
+void SumLumVS(float4 pos : POSITION,
+					out float4 oTex0 : TEXCOORD0,
+					out float4 oTex1 : TEXCOORD1,
+					out float4 oPos : SV_Position)
+{
+	oPos = pos;
+
+	float2 tex = TexCoordFromPos(pos);
+	oTex0 = tex.xyxy + tex_coord_offset[0];
+	oTex1 = tex.xyxy + tex_coord_offset[1];
+}
+
+float4 SumLum4x4LogPS(float4 iTex0 : TEXCOORD0,
+						float4 iTex1 : TEXCOORD1) : SV_Target
+{
+	const float3 RGB_TO_LUM = float3(0.2126f, 0.7152f, 0.0722f);
+  
+	float4 tex[2] = { iTex0, iTex1 };
+  
+	float s = 0;
+	for (int i = 0; i < 2; ++ i)
+	{
+		s += log(dot(src_tex.Sample(src_sampler, tex[i].xy).rgb, RGB_TO_LUM) + 0.001f);
+		s += log(dot(src_tex.Sample(src_sampler, tex[i].zw).rgb, RGB_TO_LUM) + 0.001f);
+	}
+
+	return s / 4;
+}
+
+float4 SumLum4x4IterativePS(float4 iTex0 : TEXCOORD0, float4 iTex1 : TEXCOORD1) : SV_Target
+{
+	float4 tex[2] = { iTex0, iTex1 };
+
+	float s = 0;
+	for (int i = 0; i < 2; ++ i)
+	{
+		s += src_tex.Sample(src_sampler, tex[i].xy).r;
+		s += src_tex.Sample(src_sampler, tex[i].zw).r;
+	}
+
+	return s / 4;
+}
+
+float4 AdaptedLumPS(float4 tex0 : TEXCOORD0, float4 tex1 : TEXCOORD1) : SV_Target
+{
+	//float adapted_lum = last_lum_tex.Sample(last_lum_sampler, 0.5f.xx).r;
+	float current_lum = exp(src_tex.Sample(src_sampler, 0.5f.xx).r);
+  return current_lum;
+	//return CalcAdaptedLum(adapted_lum, current_lum);
+}
+		]]>
+  </shader>
+
+  <technique name="SumLumLog">
+    <pass name="p0">
+      <state name="depth_enable" value="false"/>
+      <state name="depth_write_mask" value="zero"/>
+
+      <state name="vertex_shader" value="SumLumVS"/>
+      <state name="pixel_shader" value="SumLum4x4LogPS"/>
+    </pass>
+  </technique>
+
+  <technique name="SumLumIterative">
+    <pass name="p0">
+      <state name="depth_enable" value="false"/>
+      <state name="depth_write_mask" value="zero"/>
+
+      <state name="vertex_shader" value="SumLumVS"/>
+      <state name="pixel_shader" value="SumLum4x4IterativePS"/>
+    </pass>
+  </technique>
+
+  <technique name="AdaptedLum">
+    <pass name="p0">
+      <state name="depth_enable" value="false"/>
+      <state name="depth_write_mask" value="zero"/>
+
+      <state name="vertex_shader" value="SumLumVS"/>
+      <state name="pixel_shader" value="AdaptedLumPS"/>
+    </pass>
+  </technique>
+  
+</effect>

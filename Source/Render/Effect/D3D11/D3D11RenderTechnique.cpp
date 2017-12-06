@@ -9,7 +9,25 @@ D3D11RenderTechnique::D3D11RenderTechnique()
 
 D3D11RenderTechnique::~D3D11RenderTechnique(void)
 {
+	for (RenderVariable* var : m_varList)
+	{		
+		SAFE_DELETE(var);
+	}
 
+	for (VarBlock& block : m_varBlockList)
+	{
+		SAFE_DELETE(block.shaderData);
+
+		for (RenderVariable* var : block.varList)
+		{
+			SAFE_DELETE(var);
+		}
+	}
+
+	for (RenderPass* pass : m_passList)
+	{
+		SAFE_DELETE(pass);
+	}
 }
 
 bool D3D11RenderTechnique::Create(const char8* effectText, const TechniqueInfo& info)

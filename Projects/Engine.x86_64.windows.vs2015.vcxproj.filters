@@ -79,9 +79,6 @@
     <ClCompile Include="..\Source\Core\Image.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Render\Renderer\Renderer.cpp">
-      <Filter>Render\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11SamplerState.cpp">
       <Filter>Render\Renderer\D3D11</Filter>
     </ClCompile>
@@ -378,6 +375,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Core\XmlAttribute.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\IRenderCallback.h">
+      <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

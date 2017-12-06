@@ -11,7 +11,7 @@ namespace Pharos
 			virtual ~Image();
 
 		private:
-			File			m_file;
+			File*			m_file;
 			FIBITMAP*		m_dib;
 
 		public:

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+    
+    <uniform type="sampler2D" name="g_tex" bind="0"/>
+    
+    <block name="cbPerScene" layout="row_major" bind="0">
+        <member type="highp mat4" name="g_view"/>
+        <member type="highp mat4" name="g_proj"/>
+    </block>
+    
+    <block name="cbPerObject" layout="row_major" bind="1">
+        <member type="highp mat4" name="g_world"/>
+        <member type="highp mat4" name="g_boneMatrix[255]"/>
+    </block>
+    
+    <attribute type="highp vec4" name="pos" semantic="POSITION0"/>
+    <attribute type="highp vec3" name="normal" semantic="NORMAL0"/>
+    <attribute type="highp vec3" name="tangent" semantic="TANGENT0"/>
+    <attribute type="highp vec4" name="weights" semantic="WEIGHT0"/>
+    <attribute type="highp uvec4" name="bones" semantic="INDICES0"/>
+    <attribute type="highp vec2" name="tex" semantic="TEXCOORD0"/>
+    
+    <varying type="highp vec4" name="oPos"/>
+    <varying type="highp vec3" name="oNormal"/>
+    <varying type="highp vec3" name="oTangent"/>
+    <varying type="highp vec2" name="oTex"/>
+    
+    <target type="highp vec4" name="fragColor" bind="0"/>
+    
+    <shader type="vertex_shader" name="SkeletalVS">
+        <![CDATA[
+            void main()
+            {
+                highp vec4 iPos = vec4(0, 0, 0, 1.0);
+                highp vec3 iNormal = vec3(0, 0, 0);
+                highp vec3 iTangent = vec3(0, 0, 0);
+            
+                highp uint bone = bones.x;
+                highp float weight = weights.x;
+                highp mat4 m = g_boneMatrix[bone];
+                iPos += pos * m * weight;
+                iNormal += normal * mat3(m) * weight;
+                iTangent += tangent * mat3(m) * weight;
+            
+                bone = bones.y;
+                weight = weights.y;
+                m = g_boneMatrix[bone];
+                iPos += pos * m * weight;
+                iNormal += normal * mat3(m) * weight;
+                iTangent += tangent * mat3(m) * weight;
+            
+                bone = bones.z;
+                weight = weights.z;
+                m = g_boneMatrix[bone];
+                iPos += pos * m * weight;
+                iNormal += normal * mat3(m) * weight;
+                iTangent += tangent * mat3(m) * weight;
+            
+                bone = bones.w;
+                weight = weights.w;
+                m = g_boneMatrix[bone];
+                iPos += pos * m * weight;
+                iNormal += normal * mat3(m) * weight;
+                iTangent += tangent * mat3(m) * weight;
+            
+                oPos = iPos * (g_world * g_view * g_proj);
+                oNormal = normalize(iNormal);
+                oTangent = normalize(iTangent);
+                oTex = tex;
+                
+                //记得写这句....
+                gl_Position = oPos;
+            }
+        ]]>
+    </shader>
+    <shader type="pixel_shader" name="SkeletalPS">
+        <![CDATA[
+            void main()
+            {
+                fragColor = texture(g_tex, oTex);
+            }
+        ]]>
+    </shader>
+    
+    <technique name="Skeletal">
+        <pass name="p0">
+            <param name="cull_mode" value="none"/>
+            <!--<param name="fill_mode" value="wireframe"/>-->
+            
+            <param name="vertex_shader" value="SkeletalVS"/>
+            <param name="pixel_shader" value="SkeletalPS"/>
+        </pass>
+    </technique>
+    
+</effect>

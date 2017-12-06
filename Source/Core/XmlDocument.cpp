@@ -34,7 +34,8 @@ bool XmlDocument::Open(const char8* path)
 {
 	if (m_first_node != nullptr) return false;
 
-	if (m_file.Open(path)) return false;
+	m_file = sKernel->OpenFileStream(path);
+	if (m_file == nullptr) return false;
 
 	return true;
 }
@@ -54,10 +55,10 @@ bool XmlDocument::Save(const char8* path)
 	const char8* filePath = m_strFilePath.c_str();
 	if (path != nullptr) filePath = path;
 
-	File file;
-	if (!file.Create(filePath, true)) return false;
+	File* file = sKernel->CreateFileStream(filePath, true);
+	if (!file->Create(filePath, true)) return false;
 
-	file.Write(text.c_str(), (uint32)text.length());
+	file->Write(text.c_str(), (uint32)text.length());
 
 	m_file = file;
 
@@ -66,15 +67,15 @@ bool XmlDocument::Save(const char8* path)
 
 bool XmlDocument::Load()
 {
-	uint32 dwFileSize = m_file.GetSize();
+	uint32 dwFileSize = m_file->GetSize();
 
 	char8* str = this->allocate_string(nullptr, dwFileSize + 1);
 	str[dwFileSize] = 0;
-	m_file.Read(str, dwFileSize);
+	m_file->Read(str, dwFileSize);
 	
 	this->parse<parse_flag>(str);
 
-	m_strFilePath = m_file.GetPath();
+	m_strFilePath = m_file->GetPath();
 
 	return true;
 }

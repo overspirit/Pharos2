@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+
+  <variable type="Texture2D" name="g_tex" bind="t0"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <constant name="cbPerScene" bind="b0" size="128">
+    <member type="row_major matrix" name="g_view" bind="c0" size="64"/>
+    <member type="row_major matrix" name="g_proj" bind="c4" size="64"/>
+  </constant>
+
+  <constant name="cbPerModel" bind="b1" size="64">
+    <member type="row_major matrix" name="g_world" bind="c0" size="64"/>
+  </constant>
+
+  <constant name="cbSceneLight" bind="b2" size="64">
+    <member type="float4" name="g_light_color" bind="c0" size="64"/>
+    <member type="float4" name="g_environment_color" bind="c1" size="64"/>
+    <member type="float3" name="g_light_direction" bind="c2" size="64"/>
+  </constant>
+  
+  <shader>
+    <![CDATA[
+    
+   void Sprite3DTextureWithColorVS(float4 pos : POSITION, float4 color : COLOR, float2 tex : TEXCOORD, 
+                    out float4 oColor : COLOR, out float2 oTex : TEXCOORD, out float4 oPos : SV_POSITION)
+   {
+      oPos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+      oColor = color;       
+      oTex = tex;
+   }
+   
+   void Sprite3DTextureWithNormalVS(float4 pos : POSITION, float3 normal : NORMAL, float2 tex : TEXCOORD, 
+                    out float4 oColor : COLOR, out float2 oTex : TEXCOORD, out float4 oPos : SV_POSITION)
+   {
+      oPos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+      oColor = dot(-g_light_direction, normal) * g_light_color + g_environment_color;       
+      oTex = tex;
+   }
+        
+   void Sprite3DColorVS(float4 pos : POSITION, float4 color : COLOR,
+                        out float4 oColor : COLOR, out float4 oPos : SV_POSITION)
+   {
+      oPos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+      oColor = color;    
+   }
+   
+   void Sprite3DNormalVS(float4 pos : POSITION, float3 normal : NORMAL, 
+                         out float4 oColor : COLOR, out float4 oPos : SV_POSITION)
+   {
+      oPos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+      oColor = clamp(dot(-g_light_direction, normal), 0, 1.0) * g_light_color + g_environment_color; 
+   }
+
+  float4 Sprite3DColorPS(float4 color : COLOR) : SV_TARGET
+  {
+    return color;
+  }
+
+  float4 Sprite3DTexturePS(float4 color : COLOR, float2 tex : TEXCOORD) : SV_TARGET
+  {
+    return g_tex.Sample(g_sam, float2(tex.x, 1.0 - tex.y)) * color;
+  }
+
+    ]]>
+  </shader>
+
+  <technique name="Sprite3DTextureWithColor">
+    <pass name="p0">
+      <param name="cull_mode" value="none"/>
+      <!--<param name="fill_mode" value="wireframe"/>-->
+      
+      <param name="vertex_shader" value="Sprite3DTextureWithColorVS"/>
+      <param name="pixel_shader" value="Sprite3DTexturePS"/>
+    </pass>
+  </technique>
+
+  <technique name="Sprite3DTextureWithNormal">
+    <pass name="p0">
+      <param name="cull_mode" value="none"/>
+      <!--<param name="fill_mode" value="wireframe"/>-->
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="Sprite3DTextureWithNormalVS"/>
+      <param name="pixel_shader" value="Sprite3DTexturePS"/>
+    </pass>
+  </technique>
+
+  <technique name="Sprite3DColor">
+    <pass name="p0">
+      <param name="cull_mode" value="none"/>
+      <!--<param name="fill_mode" value="wireframe"/>-->
+
+      <param name="vertex_shader" value="Sprite3DColorVS"/>
+      <param name="pixel_shader" value="Sprite3DColorPS"/>
+    </pass>
+  </technique>
+
+  <technique name="Sprite3DNormal">
+    <pass name="p0">
+      <param name="cull_mode" value="none"/>
+      <!--<param name="fill_mode" value="wireframe"/>
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+
+      <param name="depth_func" value="less_equal"/>-->
+      
+      <param name="vertex_shader" value="Sprite3DNormalVS"/>
+      <param name="pixel_shader" value="Sprite3DColorPS"/>
+    </pass>
+  </technique>
+  
+</effect>

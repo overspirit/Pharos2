@@ -26,6 +26,8 @@ namespace Pharos
 						
            // ImagePtr        m_captureImage;
             
+			vector<File*>	m_fileList;
+
 		public:
 			virtual bool Init(const void* hWnd);			
 			virtual void Destroy();
@@ -64,8 +66,8 @@ namespace Pharos
 
 // 			virtual IMemBufferPtr CreateMemBuffer(uint32 size);
 // 			virtual ITimerPtr CreateTimer(bool bStart = false);
-// 			virtual IFilePtr CreateFileStream(const char8* path, bool truncate = false);
-// 			virtual IFilePtr OpenFileStream(const char8* path);
+ 			virtual File* CreateFileStream(const char8* path, bool truncate = false);
+ 			virtual File* OpenFileStream(const char8* path);
 // 
 // 			//!!!改成异步和分包加载资源
 // 			virtual IXmlDocumentPtr QueryXmlDocResource(const char8* path);

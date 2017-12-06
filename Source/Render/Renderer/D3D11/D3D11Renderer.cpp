@@ -58,6 +58,8 @@ bool D3D11Renderer::Init()
 
 void D3D11Renderer::Destroy()
 {
+	SAFE_DELETE(m_defFrameBuf);
+
 	SAFE_RELEASE(m_device);
 	SAFE_RELEASE(m_context);
 

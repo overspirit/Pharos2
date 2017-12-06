@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+
+  <variable type="Texture2D" name="g_tex" bind="t0"/>
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <constant name="distance_base_scale" bind="b0">
+
+    <member type="float" name="g_base" bind="c0.x"/>
+    <member type="float" name="g_scale" bind="c0.y"/>
+    <member type="float" name="g_outline_scale" bind="c0.z"/>
+    
+  </constant>
+
+  <constant name="font_color" bind="b1">
+
+    <member type="float4" name="g_font_color" bind="c0"/>
+    <member type="float4" name="g_outline_color" bind="c1"/>
+    
+  </constant>
+
+  <constant name="shadow_offset" bind="b2">
+
+    <member type="float2" name="g_shadow_offset" bind="c0"/>
+
+  </constant>
+  
+  <struct name="VS_INPUT">
+    <member type="float4" name="pos" semantic="POSITION"/>
+    <member type="float4" name="color" semantic="COLOR"/>
+    <member type="float2" name="tex" semantic="TEXCOORD"/>
+  </struct>
+
+  <struct name="VS_OUTPUT">
+    <member type="float2" name="tex" semantic="TEXCOORD"/>
+    <member type="float4" name="color" semantic="COLOR"/>
+    <member type="float4" name="pos" semantic="SV_POSITION"/>
+  </struct>
+
+  <shader vertex_shader="Sprite2DVS">
+    <![CDATA[
+    
+VS_OUTPUT FontVS(VS_INPUT input)    
+{
+  VS_OUTPUT output = (VS_OUTPUT)0;
+  output.pos = input.pos;
+  output.color = input.color;
+  output.tex = input.tex;
+  return output;
+}
+
+VS_OUTPUT FontShadowVS(VS_INPUT input)    
+{
+  VS_OUTPUT output = (VS_OUTPUT)0;
+  output.pos = input.pos;
+  output.pos.xy += g_shadow_offset;
+  output.color = input.color;
+  output.tex = input.tex;
+  return output;
+}
+
+float4 FontPS(float2 tex : TEXCOORD, float4 color : COLOR) : SV_TARGET
+{
+  float a = g_tex.Sample(g_sam, tex).a;
+  return float4(g_font_color.xyz, a * g_scale + g_base) * color; 
+}
+
+float4 FontOutlinePS(float2 tex : TEXCOORD, float4 color : COLOR) : SV_TARGET
+{
+  float a = g_tex.Sample(g_sam, tex).a;
+  float outline_scale = g_scale + g_outline_scale;
+  float4 finalColor = g_font_color; 
+  if(a < (-g_base / g_scale) && a > (-g_base / outline_scale)) finalColor = g_outline_color;
+  return float4(finalColor.xyz, a * outline_scale + g_base) * color; 
+}
+    ]]>
+    
+  </shader>
+  <technique name="Font">
+    <pass name="p0">
+      <!--<param name="alpha_to_coverage_enable" value="true"/>-->
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="FontVS"/>
+      <param name="pixel_shader" value="FontPS"/>
+    </pass>
+  </technique>
+
+  <technique name="FontShadow">
+    <pass name="p0">
+      <!--<param name="alpha_to_coverage_enable" value="true"/>-->
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="FontShadowVS"/>
+      <param name="pixel_shader" value="FontPS"/>
+    </pass>
+  </technique>
+  
+  <technique name="FontOutline">
+    <pass name="p0">
+      <!--<param name="alpha_to_coverage_enable" value="true"/>-->
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+
+      <param name="depth_func" value="less_equal"/>
+      
+      <param name="vertex_shader" value="FontVS"/>
+      <param name="pixel_shader" value="FontOutlinePS"/>
+    </pass>
+  </technique>
+</effect>

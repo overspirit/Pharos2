@@ -331,7 +331,7 @@ bool D3D11RenderLayout::CreateD3D11InputLayout(ID3D10Blob* vs_blob)
 {
 	if (vs_blob == nullptr) return false;
 	if (m_layout != nullptr) return true;
-
+	
 	uint32 descNum = (uint32)m_layoutDesc.size();
 	vector<D3D11_INPUT_ELEMENT_DESC> descList(descNum);
 	for (uint32 i = 0; i < descNum; i++)
