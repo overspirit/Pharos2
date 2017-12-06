@@ -81,6 +81,8 @@ namespace Pharos
 			SamplerStateDesc		m_desc;
 
 		public:
+			virtual RenderSamplerState* Clone() = 0;
+
 			virtual EFilterType GetFilter() const { return m_desc.filter; }
 			virtual ETextureAddressMode GetAddressU() const { return m_desc.addressU; }
 			virtual ETextureAddressMode GetAddressV() const { return m_desc.addressV; }

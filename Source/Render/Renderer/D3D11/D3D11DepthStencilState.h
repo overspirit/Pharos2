@@ -19,6 +19,8 @@ namespace Pharos
 		public:
 			virtual bool CreateState(const DepthStencilStateDesc& desc);
 			
+			virtual RenderDepthStencilState* Clone();
+
 			virtual void ApplyDevice();
 		};
 	}

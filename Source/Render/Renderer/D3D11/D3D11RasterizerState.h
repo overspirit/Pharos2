@@ -19,6 +19,8 @@ namespace Pharos
 		public:
 			virtual bool CreateState(const RasterizerStateDesc& desc);
 
+			virtual RenderRasterizerState* Clone();
+
 			virtual void ApplyDevice();
 		};
 	}

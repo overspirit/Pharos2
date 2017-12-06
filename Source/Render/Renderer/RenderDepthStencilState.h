@@ -75,6 +75,8 @@ namespace Pharos
 			DepthStencilStateDesc		m_desc;
 
 		public:
+			virtual RenderDepthStencilState* Clone() = 0;
+
 			virtual bool IsDepthEnable() const { return m_desc.depthEnable; }
 			virtual EDepthWriteType GetDepthWriteMask() const { return m_desc.depthWriteMask; }
 			virtual EComparisonFunc GetDepthFunc() const { return m_desc.depthFunc; }

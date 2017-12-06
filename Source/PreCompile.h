@@ -98,31 +98,33 @@ using namespace std;
 
 //3rd party
 ////////////////////////////////////////////////////////////////////////
- #define FT2_BUILD_LIBRARY
- #include <ft2build.h>
- #include FT_FREETYPE_H
- #include FT_OUTLINE_H
- #include FT_INTERNAL_OBJECTS_H
- 
- #define FREEIMAGE_LIB
- #include <FreeImage.h>
- 
+#define FT2_BUILD_LIBRARY
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_OUTLINE_H
+#include FT_INTERNAL_OBJECTS_H
+
+#define FREEIMAGE_LIB
+#include <FreeImage.h>
+
 //  #define USE_DL_PREFIX
 //  #define DLMALLOC_EXPORT
 //  #include <dlmalloc.h>
 //  
-//  #include <rapidxml.hpp>
-//  
-//  using namespace rapidxml;
+#include <rapidxml.hpp>
+
+using namespace rapidxml;
 
 
 //仅在windows下使用gflags库解析命令参数
 ////////////////////////////////////////////////////////////////////////
- #if defined(_WINDOWS_PLATFORM_)
- 
- #include <gflags.h>
- 
- #endif
+#if defined(_WINDOWS_PLATFORM_)
+
+#include <gflags.h>
+
+#endif
 ////////////////////////////////////////////////////////////////////////
+
+#define new DEBUG_NEW
 
 ////////////////////////////////////////////////////////////////////////

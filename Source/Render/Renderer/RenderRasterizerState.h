@@ -62,6 +62,8 @@ namespace Pharos
 			RasterizerStateDesc		m_desc;
 
 		public:
+			virtual RenderRasterizerState* Clone() = 0;
+
 			virtual EFillMode GetFillMode() const { return m_desc.fillMode; }
 			virtual ECullMode GetCullMode() const { return m_desc.cullMode; }
 			virtual bool IsFrontCounterClockwise() const { return m_desc.frontCounterClockwise; }

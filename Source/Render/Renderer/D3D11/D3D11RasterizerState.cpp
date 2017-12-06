@@ -37,6 +37,15 @@ bool D3D11RasterizerState::CreateState(const RasterizerStateDesc& desc)
 	return true;
 }
 
+RenderRasterizerState* D3D11RasterizerState::Clone()
+{
+	D3D11RasterizerState* state = new D3D11RasterizerState(m_pDevice, m_pContext);
+	state->m_desc = m_desc;
+	state->m_pState = m_pState;
+	m_pState->AddRef();
+	return state;
+}
+
 void D3D11RasterizerState::ApplyDevice()
 {
 	m_pContext->RSSetState(m_pState);

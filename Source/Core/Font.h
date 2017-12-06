@@ -2,8 +2,30 @@
 
 namespace Pharos
 {
-	namespace Engine
+	namespace Core
 	{
+		struct tagCharInfo
+		{
+			tagCharInfo() { ZeroMemory(this, sizeof(tagCharInfo)); }
+
+			//字符的绘制宽度，也就是下一个字符应该起始的位置，
+			//本字符的x位置加上adv_x就是下一个字符的x位置
+			uint16 adv_x;
+
+			//字符的绘制高度，也就是下一个字符应该起始的位置，
+			//本字符的y位置加上adv_y就是下一个字符的y位置，一般为0
+			uint16 adv_y;
+
+			int16 left;	//字符的x偏移，决定字符的绘制起始x位置
+			int16 top;	//字符的y偏移，决定字符的绘制起始y位置
+
+			uint16 width;	//字符的宽度
+			uint16 height;	//字符的高度
+
+							//用于索引字符信息
+			uint32 dis_data_index;
+		};
+
 		//Font类
 		//使用FreeType库读取字符信息，将其转换距离场信息输出。
 		//计算距离场的代码来源于KlayGE,代码的大体思想是先用FT库读取一个128x128的点阵图信息，
@@ -17,7 +39,7 @@ namespace Pharos
 		//scale和base跟字符大小，最大值，最小值有关系,值我是根据KlayGE中的代码推导得来
 		//scale 为 min_value * char_size + 1.0
 		//base 为 (max_value - min_value) * char_size
-		class Font : public ResBase < IFont >
+		class Font : public ResBase
 		{
 		public:
 			Font(FT_Library fontLib);
@@ -38,7 +60,7 @@ namespace Pharos
 			FT_Library		m_fontLib;
 			FT_Face			m_face;
 
-			IMemBufferPtr	m_fontData;
+			MemoryBuffer	m_fontData;
 			
 			vector<uint16>	m_char_index;	//存储每个字符在的m_char_infos的索引，初始化为0xFFFF
 			vector<tagCharInfo>	m_char_infos;	//每读取一个字符，就增加一个CharInfo
@@ -96,6 +118,4 @@ namespace Pharos
 			virtual float32 GetDisScale(){ return (m_max_value - m_min_value) * m_char_size; }
 		};
 	}
-
-	typedef shared_ptr<Engine::Font> FontPtr;
 }

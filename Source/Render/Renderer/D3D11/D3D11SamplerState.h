@@ -19,6 +19,8 @@ namespace Pharos
 		public:
 			virtual bool CreateState(const SamplerStateDesc& desc);
 
+			virtual RenderSamplerState* Clone();
+
 			virtual void ApplyToDevice(uint32 slot);
 		};
 	}

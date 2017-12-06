@@ -129,7 +129,7 @@ void Kernel::Render(float32 fElapsed)
 // 
 // IXmlDocumentPtr Kernel::QueryXmlDocResource(const char8* path)
 // {
-// 	MyXmlDocumentPtr xmlDoc = MakeSharedPtr<MyXmlDocument>();
+// 	MyXmlDocumentPtr xmlDoc = MakeSharedPtr<XmlDocument>();
 // 	if (!xmlDoc->Open(path)) return nullptr;
 // 	if (!xmlDoc->Load()) return nullptr;
 // 	return xmlDoc;
@@ -137,7 +137,7 @@ void Kernel::Render(float32 fElapsed)
 // 
 // IXmlDocumentPtr Kernel::CreateXmlDocResource(const char8* rootName)
 // {
-// 	MyXmlDocumentPtr xmlDoc = MakeSharedPtr<MyXmlDocument>();
+// 	MyXmlDocumentPtr xmlDoc = MakeSharedPtr<XmlDocument>();
 // 	if (!xmlDoc->CreateRootNode(rootName)) return nullptr;
 // 	return xmlDoc;
 // }

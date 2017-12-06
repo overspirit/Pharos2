@@ -36,11 +36,11 @@ bool CKeyBoardDevice::InitDevice(IDirectInput8* pDirectInput, HWND hWnd, const G
 	if(FAILED(m_pDevice->Acquire())) return false;
 
 	//初始化数据
-	m_pNewKeys = DEBUG_NEW uint8[KEYS_SIZE];
+	m_pNewKeys = new uint8[KEYS_SIZE];
 	ZeroMemory(m_pNewKeys, KEYS_SIZE);
 	m_pNewData = m_pNewKeys;
 
-	m_pOldKeys = DEBUG_NEW uint8[KEYS_SIZE];
+	m_pOldKeys = new uint8[KEYS_SIZE];
 	ZeroMemory(m_pOldKeys, KEYS_SIZE);
 	m_pOldData = m_pOldKeys;
 

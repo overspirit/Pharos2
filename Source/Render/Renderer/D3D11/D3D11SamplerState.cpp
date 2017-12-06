@@ -53,6 +53,15 @@ bool D3D11SamplerState::CreateState(const SamplerStateDesc& desc)
 	return true;
 }
 
+RenderSamplerState* D3D11SamplerState::Clone()
+{
+	D3D11SamplerState* state = new D3D11SamplerState(m_pDevice, m_pContext);
+	state->m_desc = m_desc;
+	state->m_pState = m_pState;
+	m_pState->AddRef();
+	return state;
+}
+
 void D3D11SamplerState::ApplyToDevice(uint32 slot)
 {
 	m_pContext->VSSetSamplers(slot, 1, &m_pState);

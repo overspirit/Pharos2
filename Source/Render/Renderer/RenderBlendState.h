@@ -68,6 +68,8 @@ namespace Pharos
 			BlendStateDesc	m_desc;
 
 		public:
+			virtual RenderBlendState* Clone() = 0;
+
 			virtual bool IsBlendEnable() const { return m_desc.blendEnable; }
 			virtual bool IsAlphaToCoverageEnable() const { return m_desc.alphaToCoverageEnable; }
 			virtual EBlendFunc GetSrcBlend() const { return m_desc.srcBlend; }

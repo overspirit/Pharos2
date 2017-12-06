@@ -85,6 +85,42 @@
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11SamplerState.cpp">
       <Filter>Render\Renderer\D3D11</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Render\RenderMgr.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.cpp">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.cpp">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.cpp">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.cpp">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Material.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Mesh.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Model.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Font.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\XmlNode.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\XmlDocument.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\XmlAttribute.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\TypesDef.h" />
@@ -292,6 +328,57 @@
     <ClInclude Include="..\Source\Render\Renderer\RenderSamplerState.h">
       <Filter>Render\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Render\RenderMgr.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\RenderBlock.h">
+      <Filter>Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\RenderEffectLoader.h">
+      <Filter>Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\RenderTechnique.h">
+      <Filter>Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\RenderVariable.h">
+      <Filter>Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.h">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.h">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.h">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.h">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Material.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Mesh.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Model.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\RenderPass.h">
+      <Filter>Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Font.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\XmlNode.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\XmlDocument.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\XmlAttribute.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -317,6 +404,12 @@
     </Filter>
     <Filter Include="Render\Renderer\D3D11">
       <UniqueIdentifier>{6a2186c3-924e-4991-9edb-f34ab6fcb8d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Effect">
+      <UniqueIdentifier>{6e2da803-7d78-4389-9b83-da141e78404f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Effect\D3D11">
+      <UniqueIdentifier>{5ca9fe84-cf9d-42d5-8441-d5f58b4fba9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

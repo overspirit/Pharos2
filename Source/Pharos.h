@@ -4,7 +4,7 @@
 
 //Utils
 ////////////////////////////////////////////////////////////////////////
-//#include "Utils/Util.h"
+#include "Utils/Util.h"
 #include "Utils/Factory.h"
 #include "Utils/Path.h"
 #include "Utils/Singleton.h"
@@ -41,9 +41,9 @@
 // #include "Engine/IFile.h"
 // #include "Engine/IFont.h"
 // #include "Engine/IImage.h"
-// #include "Engine/IXmlAttribute.h"
-// #include "Engine/IXmlNode.h"
-// #include "Engine/IXmlDocument.h"
+// #include "Engine/XmlAttribute.h"
+// #include "Engine/XmlNode.h"
+// #include "Engine/XmlDocument.h"
 // #include "Engine/IProperties.h"
 #include "IApplication.h"
 //#include "Engine/IMemBuffer.h"

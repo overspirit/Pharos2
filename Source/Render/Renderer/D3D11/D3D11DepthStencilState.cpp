@@ -41,6 +41,15 @@ bool D3D11DepthStencilState::CreateState(const DepthStencilStateDesc& desc)
 	return true;
 }
 
+RenderDepthStencilState* D3D11DepthStencilState::Clone()
+{
+	D3D11DepthStencilState* state = new D3D11DepthStencilState(m_pDevice, m_pContext);
+	state->m_desc = m_desc;
+	state->m_pState = m_pState;
+	m_pState->AddRef();
+	return state;
+}
+
 void D3D11DepthStencilState::ApplyDevice()
 {
 	m_pContext->OMSetDepthStencilState(m_pState, m_desc.stencilRefValue);

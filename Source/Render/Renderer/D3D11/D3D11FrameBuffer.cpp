@@ -6,10 +6,7 @@ D3D11FrameBuffer::D3D11FrameBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* p
 {
 	m_pDevice = pDevice;
 	m_pContext = pContext;
-
-	m_width = 0;
-	m_height = 0;
-
+	
 	ZeroMemory(m_pTargetSlots, sizeof(m_pTargetSlots));
 	ZeroMemory(m_pTargetTexs, sizeof(m_pTargetTexs));
 	m_pDepthView = nullptr;
@@ -95,14 +92,6 @@ bool D3D11FrameBuffer::GenerateDefaultFrameBuffer(IDXGISwapChain* pSwapChain)
 	return true;
 }
 
-// D3D11FrameBufferPtr D3D11FrameBuffer::Clone()
-// {
-// 	D3D11FrameBufferPtr frameBuf = MakeSharedPtr<D3D11FrameBuffer>(m_pDevice, m_pContext);
-// 	if (!frameBuf->InitFrameBuffer(m_width, m_height)) return nullptr;
-// 
-// 	return frameBuf;
-// }
-
 void D3D11FrameBuffer::ClearFrameBuffer(Color4 color, float32 depth, uint32 stencil)
 {
 	Color4f clearColor = color;
@@ -121,10 +110,8 @@ void D3D11FrameBuffer::ClearFrameBuffer(Color4 color, float32 depth, uint32 sten
 	}
 }
 
-const RenderTexture& D3D11FrameBuffer::CreateRenderTexture(uint32 slot, EPixelFormat fmt)
+RenderTexture* D3D11FrameBuffer::CreateRenderTexture(uint32 slot, EPixelFormat fmt)
 {
-	//if (slot >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT) return nullptr;
-
 	SAFE_DELETE(m_pTargetTexs[slot]);
 	SAFE_RELEASE(m_pTargetSlots[slot]);
 
@@ -140,10 +127,10 @@ const RenderTexture& D3D11FrameBuffer::CreateRenderTexture(uint32 slot, EPixelFo
 		m_pDevice->CreateRenderTargetView(pTexture, &desc, &m_pTargetSlots[slot]);
 	}
 
-	return (*m_pTargetTexs[slot]);
+	return m_pTargetTexs[slot];
 }
 
-const RenderTexture& D3D11FrameBuffer::CreateDepthTexture()
+RenderTexture* D3D11FrameBuffer::CreateDepthTexture()
 {
 	SAFE_DELETE(m_pDepthTex);
 	SAFE_RELEASE(m_pDepthView);
@@ -161,22 +148,22 @@ const RenderTexture& D3D11FrameBuffer::CreateDepthTexture()
 		m_pDevice->CreateDepthStencilView(pTexture, &desc, &m_pDepthView);
 	}
 
-	return (*m_pDepthTex);
+	return m_pDepthTex;
 }
 
-const RenderTexture& D3D11FrameBuffer::GetRenderTexture(uint32 slot)
+RenderTexture* D3D11FrameBuffer::GetRenderTexture(uint32 slot)
 {
 	if (slot >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
 	{
 		assert(false);
 	}
 
-	return *m_pTargetTexs[slot];
+	return m_pTargetTexs[slot];
 }
 
-const RenderTexture& D3D11FrameBuffer::GetDepthTexture()
+RenderTexture* D3D11FrameBuffer::GetDepthTexture()
 {
-	return *m_pDepthTex;
+	return m_pDepthTex;
 }
 
 void D3D11FrameBuffer::ApplyDevice()

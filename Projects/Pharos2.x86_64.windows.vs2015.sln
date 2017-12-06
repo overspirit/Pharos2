@@ -21,6 +21,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng-1.6.29", "..\Externa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib-1.2.11", "..\External\zlib-1.2.11\Projects\zlib.x86_64.windows.vs2015.vcxproj", "{D9210D04-9DFD-4349-AC52-1DC233065061}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rapidXml", "rapidXml", "{1E08AFB8-FCFC-49F2-8129-7F380D46CBB5}"
+	ProjectSection(SolutionItems) = preProject
+		..\External\rapidXml\rapidxml.hpp = ..\External\rapidXml\rapidxml.hpp
+		..\External\rapidXml\rapidxml_define.hpp = ..\External\rapidXml\rapidxml_define.hpp
+		..\External\rapidXml\rapidxml_exceptions.hpp = ..\External\rapidXml\rapidxml_exceptions.hpp
+		..\External\rapidXml\rapidxml_iterators.hpp = ..\External\rapidXml\rapidxml_iterators.hpp
+		..\External\rapidXml\rapidxml_lookup_tables.hpp = ..\External\rapidXml\rapidxml_lookup_tables.hpp
+		..\External\rapidXml\rapidxml_memory_pool.h = ..\External\rapidXml\rapidxml_memory_pool.h
+		..\External\rapidXml\rapidxml_print.hpp = ..\External\rapidXml\rapidxml_print.hpp
+		..\External\rapidXml\rapidxml_utils.hpp = ..\External\rapidXml\rapidxml_utils.hpp
+		..\External\rapidXml\rapidxml_xml_attribute.h = ..\External\rapidXml\rapidxml_xml_attribute.h
+		..\External\rapidXml\rapidxml_xml_base.h = ..\External\rapidXml\rapidxml_xml_base.h
+		..\External\rapidXml\rapidxml_xml_document.h = ..\External\rapidXml\rapidxml_xml_document.h
+		..\External\rapidXml\rapidxml_xml_node.h = ..\External\rapidXml\rapidxml_xml_node.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -104,5 +120,6 @@ Global
 		{5F08808D-8515-4AE7-B0EA-2FA38A76E282} = {7F65D39A-CC66-4AC7-9AF8-3F29356EE979}
 		{813D6577-E332-4B1F-A181-8CD4E56CB880} = {7F65D39A-CC66-4AC7-9AF8-3F29356EE979}
 		{D9210D04-9DFD-4349-AC52-1DC233065061} = {7F65D39A-CC66-4AC7-9AF8-3F29356EE979}
+		{1E08AFB8-FCFC-49F2-8129-7F380D46CBB5} = {7F65D39A-CC66-4AC7-9AF8-3F29356EE979}
 	EndGlobalSection
 EndGlobal

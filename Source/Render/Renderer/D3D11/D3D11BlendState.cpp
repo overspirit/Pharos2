@@ -52,6 +52,15 @@ bool D3D11BlendState::CreateState(const BlendStateDesc& desc)
 	return true;
 }
 
+RenderBlendState* D3D11BlendState::Clone()
+{
+	D3D11BlendState* state = new D3D11BlendState(m_pDevice, m_pContext);
+	state->m_desc = m_desc;
+	state->m_pState = m_pState;
+	m_pState->AddRef();
+	return state;
+}
+
 void D3D11BlendState::ApplyDevice()
 {
 	float blendFactor[] = {1.0f, 1.0f, 1.0f, 1.0f};

@@ -2,17 +2,6 @@
 
 #include "Pharos.h"
 
-#include "File.h"
-#include "ResBase.h"
-// #include "Resource/MyXmlAttribute.h"
-// #include "Resource/MyXmlNode.h"
-// #include "Resource/MyXmlDocument.h"
-//#include "Font.h"
-#include "Image.h"
-
-//#include "Properties.h"
-
-
 #if defined(_WINDOWS_PLATFORM_)
 
 #include "Windows/InputSystem/InputDevice.h"
@@ -66,7 +55,17 @@ const char* GetMainBundleDirectory();
 
 #endif
 
+#include "File.h"
 #include "MemoryBuffer.h"
+
+#include "ResBase.h"
+#include "XmlAttribute.h"
+#include "XmlNode.h"
+#include "XmlDocument.h"
+#include "Font.h"
+#include "Image.h"
+//#include "Properties.h"
+
 #include "Kernel.h"
 
 #define sKernel Kernel::Inst()

@@ -2,11 +2,6 @@
 
 #include "Pharos.h"
 
-// #include "Effect/RenderVariable.h"
-// #include "Effect/RenderTechnique.h"
-// #include "Effect/RenderEffectLoader.h"
-// #include "Effect/RenderBlock.h"
-
 #include "RenderDefine.h"
 
 #include "Renderer/RenderSamplerState.h"
@@ -20,6 +15,11 @@
 #include "Renderer/RenderLayout.h"
 #include "Renderer/Renderer.h"
 
+#include "Effect/RenderVariable.h"
+#include "Effect/RenderPass.h"
+#include "Effect/RenderTechnique.h"
+#include "Effect/RenderEffectLoader.h"
+#include "Effect/RenderBlock.h"
 
 #if defined(_WINDOWS_PLATFORM_)
 
@@ -34,14 +34,14 @@
 #include "Renderer/D3D11/D3D11RenderLayout.h"
 #include "Renderer/D3D11/D3D11ShaderProgram.h"
 #include "Renderer/D3D11/D3D11Renderer.h"
-// 
-// #include "Effect/D3D11/D3D11EffectLoader.h"
-// #include "Effect/D3D11/D3D11RenderPass.h"
-// #include "Effect/D3D11/D3D11RenderTechnique.h"
-// #include "Effect/D3D11/D3D11RenderBlock.h"
 
-#define MakeRenderer() MakeSharedPtr<D3D11Renderer>()
-#define MakeEffectLoader() MakeSharedPtr<D3D11EffectLoader>()
+#include "Effect/D3D11/D3D11EffectLoader.h"
+#include "Effect/D3D11/D3D11RenderPass.h"
+#include "Effect/D3D11/D3D11RenderTechnique.h"
+#include "Effect/D3D11/D3D11RenderBlock.h"
+
+#define MakeRenderer() new D3D11Renderer()
+#define MakeEffectLoader() new D3D11EffectLoader()
 
 #endif
 
@@ -91,10 +91,10 @@
 // #include "RenderSprite.h"
 // #include "RenderImage.h"
 // #include "RenderFont.h"
-// #include "Material.h"
-// #include "Mesh.h"
-// #include "Model.h"
-// #include "RenderMgr.h"
+#include "Material.h"
+#include "Mesh.h"
+#include "Model.h"
+#include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()
 

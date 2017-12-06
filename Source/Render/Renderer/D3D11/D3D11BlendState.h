@@ -19,6 +19,8 @@ namespace Pharos
 		public:
 			virtual bool CreateState(const BlendStateDesc& desc);
 
+			virtual RenderBlendState* Clone();
+
 			virtual void ApplyDevice();
 		};
 	}
