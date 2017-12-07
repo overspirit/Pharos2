@@ -45,6 +45,7 @@ namespace Pharos
 			Matrix4							m_world;
 
 			vector<Mesh*>					m_meshGroupList;
+			vector<RenderBlock*>			m_blockList;
 			vector<BoneInfo>				m_boneInfoList;
 			map<string, SkelAnimation>		m_animList;			
 			
@@ -64,8 +65,6 @@ namespace Pharos
 // 			void UpdateAnimMat(const BoneTree& boneTree);
 
 		public:
-			//virtual bool InitData(const ModelData& modelData);
-
 			virtual void UpdateAnimation(float32 elapsed);
 
 		public:

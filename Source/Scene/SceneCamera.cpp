@@ -276,12 +276,9 @@ Line3Df SceneCamera::GetMouseRay(int32 cursorX, int32 cursorY)
 
 Vector3Df SceneCamera::GetScreenVector(const Vector2Df& vtMove)
 {
-// 	const Size2Di& wndSize = g_pKernel->GetWindowSize();
-// 	int32 nHalfWidth = (int32)(wndSize.width / 2);
-// 	int32 nHalfHeight = (int32)(wndSize.height / 2);
-
-	int32 nHalfWidth = 0;
-	int32 nHalfHeight = 0;
+ 	const Size2Di& wndSize = sKernel->GetWindowSize();
+ 	int32 nHalfWidth = (int32)(wndSize.width / 2);
+ 	int32 nHalfHeight = (int32)(wndSize.height / 2);
 
 	//求映射向量,首先将屏幕上的点映射为0-1之间的数值，然后勾股定理计算另一条边	
 	Vector3Df vTo = {0, 0, 1.0f};

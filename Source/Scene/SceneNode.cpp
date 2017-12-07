@@ -97,10 +97,14 @@ void SceneNode::Update(float32 fElapsed)
 
 	if (!m_hidden)
 	{
-		//渲染
-		//////////////////////////////////////////////////////////////////////////
-		//...
-		//////////////////////////////////////////////////////////////////////////
+		for (auto model : m_modelList)
+		{
+			//model->UpdateAnimation(fElapsed);
+
+			model->TransformWorld(m_globalTransform);
+
+			model->Draw();
+		}
 	}
 
 	for (uint32 i = 0; i < m_childList.size(); i++)

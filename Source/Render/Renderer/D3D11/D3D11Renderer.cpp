@@ -4,8 +4,6 @@
 
 D3D11Renderer::D3D11Renderer(void)
 {
-	m_hWnd = nullptr;
-
 	m_driverType = D3D_DRIVER_TYPE_HARDWARE;
 	m_featureLevel = D3D_FEATURE_LEVEL_11_0;
 
@@ -15,11 +13,17 @@ D3D11Renderer::D3D11Renderer(void)
 	m_dxgiAdapter = nullptr;
 	m_dxgiFactory = nullptr;
 	m_swapChain = nullptr;
+
+
+	m_defFrameBuf = nullptr;
+	m_adapterMemSize = 0;
+
+	m_bindLayout = nullptr;
+	m_bindShader = nullptr;
 }
 
 D3D11Renderer::~D3D11Renderer(void)
 {
-	SAFE_DELETE(m_defFrameBuf);
 }
 
 bool D3D11Renderer::Init()
@@ -31,27 +35,27 @@ bool D3D11Renderer::Init()
 #endif
 
 	HRESULT result = D3D11CreateDevice(0, D3D_DRIVER_TYPE_HARDWARE, 0, creationFlags, nullptr, 0, D3D11_SDK_VERSION, &m_device, &m_featureLevel, &m_context);
-	if(FAILED(result)) return false;
+	if (FAILED(result)) return false;
 
 	IDXGIDevice* dxgiDevice = nullptr;
-	result = m_device ->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
-	if(FAILED(result)) return false;
+	result = m_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice);
+	if (FAILED(result)) return false;
 
-	result = dxgiDevice ->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgiAdapter);
-	if(FAILED(result)) return false;
+	result = dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgiAdapter);
+	if (FAILED(result)) return false;
 
 	result = m_dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgiFactory);
-	if(FAILED(result)) return false;
+	if (FAILED(result)) return false;
 
 	// 释放COM接口
 	SAFE_RELEASE(dxgiDevice);
-	
+
 	DXGI_ADAPTER_DESC	adapterDesc;
 	m_dxgiAdapter->GetDesc(&adapterDesc);
 	char name[512] = { 0 };
-// 	Utils::unicode_to_utf8(adapterDesc.Description, -1, name, 512);
-// 	m_adapterName = name;	
-// 	m_adapterMemSize = (uint32)(adapterDesc.DedicatedVideoMemory  / 1024 / 1024);
+	Utils::unicode_to_utf8(adapterDesc.Description, -1, name, 512);
+	m_adapterName = name;	
+	m_adapterMemSize = (uint32)(adapterDesc.DedicatedVideoMemory  / 1024 / 1024);
 
 	return true;
 }
@@ -70,7 +74,7 @@ void D3D11Renderer::Destroy()
 
 bool D3D11Renderer::Create(const DeviceConfig& cfg)
 {
-	ZeroMemory( &m_swapChainDesc, sizeof( m_swapChainDesc ) );
+	ZeroMemory(&m_swapChainDesc, sizeof(m_swapChainDesc));
 	m_swapChainDesc.BufferCount = 1;
 	m_swapChainDesc.BufferDesc.Width = cfg.width;
 	m_swapChainDesc.BufferDesc.Height = cfg.height;
@@ -84,12 +88,12 @@ bool D3D11Renderer::Create(const DeviceConfig& cfg)
 	m_swapChainDesc.SampleDesc.Quality = 0;
 
 	// 现在，创建交换链
-	HRESULT result = m_dxgiFactory->CreateSwapChain(m_device, &m_swapChainDesc , &m_swapChain);
-	if(FAILED(result)) return false;
-	
- 	m_defFrameBuf = new D3D11FrameBuffer(m_device, m_context);
- 	m_defFrameBuf->GenerateDefaultFrameBuffer(m_swapChain);
- 	m_defFrameBuf->ApplyDevice();
+	HRESULT result = m_dxgiFactory->CreateSwapChain(m_device, &m_swapChainDesc, &m_swapChain);
+	if (FAILED(result)) return false;
+
+	m_defFrameBuf = new D3D11FrameBuffer(m_device, m_context);
+	m_defFrameBuf->GenerateDefaultFrameBuffer(m_swapChain);
+	m_defFrameBuf->ApplyDevice();
 
 	return true;
 }
@@ -101,11 +105,6 @@ bool D3D11Renderer::Present()
 
 	return true;
 }
-
-// RenderEffectLoaderPtr D3D11Renderer::GetEffectLoader()
-// {
-// 	return MakeSharedPtr<D3D11EffectLoader>();
-// }
 
 void D3D11Renderer::BindFrameBuffer(RenderFrameBuffer* frameBuf)
 {
@@ -217,7 +216,7 @@ void D3D11Renderer::DrawImmediate(DrawType type, uint32 start, uint32 count)
 		ID3D10Blob* blob = m_bindShader->GetVertexBlob();
 		if (!m_bindLayout->CreateD3D11InputLayout(blob))
 		{
-			assert(false);
+			//assert(false);
 			return;
 		}
 	}
@@ -233,7 +232,7 @@ void D3D11Renderer::DrawImmediate(DrawType type, uint32 start, uint32 count)
 }
 
 RenderProgram* D3D11Renderer::GenerateRenderProgram()
-{	
+{
 	return new D3D11ShaderProgram(m_device, m_context);
 }
 

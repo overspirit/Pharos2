@@ -15,12 +15,12 @@ namespace Pharos
 			{
 				string samplerName;
 				string texPath;
-				SampleStateDesc	stateDesc;
+				SamplerStateDesc	stateDesc;
 			};
 
 			struct TypeValue
 			{
-				Engine::PropType type;
+				Core::PropType type;
 				string strValue;
 				float32	fValue;
 				Vector2Df vt2Value;
@@ -43,10 +43,10 @@ namespace Pharos
 
 			struct MeshData
 			{
-				IMemBufferPtr					vertexData;
+				MemoryBuffer					vertexData;
 				vector<VertLayoutDesc>			vertDesc;
 
-				IMemBufferPtr					indexData;
+				MemoryBuffer					indexData;
 
 				MaterialData					materialData;
 
@@ -78,18 +78,16 @@ namespace Pharos
 			vector<SceneNodeData>		m_nodeDataList;
 			
 		private:
-			IMaterialPtr CreateMaterial(const MaterialData& materialData);
-			IMeshPtr CreateMesh(const MeshData& meshData);
-			IModelPtr CreateModel(const ModelData& modelData);
-			ISceneNodePtr CreateNode(const SceneNodeData& data);
+			Material* CreateMaterial(const MaterialData& materialData);
+			Mesh* CreateMesh(const MeshData& meshData);
+			Model* CreateModel(const ModelData& modelData);
+			SceneNode* CreateNode(const SceneNodeData& data);
 
 		public:
-			virtual bool ImportScene(ISceneGraphPtr scene);
+			virtual bool ImportScene(OctreeScene* scene);
 
 			virtual bool LoadSceneFile(const char8* file) = 0;
 			virtual bool LoadModelFile(const char8* file) = 0;
 		};
 	}
-
-	typedef shared_ptr<Scene::SceneImporter>	SceneImporterPtr;
 }

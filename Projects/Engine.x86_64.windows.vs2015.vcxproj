@@ -24,6 +24,7 @@
     <ClCompile Include="..\Source\Core\Image.cpp" />
     <ClCompile Include="..\Source\Core\Kernel.cpp" />
     <ClCompile Include="..\Source\Core\MemoryBuffer.cpp" />
+    <ClCompile Include="..\Source\Core\Properties.cpp" />
     <ClCompile Include="..\Source\Core\XmlAttribute.cpp" />
     <ClCompile Include="..\Source\Core\XmlDocument.cpp" />
     <ClCompile Include="..\Source\Core\XmlNode.cpp" />
@@ -56,8 +57,14 @@
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Texture.cpp" />
     <ClCompile Include="..\Source\Render\RenderMgr.cpp" />
     <ClCompile Include="..\Source\Scene\BundleSceneImporter.cpp" />
+    <ClCompile Include="..\Source\Scene\GridNode.cpp" />
+    <ClCompile Include="..\Source\Scene\OctreeScene.cpp" />
     <ClCompile Include="..\Source\Scene\SceneCamera.cpp" />
+    <ClCompile Include="..\Source\Scene\SceneImporter.cpp" />
+    <ClCompile Include="..\Source\Scene\SceneMgr.cpp" />
     <ClCompile Include="..\Source\Scene\SceneNode.cpp" />
+    <ClCompile Include="..\Source\Scene\TreeNode.cpp" />
+    <ClCompile Include="..\Source\Scene\XmlSceneImporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\CompileConfig.h" />
@@ -69,6 +76,7 @@
     <ClInclude Include="..\Source\Core\Image.h" />
     <ClInclude Include="..\Source\Core\Kernel.h" />
     <ClInclude Include="..\Source\Core\MemoryBuffer.h" />
+    <ClInclude Include="..\Source\Core\Properties.h" />
     <ClInclude Include="..\Source\Core\XmlAttribute.h" />
     <ClInclude Include="..\Source\Core\XmlDocument.h" />
     <ClInclude Include="..\Source\Core\XmlNode.h" />
@@ -140,9 +148,15 @@
     <ClInclude Include="..\Source\Render\RenderGlobal.h" />
     <ClInclude Include="..\Source\Render\RenderMgr.h" />
     <ClInclude Include="..\Source\Scene\BundleSceneImporter.h" />
+    <ClInclude Include="..\Source\Scene\GridNode.h" />
+    <ClInclude Include="..\Source\Scene\OctreeScene.h" />
     <ClInclude Include="..\Source\Scene\SceneCamera.h" />
     <ClInclude Include="..\Source\Scene\SceneGlobal.h" />
+    <ClInclude Include="..\Source\Scene\SceneImporter.h" />
+    <ClInclude Include="..\Source\Scene\SceneMgr.h" />
     <ClInclude Include="..\Source\Scene\SceneNode.h" />
+    <ClInclude Include="..\Source\Scene\TreeNode.h" />
+    <ClInclude Include="..\Source\Scene\XmlSceneImporter.h" />
     <ClInclude Include="..\Source\TypesDef.h" />
     <ClInclude Include="..\Source\Utils\Factory.h" />
     <ClInclude Include="..\Source\Utils\Path.h" />
@@ -169,6 +183,20 @@
     <ProjectReference Include="..\External\zlib-1.2.11\Projects\zlib.x86_64.windows.vs2015.vcxproj">
       <Project>{d9210d04-9dfd-4349-ac52-1dc233065061}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Source\Render\Shader\D3D11\Copy.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\Font.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\GBuffer.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\PostProcess.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\Skeletal.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\Sprite2D.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\Sprite3D.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\SumLum.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\ToneMapping.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\Util.fxml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C71BDBB0-12DC-4ED5-BB04-BCBC7368BD10}</ProjectGuid>

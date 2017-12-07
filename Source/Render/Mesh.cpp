@@ -4,12 +4,16 @@
 
 Mesh::Mesh()
 {
+	m_material = nullptr;
+
+	m_renderLayout = nullptr;
+
 	m_drawType = EDT_TRIANGLELIST;
 }
 
 Mesh::~Mesh()
 {
-
+	SAFE_DELETE(m_renderLayout);
 }
 
 void Mesh::SetMeshData(MemoryBuffer* vertexData, const vector<VertLayoutDesc>& vertDesc, MemoryBuffer* indexData)

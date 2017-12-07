@@ -49,12 +49,7 @@ namespace Pharos
 			ID3D11Texture2D*			m_pTexture;
 			ID3D11ShaderResourceView*	m_pView;
 
-			D3D11SamplerState*			m_pState;
-
-			uint32			m_width;
-			uint32			m_height;
-			EPixelFormat	m_fmt;
-			uint32			m_eleSize;
+			D3D11SamplerState*			m_pState;		
 
 		public:
 			virtual bool LoadFromFile(const char8* szPath);

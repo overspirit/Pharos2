@@ -24,6 +24,11 @@ private:
 
 	RenderLayout*			m_copyLayout;
 	RenderProgram*			m_copyShader;
+	RenderTechnique*		m_copyTech;
+
+	SceneCamera*			m_camera;
+	bool			m_bLeftDown;
+	bool			m_bRightDown;
 
 public:
 	virtual bool Init();

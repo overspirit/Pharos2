@@ -4,15 +4,15 @@
 
 #include "SceneCamera.h"
 #include "SceneNode.h"
-// #include "Graph/GridNode.h"
-// #include "Graph/TreeNode.h"
-// #include "Graph/OctreeScene.h"
+#include "GridNode.h"
+#include "TreeNode.h"
+#include "OctreeScene.h"
 
-//#include "SceneImporter.h"
+#include "SceneImporter.h"
 #include "BundleSceneImporter.h"
-//#include "ResSys/XmlSceneImporter.h"
+#include "XmlSceneImporter.h"
 
-//#include "SceneMgr.h"
+#include "SceneMgr.h"
 
 #define sSceneMgr SceneMgr::Inst()
 

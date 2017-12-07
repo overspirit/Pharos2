@@ -14,7 +14,7 @@ bool Properties::Open(const char8* path)
 {
 	if (path == nullptr) return false;
 
-	IFilePtr file = g_pKernel->CreateFileStream(path);
+	File* file = sKernel->CreateFileStream(path);
 	if (file == NULL) return false;
 
 	readProperties(file);
@@ -24,7 +24,7 @@ bool Properties::Open(const char8* path)
 	return true;
 }
 
-bool Properties::Init(IFilePtr file, const char8* name, const char8* id, const char8* parentID, PropertiesPtr parent)
+bool Properties::Init(File* file, const char8* name, const char8* id, const char8* parentID, Properties* parent)
 {
 	_namespace = name;
 	_visited = false;
@@ -46,7 +46,7 @@ bool Properties::Init(IFilePtr file, const char8* name, const char8* id, const c
 	return true;
 }
 
-void Properties::readProperties(IFilePtr file)
+void Properties::readProperties(File* file)
 {
 	char8 line[2048];
 	char8 variable[256];
@@ -183,8 +183,8 @@ void Properties::readProperties(IFilePtr file)
 					}
 
 					// New namespace without an ID.
-					PropertiesPtr space = MakeSharedPtr<Properties>();
-					space->Init(file, name, (const char8*)NULL, parentID, shared_from_this());
+					Properties* space = new Properties();
+					space->Init(file, name, (const char8*)NULL, parentID, this);
 					_namespaces.push_back(space);
 
 					// If the namespace ends on this line, seek to right after the '}' character.
@@ -212,8 +212,8 @@ void Properties::readProperties(IFilePtr file)
 						}
 
 						// Create new namespace.
-						PropertiesPtr space = MakeSharedPtr<Properties>();
-						space->Init(file, name, value, parentID, shared_from_this());
+						Properties* space = new Properties();
+						space->Init(file, name, value, parentID, this);
 						_namespaces.push_back(space);
 
 						// If the namespace ends on this line, seek to right after the '}' character.
@@ -230,8 +230,8 @@ void Properties::readProperties(IFilePtr file)
 						if (c == '{')
 						{
 							// Create new namespace.
-							PropertiesPtr space = MakeSharedPtr<Properties>();
-							space->Init(file, name, value, parentID, shared_from_this());
+							Properties* space = new Properties();
+							space->Init(file, name, value, parentID, this);
 							_namespaces.push_back(space);
 						}
 						else
@@ -256,7 +256,7 @@ void Properties::readProperties(IFilePtr file)
 	}
 }
 
-void Properties::skipWhiteSpace(IFilePtr file)
+void Properties::skipWhiteSpace(File* file)
 {
 	char8 c;
 	do
@@ -306,14 +306,14 @@ void Properties::resolveInheritance(const char8* id)
 	// This method merges data from the parent namespace into the child.
 
 	// Get a top-level namespace.
-	PropertiesPtr derived;
+	Properties* derived;
 	if (id)
 	{
-		derived = static_pointer_cast<Properties>(GetNamespace(id));
+		derived = GetNamespace(id);
 	}
 	else
 	{
-		derived = static_pointer_cast<Properties>(GetNextNamespace());
+		derived = GetNextNamespace();
 	}
 
 	while (derived)
@@ -322,22 +322,22 @@ void Properties::resolveInheritance(const char8* id)
 		if (!derived->_parentID.empty())
 		{
 			derived->_visited = true;
-			PropertiesPtr parent = static_pointer_cast<Properties>(GetNamespace(derived->_parentID.c_str()));
+			Properties* parent = GetNamespace(derived->_parentID.c_str());
 			if (parent)
 			{
 				resolveInheritance(parent->GetId());
 
 				// Copy the child.
-				PropertiesPtr overrides = derived->clone();
+				Properties* overrides = derived->clone();
 
 				// Copy data from the parent into the child.
 				derived->_properties = parent->_properties;
-				derived->_namespaces = std::vector< shared_ptr<Properties> >();
-				std::vector< shared_ptr<Properties> >::const_iterator itt;
+				derived->_namespaces = std::vector< Properties* >();
+				std::vector< Properties* >::const_iterator itt;
 				for (itt = parent->_namespaces.begin(); itt < parent->_namespaces.end(); ++itt)
 				{
-					Properties* copyIter = (*itt).get();
-					PropertiesPtr prop = copyIter->clone();
+					Properties* copyIter = (*itt);
+					Properties* prop = copyIter->clone();
 					derived->_namespaces.push_back(prop);
 				}
 				derived->rewind();
@@ -354,7 +354,7 @@ void Properties::resolveInheritance(const char8* id)
 		// Get the next top-level namespace and check again.
 		if (!id)
 		{
-			derived = static_pointer_cast<Properties>(GetNextNamespace());
+			derived = GetNextNamespace();
 		}
 		else
 		{
@@ -363,7 +363,7 @@ void Properties::resolveInheritance(const char8* id)
 	}
 }
 
-void Properties::mergeWith(PropertiesPtr overrides)
+void Properties::mergeWith(Properties* overrides)
 {
 	// Overwrite or add each property found in child.
 	overrides->rewind();
@@ -382,13 +382,13 @@ void Properties::mergeWith(PropertiesPtr overrides)
 	}
 
 	// Merge all common nested namespaces, add new ones.
-	PropertiesPtr overridesNamespace = static_pointer_cast<Properties>(overrides->GetNextNamespace());
+	Properties* overridesNamespace = overrides->GetNextNamespace();
 	while (overridesNamespace)
 	{
 		bool merged = false;
 
 		rewind();
-		PropertiesPtr derivedNamespace = static_pointer_cast<Properties>(GetNextNamespace());
+		Properties* derivedNamespace = GetNextNamespace();
 		while (derivedNamespace)
 		{
 			if (strcmp(derivedNamespace->GetName(), overridesNamespace->GetName()) == 0 &&
@@ -398,23 +398,23 @@ void Properties::mergeWith(PropertiesPtr overrides)
 				merged = true;
 			}
 
-			derivedNamespace = static_pointer_cast<Properties>(GetNextNamespace());
+			derivedNamespace = GetNextNamespace();
 		}
 
 		if (!merged)
 		{
 			// Add this new namespace.
-			PropertiesPtr newNamespace = static_pointer_cast<Properties>(overridesNamespace->clone());
+			Properties* newNamespace = overridesNamespace->clone();
 
 			this->_namespaces.push_back(newNamespace);
 			this->_namespacesItr = this->_namespaces.end();
 		}
 
-		overridesNamespace = static_pointer_cast<Properties>(overrides->GetNextNamespace());
+		overridesNamespace = overrides->GetNextNamespace();
 	}
 }
 
-// IPropertiesPtr Properties::GetNextProperty()
+// Properties* Properties::GetNextProperty()
 // {
 // 	if (_propertiesItr == _properties.end())
 // 	{
@@ -427,7 +427,7 @@ void Properties::mergeWith(PropertiesPtr overrides)
 // 		++_propertiesItr;
 // 	}
 // 
-// 	PropertiesPtr prop = *_propertiesItr->;
+// 	Properties* prop = *_propertiesItr->;
 // }
 
 uint32 Properties::GetPropertyCount() const
@@ -458,7 +458,7 @@ const char8* Properties::GetPropertyValue(const char8* name) const
 	return "";
 }
 
-IPropertiesPtr Properties::GetNextNamespace()
+Properties* Properties::GetNextNamespace()
 {
 	if (_namespacesItr == _namespaces.end())
 	{
@@ -472,8 +472,8 @@ IPropertiesPtr Properties::GetNextNamespace()
 
 	if (_namespacesItr != _namespaces.end())
 	{
-		weak_ptr<Properties> ns = *_namespacesItr;
-		return ns.lock();
+		Properties* ns = *_namespacesItr;
+		return ns;
 	}
 
 	return NULL;
@@ -485,11 +485,11 @@ void Properties::rewind()
 	_namespacesItr = _namespaces.end();
 }
 
-IPropertiesPtr Properties::GetNamespace(const char8* id, bool searchNames) const
+Properties* Properties::GetNamespace(const char8* id, bool searchNames) const
 {
-	for (std::vector< shared_ptr<Properties> >::const_iterator it = _namespaces.begin(); it < _namespaces.end(); ++it)
+	for (std::vector< Properties* >::const_iterator it = _namespaces.begin(); it < _namespaces.end(); ++it)
 	{
-		PropertiesPtr p = *it;
+		Properties* p = *it;
 		if (strcmp(searchNames ? p->_namespace.c_str() : p->_id.c_str(), id) == 0)
 			return p;
 	}
@@ -757,7 +757,7 @@ const char8* Properties::GetVariable(const char8* name, const char8* defaultValu
 	}
 
 	// Search for variable in parent Properties
-	return (_parent.lock() != nullptr) ? _parent.lock()->GetVariable(name, defaultValue) : defaultValue;
+	return (_parent != nullptr) ? _parent->GetVariable(name, defaultValue) : defaultValue;
 }
 
 void Properties::SetVariable(const char8* name, const char8* value)
@@ -778,7 +778,7 @@ void Properties::SetVariable(const char8* name, const char8* value)
 			}
 		}
 
-		current = current->_parent.lock().get();
+		current = current->_parent;
 	}
 
 	if (prop)
@@ -793,9 +793,9 @@ void Properties::SetVariable(const char8* name, const char8* value)
 	}
 }
 
-PropertiesPtr Properties::clone()
+Properties* Properties::clone()
 {
-	PropertiesPtr p = MakeSharedPtr<Properties>();
+	Properties* p = new Properties();
 
 	p->_namespace = _namespace;
 	p->_id = _id;
@@ -805,7 +805,7 @@ PropertiesPtr Properties::clone()
 
 	for (size_t i = 0, count = _namespaces.size(); i < count; i++)
 	{
-		PropertiesPtr child = _namespaces[i]->clone();
+		Properties* child = _namespaces[i]->clone();
 		p->_namespaces.push_back(child);
 		child->_parent = p;
 	}
@@ -961,7 +961,7 @@ bool Properties::isVariable(const char8* str, char8* outName, size_t outSize)
 	return false;
 }
 
-char8 Properties::readChar(IFilePtr file)
+char8 Properties::readChar(File* file)
 {
 	if (file->IsEndOfFile())
 		return -1;
@@ -973,7 +973,7 @@ char8 Properties::readChar(IFilePtr file)
 	return c;
 }
 
-char8* Properties::readLine(IFilePtr file, char8* str, int32 num)
+char8* Properties::readLine(File* file, char8* str, int32 num)
 {
 	if (file == nullptr) return NULL;
 

@@ -4,12 +4,20 @@
 
 Material::Material()
 {
+	m_renderTech = nullptr;
+	m_diffTex = nullptr;
+	m_bumpTex = nullptr;
+	m_specTex = nullptr;
 
+	m_worldVar = nullptr;
+	m_viewVar = nullptr;
+	m_projVar = nullptr;
+	m_eyePosVar = nullptr;
 }
 
 Material::~Material()
 {
-
+	SAFE_DELETE(m_renderTech);
 }
 
 void Material::SetRenderTechnique(const char8* techName)

@@ -7,12 +7,20 @@ namespace Pharos
 		class RenderTexture
 		{
 		public:
+			RenderTexture()
+			{
+				m_width = 0;
+				m_height = 0;
+				m_fmt = EPF_END;
+				m_eleSize = 0;
+			}
 			virtual ~RenderTexture(){}
 
 		protected:
 			uint32			m_width;
 			uint32			m_height;
 			EPixelFormat	m_fmt;
+			uint32			m_eleSize;
 
 		public:
 			virtual void SetSampleState(RenderSamplerState* state) = 0;

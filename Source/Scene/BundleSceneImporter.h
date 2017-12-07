@@ -25,81 +25,11 @@ namespace Pharos
 {
 	namespace Scene
 	{
-		class BundleSceneImporter //: public SceneImporter
+		class BundleSceneImporter : public SceneImporter
 		{
 		public:
 			BundleSceneImporter(void);
 			virtual ~BundleSceneImporter(void);
-			
-		private:
-
-
-		protected:
-			struct SamplerData
-			{
-				string samplerName;
-				string texPath;
-				//SamplerStateDesc	stateDesc;
-			};
-
-// 			struct TypeValue
-// 			{
-// 				Engine::PropType type;
-// 				string strValue;
-// 				float32	fValue;
-// 				Vector2Df vt2Value;
-// 				Vector3Df vt3Value;
-// 				Vector4Df vt4Value;
-// 				Matrix4 matValue;
-// 			};
-// 
-// 			struct MaterialData
-// 			{
-// 				string	materialName;
-// 
-// 				string	techName;
-// 				vector<string>	techDefines;
-// 
-// 				map<string, TypeValue>			varList;
-// 				map<string, SamplerData>	samplerDataList;
-// 				map<string, string>			stateList;
-// 			};
-
-			struct MeshData
-			{
-				MemoryBuffer					vertexData;
-				vector<VertLayoutDesc>			vertDesc;
-
-				MemoryBuffer					indexData;
-
-				//MaterialData					materialData;
-
-				//DrawType						drawType;
-			};
-
-			struct ModelData
-			{
-				vector<MeshData>				meshDataList;
-				//vector<BoneInfo>				boneInfoList;
-				//vector<SkelAnimation>			skelAnimList;
-			};
-
-			struct SceneNodeData
-			{
-				string		nodeName;
-				string		parentName;
-				Matrix4		localTrans;
-				float32		boundRadius;
-				ModelData	modelData;
-				vector<SceneNodeData>		childData;
-			};
-
-		protected:
-			string				m_resFile;
-
-			//map<string, MaterialData>	m_materialDataList;
-			ModelData					m_modelData;
-			vector<SceneNodeData>		m_nodeDataList;
 
 		private:
 			struct Reference
@@ -156,18 +86,18 @@ namespace Pharos
 				POINTS = GL_POINTS
 			};
 
-// 			struct MaterialParameter
-// 			{
-// 				string name;
-// 				string id;
-// 				map<string, TypeValue>  paramList;
-// 				vector<MaterialParameter> childList;
-// 			};
+			struct MaterialParameter
+			{
+				string name;
+				string id;
+				map<string, TypeValue>  paramList;
+				vector<MaterialParameter> childList;
+			};
 
 		private:
 			vector<Reference>		m_refList;		
 			
-			//MaterialParameter		m_materialParam;
+			MaterialParameter		m_materialParam;
 
 			string		m_bundlePath;
 
@@ -191,7 +121,7 @@ namespace Pharos
 			bool ReadBundleModel(File* bundleFile, SceneNodeData& data);
 			bool ReadBundleMesh(File* bundleFile, const string& meshId, SceneNodeData& data);
 			bool ReadBundleMeshSkin(File* bundleFile);
-			//bool ReadBundleMaterial(IPropertiesPtr materialProp, MaterialParameter& param);
+			bool ReadBundleMaterial(Properties* materialProp, MaterialParameter& param);
 
 			uint32 originalVertexElementByteSize(Usage usage);
 			uint32 compressedVertexElementByteSize(Usage usage);

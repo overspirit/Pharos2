@@ -61,7 +61,7 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	m_renderParam = param;
 
-	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();	
+	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();
 
 	this->LoadEffectFile("Shader/Sprite3D.fxml");
 	this->LoadEffectFile("Shader/Sprite2D.fxml");
@@ -222,21 +222,23 @@ void RenderMgr::Update(float32 fElapsed)
 
 void RenderMgr::Render(float32 fElapsed)
 {
-	m_defaultFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
+	m_defaultFrameBuf->ClearFrameBuffer();
 
-	//m_renderer->BindFrameBuffer(m_finalFrameBuf);
-	//m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
+	m_renderer->BindFrameBuffer(m_finalFrameBuf);
+	m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
 
 	for (auto& block : m_blockList)
 	{
 		block->ApplyToDevice();
+
+		SAFE_DELETE(block);
 	}
 
-	// 	m_renderer->BindFrameBuffer(nullptr);
-	// 	m_renderer->BindTexture(0, m_finalTargetTex);
-	// 	m_renderer->BindLayout(m_copyLayout);
-	// 	m_renderer->BindProgram(m_copyShader);
-	// 	m_renderer->DrawImmediate(Render::EDT_TRIANGLELIST, 0, 6);
+	m_renderer->BindFrameBuffer(nullptr);
+	m_renderer->BindTexture(0, m_finalTargetTex);
+	m_renderer->BindLayout(m_copyLayout);
+	m_renderer->BindProgram(m_copyShader);
+	m_renderer->DrawImmediate(Render::EDT_TRIANGLELIST, 0, 6);
 
 	if (m_renderCallback != nullptr)
 	{

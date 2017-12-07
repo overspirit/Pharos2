@@ -4,7 +4,7 @@
 
 D3D11RenderTechnique::D3D11RenderTechnique()
 {
-
+	m_renderer = nullptr;
 }
 
 D3D11RenderTechnique::~D3D11RenderTechnique(void)
@@ -130,7 +130,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 {
 	for (VarBlock& varBlock : m_varBlockList)
 	{
-		if (varBlock.dataBuf == nullptr)
+		if (varBlock.dataBuf.GetPointer() == nullptr)
 		{
 			uint32 buffSize = 0;
 			for (auto var : varBlock.varList)
@@ -145,7 +145,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 			//D3D11要求ConstantBuffer的大小必须是16的整数倍...
 			if (buffSize < 16) buffSize = 16;
 
-			//varBlock.dataBuf = g_pKernel->CreateMemBuffer(buffSize);
+			varBlock.dataBuf.Alloc(buffSize);
 		}
 
 		uint32 offset = 0;
@@ -155,13 +155,13 @@ void D3D11RenderTechnique::ApplyToDevice()
 			//if (data != nullptr)
 			{
 				uint32 dataSize = data.GetLength();
-				varBlock.dataBuf->Insert(offset, data);
+				varBlock.dataBuf.Insert(offset, data);
 				offset += dataSize;
 			}
 		}
 
 		D3D11ConstantBuffer* cb = static_cast<D3D11ConstantBuffer*>(varBlock.shaderData);
-		cb->CopyData(varBlock.dataBuf);
+		cb->CopyData(&varBlock.dataBuf);
 		cb->ApplyToDevice(varBlock.slot);
 	}
 

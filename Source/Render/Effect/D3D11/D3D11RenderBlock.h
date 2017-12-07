@@ -13,7 +13,7 @@ namespace Pharos
 		private:
 			D3D11Renderer*			m_renderer;
 
-			D3D11RenderTechnique*		m_tech;
+			D3D11RenderTechnique*	m_tech;
 			D3D11RenderLayout*		m_layout;
 
 		public:

@@ -118,6 +118,27 @@
     <ClCompile Include="..\Source\Core\XmlAttribute.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Scene\SceneImporter.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\GridNode.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\OctreeScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\SceneMgr.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\TreeNode.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Scene\XmlSceneImporter.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\Properties.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\TypesDef.h" />
@@ -379,6 +400,27 @@
     <ClInclude Include="..\Source\Render\IRenderCallback.h">
       <Filter>Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Scene\SceneImporter.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\GridNode.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\OctreeScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\SceneMgr.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\TreeNode.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Scene\XmlSceneImporter.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\Properties.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -411,5 +453,49 @@
     <Filter Include="Render\Effect\D3D11">
       <UniqueIdentifier>{5ca9fe84-cf9d-42d5-8441-d5f58b4fba9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\Shader">
+      <UniqueIdentifier>{a97c5759-a40e-4b19-ba00-2025627fc99c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Shader\D3D11">
+      <UniqueIdentifier>{89887b0b-bb55-45e4-8455-4c7678853379}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Source\Render\Shader\D3D11\Copy.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\Font.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\GBuffer.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\PostProcess.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\Skeletal.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\Sprite2D.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\Sprite3D.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\SumLum.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\ToneMapping.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
+    <None Include="..\Source\Render\Shader\D3D11\Util.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
   </ItemGroup>
 </Project>

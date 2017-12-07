@@ -64,7 +64,7 @@ const char* GetMainBundleDirectory();
 #include "XmlDocument.h"
 #include "Font.h"
 #include "Image.h"
-//#include "Properties.h"
+#include "Properties.h"
 
 #include "Kernel.h"
 

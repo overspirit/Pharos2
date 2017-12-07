@@ -28,8 +28,6 @@ namespace Pharos
 			RenderVariable*			m_eyePosVar;
 
 		public:
-			//virtual bool InitData(const MaterialData& materialData);
-
 			virtual void SetRenderTechnique(const char8* techName);
 
 			virtual void SetParameterValue(const char8* valueName, float32 vlaue);

@@ -13,7 +13,7 @@ namespace Pharos
 			struct VarBlock
 			{
 				RenderShaderData*			shaderData;
-				MemoryBuffer*				dataBuf;
+				MemoryBuffer				dataBuf;
 				uint32						slot;
 				vector<RenderVariable*>		varList;
 			};

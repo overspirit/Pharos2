@@ -11,11 +11,6 @@ D3D11Texture::D3D11Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	m_pView = nullptr;
 
 	m_pState = nullptr;
-
-	m_width = 0;
-	m_height = 0;
-	m_fmt = EPF_END;
-	m_eleSize = 0;
 }
 
 D3D11Texture::~D3D11Texture()

@@ -40,6 +40,105 @@ BundleSceneImporter::~BundleSceneImporter(void)
 
 bool BundleSceneImporter::LoadSceneFile(const char8* file)
 {
+	m_resFile = file;
+
+	Utils::Path path(file);
+	string bundlePath = path.GetFullPath();
+	uint32 pathTextLen = (uint32)bundlePath.length();
+	string commonFlag = bundlePath.substr(pathTextLen - 11);
+	if (commonFlag != "res/common/") return false;
+	m_bundlePath = bundlePath.substr(0, pathTextLen - 11);
+	string bundleName = path.GetNameNoExt();
+	string materialFile = m_bundlePath + "res/common/" + bundleName + ".material";
+
+	Properties materialProp;
+	if(!materialProp.Open(materialFile.c_str())) return false;
+	//if (materialProp == nullptr) return false;
+	if (!ReadBundleMaterial(&materialProp, m_materialParam)) return false;
+
+	//读取tech 映射表，这段信息是为了适应Pharos自己添加的
+	//////////////////////////////////////////////////////////////////////////
+	map<string, string>		techKeyMap;
+	string techMapFile = m_bundlePath + "res/common/techniqueMap.txt";
+	Properties techMapListProp;
+	techMapListProp.Open(techMapFile.c_str());
+	Properties* techMapProp = techMapListProp.GetNextNamespace();
+	while (techMapProp != nullptr)
+	{
+		string techKey = techMapProp->GetString("key", "");
+		string techValue = techMapProp->GetString("value", "");
+		techKeyMap[techKey] = techValue;
+
+		techMapProp = techMapListProp.GetNextNamespace();
+	}
+	//////////////////////////////////////////////////////////////////////////
+
+	for (uint32 i = 0; i < m_materialParam.childList.size(); i++)
+	{
+		MaterialParameter& materialParam = m_materialParam.childList[i];
+
+		MaterialData materialData;
+		materialData.materialName = materialParam.id;
+
+		for (auto paramPair : materialParam.paramList)
+		{
+			string varName = paramPair.first;
+			if (varName[0] == 'u' && varName[1] == '_') varName[0] = 'g';
+			materialData.varList[varName] = paramPair.second;
+		}
+
+		for (uint32 j = 0; j < materialParam.childList.size(); j++)
+		{
+			MaterialParameter& childParam = materialParam.childList[j];
+			if (childParam.name == "sampler")
+			{
+				if (childParam.id[0] == 'u') childParam.id[0] = 'g';
+
+				SamplerData samplerData;
+				samplerData.samplerName = childParam.id;
+				samplerData.texPath = m_bundlePath + childParam.paramList["path"].strValue;
+				materialData.samplerDataList[childParam.id] = samplerData;
+			}
+			else if (childParam.name == "renderState")
+			{
+				for (auto iter : childParam.paramList)
+				{
+					materialData.stateList[iter.first] = iter.second.strValue;
+				}
+			}
+			else if (childParam.name == "technique")
+			{
+				for (uint32 k = 0; k < childParam.childList.size(); k++)
+				{
+					MaterialParameter& passParam = childParam.childList[k];
+					if (passParam.name == "pass")
+					{
+						for (auto paramPair : passParam.paramList)
+						{
+							if (paramPair.first != "vertexShader"
+								&& paramPair.first != "fragmentShader"
+								&& paramPair.first != "defines")
+							{
+								string varName = paramPair.first;
+								if (varName[0] == 'u' && varName[1] == '_') varName[0] = 'g';
+								materialData.varList[varName] = paramPair.second;
+							}
+						}
+
+						string techKey = passParam.paramList["vertexShader"].strValue + passParam.paramList["fragmentShader"].strValue + passParam.paramList["defines"].strValue;
+						materialData.techName = techKeyMap[techKey];
+					}
+					else
+					{
+						assert(false);
+					}
+				}
+			}
+		}
+
+		m_materialDataList[materialParam.id] = materialData;
+	}
+
 	File* bundleFile = sKernel->OpenFileStream(file);
 	if (bundleFile == nullptr) return false;
 
@@ -51,6 +150,107 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 
 bool BundleSceneImporter::LoadModelFile(const char8* file)
 {
+	return true;
+}
+
+
+bool BundleSceneImporter::ReadBundleMaterial(Properties* prop, MaterialParameter& param)
+{
+	param.name = prop->GetName();
+	param.id = prop->GetId();
+
+	for (uint32 i = 0; i < prop->GetPropertyCount(); i++)
+	{
+		string propName = prop->GetPropertyName(i);
+		string propValue = prop->GetPropertyValue(i);
+		Core::PropType type = prop->GetType(propName.c_str());
+
+		if (propValue == "CAMERA_WORLD_POSITION")
+		{
+			param.paramList["g_eye_pos"] = { Core::EPT_STRING, "CAMERA_WORLD_POSITION" };
+		}
+		else if (propValue == "INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX")
+		{
+			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+			param.paramList["g_view"] = { Core::EPT_STRING, "VIEW_MATRIX" };
+		}
+		else if (propValue == "WORLD_VIEW_MATRIX")
+		{
+			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+			param.paramList["g_view"] = { Core::EPT_STRING, "VIEW_MATRIX" };
+		}
+		else if (propValue == "WORLD_VIEW_PROJECTION_MATRIX")
+		{
+			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+			param.paramList["g_view"] = { Core::EPT_STRING, "VIEW_MATRIX" };
+			param.paramList["g_proj"] = { Core::EPT_STRING, "PROJ_MATRIX" };
+		}
+		else if (propValue == "INVERSE_TRANSPOSE_WORLD_MATRIX")
+		{
+			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+		}
+		else if (propValue == "WORLD_MATRIX")
+		{
+			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+		}
+		else
+		{
+			if (propName[propName.size() - 1] == ']')
+			{
+				propName.erase(propName.size() - 3);
+			}
+
+			TypeValue typeValue;
+			typeValue.type = type;
+			switch (type)
+			{
+				case Core::EPT_STRING:
+				{
+					typeValue.strValue = propValue;
+				}
+				break;
+				case Core::EPT_NUMBER:
+				{
+					typeValue.fValue = prop->GetFloat(propName.c_str());
+				}
+				break;
+				case Core::EPT_VECTOR2:
+				{
+					prop->GetVector2(propName.c_str(), &typeValue.vt2Value);
+				}
+				break;
+				case Core::EPT_VECTOR3:
+				{
+					prop->GetVector3(propName.c_str(), &typeValue.vt3Value);
+				}
+				break;
+				case Core::EPT_VECTOR4:
+				{
+					prop->GetVector4(propName.c_str(), &typeValue.vt4Value);
+				}
+				break;
+				case Core::EPT_MATRIX:
+				{
+					prop->GetMatrix(propName.c_str(), &typeValue.matValue);
+				}
+				break;
+			}
+
+			param.paramList[propName] = typeValue;
+		}
+	}
+
+	Properties* childProp = prop->GetNextNamespace();
+
+	while (childProp != nullptr)
+	{
+		MaterialParameter childParam;
+		ReadBundleMaterial(childProp, childParam);
+		param.childList.push_back(childParam);
+
+		childProp = prop->GetNextNamespace();
+	}
+
 	return true;
 }
 
@@ -205,7 +405,7 @@ bool BundleSceneImporter::ReadBundleModel(File* bundleFile, SceneNodeData& data)
 				{
 					std::string materialName = ReadString(bundleFile);
 					MeshData& meshData = *data.modelData.meshDataList.rbegin();
-					//meshData.materialData = m_materialDataList[materialName];					
+					meshData.materialData = m_materialDataList[materialName];					
 				}
 			}
 		}
@@ -366,7 +566,7 @@ bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId,
 		copyIndexDataOffset += indexDataBufList[i].GetLength();
 	}
 
-	//meshData.drawType = Render::EDT_TRIANGLELIST;
+	meshData.drawType = Render::EDT_TRIANGLELIST;
 
 	// Restore file pointer.
 	if (!bundleFile->Seek(position, EFST_BEGIN)) return false;

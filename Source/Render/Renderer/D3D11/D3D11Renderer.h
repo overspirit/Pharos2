@@ -11,8 +11,6 @@ namespace Pharos
 			virtual ~D3D11Renderer(void);
 
 		private:
-			HWND				m_hWnd;
-
 			D3D_DRIVER_TYPE		m_driverType;
 			D3D_FEATURE_LEVEL	m_featureLevel;
 
@@ -38,7 +36,6 @@ namespace Pharos
 			virtual void Destroy();
 
 			virtual RenderFrameBuffer* GetDefaultFrameBuffer() const { return m_defFrameBuf; }
-			//virtual RenderEffectLoaderPtr GetEffectLoader();
 			virtual const char8* GetAdapterName() const { return m_adapterName.c_str(); }
 			virtual uint32 GetAdapterMemorySize() const { return m_adapterMemSize; }
 

@@ -17,7 +17,7 @@ D3D11BlendState::~D3D11BlendState(void)
 
 bool D3D11BlendState::CreateState(const BlendStateDesc& desc)
 {
-	static D3D11_BLEND mapList[] =
+	const static D3D11_BLEND mapList[] =
 	{
 		D3D11_BLEND_ZERO,
 		D3D11_BLEND_ONE,
@@ -36,12 +36,12 @@ bool D3D11BlendState::CreateState(const BlendStateDesc& desc)
 	blendDesc.AlphaToCoverageEnable = desc.alphaToCoverageEnable;
 	blendDesc.IndependentBlendEnable = FALSE;
 	blendDesc.RenderTarget[0].BlendEnable = desc.blendEnable;
-	blendDesc.RenderTarget[0].SrcBlend= mapList[desc.srcBlend];
-	blendDesc.RenderTarget[0].DestBlend= mapList[desc.destBlend];
-	blendDesc.RenderTarget[0].BlendOp= (D3D11_BLEND_OP)(desc.blendOp + D3D11_BLEND_OP_ADD);
-	blendDesc.RenderTarget[0].SrcBlendAlpha= mapList[desc.srcBlendAlpha];
-	blendDesc.RenderTarget[0].DestBlendAlpha= mapList[desc.destBlendAlpha];
-	blendDesc.RenderTarget[0].BlendOpAlpha= (D3D11_BLEND_OP)(desc.blendOpAlpha + D3D11_BLEND_OP_ADD);
+	blendDesc.RenderTarget[0].SrcBlend = mapList[desc.srcBlend];
+	blendDesc.RenderTarget[0].DestBlend = mapList[desc.destBlend];
+	blendDesc.RenderTarget[0].BlendOp = (D3D11_BLEND_OP)(desc.blendOp + D3D11_BLEND_OP_ADD);
+	blendDesc.RenderTarget[0].SrcBlendAlpha = mapList[desc.srcBlendAlpha];
+	blendDesc.RenderTarget[0].DestBlendAlpha = mapList[desc.destBlendAlpha];
+	blendDesc.RenderTarget[0].BlendOpAlpha = (D3D11_BLEND_OP)(desc.blendOpAlpha + D3D11_BLEND_OP_ADD);
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	HRESULT hr = m_pDevice->CreateBlendState(&blendDesc, &m_pState);

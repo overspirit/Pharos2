@@ -17,9 +17,7 @@ namespace Pharos
 
 			DrawType				m_drawType;
 
-		public:
-			//virtual bool InitData(const MeshData& meshData);
-			
+		public:			
 			virtual void SetMeshData(MemoryBuffer* vertexData, const vector<VertLayoutDesc>& vertDesc, MemoryBuffer* indexData = nullptr);
 
 			virtual DrawType GetDrawType() { return m_drawType; }

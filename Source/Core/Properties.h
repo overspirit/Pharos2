@@ -2,9 +2,20 @@
 
 namespace Pharos
 {
-	namespace Engine
+	namespace Core
 	{
-		class Properties //: public ResBase< IProperties >, public enable_shared_from_this< Properties >
+		enum PropType
+		{
+			EPT_NONE,
+			EPT_STRING,
+			EPT_NUMBER,
+			EPT_VECTOR2,
+			EPT_VECTOR3,
+			EPT_VECTOR4,
+			EPT_MATRIX
+
+		};
+		class Properties : public ResBase//< IProperties >, public enable_shared_from_this< Properties >
 		{
 		public:
 			Properties();	
@@ -30,26 +41,26 @@ namespace Pharos
 			std::vector<Property> _properties;
 			//std::list<Property>::iterator _propertiesItr;
 
-			std::vector< shared_ptr<Properties> > _namespaces;
-			std::vector< shared_ptr<Properties> >::const_iterator _namespacesItr;
+			std::vector< Properties* > _namespaces;
+			std::vector< Properties* >::const_iterator _namespacesItr;
 
 			std::vector<Property> _variables;
-			bool _visited;
-			weak_ptr<Properties>	_parent;
+			bool				_visited;
+			Properties*			_parent;
 
 		private:
-			void readProperties(IFilePtr file);
-			void skipWhiteSpace(IFilePtr file);
+			void readProperties(File* file);
+			void skipWhiteSpace(File* file);
 			char8* trimWhiteSpace(char8* str);
-			void mergeWith(shared_ptr<Properties> overrides);
+			void mergeWith(Properties* overrides);
 			void resolveInheritance(const char8* id = NULL);
 
-			shared_ptr<Properties> clone();
+			Properties* clone();
 
 			static bool isStringNumeric(const char8* str);
 			static bool isVariable(const char8* str, char8* outName, size_t outSize);
-			static char8 readChar(IFilePtr file);
-			static char8* readLine(IFilePtr file, char8* str, int32 num);
+			static char8 readChar(File* file);
+			static char8* readLine(File* file, char8* str, int32 num);
 
 			static bool parseVector2(const char8* str, Vector2Df* out);
 			static bool parseVector3(const char8* str, Vector3Df* out);
@@ -61,7 +72,7 @@ namespace Pharos
 
 		public:
 			virtual bool Open(const char8* path);			
-			virtual bool Init(IFilePtr file, const char8* name, const char8* id, const char8* parentID, shared_ptr<Properties> parent);
+			virtual bool Init(File* file, const char8* name, const char8* id, const char8* parentID, Properties* parent);
 			
 			virtual bool Exists(const char8* name) const;
 
@@ -69,8 +80,8 @@ namespace Pharos
 			virtual const char8* GetPropertyName(uint32 index) const;
 			virtual const char8* GetPropertyValue(uint32 index) const;
 			virtual const char8* GetPropertyValue(const char8* name) const;
-			virtual IPropertiesPtr GetNextNamespace();
-			virtual IPropertiesPtr GetNamespace(const char8* id, bool searchNames = false) const;
+			virtual Properties* GetNextNamespace();
+			virtual Properties* GetNamespace(const char8* id, bool searchNames = false) const;
 
 			virtual const char8* GetName() const;
 			virtual const char8* GetId() const;
@@ -92,6 +103,4 @@ namespace Pharos
 			virtual void SetVariable(const char8* name, const char8* value);
 		};
 	}
-
-	typedef shared_ptr<Engine::Properties> PropertiesPtr;
 }

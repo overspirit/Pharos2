@@ -79,7 +79,7 @@ bool PlatformWindows::Init()
 	if (!sRenderMgr->Init()) return false;
 	//g_pRenderMgr = sRenderMgr;
 
-	//if (!sSceneMgr->Init()) return false;
+	if (!sSceneMgr->Init()) return false;
 	//g_pSceneMgr = sSceneMgr;
 
 	//if (!sDesktopMgr->Init()) return false;
@@ -93,7 +93,7 @@ bool PlatformWindows::Init()
 void PlatformWindows::Destroy()
 {
 // 	sDesktopMgr->Destroy();
-// 	sSceneMgr->Destroy();
+ 	sSceneMgr->Destroy();
  	sRenderMgr->Destroy();
 	sKernel->Destroy();	
 	
@@ -186,13 +186,13 @@ int32 PlatformWindows::Run()
 
 		float32 fElapsed = m_timer.GetElapsedTime();
 		
-// 		sSceneMgr->Update(fElapsed);
+ 		sSceneMgr->Update(fElapsed);
 // 		sDesktopMgr->Update(fElapsed);
  		sRenderMgr->Update(fElapsed);
 		sKernel->Update(fElapsed);
 
 		
-// 		sSceneMgr->Render(fElapsed);
+ 		sSceneMgr->Render(fElapsed);
 // 		sDesktopMgr->Render(fElapsed);
  		sRenderMgr->Render(fElapsed);
 		sKernel->Render(fElapsed);

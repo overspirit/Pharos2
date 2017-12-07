@@ -4,16 +4,17 @@ namespace Pharos
 {
 	namespace Scene
 	{
+		class TreeNode;
 
-
-
-		class SceneNode //: public ISceneNode, public enable_shared_from_this<SceneNode>
+		class SceneNode
 		{
 		public:
 			SceneNode();
 			virtual ~SceneNode();
 
 		protected:
+			TreeNode*	m_pOwner;
+
 			string		m_name;
 
 			bool		m_hidden;
@@ -28,11 +29,21 @@ namespace Pharos
 			SceneNode*					m_parent;
 			vector<SceneNode*>		m_childList;
 
+			vector<Model*>		m_modelList;
+
+		public:
+			virtual void SetTreeOwner(TreeNode* pOwner) { m_pOwner = pOwner; }
+			virtual TreeNode* GetTreeOwner() { return m_pOwner; }
+
 		public:
 			virtual void InitNode(const char8* name, SceneNode* parent);
 
 			virtual const char8* GetNodeName() { return m_name.c_str(); }
 			
+			virtual uint32 GetModelNum() { return (uint32)m_modelList.size(); }
+			virtual Model* GetModel(uint32 index) { return index < (uint32)m_modelList.size() ? m_modelList[index] : nullptr; }
+			virtual void AddModel(Model* model) { m_modelList.push_back(model); }
+
 			virtual void SetLocalTransform(const Matrix4& mat);
 			virtual void SetLocalPosition(const Vector3Df& pos);
 

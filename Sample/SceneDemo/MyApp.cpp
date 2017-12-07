@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "CoreGlobal.h"
 #include "RenderGlobal.h"
+#include "SceneGlobal.h"
 #include "Global.h"
 
 const static char8 g_copyShaderVS[] =
@@ -13,11 +14,14 @@ const static char8 g_copyShaderVS[] =
 const static char8 g_copyShaderPS[] =
 "float4 CopyPS(float2 tex : TEXCOORD) : SV_Target\n"
 "{\n"
-"	return float4(1.0, 0, 1.0, 1.0);\n"
+"	return float4(1.0, 1.0, 0, 1.0);\n"
 "}\n";
 
 MyApp::MyApp()
 {
+	m_bLeftDown = false;
+	m_bRightDown = false;
+
 }
 
 MyApp::~MyApp()
@@ -41,33 +45,50 @@ bool MyApp::Init()
 
 	sRenderMgr->RegisterRenderCallback(this);
 
-	m_renderer = sRenderMgr->GetCurrentRenderer();
+	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderColored.fxml");
+	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderInterior.fxml");
+	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderStar.fxml");
+	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderReflective.fxml");
+	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderTextured.fxml");
 
-	Vertex vertData[] =
-	{
-		{ Vector3Df(-0.5f,  0.5f, 0), Vector2Df(0, 0) },
-		{ Vector3Df(0.5f, 0.5f, 0), Vector2Df(1.0f, 0) },
-		{ Vector3Df(0.5f, -0.5f, 0), Vector2Df(1.0f, 1.0f) },
+	OctreeScene* scene = sSceneMgr->CreateScene();
+	//scene->SetSceneSize(Size2Di(128, 128), 128);
+	sSceneMgr->SetCurrScene(scene);
 
-		{ Vector3Df(0.5f, -0.5f, 0), Vector2Df(1.0f, 1.0f) },
-		{ Vector3Df(-0.5f, -0.5f, 0), Vector2Df(0, 1.0f) },
-		{ Vector3Df(-0.5f, 0.5f, 0), Vector2Df(0, 0) },
-	};
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("D:/HiSceneV5/HiScene-v5-4094-GS8/res/common/gs8.gpz");
+	sceneImporter->ImportScene(scene);
 
-	MemoryBuffer vertDataBuf;
-	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-	m_copyLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
+	m_camera = scene->GetSceneCamera();
+	m_camera->BuildViewMatrix(Vector3Df(75.0f, 75.0f, -75.0f), Vector3Df(0, 0, 0));
+	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 
-	VertLayoutDesc desc[] =
-	{
-		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
-		{ VET_FLOAT32, 2, "TEXCOORD", 0, 12 },
-	};
-	m_copyLayout->SetInputLayoutDesc(desc, 2);
-
-	m_copyShader = m_renderer->GenerateRenderProgram();
-	m_copyShader->CompileVertexShader(g_copyShaderVS, "CopyVS");
-	m_copyShader->CompilePixelShader(g_copyShaderPS, "CopyPS");
+// 	m_renderer = sRenderMgr->GetCurrentRenderer();
+// 
+// 	Vertex vertData[] =
+// 	{
+// 		{ Vector3Df(-0.5f,  0.5f, 0), Vector2Df(0, 0) },
+// 		{ Vector3Df(0.5f, 0.5f, 0), Vector2Df(1.0f, 0) },
+// 		{ Vector3Df(0.5f, -0.5f, 0), Vector2Df(1.0f, 1.0f) },
+// 
+// 		{ Vector3Df(0.5f, -0.5f, 0), Vector2Df(1.0f, 1.0f) },
+// 		{ Vector3Df(-0.5f, -0.5f, 0), Vector2Df(0, 1.0f) },
+// 		{ Vector3Df(-0.5f, 0.5f, 0), Vector2Df(0, 0) },
+// 	};
+// 
+// 	MemoryBuffer vertDataBuf;
+// 	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
+// 	m_copyLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
+// 
+// 	VertLayoutDesc desc[] =
+// 	{
+// 		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
+// 		{ VET_FLOAT32, 2, "TEXCOORD", 0, 12 },
+// 	};
+// 	m_copyLayout->SetInputLayoutDesc(desc, 2);
+// 
+// 	m_copyTech = sRenderMgr->GenerateRenderTechnique("Copy");
+// 	RenderPass* copyPass = m_copyTech->GetPass(0);
+// 	m_copyShader = copyPass->GetShaderProgram();
 
 	return true;
 }
@@ -76,7 +97,7 @@ void MyApp::Destroy()
 {
 	//SAFE_DELETE(m_renderer);
 	SAFE_DELETE(m_copyLayout);
-	SAFE_DELETE(m_copyShader);
+	SAFE_DELETE(m_copyTech);
 }
 
 void MyApp::onViewCreate()
@@ -96,7 +117,29 @@ void MyApp::onViewChangeSize(int32 width, int32 height)
 
 bool MyApp::onMouseEvent(const MouseEvent& event)
 {
-	return true;
+	if (event.button == MOUSE_LEFT)
+	{
+		m_bLeftDown = (event.state == STATE_DOWN) ? true : false;
+	}
+	else if (event.button == MOUSE_RIGHT)
+	{
+		m_bRightDown = (event.state == STATE_DOWN) ? true : false;
+	}
+	else
+	{
+		m_camera->Stretch(event.wheel / 120.0f);
+	}
+
+	if (m_bLeftDown)
+	{
+		m_camera->Slither(Vector2Df((float32)event.ox, (float32)event.oy));
+	}
+	else if (m_bRightDown)
+	{
+		m_camera->Round(Vector2Df((float32)event.ox, (float32)event.oy));
+	}
+
+	return false;
 }
 
 bool MyApp::onKeyboardEvent(const KeyEvent& evnet)
@@ -133,8 +176,8 @@ void MyApp::Render(float32 fElapsed)
 
 void MyApp::onRender(float32 elapsed)
 {
-	m_renderer->BindLayout(m_copyLayout);
-	m_renderer->BindProgram(m_copyShader);
+	//m_renderer->BindLayout(m_copyLayout);
+	//m_renderer->BindProgram(m_copyShader);
 
-	m_renderer->DrawImmediate(EDT_TRIANGLELIST, 0, 6);
+	//m_renderer->DrawImmediate(EDT_TRIANGLELIST, 0, 6);
 }

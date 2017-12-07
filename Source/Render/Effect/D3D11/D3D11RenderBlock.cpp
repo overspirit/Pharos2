@@ -4,7 +4,10 @@
 
 D3D11RenderBlock::D3D11RenderBlock()
 {
+	m_renderer = nullptr;
 
+	m_tech = nullptr;
+	m_layout = nullptr;
 }
 
 D3D11RenderBlock::~D3D11RenderBlock()
@@ -49,11 +52,11 @@ void D3D11RenderBlock::ApplyToDevice()
 	for (uint32 i = 0; i < m_tech->GetPassNum(); i++)
 	{
 		D3D11RenderPass* d3d11pass = static_cast<D3D11RenderPass*>(m_tech->GetPass(i));
-		if (d3d11pass == nullptr) 
+		if (d3d11pass == nullptr)
 			break;
 
 		d3d11pass->ApplyToDevice();
 
-		m_renderer->DrawImmediate(m_drawType, m_startIndex, m_countNum);	
+		m_renderer->DrawImmediate(m_drawType, m_startIndex, m_countNum);
 	}
 }

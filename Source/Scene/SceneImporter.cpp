@@ -1,5 +1,6 @@
 ﻿#include "PreCompile.h"
-//#include "RenderGlobal.h"
+#include "CoreGlobal.h"
+#include "RenderGlobal.h"
 #include "SceneGlobal.h"
 
 SceneImporter::SceneImporter(void)
@@ -12,11 +13,11 @@ SceneImporter::~SceneImporter(void)
 
 }
 
-bool SceneImporter::ImportScene(ISceneGraphPtr scene)
+bool SceneImporter::ImportScene(OctreeScene* scene)
 {
 	for (SceneNodeData& nodeData : m_nodeDataList)
 	{
-		ISceneNodePtr node = CreateNode(nodeData);
+		SceneNode* node = CreateNode(nodeData);
 		if (node != nullptr)
 		{
 			scene->AddSceneNode(node);
@@ -26,34 +27,34 @@ bool SceneImporter::ImportScene(ISceneGraphPtr scene)
 	return true;
 }
 
-ISceneNodePtr SceneImporter::CreateNode(const SceneNodeData& data)
+SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 {
-	ISceneNodePtr parentNode = sSceneMgr->GetSceneNode(data.parentName.c_str());
+	SceneNode* parentNode = sSceneMgr->GetSceneNode(data.parentName.c_str());
 
-	ISceneNodePtr sceneNode = sSceneMgr->CreateSceneNode(data.nodeName.c_str(), parentNode);
+	SceneNode* sceneNode = sSceneMgr->CreateSceneNode(data.nodeName.c_str(), parentNode);
 	
 	sceneNode->SetLocalTransform(data.localTrans);
 	sceneNode->SetBoundingRadius(data.boundRadius);
 
 	for (auto& childData : data.childData)
 	{
-		ISceneNodePtr child = this->CreateNode(childData);
+		SceneNode* child = this->CreateNode(childData);
 		if (child != nullptr) sceneNode->AddChildNode(child);
 	}
 
-	IModelPtr model = this->CreateModel(data.modelData);
+	Model* model = this->CreateModel(data.modelData);
 	sceneNode->AddModel(model);
 
 	return sceneNode;
 }
 
-IModelPtr SceneImporter::CreateModel(const ModelData& modelData)
+Model* SceneImporter::CreateModel(const ModelData& modelData)
 {
-	IModelPtr model = sRenderMgr->GenerateModelObject();
+	Model* model = new Model();
 
  	for (const MeshData& meshData : modelData.meshDataList)
  	{
-		IMeshPtr mesh = this->CreateMesh(meshData);
+		Mesh* mesh = this->CreateMesh(meshData);
 		if (mesh != nullptr)
 		{
 			model->AddMesh(mesh);
@@ -84,24 +85,24 @@ IModelPtr SceneImporter::CreateModel(const ModelData& modelData)
 	return model;
 }
 
-IMeshPtr SceneImporter::CreateMesh(const MeshData& meshData)
+Mesh* SceneImporter::CreateMesh(const MeshData& meshData)
 {
-	IMeshPtr mesh = sRenderMgr->GenerateMeshObject();
+	Mesh* mesh = new Mesh();
 
-	mesh->SetMeshData(meshData.vertexData, meshData.vertDesc, meshData.indexData);
+	mesh->SetMeshData((MemoryBuffer*)&meshData.vertexData, meshData.vertDesc, (MemoryBuffer*)&meshData.indexData);
 	mesh->SetDrawType(meshData.drawType);
 
-	IMaterialPtr material = this->CreateMaterial(meshData.materialData);
+	Material* material = this->CreateMaterial(meshData.materialData);
 	if (material != nullptr) mesh->SetAttachMaterial(material);
 	
 	return mesh;
 }
 
-IMaterialPtr SceneImporter::CreateMaterial(const MaterialData& materialData)
+Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 {
-	IRendererPtr renderer = sRenderMgr->GetCurrentRenderer();
+	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
 
-	IMaterialPtr material = sRenderMgr->GenerateMaterialObject();
+	Material* material = new Material();
 	
 	material->SetRenderTechnique(materialData.techName.c_str());
 
@@ -110,43 +111,43 @@ IMaterialPtr SceneImporter::CreateMaterial(const MaterialData& materialData)
 		string texName = texIter.first;		
 		const SamplerData& sampleData = texIter.second;
 		string texPath = sampleData.texPath;
-		IRenderTexturePtr tex = renderer->LoadTexture(texPath.c_str());
+		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
 		material->SetParameterValue(texName.c_str(), tex);
 	}
 
 	for (auto varIter : materialData.varList)
 	{
 		string varName = varIter.first;
-		Engine::PropType type = varIter.second.type;
+		Core::PropType type = varIter.second.type;
 
 		switch (type)
 		{
-			case Engine::EPT_STRING:
+			case Core::EPT_STRING:
 			{
 
 			}
 			break;
-			case Engine::EPT_NUMBER:
+			case Core::EPT_NUMBER:
 			{
 				material->SetParameterValue(varName.c_str(), varIter.second.fValue);
 			}
 			break;
-			case Engine::EPT_VECTOR2:
+			case Core::EPT_VECTOR2:
 			{
 				material->SetParameterValue(varName.c_str(), varIter.second.vt2Value);
 			}
 			break;
-			case Engine::EPT_VECTOR3:
+			case Core::EPT_VECTOR3:
 			{
 				material->SetParameterValue(varName.c_str(), varIter.second.vt3Value);
 			}
 			break;
-			case Engine::EPT_VECTOR4:
+			case Core::EPT_VECTOR4:
 			{
 				material->SetParameterValue(varName.c_str(), varIter.second.vt4Value);
 			}
 			break;
-			case Engine::EPT_MATRIX:
+			case Core::EPT_MATRIX:
 			{
 				material->SetParameterValue(varName.c_str(), varIter.second.matValue);
 			}
