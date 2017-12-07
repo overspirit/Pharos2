@@ -62,6 +62,18 @@ bool MyApp::Init()
 	m_camera->BuildViewMatrix(Vector3Df(75.0f, 75.0f, -75.0f), Vector3Df(0, 0, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 
+	vector<string> hideList =
+	{
+		"Car_CHUANGQIGS8_360Scene", "Car_Surrounding", "TrunkSpace", "Car_Features", "koubei",
+		"xinxi", "Static_Obj", "Dynamic_Obj", "Configuration_Points", "Space_Configuration", "Passengers"
+	};
+
+	for (string hideName : hideList)
+	{
+		SceneNode* sceneNode = sSceneMgr->GetSceneNode(hideName.c_str());
+		if (sceneNode != nullptr) sceneNode->SetHidden(true);
+	}
+
 // 	m_renderer = sRenderMgr->GetCurrentRenderer();
 // 
 // 	Vertex vertData[] =
@@ -96,8 +108,8 @@ bool MyApp::Init()
 void MyApp::Destroy()
 {
 	//SAFE_DELETE(m_renderer);
-	SAFE_DELETE(m_copyLayout);
-	SAFE_DELETE(m_copyTech);
+	//SAFE_DELETE(m_copyLayout);
+	//SAFE_DELETE(m_copyTech);
 }
 
 void MyApp::onViewCreate()

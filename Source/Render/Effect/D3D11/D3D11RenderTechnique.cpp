@@ -128,8 +128,9 @@ RenderTechnique* D3D11RenderTechnique::Clone()
 
 void D3D11RenderTechnique::ApplyToDevice()
 {
-	for (VarBlock& varBlock : m_varBlockList)
+	for (uint32 i = 0; i < m_varBlockList.size(); i++)
 	{
+		VarBlock& varBlock = m_varBlockList[i];
 		if (varBlock.dataBuf.GetPointer() == nullptr)
 		{
 			uint32 buffSize = 0;
@@ -149,8 +150,9 @@ void D3D11RenderTechnique::ApplyToDevice()
 		}
 
 		uint32 offset = 0;
-		for (auto var : varBlock.varList)
+		for (uint32 j = 0; j < varBlock.varList.size(); j++)
 		{
+			RenderVariable* var = varBlock.varList[j];
 			const MemoryBuffer& data = var->GetMemoryBuffer();
 			//if (data != nullptr)
 			{
@@ -165,8 +167,9 @@ void D3D11RenderTechnique::ApplyToDevice()
 		cb->ApplyToDevice(varBlock.slot);
 	}
 
-	for (RenderVariable* var : m_varList)
+	for (uint32 i = 0; i < m_varList.size(); i++)
 	{
+		RenderVariable* var = m_varList[i];
 		RENDER_VAR_TYPE varType = var->GetVariableType();
 		switch (varType)
 		{

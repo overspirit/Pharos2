@@ -228,7 +228,7 @@ void D3D11Renderer::DrawImmediate(DrawType type, uint32 start, uint32 count)
 	else
 	{
 		m_context->Draw(count, start);
-	}
+	}	
 }
 
 RenderProgram* D3D11Renderer::GenerateRenderProgram()

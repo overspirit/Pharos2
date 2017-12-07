@@ -95,17 +95,17 @@ void SceneNode::Update(float32 fElapsed)
 		m_globalTransform = m_localTransform;
 	}
 
-	if (!m_hidden)
+	if (m_hidden) return;
+
+	for (auto model : m_modelList)
 	{
-		for (auto model : m_modelList)
-		{
-			//model->UpdateAnimation(fElapsed);
+		//model->UpdateAnimation(fElapsed);
 
-			model->TransformWorld(m_globalTransform);
+		model->TransformWorld(m_globalTransform);
 
-			model->Draw();
-		}
+		model->Draw();
 	}
+
 
 	for (uint32 i = 0; i < m_childList.size(); i++)
 	{
