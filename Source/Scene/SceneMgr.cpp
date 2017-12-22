@@ -19,7 +19,11 @@ bool SceneMgr::Init()
 
 void SceneMgr::Destroy()
 {
-
+	for (auto iter : m_sceneNodeList)
+	{
+		SceneNode* sceneNode = iter.second;
+		SAFE_DELETE(sceneNode);
+	}
 }
 
 OctreeScene* SceneMgr::CreateScene()
@@ -36,7 +40,7 @@ SceneImporter* SceneMgr::CreateSceneImporter(const char8* sceneFile)
 	ext = strlwr((char8*)ext);
 
 	SceneImporter* importer = nullptr;
-	if (strcmp(ext, ".meshml") == 0)
+	if (strcmp(ext, ".sceneml") == 0)
 	{
 		importer = new XmlSceneImporter();
 		if (importer->LoadSceneFile(sceneFile)) return importer;

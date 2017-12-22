@@ -17,7 +17,8 @@ namespace Pharos
 			D3D11RenderLayout*		m_layout;
 
 		public:
-			virtual bool Init(RenderLayout* layout, RenderTechnique* tech);
+			virtual void BindLayout(RenderLayout* layout);
+			virtual void BindTechnique(RenderTechnique* tech);
 
 			virtual RenderTechnique* GetTechnique() { return m_tech; }
 			virtual RenderLayout* GetLayout() { return m_layout; }

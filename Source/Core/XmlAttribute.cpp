@@ -87,6 +87,18 @@ void XmlAttribute::SetValue(const Vector4Df& vt)
 	value(pValue, ret);
 }
 
+void XmlAttribute::SetValue(const Matrix4& mat)
+{
+	char* pValue = document()->allocate_string(nullptr, 256);
+	sprintf(pValue, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f", 
+		mat.m[0], mat.m[1], mat.m[2], mat.m[3],
+		mat.m[4], mat.m[5], mat.m[6], mat.m[7],
+		mat.m[8], mat.m[9], mat.m[10], mat.m[11],
+		mat.m[12], mat.m[13], mat.m[14], mat.m[15]);
+	uint32 ret = (uint32)Utils::strlen_utf8(pValue);
+	value(pValue, ret);
+}
+
 bool XmlAttribute::GetBoolValue()
 {
 	const char8* bValue = value();
@@ -150,6 +162,30 @@ Vector4Df XmlAttribute::GetVector4DValue()
 	vt.z = strtof(data, &data);
 	vt.w = strtof(data, &data);
 	return vt;
+}
+
+Matrix4 XmlAttribute::GetMatrix4Value()
+{
+	char8* data = value();
+
+	Matrix4 mat;
+	mat.m[0] = strtof(data, &data);
+	mat.m[1] = strtof(data, &data);
+	mat.m[2] = strtof(data, &data);
+	mat.m[3] = strtof(data, &data);
+	mat.m[4] = strtof(data, &data);
+	mat.m[5] = strtof(data, &data);
+	mat.m[6] = strtof(data, &data);
+	mat.m[7] = strtof(data, &data);
+	mat.m[8] = strtof(data, &data);
+	mat.m[9] = strtof(data, &data);
+	mat.m[10] = strtof(data, &data);
+	mat.m[11] = strtof(data, &data);
+	mat.m[12] = strtof(data, &data);
+	mat.m[13] = strtof(data, &data);
+	mat.m[14] = strtof(data, &data);
+	mat.m[15] = strtof(data, &data);
+	return mat;
 }
 
 XmlNode* XmlAttribute::GetOwnerNode()

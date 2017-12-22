@@ -119,7 +119,7 @@ namespace Pharos
 			bool ReadBundleCamera(File* bundleFile);
 			bool ReadBundleLight(File* bundleFile);
 			bool ReadBundleModel(File* bundleFile, SceneNodeData& data);
-			bool ReadBundleMesh(File* bundleFile, const string& meshId, SceneNodeData& data);
+			bool ReadBundleMesh(File* bundleFile, const string& meshId, MeshData& meshData);
 			bool ReadBundleMeshSkin(File* bundleFile);
 			bool ReadBundleMaterial(Properties* materialProp, MaterialParameter& param);
 

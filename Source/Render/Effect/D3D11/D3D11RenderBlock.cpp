@@ -15,22 +15,25 @@ D3D11RenderBlock::~D3D11RenderBlock()
 
 }
 
-bool D3D11RenderBlock::Init(RenderLayout* layout, RenderTechnique* tech)
+void D3D11RenderBlock::BindLayout(RenderLayout* layout)
 {
-	m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
+	m_layout = static_cast<D3D11RenderLayout*>(layout);
+}
 
-	D3D11RenderTechnique* d3d11Tech = static_cast<D3D11RenderTechnique*>(tech);
-	D3D11RenderLayout* d3d11Layout = static_cast<D3D11RenderLayout*>(layout);
-	if (d3d11Layout == nullptr || d3d11Tech == nullptr) return false;
-
-	m_layout = d3d11Layout;
-	m_tech = d3d11Tech;
-
-	return true;
+void D3D11RenderBlock::BindTechnique(RenderTechnique* tech)
+{
+	m_tech = static_cast<D3D11RenderTechnique*>(tech);
 }
 
 void D3D11RenderBlock::ApplyToDevice()
 {
+	m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
+	if (m_layout == nullptr || m_tech == nullptr)
+	{
+		assert(false);
+		return;
+	}
+
 	if (m_countNum == 0)
 	{
 		m_startIndex = 0;

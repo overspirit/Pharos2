@@ -15,13 +15,20 @@ Model::Model()
 
 Model::~Model()
 {
-
+	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
+	{
+		SAFE_DELETE(m_meshGroupList[i]);
+		SAFE_DELETE(m_blockList[i]);
+	}
 }
 
 void Model::AddMesh(Mesh* mesh)
 {
 	if (mesh != nullptr)
 	{
+		RenderBlock* block = sRenderMgr->GenerateRenderBlock();
+		m_blockList.push_back(block);
+
 		m_meshGroupList.push_back(mesh);
 	}
 }
@@ -183,9 +190,9 @@ void Model::Draw()
 	const RenderValue& projValue = sRenderMgr->GetGlobalRenderValue("PROJ_MATRIX");
 	const RenderValue& eyePosValue = sRenderMgr->GetGlobalRenderValue("CAMERA_WORLD_POSITION");
 
-	for (auto& mesh : m_meshGroupList)
+	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
 	{
-		Material* material = mesh->GetAttachMaterial();
+		Material* material = m_meshGroupList[i]->GetAttachMaterial();
 		RenderVariable* worldVar = material->GetTechniqueWorldVariable();
 		RenderVariable* viewVar = material->GetTechniqueViewVariable();
 		RenderVariable* projVar = material->GetTechniqueProjVariable();
@@ -196,11 +203,15 @@ void Model::Draw()
 		projVar->SetValue(projValue);
 		if (eyePosVar != nullptr) eyePosVar->SetValue(eyePosValue);
 
-		RenderLayout* layout = mesh->GetRenderLayout();
-		DrawType drawType = mesh->GetDrawType();
+		RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
+		DrawType drawType = m_meshGroupList[i]->GetDrawType();
 		RenderTechnique* tech = material->GetMaterialTechnique();
-		RenderBlock* block = sRenderMgr->GenerateRenderBlock(layout, tech);
+
+		RenderBlock* block = m_blockList[i];
+		block->BindLayout(layout);
+		block->BindTechnique(tech);
 		block->SetDrawType(drawType);
+
 		sRenderMgr->DoRender(block);
 	}
 }

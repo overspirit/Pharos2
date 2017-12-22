@@ -27,6 +27,9 @@ namespace Pharos
 			uint32			m_countNum;
 
 		public:
+			virtual void BindLayout(RenderLayout* layout) = 0;
+			virtual void BindTechnique(RenderTechnique* tech) = 0;
+
 			virtual RenderTechnique* GetTechnique() = 0;
 			virtual RenderLayout* GetLayout() = 0;
 			virtual void SetLayoutRange(uint32 start, uint32 count) { m_startIndex = start; m_countNum = count; }

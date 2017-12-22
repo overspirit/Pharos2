@@ -139,11 +139,11 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 		m_materialDataList[materialParam.id] = materialData;
 	}
 
-	File* bundleFile = sKernel->OpenFileStream(file);
-	if (bundleFile == nullptr) return false;
+	File bundleFile;
+	if (!bundleFile.Open(file)) return false;
 
-	if (!ReadBundleHeader(bundleFile)) return false;
-	if (!ReadBundleScene(bundleFile)) return false;
+	if (!ReadBundleHeader(&bundleFile)) return false;
+	if (!ReadBundleScene(&bundleFile)) return false;
 	
 	return true;
 }
@@ -384,7 +384,14 @@ bool BundleSceneImporter::ReadBundleModel(File* bundleFile, SceneNodeData& data)
 	string xref = ReadString(bundleFile);
 	if (xref.length() > 1 && xref[0] == '#') // TODO: Handle full xrefs
 	{
-		if (ReadBundleMesh(bundleFile, xref.c_str() + 1, data))
+		uint32 modelId = (uint32)m_modelDataList.size();
+		data.modelId = modelId;
+		ModelData& modelData = m_modelDataList[modelId];	
+
+		modelData.meshDataList.resize(1);
+		MeshData& meshData = modelData.meshDataList[0];
+
+		if (ReadBundleMesh(bundleFile, xref.c_str() + 1, meshData))
 		{
 			// Read skin.
 			uint8 hasSkin = 0;
@@ -404,8 +411,11 @@ bool BundleSceneImporter::ReadBundleModel(File* bundleFile, SceneNodeData& data)
 				for (uint32 i = 0; i < materialCount; ++i)
 				{
 					std::string materialName = ReadString(bundleFile);
-					MeshData& meshData = *data.modelData.meshDataList.rbegin();
-					meshData.materialData = m_materialDataList[materialName];					
+
+					modelData.meshDataList[0].materialName = materialName;
+
+					//MeshData& meshData = *data.modelId .modelData.meshDataList.rbegin();
+					//meshData.materialData = m_materialDataList[materialName];					
 				}
 			}
 		}
@@ -415,7 +425,7 @@ bool BundleSceneImporter::ReadBundleModel(File* bundleFile, SceneNodeData& data)
 }
 
 
-bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId, SceneNodeData& data)
+bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId, MeshData& meshData)
 {
 	// Save the file position.
 	uint32 position = bundleFile->Tell();
@@ -442,8 +452,6 @@ bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId,
 		vertexElements[i].size = vSize;                         //压缩前大小
 	}
 
-	MeshData meshData;
-
 	uint32 vertEleOffset = 0;
 	for (uint32 i = 0; i < vertexElementCount; i++)
 	{
@@ -452,8 +460,6 @@ bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId,
 		meshData.vertDesc.push_back({ VET_FLOAT32, vertexElements[i].size, usageName, semaIndex, vertEleOffset });
 		vertEleOffset += originalVertexElementByteSize(vertexElements[i].usage);
 	}
-
-
 
 	// Read vertex data.
 	uint32 vertexByteCount = 0;       // 每个vertex的大小 和encoder 写入文件的每定点长度一致（压缩后）
@@ -505,7 +511,7 @@ bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId,
 		return false;
 	}
 
-	data.boundRadius = boundingSphereRadius;
+	//data.boundRadius = boundingSphereRadius;
 
 	// Read mesh parts.
 	uint32 meshPartCount = 0;
@@ -572,7 +578,7 @@ bool BundleSceneImporter::ReadBundleMesh(File* bundleFile, const string& meshId,
 	if (!bundleFile->Seek(position, EFST_BEGIN)) return false;
 
 
-	data.modelData.meshDataList.push_back(meshData);
+	//data.modelId.meshDataList.push_back(meshData);
 
 	return true;
 }

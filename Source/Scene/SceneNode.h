@@ -26,7 +26,7 @@ namespace Pharos
 
 			float32		m_boundingRadius;
 
-			SceneNode*					m_parent;
+			SceneNode*				m_parent;
 			vector<SceneNode*>		m_childList;
 
 			vector<Model*>		m_modelList;

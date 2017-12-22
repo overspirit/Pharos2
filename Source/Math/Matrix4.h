@@ -96,6 +96,9 @@ namespace Pharos
 			//! 创建一个三个方向相同缩放比例的缩放矩阵，已验证
 			CMatrix4& SetScale(float32 scale) { return SetScale(Vector3Df(scale, scale, scale)); }
 			
+			//! 获得缩放比例，未验证
+			Vector3Df GetScale() const;
+
 			//! 用矩阵转换给定的点，已验证
 			Vector4D Transform(const Vector2D& vect) const;
 			Vector4D Transform(const Vector3Df& vect) const;
@@ -719,6 +722,17 @@ namespace Pharos
 			m[10] = scale.z;
 
 			return *this;
+		}
+
+		inline Vector3Df CMatrix4::GetScale() const
+		{
+			// Deal with the 0 rotation case first
+			// Prior to Irrlicht 1.6, we always returned this value.
+			if (iszero(m[1]) && iszero(m[2]) && iszero(m[4]) && iszero(m[6]) && iszero(m[8]) && iszero(m[9]))
+				return Vector3Df(m[0], m[5], m[10]);
+
+			// We have to do the full calculation.
+			return Vector3Df(sqrtf(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]), sqrtf(m[4] * m[4] + m[5] * m[5] + m[6] * m[6]), sqrtf(m[8] * m[8] + m[9] * m[9] + m[10] * m[10]));
 		}
 
 		inline Vector4D CMatrix4::Transform(const Vector2D& vect) const

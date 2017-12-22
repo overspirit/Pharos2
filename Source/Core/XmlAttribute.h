@@ -27,6 +27,7 @@ namespace Pharos
 			virtual void SetValue(const Vector2Df& value);
 			virtual void SetValue(const Vector3Df& value);
 			virtual void SetValue(const Vector4Df& value);
+			virtual void SetValue(const Matrix4& value);
 
 			virtual bool GetBoolValue();
 			virtual const char8* GetStringValue();
@@ -36,6 +37,7 @@ namespace Pharos
 			virtual Vector2Df GetVector2DValue();
 			virtual Vector3Df GetVector3DValue();
 			virtual Vector4Df GetVector4DValue();
+			virtual Matrix4 GetMatrix4Value();
 
 			virtual XmlNode* GetOwnerNode();
 			virtual XmlDocument* GetOwnerDocument();

@@ -45,12 +45,10 @@ namespace Pharos
 			{
 				MemoryBuffer					vertexData;
 				vector<VertLayoutDesc>			vertDesc;
-
 				MemoryBuffer					indexData;
-
-				MaterialData					materialData;
-
 				DrawType						drawType;
+
+				string							materialName;				
 			};
 
 			struct ModelData
@@ -66,15 +64,17 @@ namespace Pharos
 				string		parentName;
 				Matrix4		localTrans;
 				float32		boundRadius;
-				ModelData	modelData;
+
 				vector<SceneNodeData>		childData;
+
+				uint32		modelId;				
 			};
 
 		protected:
 			string				m_resFile;
 
 			map<string, MaterialData>	m_materialDataList;
-			ModelData					m_modelData;
+			map<uint32, ModelData>		m_modelDataList;
 			vector<SceneNodeData>		m_nodeDataList;
 			
 		private:
@@ -83,8 +83,13 @@ namespace Pharos
 			Model* CreateModel(const ModelData& modelData);
 			SceneNode* CreateNode(const SceneNodeData& data);
 
+			void SaveSceneNodeData(SceneNodeData& nodeData, XmlNode* parentNode, XmlNode* modelRootNode);
+			void SaveMaterialData(MaterialData& materialData, XmlNode* materialRootNode);
+			uint32 SaveModelData(ModelData& modelData, XmlNode* modelRootNode);
+
 		public:
 			virtual bool ImportScene(OctreeScene* scene);
+			virtual bool SaveTo(const char8* file);
 
 			virtual bool LoadSceneFile(const char8* file) = 0;
 			virtual bool LoadModelFile(const char8* file) = 0;

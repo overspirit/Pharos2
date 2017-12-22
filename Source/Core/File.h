@@ -24,6 +24,10 @@ namespace Pharos
 
 			string	m_filePath;
 
+		private:
+			bool DoOpen(const char8* path);
+			bool DoCreate(const char8* path, bool truncate);
+
         public:
             virtual bool Create(const char8* path, bool truncate);
 			virtual bool Open(const char8* path);

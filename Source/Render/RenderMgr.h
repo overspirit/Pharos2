@@ -69,7 +69,7 @@ namespace Pharos
 
 			virtual bool LoadEffectFile(const char8* szPath);
 			virtual RenderTechnique* GenerateRenderTechnique(const char8* tech);
-			virtual RenderBlock* GenerateRenderBlock(RenderLayout* layout, RenderTechnique* tech);
+			virtual RenderBlock* GenerateRenderBlock();
 			//virtual RenderFontPtr GenerateRenderFont(IFontPtr font);
 			//virtual RenderImagePtr GenerateRenderImage(IImagePtr image);			
 			//virtual RenderImagePtr GenerateRenderImage(Color4 color);

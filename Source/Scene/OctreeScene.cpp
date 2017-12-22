@@ -17,6 +17,10 @@ OctreeScene::OctreeScene(void)
 OctreeScene::~OctreeScene(void)
 {
 	SAFE_DELETE(m_pTreeRoot);
+
+	SAFE_DELETE(m_camera);
+
+	SAFE_DELETE(m_gridNode);
 }
 
 void OctreeScene::Init()

@@ -51,14 +51,20 @@ bool MyApp::Init()
 	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderReflective.fxml");
 	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderTextured.fxml");
 
-	OctreeScene* scene = sSceneMgr->CreateScene();
+	m_scene = sSceneMgr->CreateScene();
 	//scene->SetSceneSize(Size2Di(128, 128), 128);
-	sSceneMgr->SetCurrScene(scene);
+	sSceneMgr->SetCurrScene(m_scene);
 
-	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("D:/HiSceneV5/HiScene-v5-4094-GS8/res/common/gs8.gpz");
-	sceneImporter->ImportScene(scene);
+	//SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("D:/HiSceneV5/HiScene-v5-4094-GS8/res/common/gs8.gpz");
+	//sceneImporter->ImportScene(m_scene);
+	//sceneImporter->SaveTo("D:/gs8.sceneml");
 
-	m_camera = scene->GetSceneCamera();
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("D:/gs8.sceneml");
+	sceneImporter->ImportScene(m_scene);
+
+	SAFE_DELETE(sceneImporter);
+
+	m_camera = m_scene->GetSceneCamera();
 	m_camera->BuildViewMatrix(Vector3Df(75.0f, 75.0f, -75.0f), Vector3Df(0, 0, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 
@@ -107,6 +113,8 @@ bool MyApp::Init()
 
 void MyApp::Destroy()
 {
+	SAFE_DELETE(m_scene);
+
 	//SAFE_DELETE(m_renderer);
 	//SAFE_DELETE(m_copyLayout);
 	//SAFE_DELETE(m_copyTech);

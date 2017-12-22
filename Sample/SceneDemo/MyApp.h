@@ -26,6 +26,7 @@ private:
 	RenderProgram*			m_copyShader;
 	RenderTechnique*		m_copyTech;
 
+	OctreeScene*			m_scene;
 	SceneCamera*			m_camera;
 	bool			m_bLeftDown;
 	bool			m_bRightDown;

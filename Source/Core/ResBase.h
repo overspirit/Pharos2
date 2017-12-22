@@ -9,15 +9,17 @@ namespace Pharos
 		public:
 			ResBase()
 			{
-
+				m_resFile = nullptr;
 			}
 
 			virtual ~ResBase()
 			{
-
+				SAFE_DELETE(m_resFile);
 			}
 
 		protected:
+			File*		m_resFile;
+
 			string		m_strResType;
 			string		m_strFilePath;
 			string		m_strFileType;

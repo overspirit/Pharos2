@@ -12,7 +12,10 @@ SceneNode::SceneNode()
 
 SceneNode::~SceneNode()
 {
-
+	for (Model* model : m_modelList)
+	{
+		SAFE_DELETE(model);
+	}
 }
 
 void SceneNode::InitNode(const char8* name, SceneNode* parent)

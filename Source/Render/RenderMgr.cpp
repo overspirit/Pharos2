@@ -161,12 +161,9 @@ RenderTechnique* RenderMgr::GenerateRenderTechnique(const char8* tech)
 	return nullptr;
 }
 
-RenderBlock* RenderMgr::GenerateRenderBlock(RenderLayout* layout, RenderTechnique* tech)
+RenderBlock* RenderMgr::GenerateRenderBlock()
 {
-	D3D11RenderBlock* block = new D3D11RenderBlock();
-	if (!block->Init(layout, tech)) return nullptr;
-
-	return block;
+	return new D3D11RenderBlock();
 }
 
 void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil)
@@ -230,8 +227,6 @@ void RenderMgr::Render(float32 fElapsed)
 	for (auto& block : m_blockList)
 	{
 		block->ApplyToDevice();
-
-		SAFE_DELETE(block);
 	}
 
 	m_renderer->BindFrameBuffer(nullptr);

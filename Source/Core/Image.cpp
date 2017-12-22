@@ -27,14 +27,14 @@ bool Image::CreateImage(int32 width, int32 height)
 
 bool Image::Open(const char8* path)
 {
-	m_file = sKernel->OpenFileStream(path);
-	if (m_file == nullptr) return false;
+	m_resFile = new File;
+	if (!m_resFile->Open(path)) return false;
     return true;
 }
 
 bool Image::Save(const char8* path)
 {
-	string savePath = m_file->GetPath();
+	string savePath = m_resFile->GetPath();
 	if (path != nullptr) savePath = path;
 
 	savePath += ".bmp";
@@ -54,11 +54,11 @@ bool Image::LoadImageFile()
 //    FreeImage_GetFileTypeFromHandle(&io, (void*)0x12345678);
     
     //FreeImage_LoadFromHandle()
-    uint32 fileSize = m_file->GetSize();
+    uint32 fileSize = m_resFile->GetSize();
     
 	MemoryBuffer memBuf(fileSize);
     char8* data = (char8*)memBuf.GetPointer();
-    m_file->Read(data, fileSize);
+	m_resFile->Read(data, fileSize);
     
     FIMEMORY* fiMem = FreeImage_OpenMemory((BYTE*)data, fileSize);
     
@@ -72,7 +72,7 @@ bool Image::LoadImageFile()
         {
             FreeImage_FlipVertical(m_dib);
             
-            m_strFilePath = m_file->GetPath();
+            m_strFilePath = m_resFile->GetPath();
             
             FreeImage_CloseMemory(fiMem);
             

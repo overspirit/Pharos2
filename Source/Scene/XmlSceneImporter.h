@@ -11,12 +11,16 @@ namespace Pharos
 			virtual ~XmlSceneImporter(void);
 						
 		private:
-			bool ReadMaterial(XmlNode* rootNode);
-			bool ReadMesh(XmlNode* rootNode);
-			bool ReadBoneInfo(XmlNode* rootNode);
-			bool ReadAnimation(XmlNode* rootNode);
-			
+			bool ReadMaterial(XmlNode* node);
+			bool ReadMesh(XmlNode* node, ModelData& modelData);
+			bool ReadBoneInfo(XmlNode* node, ModelData& modelData);
+			bool ReadAnimation(XmlNode* node, ModelData& modelData);
+			bool ReadModel(XmlNode* node);
+			bool ReadSceneNodeData(XmlNode* node, SceneNodeData& nodeData);
+			bool ReadSceneNode(XmlNode* node);
+
 			bool CompareVertexDesc(const vector<VertLayoutDesc>& desc1, const vector<VertLayoutDesc>& desc2);	
+
 
 		public:
 			virtual bool LoadSceneFile(const char8* file);

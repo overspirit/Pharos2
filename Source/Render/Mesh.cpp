@@ -14,6 +14,8 @@ Mesh::Mesh()
 Mesh::~Mesh()
 {
 	SAFE_DELETE(m_renderLayout);
+
+	SAFE_DELETE(m_material);
 }
 
 void Mesh::SetMeshData(MemoryBuffer* vertexData, const vector<VertLayoutDesc>& vertDesc, MemoryBuffer* indexData)

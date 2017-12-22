@@ -20,39 +20,9 @@ bool XmlSceneImporter::LoadSceneFile(const char8* file)
 	if (!doc.Load()) return false;
 
 	XmlNode* rootNode = doc.GetRootNode();
-
-	for (uint32 i = 0; i < rootNode->GetChildNum(); i++)
-	{
-		XmlNode* nodeNode = rootNode->GetChildNode(i);
-
-		XmlAttribute* radiusAttr = nodeNode->GetAttribute("bs_radius");
-		if(radiusAttr != nullptr) float32 nodeRadius = radiusAttr->GetFloatValue();
-
-		XmlAttribute* posAttr = nodeNode->GetAttribute("pos");
-		if(posAttr != nullptr) Vector3Df nodePos = posAttr->GetVector3DValue();
-
-// 		IEntityBodyPtr entityNode = sSceneMgr->CreateEntityBody();
-// 		entityNode->SetPostion(nodePos);
-// 		entityNode->SetBoundingRadius(nodeRadius);
-
-		for (uint32 j = 0; j < nodeNode->GetChildNum(); j++)
-		{
-			XmlNode* modelNode = nodeNode->GetChildNode(j);
-
-			XmlAttribute* fileAttr = modelNode->GetAttribute("file");
-			const char8* objFile = fileAttr->GetStringValue();
-
-			XmlAttribute* offsetAttr = modelNode->GetAttribute("offset");
-			Vector3Df modelOffsetPos = offsetAttr->GetVector3DValue();
-
-			Matrix4 objOffsetMat;
-			objOffsetMat.SetTranslation(modelOffsetPos);
-
-			//entityNode->LoadModel(objFile);
-		}
-
-		//this->AddSceneNode(entityNode);
-	}
+	ReadMaterial(rootNode);
+	ReadModel(rootNode);
+	ReadSceneNode(rootNode);
 
 	return true;
 }
@@ -68,56 +38,77 @@ bool XmlSceneImporter::LoadModelFile(const char8* file)
 	XmlNode* rootNode = xmlDoc.GetRootNode();
 	if (rootNode == nullptr) return false;
 
-	if (!ReadMaterial(rootNode)) return false;
-	if (!ReadMesh(rootNode)) return false;
-	if (!ReadBoneInfo(rootNode)) return false;
-	if (!ReadAnimation(rootNode)) return false;
+// 	if (!ReadMaterial(rootNode)) return false;
+// 	if (!ReadMesh(rootNode)) return false;
+// 	if (!ReadBoneInfo(rootNode)) return false;
+// 	if (!ReadAnimation(rootNode)) return false;
 
 	return true;
 }
 
-bool XmlSceneImporter::ReadMaterial(XmlNode* rootNode)
+bool XmlSceneImporter::ReadSceneNode(XmlNode* node)
 {
-	//读取材质信息
-	//////////////////////////////////////////////////////////////////////////
-	XmlNode* materialListNode = rootNode->GetFirstNode("materials_chunk");
-	if (materialListNode != nullptr)
+	XmlNode* nodeChunkNode = node->GetFirstNode("nodes_chunk");
+
+	uint32 rootNodeNum = nodeChunkNode->GetChildNum();
+	m_nodeDataList.resize(rootNodeNum);
+
+	for (uint32 i = 0; i < rootNodeNum; i++)
 	{
-		uint32 materialNum = materialListNode->GetChildNum();
+		XmlNode* nodeNode = nodeChunkNode->GetChildNode(i);
 
-		//m_materialDataList.resize(materialNum);
+		ReadSceneNodeData(nodeNode, m_nodeDataList[i]);
+	}
 
-		Utils::Path resPath(m_resFile.c_str());
-		string resFilePath = resPath.GetFullPath();
+	return true;
+}
 
-		for (uint32 i = 0; i < materialNum; i++)
+bool XmlSceneImporter::ReadSceneNodeData(XmlNode* node, SceneNodeData& nodeData)
+{
+	XmlAttribute* nameAttr = node->GetAttribute("name");
+	if (nameAttr != nullptr) nodeData.nodeName = nameAttr->GetStringValue();
+
+	Quaternion rota;
+	Vector3Df scale;
+	Vector3Df pos;
+
+	XmlAttribute* rotaAttr = node->GetAttribute("rotation");
+	if (nameAttr != nullptr) rota = *(Quaternion*)&rotaAttr->GetVector4DValue();
+
+	XmlAttribute* scaleAttr = node->GetAttribute("scale");
+	if (nameAttr != nullptr) scale = scaleAttr->GetVector3DValue();
+
+	XmlAttribute* posAttr = node->GetAttribute("position");
+	if (nameAttr != nullptr) pos = posAttr->GetVector3DValue();
+
+	Matrix4 scaleMat;
+	scaleMat.SetScale(scale);
+	nodeData.localTrans = rota.GetMatrix();	
+	nodeData.localTrans.SetTranslation(pos);
+	nodeData.localTrans *= scaleMat;
+
+	XmlAttribute* radiusAttr = node->GetAttribute("bounding_radius");
+	if (nameAttr != nullptr) nodeData.boundRadius = radiusAttr->GetFloatValue();
+
+	for (uint32 i = 0; i < node->GetChildNum(); i++)
+	{
+		XmlNode* childNode = node->GetChildNode(i);
+
+		const char8* childNodeName = childNode->GetName();
+		if (strcmp(childNodeName, "node") == 0)
 		{
-			XmlNode* materialNode = materialListNode->GetChildNode(i);
+			nodeData.childData.resize(nodeData.childData.size() + 1);
 
-			for (uint32 j = 0; j < materialNode->GetChildNum(); j++)
+			ReadSceneNodeData(childNode, *nodeData.childData.rbegin());
+		}
+		else if (strcmp(childNodeName, "model") == 0)
+		{
+			XmlAttribute* idAttr = childNode->GetAttribute("id");
+			if (idAttr != nullptr)
 			{
-				XmlNode* pTexNode = materialNode->GetChildNode(j);
-				XmlAttribute* texTypeAttr = pTexNode->GetAttribute("type");
-				string texType = texTypeAttr->GetStringValue();
-
-				XmlAttribute* texFileAttr = pTexNode->GetAttribute("name");
-				string texFile = resFilePath + texFileAttr->GetStringValue();
-
-				if (texType == "Diffuse Color")
-				{
-					//m_materialDataList[i].diffTexPath = texFile;
-				}
-				else if (texType == "Bump")
-				{
-					//m_materialDataList[i].bumpTexPath = texFile;
-				}
-				else if (texType == "Specular Level")
-				{
-					//m_materialDataList[i].specTexPath = texFile;
-				}
+				nodeData.modelId = idAttr->GetIntValue();
 			}
 		}
-		//////////////////////////////////////////////////////////////////////////
 	}
 
 	return true;
@@ -145,14 +136,37 @@ bool ReadArray(XmlNode* node, const char8* attrName, T* array, int32 num)
 	return true;
 }
 
-bool XmlSceneImporter::ReadMesh(XmlNode* rootNode)
+bool XmlSceneImporter::ReadModel(XmlNode* node)
+{
+	XmlNode* modelChunkNode = node->GetFirstNode("models_chunk");
+	if (modelChunkNode != nullptr)
+	{
+		for (uint32 i = 0; i < modelChunkNode->GetChildNum(); i++)
+		{
+			XmlNode* modelNode = modelChunkNode->GetChildNode(i);
+			XmlAttribute* idAttr = modelNode->GetAttribute("id");
+			if (idAttr != nullptr)
+			{
+				int32 id = idAttr->GetIntValue();
+				ModelData& modelData = m_modelDataList[id];
+				ReadMesh(modelNode, modelData);
+				ReadBoneInfo(modelNode, modelData);
+				ReadAnimation(modelNode, modelData);
+			}
+		}
+	}
+
+	return true;
+}
+
+bool XmlSceneImporter::ReadMesh(XmlNode* node, ModelData& modelData)
 {	
 	//读取网格信息
 	//////////////////////////////////////////////////////////////////////////
-	XmlNode* meshListNode = rootNode->GetFirstNode("meshes_chunk");
+	XmlNode* meshListNode = node->GetFirstNode("meshes_chunk");
 	
 	uint32 meshNum = meshListNode->GetChildNum();
-	m_modelData.meshDataList.resize(meshNum);
+	modelData.meshDataList.resize(meshNum);
 
 	//注意！！根据可以读取顶点的信息修改大小
 	MemoryBuffer tempVertData;
@@ -246,16 +260,16 @@ bool XmlSceneImporter::ReadMesh(XmlNode* rootNode)
 					vertexDesc = currVertDesc;
 					stride = offset;
 
-					m_modelData.meshDataList[i].vertDesc = vertexDesc;
+					modelData.meshDataList[i].vertDesc = vertexDesc;
 
-					m_modelData.meshDataList[i].vertexData.Alloc(stride * vertNum);
+					modelData.meshDataList[i].vertexData.Alloc(stride * vertNum);
 				}
 				else
 				{
 					CompareVertexDesc(vertexDesc, currVertDesc);
 				}
 
-				m_modelData.meshDataList[i].vertexData.Insert(j * stride, tempVertData);
+				modelData.meshDataList[i].vertexData.Insert(j * stride, tempVertData);
 			}
 		}
 		//////////////////////////////////////////////////////////////////////////
@@ -268,7 +282,7 @@ bool XmlSceneImporter::ReadMesh(XmlNode* rootNode)
 
 		uint32 indexNum = triNum * 3;
 
-		m_modelData.meshDataList[i].indexData.Alloc(indexNum * sizeof(uint32));
+		modelData.meshDataList[i].indexData.Alloc(indexNum * sizeof(uint32));
 
 		for (uint32 j = 0; j < triNum; j++)
 		{
@@ -276,50 +290,50 @@ bool XmlSceneImporter::ReadMesh(XmlNode* rootNode)
 
 			uint32 indices[3] = { 0, 0, 0 };
 			ReadArray(pTriNode, "index", indices, 3);
-			m_modelData.meshDataList[i].indexData.Insert(j * 3 * sizeof(uint32), indices, sizeof(indices));
+			modelData.meshDataList[i].indexData.Insert(j * 3 * sizeof(uint32), indices, sizeof(indices));
 		}
 		//////////////////////////////////////////////////////////////////////////
 
 		//////////////////////////////////////////////////////////////////////////
- 		XmlAttribute* mtlIdAttr = meshNode->GetAttribute("mtl_id");
-        if(mtlIdAttr != nullptr)
+ 		XmlAttribute* materNameAttr = meshNode->GetAttribute("mtl_id");
+        if(materNameAttr != nullptr)
         {
-            int32 materId = mtlIdAttr->GetIntValue();
-			//m_modelData.meshDataList[i].materialData = m_materialDataList[materId];
+            const char8* materName = materNameAttr->GetStringValue();
+			modelData.meshDataList[i].materialName = materName;
         }
 		//////////////////////////////////////////////////////////////////////////
 
-		m_modelData.meshDataList[i].drawType = Render::EDT_TRIANGLELIST;
+		modelData.meshDataList[i].drawType = Render::EDT_TRIANGLELIST;
 	}
 	//////////////////////////////////////////////////////////////////////////
 	
 	return true;
 }
 
-bool XmlSceneImporter::ReadBoneInfo(XmlNode* rootNode)
+bool XmlSceneImporter::ReadBoneInfo(XmlNode* node, ModelData& modelData)
 {
 	//读取骨骼信息
 	//////////////////////////////////////////////////////////////////////////
-	XmlNode* pBoneListNode = rootNode->GetFirstNode("bones_chunk");
+	XmlNode* pBoneListNode = node->GetFirstNode("bones_chunk");
 	uint32 boneNum = 0;
 	if (pBoneListNode != nullptr)
 	{
 		boneNum = pBoneListNode->GetChildNum();
 
-		m_modelData.boneInfoList.resize(boneNum);
+		modelData.boneInfoList.resize(boneNum);
 
 		for (uint32 i = 0; i < boneNum; i++)
 		{
 			XmlNode* pBoneNode = pBoneListNode->GetChildNode(i);
 
 			XmlAttribute* idAttr = pBoneNode->GetAttribute("id");
-			m_modelData.boneInfoList[i].id = idAttr->GetIntValue();
+			modelData.boneInfoList[i].id = idAttr->GetIntValue();
 
 			XmlAttribute* nameAttr = pBoneNode->GetAttribute("name");
-			m_modelData.boneInfoList[i].name = nameAttr->GetStringValue();
+			modelData.boneInfoList[i].name = nameAttr->GetStringValue();
 
 			XmlAttribute* parentAttr = pBoneNode->GetAttribute("parent");
-			m_modelData.boneInfoList[i].parentId = parentAttr->GetIntValue();
+			modelData.boneInfoList[i].parentId = parentAttr->GetIntValue();
 
 			XmlNode* realNode = pBoneNode->GetFirstNode("real");
 			XmlNode* dualNode = pBoneNode->GetFirstNode("dual");
@@ -327,7 +341,7 @@ bool XmlSceneImporter::ReadBoneInfo(XmlNode* rootNode)
 			DualQuaternion dq;
 			ReadArray(realNode, "v", (float32*)dq.m_real, 4);
 			ReadArray(dualNode, "v", (float32*)dq.m_dual, 4);
-			m_modelData.boneInfoList[i].bindPose = dq.ToMatrix();
+			modelData.boneInfoList[i].bindPose = dq.ToMatrix();
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////	
@@ -335,11 +349,11 @@ bool XmlSceneImporter::ReadBoneInfo(XmlNode* rootNode)
 	return true;
 }
 
-bool XmlSceneImporter::ReadAnimation(XmlNode* rootNode)
+bool XmlSceneImporter::ReadAnimation(XmlNode* node, ModelData& modelData)
 {
 	//读取骨骼动画信息
 	//////////////////////////////////////////////////////////////////////////
-	XmlNode* pKeyFrameChunkNode = rootNode->GetFirstNode("key_frames_chunk");
+	XmlNode* pKeyFrameChunkNode = node->GetFirstNode("key_frames_chunk");
 	while (pKeyFrameChunkNode != nullptr)
 	{
 		XmlAttribute* pKeyFrameNameAttr = pKeyFrameChunkNode->GetAttribute("name");
@@ -399,11 +413,82 @@ bool XmlSceneImporter::ReadAnimation(XmlNode* rootNode)
 			}
 		}
 
-		m_modelData.skelAnimList.push_back(animInfo);
+		modelData.skelAnimList.push_back(animInfo);
 
 		pKeyFrameChunkNode = pKeyFrameChunkNode->GetNextSibling("key_frames_chunk");
 	}
 	//////////////////////////////////////////////////////////////////////////
+
+	return true;
+}
+
+bool XmlSceneImporter::ReadMaterial(XmlNode* node)
+{
+	//读取材质信息
+	//////////////////////////////////////////////////////////////////////////
+	XmlNode* materialListNode = node->GetFirstNode("materials_chunk");
+
+	uint32 materialNum = materialListNode->GetChildNum();
+
+	for (uint32 i = 0; i < materialNum; i++)
+	{
+		XmlNode* materialNode = materialListNode->GetChildNode(i);
+		XmlAttribute* materialNameAttr = materialNode->GetAttribute("name");
+		if (materialNameAttr != nullptr)
+		{
+			const char8* materialName = materialNameAttr->GetStringValue();
+			MaterialData& materialData = m_materialDataList[materialName];
+			materialData.materialName = materialName;
+
+			XmlAttribute* materialTechAttr = materialNode->GetAttribute("technique");
+			if (materialTechAttr != nullptr) materialData.techName = materialTechAttr->GetStringValue();
+
+			for (uint32 j = 0; j < materialNode->GetChildNum(); j++)
+			{
+				XmlNode* childNode = materialNode->GetChildNode(j);
+				XmlAttribute* nameAttr = childNode->GetAttribute("name");
+				XmlAttribute* valueAttr = childNode->GetAttribute("value");
+				const char8* childName = childNode->GetName();
+
+				if (strcmp(childName, "variable") == 0)
+				{
+					if (nameAttr != nullptr && valueAttr != nullptr)
+					{
+						const char8* varName = nameAttr->GetStringValue();
+						const char8* varValue = valueAttr->GetStringValue();
+						materialData.varList[varName] = { EPT_STRING, varValue };
+					}
+				}
+				else if (strcmp(childName, "state") == 0)
+				{
+					if (nameAttr != nullptr && valueAttr != nullptr)
+					{
+						const char8* stateName = nameAttr->GetStringValue();
+						const char8* stateValue = valueAttr->GetStringValue();
+
+						materialData.stateList[stateName] = stateValue;
+					}
+				}
+				else if (strcmp(childName, "sampler") == 0)
+				{
+					if (nameAttr != nullptr)
+					{
+						const char8* sampleName = nameAttr->GetStringValue();
+						SamplerData& sampleData = materialData.samplerDataList[sampleName];
+						sampleData.samplerName = sampleName;
+
+						XmlNode* texNode = childNode->GetFirstNode("texture");						
+						XmlAttribute* pathAttr = texNode->GetAttribute("path");
+						if (pathAttr != nullptr)
+						{
+							sampleData.samplerName = sampleName;
+							sampleData.texPath = pathAttr->GetStringValue();
+						}
+					}
+				}
+			}
+		}
+	}
 
 	return true;
 }
