@@ -2,6 +2,7 @@
 #include "CoreGlobal.h"
 #include "RenderGlobal.h"
 #include "SceneGlobal.h"
+#include "Global.h"
 
 // Minimum version numbers supported
 #define BUNDLE_VERSION_MAJOR_REQUIRED   1 
@@ -96,14 +97,14 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 
 				SamplerData samplerData;
 				samplerData.samplerName = childParam.id;
-				samplerData.texPath = m_bundlePath + childParam.paramList["path"].strValue;
+				samplerData.texPath = m_bundlePath + childParam.paramList["path"];
 				materialData.samplerDataList[childParam.id] = samplerData;
 			}
 			else if (childParam.name == "renderState")
 			{
 				for (auto iter : childParam.paramList)
 				{
-					materialData.stateList[iter.first] = iter.second.strValue;
+					materialData.stateList[iter.first] = iter.second;
 				}
 			}
 			else if (childParam.name == "technique")
@@ -125,7 +126,7 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 							}
 						}
 
-						string techKey = passParam.paramList["vertexShader"].strValue + passParam.paramList["fragmentShader"].strValue + passParam.paramList["defines"].strValue;
+						string techKey = passParam.paramList["vertexShader"] + passParam.paramList["fragmentShader"] + passParam.paramList["defines"];
 						materialData.techName = techKeyMap[techKey];
 					}
 					else
@@ -153,6 +154,22 @@ bool BundleSceneImporter::LoadModelFile(const char8* file)
 	return true;
 }
 
+string BundleSceneImporter::ChangeValueFormat(const string& str)
+{
+	string value = str;
+
+	while (true) 
+	{
+		string::size_type pos = 0;
+		if ((pos = value.find(",")) != string::npos)
+		{
+			value.replace(pos, 1, "\0x20");
+		}
+		else break;
+	}
+
+	return value;
+}
 
 bool BundleSceneImporter::ReadBundleMaterial(Properties* prop, MaterialParameter& param)
 {
@@ -163,35 +180,34 @@ bool BundleSceneImporter::ReadBundleMaterial(Properties* prop, MaterialParameter
 	{
 		string propName = prop->GetPropertyName(i);
 		string propValue = prop->GetPropertyValue(i);
-		Core::PropType type = prop->GetType(propName.c_str());
 
 		if (propValue == "CAMERA_WORLD_POSITION")
 		{
-			param.paramList["g_eye_pos"] = { Core::EPT_STRING, "CAMERA_WORLD_POSITION" };
+			param.paramList["g_eye_pos"] = "CAMERA_WORLD_POSITION";
 		}
 		else if (propValue == "INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX")
 		{
-			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
-			param.paramList["g_view"] = { Core::EPT_STRING, "VIEW_MATRIX" };
+			param.paramList["g_world"] = "WORLD_MATRIX";
+			param.paramList["g_view"] = "VIEW_MATRIX";
 		}
 		else if (propValue == "WORLD_VIEW_MATRIX")
 		{
-			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
-			param.paramList["g_view"] = { Core::EPT_STRING, "VIEW_MATRIX" };
+			param.paramList["g_world"] = "WORLD_MATRIX";
+			param.paramList["g_view"] = "VIEW_MATRIX";
 		}
 		else if (propValue == "WORLD_VIEW_PROJECTION_MATRIX")
 		{
-			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
-			param.paramList["g_view"] = { Core::EPT_STRING, "VIEW_MATRIX" };
-			param.paramList["g_proj"] = { Core::EPT_STRING, "PROJ_MATRIX" };
+			param.paramList["g_world"] = "WORLD_MATRIX";
+			param.paramList["g_view"] = "VIEW_MATRIX";
+			param.paramList["g_proj"] = "PROJ_MATRIX";
 		}
 		else if (propValue == "INVERSE_TRANSPOSE_WORLD_MATRIX")
 		{
-			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+			param.paramList["g_world"] = "WORLD_MATRIX";
 		}
 		else if (propValue == "WORLD_MATRIX")
 		{
-			param.paramList["g_world"] = { Core::EPT_STRING, "WORLD_MATRIX" };
+			param.paramList["g_world"] = "WORLD_MATRIX";
 		}
 		else
 		{
@@ -200,43 +216,7 @@ bool BundleSceneImporter::ReadBundleMaterial(Properties* prop, MaterialParameter
 				propName.erase(propName.size() - 3);
 			}
 
-			TypeValue typeValue;
-			typeValue.type = type;
-			switch (type)
-			{
-				case Core::EPT_STRING:
-				{
-					typeValue.strValue = propValue;
-				}
-				break;
-				case Core::EPT_NUMBER:
-				{
-					typeValue.fValue = prop->GetFloat(propName.c_str());
-				}
-				break;
-				case Core::EPT_VECTOR2:
-				{
-					prop->GetVector2(propName.c_str(), &typeValue.vt2Value);
-				}
-				break;
-				case Core::EPT_VECTOR3:
-				{
-					prop->GetVector3(propName.c_str(), &typeValue.vt3Value);
-				}
-				break;
-				case Core::EPT_VECTOR4:
-				{
-					prop->GetVector4(propName.c_str(), &typeValue.vt4Value);
-				}
-				break;
-				case Core::EPT_MATRIX:
-				{
-					prop->GetMatrix(propName.c_str(), &typeValue.matValue);
-				}
-				break;
-			}
-
-			param.paramList[propName] = typeValue;
+			param.paramList[propName] = ChangeValueFormat(propValue);
 		}
 	}
 

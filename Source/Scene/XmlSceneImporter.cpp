@@ -67,28 +67,12 @@ bool XmlSceneImporter::ReadSceneNodeData(XmlNode* node, SceneNodeData& nodeData)
 {
 	XmlAttribute* nameAttr = node->GetAttribute("name");
 	if (nameAttr != nullptr) nodeData.nodeName = nameAttr->GetStringValue();
-
-	Quaternion rota;
-	Vector3Df scale;
-	Vector3Df pos;
-
-	XmlAttribute* rotaAttr = node->GetAttribute("rotation");
-	if (nameAttr != nullptr) rota = *(Quaternion*)&rotaAttr->GetVector4DValue();
-
-	XmlAttribute* scaleAttr = node->GetAttribute("scale");
-	if (nameAttr != nullptr) scale = scaleAttr->GetVector3DValue();
-
-	XmlAttribute* posAttr = node->GetAttribute("position");
-	if (nameAttr != nullptr) pos = posAttr->GetVector3DValue();
-
-	Matrix4 scaleMat;
-	scaleMat.SetScale(scale);
-	nodeData.localTrans = rota.GetMatrix();	
-	nodeData.localTrans.SetTranslation(pos);
-	nodeData.localTrans *= scaleMat;
+	
+	XmlAttribute* transAttr = node->GetAttribute("transform");
+	if (transAttr != nullptr) nodeData.localTrans = transAttr->GetMatrix4Value();
 
 	XmlAttribute* radiusAttr = node->GetAttribute("bounding_radius");
-	if (nameAttr != nullptr) nodeData.boundRadius = radiusAttr->GetFloatValue();
+	if (radiusAttr != nullptr) nodeData.boundRadius = radiusAttr->GetFloatValue();
 
 	for (uint32 i = 0; i < node->GetChildNum(); i++)
 	{
@@ -98,7 +82,7 @@ bool XmlSceneImporter::ReadSceneNodeData(XmlNode* node, SceneNodeData& nodeData)
 		if (strcmp(childNodeName, "node") == 0)
 		{
 			nodeData.childData.resize(nodeData.childData.size() + 1);
-
+			
 			ReadSceneNodeData(childNode, *nodeData.childData.rbegin());
 		}
 		else if (strcmp(childNodeName, "model") == 0)
@@ -456,7 +440,7 @@ bool XmlSceneImporter::ReadMaterial(XmlNode* node)
 					{
 						const char8* varName = nameAttr->GetStringValue();
 						const char8* varValue = valueAttr->GetStringValue();
-						materialData.varList[varName] = { EPT_STRING, varValue };
+						materialData.varList[varName] = varValue;
 					}
 				}
 				else if (strcmp(childName, "state") == 0)

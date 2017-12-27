@@ -16,9 +16,6 @@
     <ClCompile Include="..\Source\Core\MemoryBuffer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Scene\BundleSceneImporter.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Scene\SceneNode.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -216,9 +213,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Core\MemoryBuffer.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Scene\BundleSceneImporter.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Utils\Factory.h">
       <Filter>Utils</Filter>

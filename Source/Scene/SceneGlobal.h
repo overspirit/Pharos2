@@ -9,7 +9,6 @@
 #include "OctreeScene.h"
 
 #include "SceneImporter.h"
-#include "BundleSceneImporter.h"
 #include "XmlSceneImporter.h"
 
 #include "SceneMgr.h"

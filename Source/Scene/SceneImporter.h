@@ -4,7 +4,7 @@ namespace Pharos
 {
 	namespace Scene
 	{
-		class SceneImporter //: public ISceneImporter
+		class SceneImporter
 		{
 		public:
 			SceneImporter(void);
@@ -18,17 +18,6 @@ namespace Pharos
 				SamplerStateDesc	stateDesc;
 			};
 
-			struct TypeValue
-			{
-				Core::PropType type;
-				string strValue;
-				float32	fValue;
-				Vector2Df vt2Value;
-				Vector3Df vt3Value;
-				Vector4Df vt4Value;
-				Matrix4 matValue;
-			};
-
 			struct MaterialData
 			{
 				string	materialName;
@@ -36,13 +25,18 @@ namespace Pharos
 				string	techName;
 				vector<string>	techDefines;
 
-				map<string, TypeValue>			varList;
+				map<string, string>			varList;
 				map<string, SamplerData>	samplerDataList;
 				map<string, string>			stateList;
 			};
 
 			struct MeshData
 			{
+				MeshData()
+				{
+					drawType = Render::EDT_TRIANGLELIST;
+				}
+
 				MemoryBuffer					vertexData;
 				vector<VertLayoutDesc>			vertDesc;
 				MemoryBuffer					indexData;
@@ -60,6 +54,12 @@ namespace Pharos
 
 			struct SceneNodeData
 			{
+				SceneNodeData()
+				{
+					boundRadius = 0;
+					modelId = 0xFFFFFFFF;
+				}
+
 				string		nodeName;
 				string		parentName;
 				Matrix4		localTrans;
@@ -86,6 +86,13 @@ namespace Pharos
 			void SaveSceneNodeData(SceneNodeData& nodeData, XmlNode* parentNode, XmlNode* modelRootNode);
 			void SaveMaterialData(MaterialData& materialData, XmlNode* materialRootNode);
 			uint32 SaveModelData(ModelData& modelData, XmlNode* modelRootNode);
+
+			static PropType GetStringPropType(const char8* str);
+			static bool isStringNumeric(const char8* str);
+			static Vector2Df ParseVector2(const char8* str);
+			static Vector3Df ParseVector3(const char8* str);
+			static Vector4Df ParseVector4(const char8* str);
+			static Matrix4 ParseMatrix4(const char8* str);
 
 		public:
 			virtual bool ImportScene(OctreeScene* scene);

@@ -90,7 +90,7 @@ namespace Pharos
 			{
 				string name;
 				string id;
-				map<string, TypeValue>  paramList;
+				map<string, string>  paramList;
 				vector<MaterialParameter> childList;
 			};
 
@@ -130,6 +130,8 @@ namespace Pharos
 			const char8* GetIdFromOffset(File* file);
 
 			void uncompressFixedPointBuffer(uint8* vertexData, uint8* zippedBuffer, uint32 vertexCount, Element* vertexElements, uint32 vertexElementCount);
+
+			string ChangeValueFormat(const string& str);
 
 		public:
 			virtual bool LoadSceneFile(const char8* file);

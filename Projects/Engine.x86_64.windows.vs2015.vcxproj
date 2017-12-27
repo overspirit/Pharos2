@@ -56,7 +56,6 @@
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Texture.cpp" />
     <ClCompile Include="..\Source\Render\RenderMgr.cpp" />
-    <ClCompile Include="..\Source\Scene\BundleSceneImporter.cpp" />
     <ClCompile Include="..\Source\Scene\GridNode.cpp" />
     <ClCompile Include="..\Source\Scene\OctreeScene.cpp" />
     <ClCompile Include="..\Source\Scene\SceneCamera.cpp" />
@@ -147,7 +146,6 @@
     <ClInclude Include="..\Source\Render\Renderer\RenderSamplerState.h" />
     <ClInclude Include="..\Source\Render\RenderGlobal.h" />
     <ClInclude Include="..\Source\Render\RenderMgr.h" />
-    <ClInclude Include="..\Source\Scene\BundleSceneImporter.h" />
     <ClInclude Include="..\Source\Scene\GridNode.h" />
     <ClInclude Include="..\Source\Scene\OctreeScene.h" />
     <ClInclude Include="..\Source\Scene\SceneCamera.h" />

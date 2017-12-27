@@ -45,11 +45,11 @@ SceneImporter* SceneMgr::CreateSceneImporter(const char8* sceneFile)
 		importer = new XmlSceneImporter();
 		if (importer->LoadSceneFile(sceneFile)) return importer;
 	}
-	else if (strcmp(ext, ".gpz") == 0)
-	{
-		importer = new BundleSceneImporter();
-		if (importer->LoadSceneFile(sceneFile)) return importer;
-	}
+	//else if (strcmp(ext, ".gpz") == 0)
+	//{
+		//importer = new BundleSceneImporter();
+		//if (importer->LoadSceneFile(sceneFile)) return importer;
+	//}
 
 	SAFE_DELETE(importer);
 	return nullptr;

@@ -118,7 +118,9 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 	for (auto varIter : materialData.varList)
 	{
 		string varName = varIter.first;
-		Core::PropType type = varIter.second.type;
+		string varValue = varIter.second;
+
+		PropType type = GetStringPropType(varValue.c_str());
 
 		switch (type)
 		{
@@ -129,33 +131,152 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 			break;
 			case Core::EPT_NUMBER:
 			{
-				material->SetParameterValue(varName.c_str(), varIter.second.fValue);
+				float32 value = strtof(varIter.second.c_str(), nullptr);
+				material->SetParameterValue(varName.c_str(), value);
 			}
 			break;
 			case Core::EPT_VECTOR2:
 			{
-				material->SetParameterValue(varName.c_str(), varIter.second.vt2Value);
+				Vector2Df value = ParseVector2(varIter.second.c_str());
+				material->SetParameterValue(varName.c_str(), value);
 			}
 			break;
 			case Core::EPT_VECTOR3:
 			{
-				material->SetParameterValue(varName.c_str(), varIter.second.vt3Value);
+				Vector3Df value = ParseVector3(varIter.second.c_str());
+				material->SetParameterValue(varName.c_str(), value);
 			}
 			break;
 			case Core::EPT_VECTOR4:
 			{
-				material->SetParameterValue(varName.c_str(), varIter.second.vt4Value);
+				Vector4Df value = ParseVector4(varIter.second.c_str());
+				material->SetParameterValue(varName.c_str(), value);
 			}
 			break;
 			case Core::EPT_MATRIX:
 			{
-				material->SetParameterValue(varName.c_str(), varIter.second.matValue);
+				Matrix4 value = ParseMatrix4(varIter.second.c_str());
+				material->SetParameterValue(varName.c_str(), value);
 			}
 			break;
 		}
 	}
 
 	return material;
+}
+
+PropType SceneImporter::GetStringPropType(const char8* str)
+{
+	uint32 commaCount = 0;
+	char8* valuePtr = const_cast<char8*>(str);
+	while ((valuePtr = strchr(valuePtr, '\x20')))
+	{
+		valuePtr++;
+		commaCount++;
+	}
+
+	switch (commaCount)
+	{
+		case 0: return isStringNumeric(str) ? EPT_NUMBER : EPT_STRING;
+		case 1: return EPT_VECTOR2;
+		case 2: return EPT_VECTOR3;
+		case 3: return EPT_VECTOR4;
+		case 15: return EPT_MATRIX;
+		default: return EPT_STRING;
+	}
+
+	return EPT_NONE;
+}
+
+bool SceneImporter::isStringNumeric(const char8* str)
+{
+	if (*str == '-')
+		str++;
+
+	if (!isdigit(*str)) return false;
+
+	str++;
+
+	uint32 decimalCount = 0;
+	while (*str)
+	{
+		if (!isdigit(*str))
+		{
+			if (*str == '.' && decimalCount == 0)
+			{
+				decimalCount++;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		str++;
+	}
+
+	return true;
+}
+
+Vector2Df SceneImporter::ParseVector2(const char8* str)
+{
+	Vector2Df out;
+
+	if (str != nullptr)
+	{
+		char8* data = (char8*)str;
+		out.x = strtof(data, &data);
+		out.y = strtof(data, &data);
+	}
+
+	return out;
+}
+
+Vector3Df SceneImporter::ParseVector3(const char8* str)
+{
+	Vector3Df out;
+
+	if (str != nullptr)
+	{
+		char8* data = (char8*)str;
+		out.x = strtof(data, &data);
+		out.y = strtof(data, &data);
+		out.z = strtof(data, &data);
+	}
+
+	return out;
+}
+
+Vector4Df SceneImporter::ParseVector4(const char8* str)
+{
+	Vector4Df out;
+
+	if (str != nullptr)
+	{
+		char8* data = (char8*)str;
+		out.x = strtof(data, &data);
+		out.y = strtof(data, &data);
+		out.z = strtof(data, &data);
+		out.w = strtof(data, &data);
+	}
+
+	return out;
+}
+
+Matrix4 SceneImporter::ParseMatrix4(const char8* str)
+{
+	Matrix4 out;
+
+	if (str != nullptr)
+	{
+		char8* data = (char8*)str;
+
+		for (int32 i = 0; i < 16; i++)
+		{
+			out.m[i] = strtof(data, &data);
+		}
+	}
+
+	return out;
 }
 
 bool SceneImporter::SaveTo(const char8* file)
@@ -195,54 +316,18 @@ void SceneImporter::SaveSceneNodeData(SceneNodeData& nodeData, XmlNode* parentNo
 	XmlAttribute* nodeNameAttr = nodeNode->AppendAttribute("name");
 	nodeNameAttr->SetValue(nodeData.nodeName.c_str());
 
-	Quaternion quat = nodeData.localTrans.GetQuaternion();
-	Vector3Df scale = nodeData.localTrans.GetScale();
-	Vector3Df trans = nodeData.localTrans.GetTranslation();
-
-
-// 	Matrix4 test;
-// 	for (uint32 i = 0; i < 16; i++)
-// 	{
-// 		float32 r = Math::random(0.0f, 5.0f);
-// 
-// 		test.m[i] = r;
-// 	}
-
-// 	Quaternion quat = test.GetQuaternion();
-// 	Vector3Df scale = test.GetScale();
-// 	Vector3Df pos = test.GetTranslation();
-
-// 	Matrix4 scaleMat;
-// 	scaleMat.SetScale(scale);
-// 	//Matrix4 scaleMat2;
-// 	//scaleMat.GetInverse(scaleMat2);
-// 
-// 	Matrix4 test2 = quat.GetMatrix();	
-// 	test2.SetTranslation(trans);
-// 	test2 *= scaleMat;
-// 
-// 	if (nodeData.localTrans != test2)
-// 	{
-// 		int test = 0;
-// 	}
-
-	if (scale.IsEmpty()) scale = Vector3Df(1.0f, 1.0f, 1.0f);
-
-	XmlAttribute* nodeRotaAttr = nodeNode->AppendAttribute("rotation");
-	nodeRotaAttr->SetValue(*(Vector4Df*)&quat);
-
-	XmlAttribute* nodeScaleAttr = nodeNode->AppendAttribute("scale");
-	nodeScaleAttr->SetValue(scale);
-
-	XmlAttribute* nodeTransAttr = nodeNode->AppendAttribute("position");
-	nodeTransAttr->SetValue(trans);
+	XmlAttribute* nodeRotaAttr = nodeNode->AppendAttribute("transform");
+	nodeRotaAttr->SetValue(nodeData.localTrans);
 
 	XmlAttribute* nodeRadiusAttr = nodeNode->AppendAttribute("bounding_radius");
 	nodeRadiusAttr->SetValue(nodeData.boundRadius);
 
-	XmlNode* modelNode = nodeNode->AppendChild("model");
-	XmlAttribute* idAttr = modelNode->AppendAttribute("id");
-	idAttr->SetValue((int32)nodeData.modelId);
+	if (nodeData.modelId != 0xFFFFFFFF)
+	{
+		XmlNode* modelNode = nodeNode->AppendChild("model");
+		XmlAttribute* idAttr = modelNode->AppendAttribute("id");
+		idAttr->SetValue((int32)nodeData.modelId);
+	}
 
 	for (SceneNodeData& childData : nodeData.childData)
 	{
@@ -271,15 +356,15 @@ void SceneImporter::SaveMaterialData(MaterialData& materialData, XmlNode* materi
 
 		XmlAttribute* varValueAttr = varNode->AppendAttribute("value");
 
-		switch (iter.second.type)
-		{	
-			case EPT_STRING: varValueAttr->SetValue(iter.second.strValue.c_str()); break;
-			case EPT_NUMBER: varValueAttr->SetValue(iter.second.fValue); break;
-			case EPT_VECTOR2: varValueAttr->SetValue(iter.second.vt2Value); break;
-			case EPT_VECTOR3: varValueAttr->SetValue(iter.second.vt3Value); break;
-			case EPT_VECTOR4: varValueAttr->SetValue(iter.second.vt4Value); break;
-			case EPT_MATRIX: varValueAttr->SetValue(iter.second.matValue); break;
-		}		
+// 		switch (iter.second.type)
+// 		{	
+// 			case EPT_STRING: varValueAttr->SetValue(iter.second.strValue.c_str()); break;
+// 			case EPT_NUMBER: varValueAttr->SetValue(iter.second.fValue); break;
+// 			case EPT_VECTOR2: varValueAttr->SetValue(iter.second.vt2Value); break;
+// 			case EPT_VECTOR3: varValueAttr->SetValue(iter.second.vt3Value); break;
+// 			case EPT_VECTOR4: varValueAttr->SetValue(iter.second.vt4Value); break;
+// 			case EPT_MATRIX: varValueAttr->SetValue(iter.second.matValue); break;
+// 		}		
 	}
 
 	for (auto iter : materialData.samplerDataList)

@@ -90,6 +90,9 @@ namespace Pharos
 			//! 以给定的向量为旋转轴，创建旋转angle度的旋转矩阵，angle为弧度制，已验证
 			inline CMatrix4& SetRotationAxisRadians(float32 angle, const Vector3Df& axis);
 			
+			//! 获取该矩阵的旋转矩阵
+			inline CMatrix4 GetRotationMatrix();
+
 			//! 根据给定的向量创建缩放矩阵，已验证
 			CMatrix4& SetScale(const Vector3Df& scale);
 
@@ -714,6 +717,50 @@ namespace Pharos
 			return *this;
 		}
 
+		//! 获取该矩阵的旋转矩阵
+		inline CMatrix4 CMatrix4::GetRotationMatrix()
+		{
+			float32 sx = sqrtf(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]);
+			float32 sy = sqrtf(m[4] * m[4] + m[5] * m[5] + m[6] * m[6]);
+			float32 sz = sqrtf(m[8] * m[8] + m[9] * m[9] + m[10] * m[10]);
+
+			CMatrix4 mat;
+			mat.m[0] = m[0];
+			mat.m[1] = m[1];
+			mat.m[2] = m[2];
+
+			mat.m[4] = m[4];
+			mat.m[5] = m[5];
+			mat.m[6] = m[6];
+
+			mat.m[8] = m[8];
+			mat.m[9] = m[9];
+			mat.m[10] = m[10];
+
+			if (sx != 0)
+			{
+				mat.m[0] /= sx;
+				mat.m[1] /= sx;
+				mat.m[2] /= sx;
+			}
+
+			if (sy != 0)
+			{
+				mat.m[4] /= sy;
+				mat.m[5] /= sy;
+				mat.m[6] /= sy;
+			}
+
+			if (sz != 0)
+			{
+				mat.m[8] /= sz;
+				mat.m[9] /= sz;
+				mat.m[10] /= sz;
+			}
+
+			return mat;
+		}
+
 		//! 根据给定的向量创建缩放矩阵，已验证
 		inline CMatrix4& CMatrix4::SetScale(const Vector3Df& scale)
 		{
@@ -726,13 +773,11 @@ namespace Pharos
 
 		inline Vector3Df CMatrix4::GetScale() const
 		{
-			// Deal with the 0 rotation case first
-			// Prior to Irrlicht 1.6, we always returned this value.
-			if (iszero(m[1]) && iszero(m[2]) && iszero(m[4]) && iszero(m[6]) && iszero(m[8]) && iszero(m[9]))
-				return Vector3Df(m[0], m[5], m[10]);
+			float32 sx = sqrtf(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]);
+			float32 sy = sqrtf(m[4] * m[4] + m[5] * m[5] + m[6] * m[6]);
+			float32 sz = sqrtf(m[8] * m[8] + m[9] * m[9] + m[10] * m[10]);
 
-			// We have to do the full calculation.
-			return Vector3Df(sqrtf(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]), sqrtf(m[4] * m[4] + m[5] * m[5] + m[6] * m[6]), sqrtf(m[8] * m[8] + m[9] * m[9] + m[10] * m[10]));
+			return Vector3Df(sx, sy, sz);
 		}
 
 		inline Vector4D CMatrix4::Transform(const Vector2D& vect) const
