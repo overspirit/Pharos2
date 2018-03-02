@@ -4,19 +4,19 @@
   <variable type="Texture2D" name="g_tex" bind="t0"/>
   <variable type="SamplerState" name="g_sam" bind="s0"/>
 
-  <constant name="cbPerScene" bind="b0" size="128">
-    <member type="row_major matrix" name="g_view" bind="c0" size="64"/>
-    <member type="row_major matrix" name="g_proj" bind="c4" size="64"/>
+  <constant name="cbPerScene" bind="b0">
+    <member type="row_major matrix" name="g_view" bind="c0"/>
+    <member type="row_major matrix" name="g_proj" bind="c4"/>
   </constant>
 
-  <constant name="cbPerModel" bind="b1" size="64">
-    <member type="row_major matrix" name="g_world" bind="c0" size="64"/>
+  <constant name="cbPerModel" bind="b1">
+    <member type="row_major matrix" name="g_world" bind="c0"/>
   </constant>
 
-  <constant name="cbSceneLight" bind="b2" size="64">
-    <member type="float4" name="g_light_color" bind="c0" size="64"/>
-    <member type="float4" name="g_environment_color" bind="c1" size="64"/>
-    <member type="float3" name="g_light_direction" bind="c2" size="64"/>
+  <constant name="cbSceneLight" bind="b2">
+    <member type="float4" name="g_light_color" bind="c0"/>
+    <member type="float4" name="g_environment_color" bind="c1"/>
+    <member type="float3" name="g_light_direction" bind="c2"/>
   </constant>
   
   <shader>

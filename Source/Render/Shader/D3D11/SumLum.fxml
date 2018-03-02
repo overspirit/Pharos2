@@ -10,11 +10,11 @@
   <variable type="SamplerState" name="last_lum_sampler"/>
 
   <constant name="cbPerObject" bind="b3">
-    <member type="float4" name="tex_coord_offset[2]" size="16"/>
-    <member type="float" name="frame_delta" size="16"/>
+    <member type="float4" name="tex_coord_offset[2]"/>
+    <member type="float" name="frame_delta"/>
   </constant>
   
-  <shader vertex_shader="SumLumVS" pixel_shader="SumLum4x4LogPS">
+  <shader>
     <![CDATA[
     
 float CalcAdaptedLum(float adapted_lum, float current_lum)

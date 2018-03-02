@@ -27,9 +27,18 @@ private:
 	RenderTechnique*		m_copyTech;
 
 	OctreeScene*			m_scene;
+	SceneNode*				m_carNode;
 	SceneCamera*			m_camera;
 	bool			m_bLeftDown;
 	bool			m_bRightDown;
+	Vector2Df		m_mousePoint;
+
+	Matrix4			m_nodeRota;
+
+
+
+private:
+	Vector3Df GetScreenVector(const Vector2Df& vtMove);
 
 public:
 	virtual bool Init();

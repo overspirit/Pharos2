@@ -65,6 +65,8 @@ bool MyApp::Init()
 
 	SAFE_DELETE(sceneImporter);
 
+	m_carNode = sSceneMgr->GetSceneNode("GS8");
+
 	m_camera = m_scene->GetSceneCamera();
 	m_camera->BuildViewMatrix(Vector3Df(75.0f, 75.0f, -75.0f), Vector3Df(0, 0, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
@@ -121,6 +123,28 @@ void MyApp::Destroy()
 	//SAFE_DELETE(m_copyTech);
 }
 
+Vector3Df MyApp::GetScreenVector(const Vector2Df& vtMove)
+{
+	const Size2Di& wndSize = sKernel->GetWindowSize();
+	int32 nHalfWidth = (int32)(wndSize.width / 2);
+	int32 nHalfHeight = (int32)(wndSize.height / 2);
+
+	//求映射向量,首先将屏幕上的点映射为0-1之间的数值，然后勾股定理计算另一条边	
+	Vector3Df vTo = { 0, 0, 1.0f };
+	float32 x = vtMove.x / nHalfWidth;
+	float32 y = -vtMove.y / nHalfHeight;
+	float32 x2 = x * x;
+	float32 y2 = y * y;
+	if (x2 + y2 <= 1.0f) //需要检测是否不能开方，传过来的数据可能大于窗口大小
+	{
+		vTo.x = x;
+		vTo.y = y;
+		vTo.z = sqrtf(1.0f - x2 - y2);
+		vTo.Normalize();
+	}
+	return vTo;
+}
+
 void MyApp::onViewCreate()
 {
 
@@ -141,6 +165,8 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 	if (event.button == MOUSE_LEFT)
 	{
 		m_bLeftDown = (event.state == STATE_DOWN) ? true : false;
+
+		m_mousePoint = Vector2Df(event.x, event.y);
 	}
 	else if (event.button == MOUSE_RIGHT)
 	{
@@ -153,12 +179,31 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 
 	if (m_bLeftDown)
 	{
-		m_camera->Slither(Vector2Df((float32)event.ox, (float32)event.oy));
+		Vector2Df mousePos;
+		mousePos.Set(event.x, event.y);
+
+		Vector2Df mouseMove = mousePos - m_mousePoint;
+		Vector3Df screenVt = GetScreenVector(mouseMove);
+
+		screenVt.y = 0;
+		screenVt.x = -screenVt.x;
+		screenVt.Normalize();
+
+		Matrix4 rota;
+		rota.BuildRotateFromTo(Vector3Df(0, 0, 1.0f), screenVt);
+
+		m_nodeRota *= rota;
+		
+		m_carNode->SetLocalTransform(m_nodeRota);
+
+		m_mousePoint = mousePos;
+
+		//m_camera->Slither(Vector2Df((float32)event.ox, (float32)event.oy));
 	}
-	else if (m_bRightDown)
-	{
-		m_camera->Round(Vector2Df((float32)event.ox, (float32)event.oy));
-	}
+ 	else if (m_bRightDown)
+ 	{
+ 		m_camera->Round(Vector2Df((float32)event.ox, (float32)event.oy));
+ 	}
 
 	return false;
 }

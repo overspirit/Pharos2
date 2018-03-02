@@ -63,6 +63,11 @@ bool D3D11EffectLoader::Load(const char8* szPath)
 			Member& member = m_constantList[i].children[m];
 			ss << "\t" << member.type << " " << member.name;
 
+			if (!member.arraySize.empty())
+			{
+				ss << "[" << member.arraySize << "]";
+			}
+
 			if(!member.bind.empty())
 			{
 				ss << " : packoffset(" << member.bind << ");\n";
@@ -223,10 +228,7 @@ bool D3D11EffectLoader::LoadConstant(XmlNode* pNode)
 
 	pAttr = pNode->GetAttribute("bind");
 	if(pAttr != nullptr) constant.bind = pAttr->GetStringValue();
-
-	pAttr = pNode->GetAttribute("size");
-	if (pAttr != nullptr) constant.size = pAttr->GetStringValue();
-
+	
 	constant.children.resize(pNode->GetChildNum());
 
 	for(uint32 i = 0; i < pNode->GetChildNum(); i++)
@@ -238,13 +240,21 @@ bool D3D11EffectLoader::LoadConstant(XmlNode* pNode)
 		if(pAttr != nullptr) child.type = pAttr->GetStringValue();
 
 		pAttr = pChildInfo->GetAttribute("name");
-		if(pAttr != nullptr) child.name = pAttr->GetStringValue();
+		if (pAttr != nullptr)
+		{
+			child.name = pAttr->GetStringValue();
+
+			if (child.name.find('[') != string::npos || child.name.find(']') != string::npos)
+			{
+				//child.name = "";
+			}
+		}
 
 		pAttr = pChildInfo->GetAttribute("bind");
 		if(pAttr != nullptr) child.bind = pAttr->GetStringValue();
 
-		pAttr = pChildInfo->GetAttribute("size");
-		if (pAttr != nullptr) child.size = pAttr->GetStringValue();
+		pAttr = pChildInfo->GetAttribute("array_size");
+		if (pAttr != nullptr) child.arraySize = pAttr->GetStringValue();
 
 	}
 

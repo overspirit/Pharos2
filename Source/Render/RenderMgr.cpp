@@ -9,7 +9,7 @@ RenderMgr::RenderMgr()
 
 	m_renderCallback = nullptr;
 
-	m_clearColor = 0xFF7F7F7F;//R=43,G=147,B=223
+	m_clearColor = 0xFF3F3F3F;//R=43,G=147,B=223
 	m_clearDepth = 1.0f;
 	m_clearStencil = 0;
 }
@@ -110,7 +110,7 @@ void RenderMgr::SetGlobalRenderValue(const char8* name, const RenderValue& value
 	m_globalValueList[name] = value;
 }
 
-const RenderValue& RenderMgr::GetGlobalRenderValue(const char8* name) const
+const RenderValue& RenderMgr::GetGlobalRenderValue(const string& name) const
 {
 	auto iter = m_globalValueList.find(name);
 	if (iter != m_globalValueList.end())

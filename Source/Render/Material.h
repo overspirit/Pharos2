@@ -13,19 +13,14 @@ namespace Pharos
 		private:
 			string	m_techName;
 
-			string	m_diffTexPath;
-			string	m_bumpTexPath;
-			string	m_specTexPath;
-
 			RenderTechnique*		m_renderTech;
-			RenderTexture*			m_diffTex;
-			RenderTexture*			m_bumpTex;
-			RenderTexture*			m_specTex;
 
 			RenderVariable*			m_worldVar;
 			RenderVariable*			m_viewVar;
 			RenderVariable*			m_projVar;
 			RenderVariable*			m_eyePosVar;
+
+			vector<RenderTexture*>		m_texList;
 
 		public:
 			virtual void SetRenderTechnique(const char8* techName);

@@ -3,14 +3,14 @@
 
   <constant name="cbPerScene" bind="b0">
 
-    <member type="row_major matrix" name="g_view" bind="c0" size="64"/>
-    <member type="row_major matrix" name="g_proj" bind="c4" size="64"/>
+    <member type="row_major matrix" name="g_view" bind="c0"/>
+    <member type="row_major matrix" name="g_proj" bind="c4"/>
 
   </constant>
 
   <constant name="cbPerScene" bind="b1">
 
-    <member type="row_major matrix" name="g_world" bind="c0" size="64"/>
+    <member type="row_major matrix" name="g_world" bind="c0"/>
 
   </constant>
   

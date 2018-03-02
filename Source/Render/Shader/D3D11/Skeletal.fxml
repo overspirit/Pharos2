@@ -11,7 +11,7 @@
 
   <constant name="cbPerObject" bind="b1">
     <member type="row_major matrix" name="g_world"/>
-    <member type="row_major matrix" name="g_boneMatrix[255]"/>
+    <member type="row_major matrix" name="g_boneMatrix" array_size="255"/>
   </constant>
 
   <struct name="VS_INPUT">
@@ -30,7 +30,7 @@
     <member type="float2" name="tex" semantic="TEXCOORD"/>
   </struct>
 
-  <shader vertex_shader="" pixel_shader="">
+  <shader>
     <![CDATA[
 
     PS_INPUT SkeletalVS(VS_INPUT input)

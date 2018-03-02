@@ -5,9 +5,6 @@
 Material::Material()
 {
 	m_renderTech = nullptr;
-	m_diffTex = nullptr;
-	m_bumpTex = nullptr;
-	m_specTex = nullptr;
 
 	m_worldVar = nullptr;
 	m_viewVar = nullptr;
@@ -18,17 +15,32 @@ Material::Material()
 Material::~Material()
 {
 	SAFE_DELETE(m_renderTech);
+
+	for (RenderTexture* tex : m_texList)
+	{
+		SAFE_DELETE(tex);
+	}
 }
 
 void Material::SetRenderTechnique(const char8* techName)
 {
-	m_renderTech = sRenderMgr->GenerateRenderTechnique(techName);
+ 	m_renderTech = sRenderMgr->GenerateRenderTechnique(techName);
+
+	m_techName = techName;
+
 	if (m_renderTech != nullptr)
 	{
-		m_worldVar = m_renderTech->GetVariable("g_world");
-		m_viewVar = m_renderTech->GetVariable("g_view");
-		m_projVar = m_renderTech->GetVariable("g_proj");
-		m_eyePosVar = m_renderTech->GetVariable("g_eye_pos");
+		m_worldVar = m_renderTech->GenerateVariable("g_world", 64);
+		m_viewVar = m_renderTech->GenerateVariable("g_view", 64);
+		m_projVar = m_renderTech->GenerateVariable("g_proj", 64);
+		m_eyePosVar = m_renderTech->GenerateVariable("g_eye_pos", 16);
+
+		if (m_worldVar == nullptr ||
+			m_viewVar == nullptr ||
+			m_projVar == nullptr)
+		{
+			assert(false);
+		}
 	}
 }
 
@@ -91,5 +103,7 @@ void Material::SetParameterValue(const char8* valueName, RenderTexture* texture)
 	if (var == nullptr) return;
 
 	var->SetValue(texture);
+
+	m_texList.push_back(texture);
 }
 

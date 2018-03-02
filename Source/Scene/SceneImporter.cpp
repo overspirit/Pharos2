@@ -32,7 +32,7 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 	SceneNode* parentNode = sSceneMgr->GetSceneNode(data.parentName.c_str());
 
 	SceneNode* sceneNode = sSceneMgr->CreateSceneNode(data.nodeName.c_str(), parentNode);
-	
+
 	sceneNode->SetLocalTransform(data.localTrans);
 	sceneNode->SetBoundingRadius(data.boundRadius);
 
@@ -105,7 +105,7 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 	Material* material = new Material();
 	
 	material->SetRenderTechnique(materialData.techName.c_str());
-
+	
 	for (auto texIter : materialData.samplerDataList)
 	{
 		string texName = texIter.first;		
@@ -355,6 +355,7 @@ void SceneImporter::SaveMaterialData(MaterialData& materialData, XmlNode* materi
 		varNameAttr->SetValue(iter.first.c_str());
 
 		XmlAttribute* varValueAttr = varNode->AppendAttribute("value");
+		varValueAttr->SetValue(iter.second.c_str());
 
 // 		switch (iter.second.type)
 // 		{	

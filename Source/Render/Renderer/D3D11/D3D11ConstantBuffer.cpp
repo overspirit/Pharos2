@@ -15,15 +15,29 @@ D3D11ConstantBuffer::~D3D11ConstantBuffer()
 	SAFE_RELEASE(m_pBuffer);
 }
 
-void D3D11ConstantBuffer::CopyData(MemoryBuffer* data)
+void D3D11ConstantBuffer::CopyData(MemoryBuffer* data, uint32 offset)
 {
-	//注意，重载了MemoryBuffer的赋值操作符
-	m_data = (*data);
+	if (data == nullptr) return;
+	uint32 dataSize = data->GetLength();
+	uint32 totalDataSize = m_data.GetLength();
+	if (totalDataSize < offset + dataSize)
+	{
+		m_data.ChangeSize(offset + dataSize);
+	}
+
+	m_data.Insert(offset, *data);
 }
 
-void D3D11ConstantBuffer::CopyData(const void* data, uint32 len)
+void D3D11ConstantBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 {
-	m_data.CopyFrom(data, len);
+	uint32 dataSize = len;
+	uint32 totalDataSize = m_data.GetLength();
+	if (totalDataSize < offset + dataSize)
+	{
+		m_data.ChangeSize(offset + dataSize);
+	}
+
+	m_data.Insert(offset, data, len);
 }
 
 void D3D11ConstantBuffer::ApplyToDevice(uint32 slot)
@@ -31,7 +45,7 @@ void D3D11ConstantBuffer::ApplyToDevice(uint32 slot)
 	uint32 dataSize = m_data.GetLength();
 	if (dataSize == 0)
 	{
-		assert(false);
+		//assert(false);
 		return;
 	}
 
@@ -65,6 +79,8 @@ void D3D11ConstantBuffer::ApplyToDevice(uint32 slot)
 			assert(false);
 			return;
 		}
+
+		m_data.ChangeSize(dataSize);
 	}
 	
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

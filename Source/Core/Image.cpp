@@ -29,6 +29,8 @@ bool Image::Open(const char8* path)
 {
 	m_resFile = new File;
 	if (!m_resFile->Open(path)) return false;
+	if (!LoadImageFile()) return false;
+
     return true;
 }
 

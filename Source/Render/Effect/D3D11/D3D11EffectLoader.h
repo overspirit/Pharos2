@@ -66,7 +66,7 @@ namespace Pharos
 				string name;
 				string value;
 				string bind;
-				string size;				
+				string arraySize;				
 				vector<Member> children;
 			};
 

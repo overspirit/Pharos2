@@ -37,7 +37,7 @@
     <member type="float4" name="pos" semantic="SV_POSITION"/>
   </struct>
 
-  <shader vertex_shader="Sprite2DVS">
+  <shader>
     <![CDATA[
     
 VS_OUTPUT FontVS(VS_INPUT input)    

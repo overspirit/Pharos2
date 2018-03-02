@@ -127,7 +127,15 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 						}
 
 						string techKey = passParam.paramList["vertexShader"] + passParam.paramList["fragmentShader"] + passParam.paramList["defines"];
-						materialData.techName = techKeyMap[techKey];
+						auto iter = techKeyMap.find(techKey);
+						if (iter != techKeyMap.end())
+						{
+							materialData.techName = iter->second;
+						}
+						else
+						{
+							assert(false);
+						}
 					}
 					else
 					{
@@ -146,6 +154,34 @@ bool BundleSceneImporter::LoadSceneFile(const char8* file)
 	if (!ReadBundleHeader(&bundleFile)) return false;
 	if (!ReadBundleScene(&bundleFile)) return false;
 	
+	map<string, MaterialData> materialDataList;
+	for (auto iter : m_materialDataList)
+	{
+		MaterialData& materialData = iter.second;
+
+		string techName = materialData.techName;
+		materialDataList[techName] = materialData;
+	}
+
+	OutputDebugStringA("\n\n");
+
+	for (auto iter : materialDataList)
+	{
+		char8 buf[1024];
+		sprintf(buf, "Tech Name: %s\n", iter.first.c_str());
+		OutputDebugStringA(buf);
+
+		MaterialData& materialData = iter.second;
+
+		for (auto it : materialData.varList)
+		{
+			sprintf(buf, "		Var Name: %s\n", it.first.c_str());
+			OutputDebugStringA(buf);
+		}
+
+		OutputDebugStringA("\n\n");
+	}
+
 	return true;
 }
 
@@ -158,14 +194,22 @@ string BundleSceneImporter::ChangeValueFormat(const string& str)
 {
 	string value = str;
 
-	while (true) 
+	size_t index = 0;
+	if (!value.empty())
 	{
-		string::size_type pos = 0;
-		if ((pos = value.find(",")) != string::npos)
+		while ((index = value.find(' ', index)) != string::npos)
 		{
-			value.replace(pos, 1, "\0x20");
+			value.erase(index, 1);
 		}
-		else break;
+	}
+
+	char8* temp = (char8*)value.c_str();
+	for (uint32 i = 0; i < value.length(); i++)
+	{
+		if (temp[i] == ',')
+		{
+			temp[i] = (char8)0x20;
+		}
 	}
 
 	return value;

@@ -79,7 +79,7 @@ namespace Pharos
 			//virtual MaterialPtr GenerateMaterialObject();
 
 			virtual void SetGlobalRenderValue(const char8* name, const RenderValue& value);
-			virtual const RenderValue& GetGlobalRenderValue(const char8* name) const;
+			virtual const RenderValue& GetGlobalRenderValue(const string& name) const;
 
 			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
 			
