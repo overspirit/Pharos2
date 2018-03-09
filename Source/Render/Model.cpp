@@ -2,10 +2,6 @@
 #include "CoreGlobal.h"
 #include "RenderGlobal.h"
 
-const static string VIEW_MATRIX_NAME = "VIEW_MATRIX";
-const static string PROJ_MATRIX_NAME = "PROJ_MATRIX";
-const static string EYE_POS_NAME = "CAMERA_WORLD_POSITION";
-
 Model::Model()
 {
 	m_currAnim = nullptr;
@@ -190,9 +186,9 @@ void Model::TransformWorld(const Matrix4& world)
 
 void Model::Draw()
 {
-	const RenderValue& viewValue = sRenderMgr->GetGlobalRenderValue(VIEW_MATRIX_NAME);
-	const RenderValue& projValue = sRenderMgr->GetGlobalRenderValue(PROJ_MATRIX_NAME);
-	const RenderValue& eyePosValue = sRenderMgr->GetGlobalRenderValue(EYE_POS_NAME);
+	const RenderValue& viewValue = sRenderMgr->GetGlobalRenderValue(VIEW_MATRIX);
+	const RenderValue& projValue = sRenderMgr->GetGlobalRenderValue(PROJ_MATRIX);
+	const RenderValue& eyePosValue = sRenderMgr->GetGlobalRenderValue(CAMERA_WORLD_POSITION);
 
 	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
 	{
@@ -210,12 +206,12 @@ void Model::Draw()
 		RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
 		DrawType drawType = m_meshGroupList[i]->GetDrawType();
 		RenderTechnique* tech = material->GetMaterialTechnique();
-
+		
 		RenderBlock* block = m_blockList[i];
 		block->BindLayout(layout);
 		block->BindTechnique(tech);
 		block->SetDrawType(drawType);
-
+		
 		sRenderMgr->DoRender(block);
 	}
 }

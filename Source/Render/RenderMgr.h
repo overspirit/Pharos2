@@ -44,13 +44,16 @@ namespace Pharos
 			float32				m_clearDepth;
 			uint32				m_clearStencil;
 
-			list<RenderBlock*>		m_blockList;
-			
+			//使用blockCount主要是为了优化，防止blockList反复变换大小
+			vector<RenderBlock*>		m_blockList;
+			uint32						m_blockCount;
+
 			IRenderCallback*		m_renderCallback;
 
 			map<string, RenderTechnique*>	m_techList;
 
-			map<string, RenderValue>	m_globalValueList;
+			//map<string, RenderValue>	m_globalValueList;
+			vector<RenderValue>			m_globalValueList;
 
 		public:
 			virtual bool Init();
@@ -78,8 +81,8 @@ namespace Pharos
 			//virtual MeshPtr GenerateMeshObject();
 			//virtual MaterialPtr GenerateMaterialObject();
 
-			virtual void SetGlobalRenderValue(const char8* name, const RenderValue& value);
-			virtual const RenderValue& GetGlobalRenderValue(const string& name) const;
+			virtual void SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value);
+			virtual const RenderValue& GetGlobalRenderValue(uint32 valueIndex) const;
 
 			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
 			

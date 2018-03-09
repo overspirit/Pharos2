@@ -98,10 +98,10 @@ void OctreeScene::Update(float32 fElapsed)
 	const Matrix4& viewMat = m_camera->GetViewMatrix();
 	const Matrix4& projMat = m_camera->GetProjMatrix();
 
-	sRenderMgr->SetGlobalRenderValue("CAMERA_WORLD_POSITION", cameraPosValue);
+	sRenderMgr->SetGlobalRenderValue(CAMERA_WORLD_POSITION, cameraPosValue);
 	//sRenderMgr->SetGlobalRenderValue("WORLD_MATRIX", );
-	sRenderMgr->SetGlobalRenderValue("VIEW_MATRIX", viewMat);
-	sRenderMgr->SetGlobalRenderValue("PROJ_MATRIX", projMat);
+	sRenderMgr->SetGlobalRenderValue(VIEW_MATRIX, viewMat);
+	sRenderMgr->SetGlobalRenderValue(PROJ_MATRIX, projMat);
 
 	const Frustum& frustum = m_camera->GetViewFrustum();
 	m_pTreeRoot->FrustumCulling(frustum);

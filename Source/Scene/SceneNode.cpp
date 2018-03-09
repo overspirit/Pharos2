@@ -102,7 +102,7 @@ void SceneNode::Update(float32 fElapsed)
 
 	for (auto model : m_modelList)
 	{
-		//model->UpdateAnimation(fElapsed);
+		model->UpdateAnimation(fElapsed);
 
 		model->TransformWorld(m_globalTransform);
 

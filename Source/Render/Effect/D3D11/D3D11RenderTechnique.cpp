@@ -9,20 +9,15 @@ D3D11RenderTechnique::D3D11RenderTechnique()
 
 D3D11RenderTechnique::~D3D11RenderTechnique(void)
 {
-	for (RenderVariable* var : m_varList)
+	for (auto iter : m_varMap)
 	{
-		SAFE_DELETE(var);
+		SAFE_DELETE(iter.second);
 	}
 
-// 	for (VarBlock& block : m_blockList)
-// 	{
-// 		SAFE_DELETE(block.shaderData);
-// 
-// 		for (RenderVariable* var : block.varList)
-// 		{
-// 			SAFE_DELETE(var);
-// 		}
-// 	}
+	for (VarBlock& block : m_blockList)
+	{
+		SAFE_DELETE(block.shaderData);
+	}
 
 	for (RenderPass* pass : m_passList)
 	{

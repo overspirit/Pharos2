@@ -7,6 +7,8 @@ RenderMgr::RenderMgr()
 	m_fps = 0;
 	m_renderCount = 0;
 
+	m_blockCount = 0;
+
 	m_renderCallback = nullptr;
 
 	m_clearColor = 0xFF3F3F3F;//R=43,G=147,B=223
@@ -105,27 +107,33 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	return true;
 }
 
-void RenderMgr::SetGlobalRenderValue(const char8* name, const RenderValue& value)
+void RenderMgr::SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value)
 {
-	m_globalValueList[name] = value;
-}
-
-const RenderValue& RenderMgr::GetGlobalRenderValue(const string& name) const
-{
-	auto iter = m_globalValueList.find(name);
-	if (iter != m_globalValueList.end())
+	if (valueIndex >= m_globalValueList.size())
 	{
-		return iter->second;
+		m_globalValueList.resize(valueIndex + 1);
 	}
 
-	static RenderValue value;
-	return value;
+	m_globalValueList[valueIndex] = value;
+}
+
+const RenderValue& RenderMgr::GetGlobalRenderValue(uint32 valueIndex) const
+{
+	return m_globalValueList[valueIndex];
 }
 
 void RenderMgr::DoRender(RenderBlock* block)
 {
 	if (block == nullptr) return;
-	m_blockList.push_back(block);
+
+	if (m_blockCount <= m_blockList.size())
+	{
+		m_blockList.resize(m_blockCount + 1);
+	}	
+
+	m_blockList[m_blockCount] = block;
+
+	m_blockCount++;
 }
 
 bool RenderMgr::LoadEffectFile(const char8* szPath)
@@ -224,9 +232,15 @@ void RenderMgr::Render(float32 fElapsed)
 	m_renderer->BindFrameBuffer(m_finalFrameBuf);
 	m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
 
-	for (auto& block : m_blockList)
+	for (uint32 i = 0; i < m_blockList.size(); i++)
 	{
-		block->ApplyToDevice();
+		RenderBlock* block = m_blockList[i];
+		if (block != nullptr)
+		{
+			block->ApplyToDevice();
+		}
+
+		m_blockList[i] = nullptr;
 	}
 
 	m_renderer->BindFrameBuffer(nullptr);
@@ -242,7 +256,9 @@ void RenderMgr::Render(float32 fElapsed)
 
 	m_renderer->Present();
 
-	m_blockList.clear();
+	m_blockCount = 0;
+
+	//m_blockList.clear();
 
 	//sRenderSpirite->Resume();
 

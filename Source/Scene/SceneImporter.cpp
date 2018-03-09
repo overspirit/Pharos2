@@ -162,6 +162,8 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 		}
 	}
 
+	material->Apply();
+
 	return material;
 }
 

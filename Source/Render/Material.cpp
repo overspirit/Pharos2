@@ -52,6 +52,8 @@ void Material::SetParameterValue(const char8* valueName, float32 vlaue)
 	if (var == nullptr) return;
 
 	var->SetValue(Vector4Df(vlaue, 0, 0, 1.0f));
+
+	m_variableList[valueName] = var;
 }
 
 void Material::SetParameterValue(const char8* valueName, const Vector2Df& vlaue)
@@ -62,6 +64,8 @@ void Material::SetParameterValue(const char8* valueName, const Vector2Df& vlaue)
 	if (var == nullptr) return;
 
 	var->SetValue(Vector4Df(vlaue.x, vlaue.y, 0, 1.0f));
+
+	m_variableList[valueName] = var;
 }
 
 void Material::SetParameterValue(const char8* valueName, const Vector3Df& vlaue)
@@ -72,6 +76,8 @@ void Material::SetParameterValue(const char8* valueName, const Vector3Df& vlaue)
 	if (var == nullptr) return;
 
 	var->SetValue(Vector4Df(vlaue.x, vlaue.y, vlaue.z, 1.0f));
+
+	m_variableList[valueName] = var;
 }
 
 void Material::SetParameterValue(const char8* valueName, const Vector4Df& vlaue)
@@ -82,6 +88,8 @@ void Material::SetParameterValue(const char8* valueName, const Vector4Df& vlaue)
 	if (var == nullptr) return;
 
 	var->SetValue(vlaue);
+
+	m_variableList[valueName] = var;
 }
 
 void Material::SetParameterValue(const char8* valueName, const Matrix4& vlaue)
@@ -92,6 +100,8 @@ void Material::SetParameterValue(const char8* valueName, const Matrix4& vlaue)
 	if (var == nullptr) return;
 
 	var->SetValue(vlaue);
+
+	m_variableList[valueName] = var;
 }
 
 void Material::SetParameterValue(const char8* valueName, RenderTexture* texture)
@@ -104,6 +114,16 @@ void Material::SetParameterValue(const char8* valueName, RenderTexture* texture)
 
 	var->SetValue(texture);
 
+	m_variableList[valueName] = var;
+
 	m_texList.push_back(texture);
 }
 
+void Material::Apply()
+{
+	for (auto& iter : m_variableList)
+	{
+		string valueName = iter.first;
+		RenderVariable* var = iter.second;
+	}
+}

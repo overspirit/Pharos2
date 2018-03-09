@@ -102,4 +102,8 @@
 
 #define sRenderSpirite RenderSprite::Inst()
 
+const static uint32 VIEW_MATRIX = 0;
+const static uint32 PROJ_MATRIX = 1;
+const static uint32 CAMERA_WORLD_POSITION = 2;
+
 using namespace Render;

@@ -22,6 +22,8 @@ namespace Pharos
 
 			vector<RenderTexture*>		m_texList;
 
+			map<string, RenderVariable*>	m_variableList;
+
 		public:
 			virtual void SetRenderTechnique(const char8* techName);
 
@@ -37,6 +39,8 @@ namespace Pharos
 			virtual RenderVariable* GetTechniqueViewVariable() { return m_viewVar; }
 			virtual RenderVariable* GetTechniqueProjVariable() { return m_projVar; }
 			virtual RenderVariable* GetTechniqueEyePosVariable() { return m_eyePosVar; }
+
+			virtual void Apply();
 		};
 	}
 }
