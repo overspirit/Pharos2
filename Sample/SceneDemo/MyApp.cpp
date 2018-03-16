@@ -45,68 +45,18 @@ bool MyApp::Init()
 
 	sRenderMgr->RegisterRenderCallback(this);
 
-	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderColored.fxml");
-	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderInterior.fxml");
-	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderStar.fxml");
-	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderReflective.fxml");
-	sRenderMgr->LoadEffectFile("D:/HiSceneV5/HiSceneShaderTextured.fxml");
-
 	m_scene = sSceneMgr->CreateScene();
 	//scene->SetSceneSize(Size2Di(128, 128), 128);
 	sSceneMgr->SetCurrScene(m_scene);
 
-	//SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("D:/HiSceneV5/HiScene-v5-4094-GS8/res/common/gs8.gpz");
-	//sceneImporter->ImportScene(m_scene);
-	//sceneImporter->SaveTo("D:/gs8.sceneml");
-
-	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("D:/gs8.sceneml");
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("hero3/hero3.sceneml");
 	sceneImporter->ImportScene(m_scene);
 
 	SAFE_DELETE(sceneImporter);
 
 	m_camera = m_scene->GetSceneCamera();
-	m_camera->BuildViewMatrix(Vector3Df(75.0f, 75.0f, -75.0f), Vector3Df(0, 0, 0));
+	m_camera->BuildViewMatrix(Vector3Df(5.0f, 5.0f, -5.0f), Vector3Df(0, 0, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
-
-	vector<string> hideList =
-	{
-		"Car_CHUANGQIGS8_360Scene", "Car_Surrounding", "TrunkSpace", "Car_Features", "koubei",
-		"xinxi", "Static_Obj", "Dynamic_Obj", "Configuration_Points", "Space_Configuration", "Passengers"
-	};
-
-	for (string hideName : hideList)
-	{
-		SceneNode* sceneNode = sSceneMgr->GetSceneNode(hideName.c_str());
-		if (sceneNode != nullptr) sceneNode->SetHidden(true);
-	}
-
-// 	m_renderer = sRenderMgr->GetCurrentRenderer();
-// 
-// 	Vertex vertData[] =
-// 	{
-// 		{ Vector3Df(-0.5f,  0.5f, 0), Vector2Df(0, 0) },
-// 		{ Vector3Df(0.5f, 0.5f, 0), Vector2Df(1.0f, 0) },
-// 		{ Vector3Df(0.5f, -0.5f, 0), Vector2Df(1.0f, 1.0f) },
-// 
-// 		{ Vector3Df(0.5f, -0.5f, 0), Vector2Df(1.0f, 1.0f) },
-// 		{ Vector3Df(-0.5f, -0.5f, 0), Vector2Df(0, 1.0f) },
-// 		{ Vector3Df(-0.5f, 0.5f, 0), Vector2Df(0, 0) },
-// 	};
-// 
-// 	MemoryBuffer vertDataBuf;
-// 	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-// 	m_copyLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
-// 
-// 	VertLayoutDesc desc[] =
-// 	{
-// 		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
-// 		{ VET_FLOAT32, 2, "TEXCOORD", 0, 12 },
-// 	};
-// 	m_copyLayout->SetInputLayoutDesc(desc, 2);
-// 
-// 	m_copyTech = sRenderMgr->GenerateRenderTechnique("Copy");
-// 	RenderPass* copyPass = m_copyTech->GetPass(0);
-// 	m_copyShader = copyPass->GetShaderProgram();
 
 	return true;
 }
@@ -114,10 +64,6 @@ bool MyApp::Init()
 void MyApp::Destroy()
 {
 	SAFE_DELETE(m_scene);
-
-	//SAFE_DELETE(m_renderer);
-	//SAFE_DELETE(m_copyLayout);
-	//SAFE_DELETE(m_copyTech);
 }
 
 void MyApp::onViewCreate()

@@ -30,10 +30,10 @@ void Material::SetRenderTechnique(const char8* techName)
 
 	if (m_renderTech != nullptr)
 	{
-		m_worldVar = m_renderTech->GenerateVariable("g_world", 64);
-		m_viewVar = m_renderTech->GenerateVariable("g_view", 64);
-		m_projVar = m_renderTech->GenerateVariable("g_proj", 64);
-		m_eyePosVar = m_renderTech->GenerateVariable("g_eye_pos", 16);
+		m_worldVar = m_renderTech->GetVariable("g_world");
+		m_viewVar = m_renderTech->GetVariable("g_view");
+		m_projVar = m_renderTech->GetVariable("g_proj");
+		m_eyePosVar = m_renderTech->GetVariable("g_eye_pos");
 
 		if (m_worldVar == nullptr ||
 			m_viewVar == nullptr ||
@@ -41,6 +41,11 @@ void Material::SetRenderTechnique(const char8* techName)
 		{
 			assert(false);
 		}
+
+		m_worldVar->SetDataSize(64);
+		m_viewVar->SetDataSize(64);
+		m_projVar->SetDataSize(64);
+		if(m_eyePosVar != nullptr) m_eyePosVar->SetDataSize(16);
 	}
 }
 

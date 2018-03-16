@@ -37,16 +37,14 @@ bool D3D11RenderTechnique::Create(const char8* effectText, const TechniqueInfo& 
 
 		VarBlock  varBlock;
 		varBlock.slot = bufInfo.bind;
-		varBlock.shaderData = nullptr;// m_renderer->CreateShaderData();
+		varBlock.shaderData = m_renderer->CreateShaderData();
 
 		for (uint32 j = 0; j < bufInfo.varList.size(); j++)
 		{
 			string varName = bufInfo.varList[j];
-			//RenderVariable* var = new RenderVariable(varName.c_str(), 0xFF);
-			//var->SetOwner(varBlock.shaderData);
-
-			//m_varMap[varName] = var;
-			varBlock.varNameList.push_back(varName);
+			RenderVariable* var = new RenderVariable(varName.c_str(), 0xFF);
+			m_varMap[varName] = var;
+			varBlock.varList.push_back(var);
 		}
 
 		m_blockList.push_back(varBlock);
@@ -86,19 +84,18 @@ RenderTechnique* D3D11RenderTechnique::Clone()
 	{
 		VarBlock newVarBlock;
 		newVarBlock.slot = varBlock.slot;
-		newVarBlock.shaderData = nullptr;// m_renderer->CreateShaderData();
-		newVarBlock.varNameList = varBlock.varNameList;
+		newVarBlock.shaderData = m_renderer->CreateShaderData();
 
-// 		for (RenderVariable* var : varBlock.varNameList)
-// 		{
-// 			string varName = var->GetName();
-// 			uint32 slot = var->GetSlot();
-// 
-// 			RenderVariable* new_var = new RenderVariable(varName.c_str(), slot);
-// 
-// 			newVarBlock.varList.push_back(new_var);
-// 			tech->m_varMap[varName] = new_var;
-// 		}
+		for (RenderVariable* var : varBlock.varList)
+		{
+			string varName = var->GetName();
+			uint32 slot = var->GetSlot();
+
+			RenderVariable* new_var = new RenderVariable(varName.c_str(), slot);
+
+			newVarBlock.varList.push_back(new_var);
+			tech->m_varMap[varName] = new_var;
+		}
 
 		tech->m_blockList.push_back(newVarBlock);
 	}
@@ -124,101 +121,37 @@ RenderTechnique* D3D11RenderTechnique::Clone()
 	return tech;
 }
 
-RenderVariable* D3D11RenderTechnique::GenerateVariable(const char8* name, uint32 dataSize)
-{
-	for (VarBlock& varBlock : m_blockList)
-	{
-		for (string& varName : varBlock.varNameList)
-		{
-			if (varName == name)
-			{
-				RenderVariable* var = new RenderVariable(varName.c_str(), 0xFF);
-				var->SetDataSize(dataSize);
-
-				m_varMap[varName] = var;
-
-				return var;
-			}
-		}
-	}
-	return nullptr;
-}
-
 void D3D11RenderTechnique::ApplyToDevice()
 {
 	for (uint32 i = 0; i < m_blockList.size(); i++)
 	{
 		VarBlock& varBlock = m_blockList[i];
 
-		if (varBlock.shaderData == nullptr)
+		uint32 dataOffset = 0;
+
+		for (uint32 j = 0; j < varBlock.varList.size(); j++)
 		{
-			varBlock.shaderData = m_renderer->CreateShaderData();
+			RenderVariable* var = varBlock.varList[j];
 
-			uint32 shaderDataSize = 0;
-
-			for (uint32 j = 0; j < varBlock.varNameList.size(); j++)
+			if (var == nullptr)
 			{
-				RenderVariable* var = m_varMap[varBlock.varNameList[j]];
-
-				if (var != nullptr)
-				{
-					uint32 varDataSize = var->GetDataSize();
-
-					var->SetOwner(varBlock.shaderData, shaderDataSize);
-					shaderDataSize += varDataSize;
-				}
+				assert(false);
 			}
-		}
 
+			uint32 varDataSize = var->GetDataSize();
+
+			if (var->IsDataChange())
+			{
+				MemoryBuffer& membuf = var->GetMemoryData();
+				varBlock.shaderData->CopyData(&membuf, dataOffset);
+				var->SetDataChange(false);
+			}
+
+			dataOffset += varDataSize;
+		}
+	
 		varBlock.shaderData->ApplyToDevice(varBlock.slot);
 	}
-
-	// 	for (uint32 i = 0; i < m_varBlockList.size(); i++)
-	// 	{
-	// 		VarBlock& varBlock = m_varBlockList[i];
-	// 		if (varBlock.dataBuf.GetPointer() == nullptr)
-	// 		{
-	// 			uint32 buffSize = 0;
-	// 			for (auto var : varBlock.varList)
-	// 			{
-	// 				const MemoryBuffer& data = var->GetMemoryBuffer();
-	// 				//if (data != nullptr)
-	// 				{
-	// 					buffSize += data.GetLength();
-	// 				}
-	// 			}
-	// 
-	// 			//D3D11要求ConstantBuffer的大小必须是16的整数倍...
-	// 			if (buffSize < 16) buffSize = 16;
-	// 
-	// 			varBlock.dataBuf.Alloc(buffSize);
-	// 		}
-	// 
-	// 		uint32 offset = 0;
-	// 		for (uint32 j = 0; j < varBlock.varList.size(); j++)
-	// 		{
-	// 			RenderVariable* var = varBlock.varList[j];
-	// 			const MemoryBuffer& data = var->GetMemoryBuffer();
-	// 			//if (data != nullptr)
-	// 			{
-	// 				uint32 dataSize = data.GetLength();
-	// 				varBlock.dataBuf.Insert(offset, data);
-	// 				offset += dataSize;
-	// 			}
-	// 		}
-	// 
-	// 		D3D11ConstantBuffer* cb = static_cast<D3D11ConstantBuffer*>(varBlock.shaderData);
-	// 		cb->CopyData(&varBlock.dataBuf);
-	// 		cb->ApplyToDevice(varBlock.slot);
-	// 	}
-
-// 	for (uint32 i = 0; i < m_constantBufList.size(); i++)
-// 	{
-// 		if (m_constantBufList[i] != nullptr)
-// 		{
-// 			m_constantBufList[i]->ApplyToDevice(i);
-// 		}
-// 	}
 
 	//绑定texture
 	for (uint32 i = 0; i < m_varList.size(); i++)

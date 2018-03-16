@@ -14,7 +14,7 @@ namespace Pharos
 			{
 				uint32						slot;
 				RenderShaderData*			shaderData;
-				vector<string>				varNameList;
+				vector<RenderVariable*>		varList;
 			};
 
 		protected:
@@ -31,8 +31,6 @@ namespace Pharos
 			virtual RenderTechnique* Clone() = 0;
 
 			virtual const char8* GetTechName() { return m_techName.c_str(); }
-
-			virtual RenderVariable* GenerateVariable(const char8* name, uint32 dataSize) = 0;
 
 			RenderVariable* GetVariable(const char8* name)
 			{
