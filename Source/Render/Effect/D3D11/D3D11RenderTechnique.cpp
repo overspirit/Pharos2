@@ -25,23 +25,23 @@ D3D11RenderTechnique::~D3D11RenderTechnique(void)
 	}
 }
 
-bool D3D11RenderTechnique::Create(const char8* effectText, const TechniqueInfo& info)
+bool D3D11RenderTechnique::Create(TechniqueInfo* techInfo)
 {
 	m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
+	D3D11TechniqueInfo* d3dTechInfo = static_cast<D3D11TechniqueInfo*>(techInfo);
 
-	m_techName = info.techName;
+	m_techName = d3dTechInfo->GetTechniqueName();
+	string shaderText = d3dTechInfo->GetTechniqueText();
 
-	for (uint32 i = 0; i < info.constantBufInfos.size(); i++)
+	for (uint32 i = 0; i < d3dTechInfo->GetConstantBufferNum(); i++)
 	{
-		const ConstantBuffInfo& bufInfo = info.constantBufInfos[i];
-
 		VarBlock  varBlock;
-		varBlock.slot = bufInfo.bind;
+		varBlock.slot = d3dTechInfo->GetConstantBufferSlot(i);
 		varBlock.shaderData = m_renderer->CreateShaderData();
 
-		for (uint32 j = 0; j < bufInfo.varList.size(); j++)
+		for (uint32 j = 0; j < d3dTechInfo->GetConstantBufferVariableNum(i); j++)
 		{
-			string varName = bufInfo.varList[j];
+			string varName = d3dTechInfo->GetConstantBufferVariableName(i, j);
 			RenderVariable* var = new RenderVariable(varName.c_str(), 0xFF);
 			m_varMap[varName] = var;
 			varBlock.varList.push_back(var);
@@ -50,24 +50,41 @@ bool D3D11RenderTechnique::Create(const char8* effectText, const TechniqueInfo& 
 		m_blockList.push_back(varBlock);
 	}
 
-	for (uint32 i = 0; i < info.varInfos.size(); i++)
+	for (uint32 i = 0; i < d3dTechInfo->GetVariableNum(); i++)
 	{
-		string varName = info.varInfos[i].name;
-		uint32 slot = info.varInfos[i].bind;
+		string varName = d3dTechInfo->GetVariableName(i);
+		uint32 slot = d3dTechInfo->GetVariableSlot(i);
 
 		RenderVariable* var = new RenderVariable(varName.c_str(), slot);
 		m_varMap[varName] = var;
 		m_varList.push_back(var);
 	}
 
-	for (uint32 i = 0; i < info.passInfos.size(); i++)
+	for (uint32 i = 0; i < d3dTechInfo->GetPassNum(); i++)
 	{
-		D3D11RenderPass* pass = new D3D11RenderPass();
-		if (!pass->Create(effectText, info.passInfos[i]))
+		string vertEnter = d3dTechInfo->GetPassVertexEnter(i);
+		string pixelEnter = d3dTechInfo->GetPassPixelEnter(i);
+
+		D3D11ShaderProgram* shader = static_cast<D3D11ShaderProgram*>(m_renderer->GenerateRenderProgram());
+		if (!shader->CompileVertexShader(shaderText.c_str(), vertEnter.c_str())
+			|| !shader->CompilePixelShader(shaderText.c_str(), pixelEnter.c_str()))
 		{
-			pass = nullptr;
+			SAFE_DELETE(shader);
 		}
 
+		const RasterizerStateDesc& rasterDesc = d3dTechInfo->GetPassRasterizerState(i);
+		const BlendStateDesc& blendDesc = d3dTechInfo->GetPassBlendState(i);
+		const DepthStencilStateDesc& depthDesc = d3dTechInfo->GetPassDepthStencilState(i);
+
+		D3D11DepthStencilState* depthState = static_cast<D3D11DepthStencilState*>(m_renderer->CreateDepthStencilState(depthDesc));
+		D3D11RasterizerState* rasterizerState = static_cast<D3D11RasterizerState*>(m_renderer->CreateRasterizerState(rasterDesc));
+		D3D11BlendState* blendState = static_cast<D3D11BlendState*>(m_renderer->CreateBlendState(blendDesc));
+
+		D3D11RenderPass* pass = new D3D11RenderPass();
+		pass->BindShaderProgram(shader);
+		pass->BindDepthStencilState(depthState);
+		pass->BindBlendState(blendState);
+		pass->BindRasterizerState(rasterizerState);
 		m_passList.push_back(pass);
 	}
 
@@ -126,7 +143,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 	for (uint32 i = 0; i < m_blockList.size(); i++)
 	{
 		VarBlock& varBlock = m_blockList[i];
-
+		
 		uint32 dataOffset = 0;
 
 		for (uint32 j = 0; j < varBlock.varList.size(); j++)

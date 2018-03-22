@@ -22,6 +22,13 @@ namespace Pharos
 				Vector2Df	tex;
 			};
 
+			struct GlobalData
+			{
+				Matrix4		viewMatrix;
+				Matrix4		projMatirx;
+				Vector4Df	eyePosition;
+			};
+
 		private:
 			Timer				m_timer;
 			uint32				m_fps;
@@ -53,7 +60,10 @@ namespace Pharos
 			map<string, RenderTechnique*>	m_techList;
 
 			//map<string, RenderValue>	m_globalValueList;
-			vector<RenderValue>			m_globalValueList;
+			//vector<RenderValue>			m_globalValueList;
+
+			RenderShaderData*		m_globalShaderData;
+			GlobalData				m_globalDataBuffer;
 
 		public:
 			virtual bool Init();
@@ -81,8 +91,11 @@ namespace Pharos
 			//virtual MeshPtr GenerateMeshObject();
 			//virtual MaterialPtr GenerateMaterialObject();
 
-			virtual void SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value);
-			virtual const RenderValue& GetGlobalRenderValue(uint32 valueIndex) const;
+			//virtual void SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value);
+			//virtual const RenderValue& GetGlobalRenderValue(uint32 valueIndex) const;
+			virtual void SetGlobalRenderViewMatrix(const Matrix4& viewMatrix);
+			virtual void SetGlobalRenderProjMatrix(const Matrix4& projMatrix);
+			virtual void SetGlobalRenderEyePostion(const Vector3Df& eyePos);
 
 			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
 			

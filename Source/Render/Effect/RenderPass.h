@@ -10,6 +10,7 @@ namespace Pharos
 			virtual ~RenderPass(){}
 
 		public:
+			virtual void BindShaderProgram(RenderProgram* shader) = 0;
 			virtual void BindFrameBuffer(RenderFrameBuffer* frameBuf) = 0;
 			virtual void BindRasterizerState(RenderRasterizerState* state) = 0;
 			virtual void BindDepthStencilState(RenderDepthStencilState* state) = 0;

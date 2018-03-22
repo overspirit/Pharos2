@@ -11,21 +11,21 @@ namespace Pharos
 		// 			TYPE_END,
 		// 		};
 
-		class RenderValue
-		{
-		public:
-			RenderValue() { m_dataBuf = nullptr; m_dataSize = 0; }
-			template<class T> RenderValue(const T& value) { m_dataSize = sizeof(value); m_dataBuf = &value; }
-			virtual ~RenderValue() {	}
-
-		private:
-			const void*			m_dataBuf;
-			uint32				m_dataSize;
-
-		public:
-			uint32 GetDataSize() const { return m_dataSize; }
-			const void* GetDataPoint() const { return m_dataBuf; }
-		};
+// 		class RenderValue
+// 		{
+// 		public:
+// 			RenderValue() { m_dataBuf = nullptr; m_dataSize = 0; }
+// 			template<class T> RenderValue(const T& value) { m_dataSize = sizeof(value); m_dataBuf = &value; }
+// 			virtual ~RenderValue() {	}
+// 
+// 		private:
+// 			const void*			m_dataBuf;
+// 			uint32				m_dataSize;
+// 
+// 		public:
+// 			uint32 GetDataSize() const { return m_dataSize; }
+// 			const void* GetDataPoint() const { return m_dataBuf; }
+// 		};
 
 		class RenderVariable
 		{
@@ -55,6 +55,7 @@ namespace Pharos
 			bool				m_dataChange;
 
 			RenderTexture*		m_texture;
+
 		public:
 			template<class T>
 			void SetValue(const T& value)
@@ -63,24 +64,24 @@ namespace Pharos
 				const void* valueData = &value;
 				
 				m_dataBuf.CopyFrom(valueData, dataSize);
-
+				m_dataSize = dataSize;
 				m_dataChange = true;
 			}
 
-			void SetValue(const RenderValue& value)
-			{
-				uint32 dataSize = value.GetDataSize();
-				const void* valueData = value.GetDataPoint();
-
-				m_dataBuf.CopyFrom(valueData, dataSize);
-
-				m_dataChange = true;
-			}
+// 			void SetValue(const RenderValue& value)
+// 			{
+// 				uint32 dataSize = value.GetDataSize();
+// 				const void* valueData = value.GetDataPoint();
+// 
+// 				m_dataBuf.CopyFrom(valueData, dataSize);
+// 				m_dataSize = dataSize;
+// 				m_dataChange = true;
+// 			}
 
 			void SetValue(RenderTexture* tex)
 			{
 				m_texture = tex;
-
+				m_dataSize = 0;
 				m_dataChange = true;
 			}
 

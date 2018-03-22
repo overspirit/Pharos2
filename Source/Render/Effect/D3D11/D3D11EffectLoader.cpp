@@ -18,6 +18,10 @@ D3D11EffectLoader::D3D11EffectLoader()
 
 D3D11EffectLoader::~D3D11EffectLoader()
 {
+	for (uint32 i = 0; i < m_techInfoList.size(); i++)
+	{
+		SAFE_DELETE(m_techInfoList[i]);
+	}
 }
 
 bool D3D11EffectLoader::Load(const char8* szPath)
@@ -109,111 +113,83 @@ bool D3D11EffectLoader::Load(const char8* szPath)
 	}
 
 	m_effectText = ss.str() + m_shaderText;
-
-	//sema list
+	
+	//建立TechInfo
 	//////////////////////////////////////////////////////////////////////////
-	uint32 structNum = (uint32)m_structList.size();
-	vector<SemaStruct> structList(structNum);
-	for (uint32 i = 0; i < structNum; i++)
-	{
-		uint32 semaNum = (uint32)m_structList[i].children.size();
-		vector<SemaPair> semaList(semaNum);
-		for (uint32 j = 0; j < semaNum; j++)
-		{
-			semaList[j].name = m_structList[i].children[j].name;
-			semaList[j].sema = m_structList[i].children[j].bind;
-		}
-
-		structList[i].name = m_structList[i].name;
-		structList[i].semaList = semaList;
-	}
-	//////////////////////////////////////////////////////////////////////////
-
-	//constant buffer
-	//////////////////////////////////////////////////////////////////////////
-	uint32 cbuffNum = (uint32)m_constantList.size();
-	vector<ConstantBuffInfo> varBufList(cbuffNum);
-	for (uint32 i = 0; i < cbuffNum; i++)
-	{
-		uint32 paramNum = (uint32)m_constantList[i].children.size();
-		vector<string> varInfoList(paramNum);
-		for (uint32 j = 0; j < paramNum; j++)
-		{
-			Member& paramMember = m_constantList[i].children[j];
-			varInfoList[j] = paramMember.name;
-		}
-
-		ConstantBuffInfo& varBufInfo = varBufList[i];
-		varBufInfo.name = m_constantList[i].name;
-		varBufInfo.bind = strtol(m_constantList[i].bind.c_str() + 1, NULL, 10);
-		varBufInfo.varList = varInfoList;
-	}
-	//////////////////////////////////////////////////////////////////////////
-
-	//variable buffer
-	//////////////////////////////////////////////////////////////////////////
-	uint32 varNum = (uint32)m_variableList.size();
-	vector<VariableInfo> varList(varNum);
-	for (uint32 i = 0; i < m_variableList.size(); i++)
-	{
-		varList[i].name = m_variableList[i].name;
-		varList[i].bind = strtol(m_variableList[i].bind.c_str() + 1, NULL, 10);
-	}
-	//////////////////////////////////////////////////////////////////////////
-
-	uint32 techNum = (uint32)m_techniqueList.size();
-	m_techInfoList.resize(techNum);
-	for (uint32 i = 0; i < techNum; i++)
-	{
+ 	for (uint32 i = 0; i < (uint32)m_techniqueList.size(); i++)
+ 	{
 		Member& techMember = m_techniqueList[i];
 
-		uint32 passNum = (uint32)techMember.children.size();
-		vector<PassInfo> passList(passNum);
+		D3D11TechniqueInfo* techInfo = new D3D11TechniqueInfo(); 		
+		techInfo->SetTechniqueName(techMember.name.c_str());
+		techInfo->SetTechniqueText(m_effectText.c_str());
 
-		for (uint32 j = 0; j < passNum; j++)
+		//添加Variable 
+		//////////////////////////////////////////////////////////////////////////
+		for (uint32 j = 0; j < (uint32)m_variableList.size(); j++)
 		{
-			Member& passMember = techMember.children[j];
-			PassInfo& passInfo = passList[j];
-			
-			for (uint32 k = 0; k < passMember.children.size(); k++)
-			{
-				Member& param = passMember.children[k];
+			string varName = m_variableList[j].name;
+			uint32 varBind = strtol(m_variableList[j].bind.c_str() + 1, NULL, 10);
+			techInfo->AddVariable(varName.c_str(), varBind);
+		}
+		//////////////////////////////////////////////////////////////////////////
 
-				FillBlendState(passInfo.blendDesc, param.name.c_str(), param.value.c_str());
-				FillDepthStencilState(passInfo.depthDesc, param.name.c_str(), param.value.c_str());
-				FillRasterizerState(passInfo.rasterDesc, param.name.c_str(), param.value.c_str());
-				
-				if (param.name == "vertex_shader")
-				{
-					passInfo.vertEnter = param.value;
-				}
-				else if (param.name == "pixel_shader")
-				{
-					passInfo.pixelEnter = param.value;
-				}
+		//添加ConstantBuffer
+		//////////////////////////////////////////////////////////////////////////
+			for (uint32 j = 0; j < (uint32)m_constantList.size(); j++)
+		{
+			string name = m_constantList[j].name;
+			uint32 bind = strtol(m_constantList[j].bind.c_str() + 1, NULL, 10);
+			uint32 contantIndex = techInfo->AddConstantBuffer(name.c_str(), bind);
+
+			for (uint32 k = 0; k < (uint32)m_constantList[j].children.size(); k++)
+			{
+				Member& paramMember = m_constantList[j].children[k];
+				techInfo->AddConstantBufferVariable(contantIndex, paramMember.name.c_str());			
 			}
 		}
+		//////////////////////////////////////////////////////////////////////////
 
-		TechniqueInfo& techInfo = m_techInfoList[i];
-		techInfo.techName = m_techniqueList[i].name;
-		techInfo.semaInfos = structList;
-		techInfo.varInfos = varList;
-		techInfo.constantBufInfos = varBufList;
-		techInfo.passInfos = passList;
-	}
+		//添加pass
+		//////////////////////////////////////////////////////////////////////////
+		for (uint32 j = 0; j < (uint32)techMember.children.size(); j++)
+ 		{
+ 			Member& passMember = techMember.children[j];
 
-	for (uint32 i = 0; i < m_techInfoList.size(); i++)
-	{
-		D3D11RenderTechnique* tech = new D3D11RenderTechnique();
-		if (tech->Create(m_effectText.c_str(), m_techInfoList[i]))
-		{
-			m_techList.push_back(tech);
-		}
-		else
-		{
-			assert(false);
-		}
-	}
+			BlendStateDesc blendDesc;
+			DepthStencilStateDesc depthDesc;
+			RasterizerStateDesc rasterDesc;
+			string vertEnter;
+			string pixelEnter;
+
+ 			for (uint32 k = 0; k < passMember.children.size(); k++)
+ 			{
+ 				Member& param = passMember.children[k];
+ 
+ 				FillBlendState(blendDesc, param.name.c_str(), param.value.c_str());
+ 				FillDepthStencilState(depthDesc, param.name.c_str(), param.value.c_str());
+ 				FillRasterizerState(rasterDesc, param.name.c_str(), param.value.c_str());
+ 				
+ 				if (param.name == "vertex_shader")
+ 				{
+ 					vertEnter = param.value;
+ 				}
+ 				else if (param.name == "pixel_shader")
+ 				{
+ 					pixelEnter = param.value;
+ 				}
+ 			}
+
+			uint32 passIndex = techInfo->AddPass(vertEnter.c_str(), pixelEnter.c_str());
+			techInfo->SetPassState(passIndex, rasterDesc);
+			techInfo->SetPassState(passIndex, depthDesc);
+			techInfo->SetPassState(passIndex, blendDesc);
+ 		}
+		//////////////////////////////////////////////////////////////////////////
+
+		m_techInfoList.push_back(techInfo);
+ 	}
+	//////////////////////////////////////////////////////////////////////////
 	
 	return true;
 }

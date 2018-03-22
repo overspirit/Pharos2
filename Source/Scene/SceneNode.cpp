@@ -8,6 +8,12 @@ SceneNode::SceneNode()
 	m_hidden = false;
 
 	m_boundingRadius = 0;
+
+	m_pOwner = nullptr;
+
+	m_boundingRadius = 0;
+
+	m_parent = nullptr;
 }
 
 SceneNode::~SceneNode()

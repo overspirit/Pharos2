@@ -24,10 +24,9 @@ namespace Pharos
 			string					m_strError;
 
 		public:
-			virtual bool Create(const char8* shaderText, const PassInfo& info);
-
 			virtual D3D11RenderPass* Clone();
 
+			virtual void BindShaderProgram(RenderProgram* shader);
 			virtual void BindFrameBuffer(RenderFrameBuffer* frameBuf);
 			virtual void BindRasterizerState(RenderRasterizerState* state);
 			virtual void BindDepthStencilState(RenderDepthStencilState* state);

@@ -59,7 +59,7 @@
 
   float4 Sprite3DTexturePS(float4 color : COLOR, float2 tex : TEXCOORD) : SV_TARGET
   {
-    return g_tex.Sample(g_sam, float2(tex.x, 1.0 - tex.y)) * color;
+    return g_tex.Sample(g_sam, float2(tex.x, tex.y)) * color;
   }
 
     ]]>

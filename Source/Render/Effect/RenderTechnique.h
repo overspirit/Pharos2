@@ -28,6 +28,8 @@ namespace Pharos
 			vector<RenderPass*>					m_passList;
 
 		public:
+			virtual bool Create(TechniqueInfo* techInfo) = 0;
+
 			virtual RenderTechnique* Clone() = 0;
 
 			virtual const char8* GetTechName() { return m_techName.c_str(); }

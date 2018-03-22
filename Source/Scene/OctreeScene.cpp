@@ -94,14 +94,12 @@ void OctreeScene::SetSceneSize(const Size2Di& mapSize, uint32 sceneHeight)
 void OctreeScene::Update(float32 fElapsed)
 {
 	const Vector3Df& cameraPos = m_camera->GetPosition();
-	Vector4Df cameraPosValue = Vector4Df(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
 	const Matrix4& viewMat = m_camera->GetViewMatrix();
 	const Matrix4& projMat = m_camera->GetProjMatrix();
 
-	sRenderMgr->SetGlobalRenderValue(CAMERA_WORLD_POSITION, cameraPosValue);
-	//sRenderMgr->SetGlobalRenderValue("WORLD_MATRIX", );
-	sRenderMgr->SetGlobalRenderValue(VIEW_MATRIX, viewMat);
-	sRenderMgr->SetGlobalRenderValue(PROJ_MATRIX, projMat);
+	sRenderMgr->SetGlobalRenderEyePostion(cameraPos);
+	sRenderMgr->SetGlobalRenderViewMatrix(viewMat);
+	sRenderMgr->SetGlobalRenderProjMatrix(projMat);
 
 	const Frustum& frustum = m_camera->GetViewFrustum();
 	m_pTreeRoot->FrustumCulling(frustum);

@@ -262,8 +262,9 @@ namespace Pharos
 
 		public:
 			virtual bool Load(const char8* szPath) = 0;
-			virtual uint32 GetRenderTechniqueNum() = 0;
-			virtual RenderTechnique* GetRenderTechnique(uint32 index) = 0;
+
+			virtual uint32 GetTechniqueInfoNum() = 0;
+			virtual TechniqueInfo* GetTechniqueInfo(uint32 index) = 0;
 		};
 	}
 }

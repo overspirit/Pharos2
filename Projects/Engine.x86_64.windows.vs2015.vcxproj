@@ -42,6 +42,7 @@
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.cpp" />
+    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11TechniqueInfo.cpp" />
     <ClCompile Include="..\Source\Render\Material.cpp" />
     <ClCompile Include="..\Source\Render\Mesh.cpp" />
     <ClCompile Include="..\Source\Render\Model.cpp" />
@@ -113,11 +114,13 @@
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.h" />
+    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11TechniqueInfo.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderBlock.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderEffectLoader.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderPass.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderTechnique.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderVariable.h" />
+    <ClInclude Include="..\Source\Render\Effect\TechniqueInfo.h" />
     <ClInclude Include="..\Source\Render\IRenderCallback.h" />
     <ClInclude Include="..\Source\Render\Material.h" />
     <ClInclude Include="..\Source\Render\Mesh.h" />

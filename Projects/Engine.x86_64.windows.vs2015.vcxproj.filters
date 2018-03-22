@@ -136,6 +136,9 @@
     <ClCompile Include="..\Source\Core\Properties.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11TechniqueInfo.cpp">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\TypesDef.h" />
@@ -414,6 +417,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Core\Properties.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11TechniqueInfo.h">
+      <Filter>Render\Effect\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Effect\TechniqueInfo.h">
+      <Filter>Render\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

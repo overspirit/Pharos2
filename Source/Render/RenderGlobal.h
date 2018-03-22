@@ -15,10 +15,11 @@
 #include "Renderer/RenderLayout.h"
 #include "Renderer/Renderer.h"
 
+#include "Effect/TechniqueInfo.h"
+#include "Effect/RenderEffectLoader.h"
 #include "Effect/RenderVariable.h"
 #include "Effect/RenderPass.h"
 #include "Effect/RenderTechnique.h"
-#include "Effect/RenderEffectLoader.h"
 #include "Effect/RenderBlock.h"
 
 #if defined(_WINDOWS_PLATFORM_)
@@ -35,6 +36,7 @@
 #include "Renderer/D3D11/D3D11ShaderProgram.h"
 #include "Renderer/D3D11/D3D11Renderer.h"
 
+#include "Effect/D3D11/D3D11TechniqueInfo.h"
 #include "Effect/D3D11/D3D11EffectLoader.h"
 #include "Effect/D3D11/D3D11RenderPass.h"
 #include "Effect/D3D11/D3D11RenderTechnique.h"
@@ -42,6 +44,7 @@
 
 #define MakeRenderer() new D3D11Renderer()
 #define MakeEffectLoader() new D3D11EffectLoader()
+#define MakeRenderTechnique() new D3D11RenderTechnique()
 
 #endif
 
@@ -101,9 +104,5 @@
 #define sRenderMgr RenderMgr::Inst()
 
 #define sRenderSpirite RenderSprite::Inst()
-
-const static uint32 VIEW_MATRIX = 0;
-const static uint32 PROJ_MATRIX = 1;
-const static uint32 CAMERA_WORLD_POSITION = 2;
 
 using namespace Render;

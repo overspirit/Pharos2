@@ -47,32 +47,18 @@ bool GridNode::BuildGridData()
 		vertexData.Insert((i * 4 + 3) * sizeof(Vertex), &vt4, sizeof(Vertex));
 	}
 
-// 	MeshData gridMeshData;
-// 	gridMeshData.vertDesc = vertDesc;
-// 	gridMeshData.vertexData = vertexData;
-// 	gridMeshData.drawType = Render::EDT_LINELIST;
-// 		
-// 	ModelData modelData;
-// 	modelData.meshDataList.push_back(gridMeshData);
-// 	m_gridModel = MakeSharedPtr<Model>();
-// 	m_gridModel->InitData(modelData);
+	Material* gridMaterial = new Material();
+	gridMaterial->SetRenderTechnique("Sprite3DColor");
 
-	//m_renderHelper = sSceneMgr->GenerateRenderHelper("Sprite3DColor");
+	Mesh* gridMesh = new Mesh();
+	gridMesh->SetAttachMaterial(gridMaterial);
+	gridMesh->SetMeshData(&vertexData, vertDesc);
+	gridMesh->SetDrawType(Render::EDT_LINELIST);
 
-	//m_gridModel->BuildResource(m_renderHelper);
+	Model* gridModel = new Model();
+	gridModel->AddMesh(gridMesh);
+
+	m_modelList.push_back(gridModel);
 
 	return true;
-}
-
-void GridNode::Update(float32 fElapsed)
-{
-	OctreeScene* currScene = sSceneMgr->GetCurrScene();
-	SceneCamera* camera = currScene->GetSceneCamera();
-	const Matrix4& view = camera->GetViewMatrix();
-	const Matrix4& proj = camera->GetProjMatrix();
-	//m_renderHelper->SetViewProj(view, proj);	
-	
-	//m_gridModel->ProcessRenderHelper(m_renderHelper);
-
-	//sSceneMgr->DispatchRenderHelper(m_renderHelper);
 }

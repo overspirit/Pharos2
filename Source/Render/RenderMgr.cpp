@@ -9,6 +9,8 @@ RenderMgr::RenderMgr()
 
 	m_blockCount = 0;
 
+	m_globalShaderData = nullptr;
+
 	m_renderCallback = nullptr;
 
 	m_clearColor = 0xFF3F3F3F;//R=43,G=147,B=223
@@ -37,6 +39,8 @@ void RenderMgr::Destroy()
 	SAFE_DELETE(m_copyLayout);
 
 	SAFE_DELETE(m_finalFrameBuf);
+
+	SAFE_DELETE(m_globalShaderData);
 
 	for (auto iter : m_techList)
 	{
@@ -102,24 +106,41 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	m_finalFrameBuf = m_renderer->CreateFrameBuffer(finalBufferWidth, finalBufferHeight);
 	m_finalTargetTex = m_finalFrameBuf->CreateRenderTexture(0, EPF_RGBA8_UNORM);
 
+	m_globalShaderData = m_renderer->CreateShaderData();
+
 	//if (!sRenderSpirite->Init(m_renderer)) return false;
 
 	return true;
 }
 
-void RenderMgr::SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value)
-{
-	if (valueIndex >= m_globalValueList.size())
-	{
-		m_globalValueList.resize(valueIndex + 1);
-	}
+// void RenderMgr::SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value)
+// {
+// 	if (valueIndex >= m_globalValueList.size())
+// 	{
+// 		m_globalValueList.resize(valueIndex + 1);
+// 	}
+// 
+// 	m_globalValueList[valueIndex] = value;
+// }
+// 
+// const RenderValue& RenderMgr::GetGlobalRenderValue(uint32 valueIndex) const
+// {
+// 	return m_globalValueList[valueIndex];
+// }
 
-	m_globalValueList[valueIndex] = value;
+void RenderMgr::SetGlobalRenderViewMatrix(const Matrix4& viewMatrix)
+{
+	m_globalDataBuffer.viewMatrix = viewMatrix;
 }
 
-const RenderValue& RenderMgr::GetGlobalRenderValue(uint32 valueIndex) const
+void RenderMgr::SetGlobalRenderProjMatrix(const Matrix4& projMatrix)
 {
-	return m_globalValueList[valueIndex];
+	m_globalDataBuffer.projMatirx = projMatrix;
+}
+
+void RenderMgr::SetGlobalRenderEyePostion(const Vector3Df& eyePos)
+{
+	m_globalDataBuffer.eyePosition = Vector4Df(eyePos.x, eyePos.y, eyePos.z, 1.0f);
 }
 
 void RenderMgr::DoRender(RenderBlock* block)
@@ -143,13 +164,22 @@ bool RenderMgr::LoadEffectFile(const char8* szPath)
 	{
 		SAFE_DELETE(effectLoader);
 		return false;
-	}
+	}	
 
-	for (uint32 i = 0; i < effectLoader->GetRenderTechniqueNum(); i++)
+	//按照渲染模块的要求处理TechniqueInfo
+	//...
+
+	for (uint32 i = 0; i < effectLoader->GetTechniqueInfoNum(); i++)
 	{
-		RenderTechnique* tech = effectLoader->GetRenderTechnique(i);
-		string techName = tech->GetTechName();
-		m_techList[techName] = tech;
+		TechniqueInfo* techInfo = effectLoader->GetTechniqueInfo(i);
+
+		RenderTechnique* renderTech = MakeRenderTechnique();
+		
+		if (renderTech->Create(techInfo))
+		{
+			string techName = renderTech->GetTechName();
+			m_techList[techName] = renderTech;
+		}
 	}
 
 	SAFE_DELETE(effectLoader);
@@ -231,6 +261,12 @@ void RenderMgr::Render(float32 fElapsed)
 
 	m_renderer->BindFrameBuffer(m_finalFrameBuf);
 	m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
+	
+	if (m_globalShaderData != nullptr)
+	{
+		m_globalShaderData->CopyData(&m_globalDataBuffer, sizeof(m_globalDataBuffer));
+		m_globalShaderData->ApplyToDevice(0);
+	}
 
 	for (uint32 i = 0; i < m_blockList.size(); i++)
 	{

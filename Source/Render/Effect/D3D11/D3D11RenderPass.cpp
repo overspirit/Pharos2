@@ -26,27 +26,11 @@ D3D11RenderPass::~D3D11RenderPass()
 	SAFE_DELETE(m_frameBuf);
 }
 
-bool D3D11RenderPass::Create(const char8* shaderText, const PassInfo& info)
-{
-	m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
-
-	m_shader = static_cast<D3D11ShaderProgram*>(m_renderer->GenerateRenderProgram());
-	if (!m_shader->CompileVertexShader(shaderText, info.vertEnter.c_str())
-		|| !m_shader->CompilePixelShader(shaderText, info.pixelEnter.c_str()))
-		return false;
-
-	m_depthState = static_cast<D3D11DepthStencilState*>(m_renderer->CreateDepthStencilState(info.depthDesc));
-	m_rasterizerState = static_cast<D3D11RasterizerState*>(m_renderer->CreateRasterizerState(info.rasterDesc));
-	m_blendState = static_cast<D3D11BlendState*>(m_renderer->CreateBlendState(info.blendDesc));
-
-	return true;
-}
-
 D3D11RenderPass* D3D11RenderPass::Clone()
 {
 	D3D11RenderPass* pass = new D3D11RenderPass();
 
-	pass->m_renderer = m_renderer;
+	pass->m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
 
 	pass->m_shader = static_cast<D3D11ShaderProgram*>(m_shader->Clone());
 
@@ -63,6 +47,11 @@ D3D11RenderPass* D3D11RenderPass::Clone()
 	}
 
 	return pass;
+}
+
+void D3D11RenderPass::BindShaderProgram(RenderProgram* shader)
+{
+	m_shader = static_cast<D3D11ShaderProgram*>(shader);
 }
 
 void D3D11RenderPass::BindFrameBuffer(RenderFrameBuffer* frameBuf)

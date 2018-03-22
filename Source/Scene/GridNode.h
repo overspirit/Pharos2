@@ -22,8 +22,6 @@ namespace Pharos
 
 		public:
 			virtual bool BuildGridData();
-
-			virtual void Update(float32 fElapsed);
 		};
 	}
 }
