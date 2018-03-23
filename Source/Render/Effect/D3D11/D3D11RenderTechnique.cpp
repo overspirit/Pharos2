@@ -25,10 +25,10 @@ D3D11RenderTechnique::~D3D11RenderTechnique(void)
 	}
 }
 
-bool D3D11RenderTechnique::Create(TechniqueInfo* techInfo)
+bool D3D11RenderTechnique::Create(RenderTechInfo* techInfo)
 {
 	m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
-	D3D11TechniqueInfo* d3dTechInfo = static_cast<D3D11TechniqueInfo*>(techInfo);
+	D3D11RenderTechInfo* d3dTechInfo = static_cast<D3D11RenderTechInfo*>(techInfo);
 
 	m_techName = d3dTechInfo->GetTechniqueName();
 	string shaderText = d3dTechInfo->GetTechniqueText();
@@ -37,17 +37,21 @@ bool D3D11RenderTechnique::Create(TechniqueInfo* techInfo)
 	{
 		VarBlock  varBlock;
 		varBlock.slot = d3dTechInfo->GetConstantBufferSlot(i);
-		varBlock.shaderData = m_renderer->CreateShaderData();
 
-		for (uint32 j = 0; j < d3dTechInfo->GetConstantBufferVariableNum(i); j++)
+		if (d3dTechInfo->GetShaderDataValid(varBlock.slot))
 		{
-			string varName = d3dTechInfo->GetConstantBufferVariableName(i, j);
-			RenderVariable* var = new RenderVariable(varName.c_str(), 0xFF);
-			m_varMap[varName] = var;
-			varBlock.varList.push_back(var);
-		}
+			varBlock.shaderData = m_renderer->CreateShaderData();
 
-		m_blockList.push_back(varBlock);
+			for (uint32 j = 0; j < d3dTechInfo->GetConstantBufferVariableNum(i); j++)
+			{
+				string varName = d3dTechInfo->GetConstantBufferVariableName(i, j);
+				RenderVariable* var = new RenderVariable(varName.c_str(), 0xFF);
+				m_varMap[varName] = var;
+				varBlock.varList.push_back(var);
+			}
+
+			m_blockList.push_back(varBlock);
+		}
 	}
 
 	for (uint32 i = 0; i < d3dTechInfo->GetVariableNum(); i++)
@@ -55,37 +59,43 @@ bool D3D11RenderTechnique::Create(TechniqueInfo* techInfo)
 		string varName = d3dTechInfo->GetVariableName(i);
 		uint32 slot = d3dTechInfo->GetVariableSlot(i);
 
-		RenderVariable* var = new RenderVariable(varName.c_str(), slot);
-		m_varMap[varName] = var;
-		m_varList.push_back(var);
+		if (d3dTechInfo->GetVariableValid(slot))
+		{
+			RenderVariable* var = new RenderVariable(varName.c_str(), slot);
+			m_varMap[varName] = var;
+			m_varList.push_back(var);
+		}
 	}
 
 	for (uint32 i = 0; i < d3dTechInfo->GetPassNum(); i++)
 	{
-		string vertEnter = d3dTechInfo->GetPassVertexEnter(i);
-		string pixelEnter = d3dTechInfo->GetPassPixelEnter(i);
-
-		D3D11ShaderProgram* shader = static_cast<D3D11ShaderProgram*>(m_renderer->GenerateRenderProgram());
-		if (!shader->CompileVertexShader(shaderText.c_str(), vertEnter.c_str())
-			|| !shader->CompilePixelShader(shaderText.c_str(), pixelEnter.c_str()))
+		if (d3dTechInfo->GetPassValid(i))
 		{
-			SAFE_DELETE(shader);
+			string vertEnter = d3dTechInfo->GetPassVertexEnter(i);
+			string pixelEnter = d3dTechInfo->GetPassPixelEnter(i);
+
+			D3D11ShaderProgram* shader = static_cast<D3D11ShaderProgram*>(m_renderer->GenerateRenderProgram());
+			if (!shader->CompileVertexShader(shaderText.c_str(), vertEnter.c_str())
+				|| !shader->CompilePixelShader(shaderText.c_str(), pixelEnter.c_str()))
+			{
+				SAFE_DELETE(shader);
+			}
+
+			const RasterizerStateDesc& rasterDesc = d3dTechInfo->GetPassRasterizerState(i);
+			const BlendStateDesc& blendDesc = d3dTechInfo->GetPassBlendState(i);
+			const DepthStencilStateDesc& depthDesc = d3dTechInfo->GetPassDepthStencilState(i);
+
+			D3D11DepthStencilState* depthState = static_cast<D3D11DepthStencilState*>(m_renderer->CreateDepthStencilState(depthDesc));
+			D3D11RasterizerState* rasterizerState = static_cast<D3D11RasterizerState*>(m_renderer->CreateRasterizerState(rasterDesc));
+			D3D11BlendState* blendState = static_cast<D3D11BlendState*>(m_renderer->CreateBlendState(blendDesc));
+
+			D3D11RenderPass* pass = new D3D11RenderPass();
+			pass->BindShaderProgram(shader);
+			pass->BindDepthStencilState(depthState);
+			pass->BindBlendState(blendState);
+			pass->BindRasterizerState(rasterizerState);
+			m_passList.push_back(pass);
 		}
-
-		const RasterizerStateDesc& rasterDesc = d3dTechInfo->GetPassRasterizerState(i);
-		const BlendStateDesc& blendDesc = d3dTechInfo->GetPassBlendState(i);
-		const DepthStencilStateDesc& depthDesc = d3dTechInfo->GetPassDepthStencilState(i);
-
-		D3D11DepthStencilState* depthState = static_cast<D3D11DepthStencilState*>(m_renderer->CreateDepthStencilState(depthDesc));
-		D3D11RasterizerState* rasterizerState = static_cast<D3D11RasterizerState*>(m_renderer->CreateRasterizerState(rasterDesc));
-		D3D11BlendState* blendState = static_cast<D3D11BlendState*>(m_renderer->CreateBlendState(blendDesc));
-
-		D3D11RenderPass* pass = new D3D11RenderPass();
-		pass->BindShaderProgram(shader);
-		pass->BindDepthStencilState(depthState);
-		pass->BindBlendState(blendState);
-		pass->BindRasterizerState(rasterizerState);
-		m_passList.push_back(pass);
 	}
 
 	return true;
@@ -143,7 +153,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 	for (uint32 i = 0; i < m_blockList.size(); i++)
 	{
 		VarBlock& varBlock = m_blockList[i];
-		
+
 		uint32 dataOffset = 0;
 
 		for (uint32 j = 0; j < varBlock.varList.size(); j++)
@@ -166,7 +176,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 
 			dataOffset += varDataSize;
 		}
-	
+
 		varBlock.shaderData->ApplyToDevice(varBlock.slot);
 	}
 
@@ -174,17 +184,8 @@ void D3D11RenderTechnique::ApplyToDevice()
 	for (uint32 i = 0; i < m_varList.size(); i++)
 	{
 		RenderVariable* var = m_varList[i];
-		//RENDER_VAR_TYPE varType = var->GetVariableType();
-		//switch (varType)
-		//{
-			//case TYPE_CONCRETE: break;
-			//case TYPE_TEXTURE:
-			//{
-				uint32 slot = var->GetSlot();
-				RenderTexture* tex = var->GetTexture();
-				if(tex != nullptr) m_renderer->BindTexture(slot, tex);
-			//}
-			//break;
-		//}
+		uint32 slot = var->GetSlot();
+		RenderTexture* tex = var->GetTexture();
+		if (tex != nullptr) m_renderer->BindTexture(slot, tex);
 	}
 }

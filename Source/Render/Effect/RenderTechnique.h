@@ -28,7 +28,7 @@ namespace Pharos
 			vector<RenderPass*>					m_passList;
 
 		public:
-			virtual bool Create(TechniqueInfo* techInfo) = 0;
+			virtual bool Create(RenderTechInfo* techInfo) = 0;
 
 			virtual RenderTechnique* Clone() = 0;
 

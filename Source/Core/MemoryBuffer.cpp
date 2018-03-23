@@ -45,26 +45,10 @@ MemoryBuffer::~MemoryBuffer(void)
 	this->Dalloc();
 }
 
-extern bool g_allocFlag;
-
 void MemoryBuffer::Alloc(uint32 size)
 {
-	static uint32 s_allocCount = 0;
-
 	m_buffer = (uint8*)MALLOC(size);
 	m_buf_len = size;
-
-	s_allocCount++;
-
-	if (g_allocFlag)
-	{
-		char8 buf[128];
-		sprintf(buf, "Alloc Count:%d\n", s_allocCount);
-		OutputDebugStringA(buf);
-
-		g_allocFlag = false;
-		s_allocCount = 0;
-	}
 }
 
 void MemoryBuffer::Dalloc()

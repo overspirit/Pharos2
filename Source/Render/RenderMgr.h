@@ -59,9 +59,6 @@ namespace Pharos
 
 			map<string, RenderTechnique*>	m_techList;
 
-			//map<string, RenderValue>	m_globalValueList;
-			//vector<RenderValue>			m_globalValueList;
-
 			RenderShaderData*		m_globalShaderData;
 			GlobalData				m_globalDataBuffer;
 
@@ -87,12 +84,6 @@ namespace Pharos
 			//virtual RenderImagePtr GenerateRenderImage(IImagePtr image);			
 			//virtual RenderImagePtr GenerateRenderImage(Color4 color);
 
-			//virtual ModelPtr GenerateModelObject();
-			//virtual MeshPtr GenerateMeshObject();
-			//virtual MaterialPtr GenerateMaterialObject();
-
-			//virtual void SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value);
-			//virtual const RenderValue& GetGlobalRenderValue(uint32 valueIndex) const;
 			virtual void SetGlobalRenderViewMatrix(const Matrix4& viewMatrix);
 			virtual void SetGlobalRenderProjMatrix(const Matrix4& projMatrix);
 			virtual void SetGlobalRenderEyePostion(const Vector3Df& eyePos);

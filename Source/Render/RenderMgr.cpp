@@ -113,21 +113,6 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	return true;
 }
 
-// void RenderMgr::SetGlobalRenderValue(uint32 valueIndex, const RenderValue& value)
-// {
-// 	if (valueIndex >= m_globalValueList.size())
-// 	{
-// 		m_globalValueList.resize(valueIndex + 1);
-// 	}
-// 
-// 	m_globalValueList[valueIndex] = value;
-// }
-// 
-// const RenderValue& RenderMgr::GetGlobalRenderValue(uint32 valueIndex) const
-// {
-// 	return m_globalValueList[valueIndex];
-// }
-
 void RenderMgr::SetGlobalRenderViewMatrix(const Matrix4& viewMatrix)
 {
 	m_globalDataBuffer.viewMatrix = viewMatrix;
@@ -166,12 +151,18 @@ bool RenderMgr::LoadEffectFile(const char8* szPath)
 		return false;
 	}	
 
-	//按照渲染模块的要求处理TechniqueInfo
-	//...
+	//按照渲染模块的要求处理RenderTechInfo
+	for (uint32 i = 0; i < effectLoader->GetTechniqueInfoNum(); i++)
+	{
+		RenderTechInfo* techInfo = effectLoader->GetTechniqueInfo(i);
+
+		//slot为0的ShaderData渲染模块给了观察和投影矩阵，所以禁用读取的TechInfo中的Slot为0的ShaderData
+		techInfo->SetShaderDataValid(0, false);
+	}
 
 	for (uint32 i = 0; i < effectLoader->GetTechniqueInfoNum(); i++)
 	{
-		TechniqueInfo* techInfo = effectLoader->GetTechniqueInfo(i);
+		RenderTechInfo* techInfo = effectLoader->GetTechniqueInfo(i);
 
 		RenderTechnique* renderTech = MakeRenderTechnique();
 		
@@ -293,8 +284,6 @@ void RenderMgr::Render(float32 fElapsed)
 	m_renderer->Present();
 
 	m_blockCount = 0;
-
-	//m_blockList.clear();
 
 	//sRenderSpirite->Resume();
 

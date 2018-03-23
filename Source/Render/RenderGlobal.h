@@ -15,7 +15,7 @@
 #include "Renderer/RenderLayout.h"
 #include "Renderer/Renderer.h"
 
-#include "Effect/TechniqueInfo.h"
+#include "Effect/RenderTechInfo.h"
 #include "Effect/RenderEffectLoader.h"
 #include "Effect/RenderVariable.h"
 #include "Effect/RenderPass.h"
@@ -36,7 +36,7 @@
 #include "Renderer/D3D11/D3D11ShaderProgram.h"
 #include "Renderer/D3D11/D3D11Renderer.h"
 
-#include "Effect/D3D11/D3D11TechniqueInfo.h"
+#include "Effect/D3D11/D3D11RenderTechInfo.h"
 #include "Effect/D3D11/D3D11EffectLoader.h"
 #include "Effect/D3D11/D3D11RenderPass.h"
 #include "Effect/D3D11/D3D11RenderTechnique.h"

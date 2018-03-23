@@ -40,7 +40,7 @@ namespace Pharos
 			string					m_shaderText;
 			string					m_effectText;
 
-			vector<D3D11TechniqueInfo*>	m_techInfoList;			
+			vector<D3D11RenderTechInfo*>	m_techInfoList;			
 
 		private:
 			virtual bool LoadConstant(XmlNode* pNode);
@@ -56,7 +56,7 @@ namespace Pharos
 			virtual bool Load(const char8* szPath);
 			
 			virtual uint32 GetTechniqueInfoNum() { return (uint32)m_techInfoList.size(); }
-			virtual TechniqueInfo* GetTechniqueInfo(uint32 index) { return m_techInfoList[index]; }
+			virtual RenderTechInfo* GetTechniqueInfo(uint32 index) { return m_techInfoList[index]; }
 		};
 	}
 }

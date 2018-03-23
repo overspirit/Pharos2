@@ -184,42 +184,15 @@ void Model::TransformWorld(const Matrix4& world)
 	m_world = world * m_offset;
 }
 
-extern bool g_allocFlag;
-
 void Model::Draw()
 {
-// 	const RenderValue& viewValue = sRenderMgr->GetGlobalRenderValue(VIEW_MATRIX);
-// 	const RenderValue& projValue = sRenderMgr->GetGlobalRenderValue(PROJ_MATRIX);
-// 	const RenderValue& eyePosValue = sRenderMgr->GetGlobalRenderValue(CAMERA_WORLD_POSITION);
-
 	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
 	{
 		Material* material = m_meshGroupList[i]->GetAttachMaterial();
 		if(material == nullptr) continue;
 
  		RenderVariable* worldVar = material->GetTechniqueWorldVariable();
-// 		RenderVariable* viewVar = material->GetTechniqueViewVariable();
-// 		RenderVariable* projVar = material->GetTechniqueProjVariable();
-// 		RenderVariable* eyePosVar = material->GetTechniqueEyePosVariable();
-
  		worldVar->SetValue(m_world);
-// 		viewVar->SetValue(viewValue);
-// 		projVar->SetValue(projValue);
-// 		if (eyePosVar != nullptr) eyePosVar->SetValue(eyePosValue);
-
-// 		static uint32 s_setCount = 0;
-// 
-// 		s_setCount++;
-// 
-// 		if (g_allocFlag)
-// 		{
-// 			char8 buf[128];
-// 			sprintf(buf, "Alloc Count:%d\n", s_setCount);
-// 			OutputDebugStringA(buf);
-// 
-// 			g_allocFlag = false;
-// 			s_setCount = 0;
-// 		}
 
 		RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
 		DrawType drawType = m_meshGroupList[i]->GetDrawType();

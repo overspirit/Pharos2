@@ -112,7 +112,10 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 		const SamplerData& sampleData = texIter.second;
 		string texPath = sampleData.texPath;
 		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
-		material->SetParameterValue(texName.c_str(), tex);
+		if (!material->SetParameterValue(texName.c_str(), tex))
+		{
+			SAFE_DELETE(tex);
+		}
 	}
 
 	for (auto varIter : materialData.varList)
@@ -161,8 +164,6 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 			break;
 		}
 	}
-
-	material->Apply();
 
 	return material;
 }

@@ -14,7 +14,7 @@ namespace Pharos
 			D3D11Renderer*		m_renderer;
 
 		public:
-			virtual bool Create(TechniqueInfo* techInfo);		
+			virtual bool Create(RenderTechInfo* techInfo);		
 			
 			virtual RenderTechnique* Clone();
 			

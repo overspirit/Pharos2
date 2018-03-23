@@ -4,29 +4,6 @@ namespace Pharos
 {
 	namespace Render
 	{
-		// 		enum RENDER_VAR_TYPE
-		// 		{
-		// 			TYPE_CONCRETE,
-		// 			TYPE_TEXTURE,
-		// 			TYPE_END,
-		// 		};
-
-// 		class RenderValue
-// 		{
-// 		public:
-// 			RenderValue() { m_dataBuf = nullptr; m_dataSize = 0; }
-// 			template<class T> RenderValue(const T& value) { m_dataSize = sizeof(value); m_dataBuf = &value; }
-// 			virtual ~RenderValue() {	}
-// 
-// 		private:
-// 			const void*			m_dataBuf;
-// 			uint32				m_dataSize;
-// 
-// 		public:
-// 			uint32 GetDataSize() const { return m_dataSize; }
-// 			const void* GetDataPoint() const { return m_dataBuf; }
-// 		};
-
 		class RenderVariable
 		{
 		public:
@@ -34,7 +11,6 @@ namespace Pharos
 			{
 				m_name = name;
 				m_slot = slot;
-				//m_type = TYPE_END;
 
 				m_dataSize = 0;
 				m_dataChange = false;
@@ -67,16 +43,6 @@ namespace Pharos
 				m_dataSize = dataSize;
 				m_dataChange = true;
 			}
-
-// 			void SetValue(const RenderValue& value)
-// 			{
-// 				uint32 dataSize = value.GetDataSize();
-// 				const void* valueData = value.GetDataPoint();
-// 
-// 				m_dataBuf.CopyFrom(valueData, dataSize);
-// 				m_dataSize = dataSize;
-// 				m_dataChange = true;
-// 			}
 
 			void SetValue(RenderTexture* tex)
 			{

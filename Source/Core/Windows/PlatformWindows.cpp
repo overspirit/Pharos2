@@ -165,8 +165,6 @@ void PlatformWindows::onWindowDestroy()
 	sKernel->onViewDestroy();
 }
 
-bool g_allocFlag = false;
-
 int32 PlatformWindows::Run()
 {
 	MSG msg = { 0 };
@@ -198,8 +196,6 @@ int32 PlatformWindows::Run()
 // 		sDesktopMgr->Render(fElapsed);
  		sRenderMgr->Render(fElapsed);
 		sKernel->Render(fElapsed);
-
-		g_allocFlag = true;
 	}
 
 	return 0;

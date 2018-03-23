@@ -120,7 +120,7 @@ bool D3D11EffectLoader::Load(const char8* szPath)
  	{
 		Member& techMember = m_techniqueList[i];
 
-		D3D11TechniqueInfo* techInfo = new D3D11TechniqueInfo(); 		
+		D3D11RenderTechInfo* techInfo = new D3D11RenderTechInfo(); 		
 		techInfo->SetTechniqueName(techMember.name.c_str());
 		techInfo->SetTechniqueText(m_effectText.c_str());
 
