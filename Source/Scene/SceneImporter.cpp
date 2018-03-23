@@ -60,27 +60,22 @@ Model* SceneImporter::CreateModel(const ModelData& modelData)
 			model->AddMesh(mesh);
 		}
  	}
-// 
-// 	m_boneInfoList.resize(modelData.boneInfoList.size());
-// 	for (const BoneInfo& boneInfo : modelData.boneInfoList)
-// 	{
-// 		m_boneInfoList[boneInfo.id] = boneInfo;
-// 	}
-// 
-// 	for (const SkelAnimation& skelAnim : modelData.skelAnimList)
-// 	{
-// 		m_animList[skelAnim.name] = skelAnim;
-// 	}
-// 
-// 	if (m_animList.size() > 0)
-// 	{
-// 		m_currAnim = &m_animList.begin()->second;
-// 
-// 		uint32 boneNum = (uint32)m_currAnim->frameList[0].tranList.size();
-// 		m_animBoneTrans.resize(boneNum);
-// 	}
-// 
-// 	return true;
+
+	for (const BoneInfo& boneInfo : modelData.boneInfoList)
+	{
+		model->SetBoneInfo(boneInfo.name.c_str(), boneInfo.id, boneInfo.parentId, boneInfo.bindPose);
+	}
+
+	for (const SkelAnimation& skelAnim : modelData.skelAnimList)
+	{
+		SkelAnimation& modelSkelAnim = model->AddSkelAnimation(skelAnim.name.c_str());
+		modelSkelAnim = skelAnim;
+	}
+
+	if (modelData.skelAnimList.size() > 0)
+	{
+		model->SetCurrentAnimation(modelData.skelAnimList[0].name.c_str());
+	}
 
 	return model;
 }

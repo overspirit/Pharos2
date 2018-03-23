@@ -33,6 +33,22 @@ void Model::AddMesh(Mesh* mesh)
 	}
 }
 
+void Model::SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose)
+{
+	if (id >= m_boneInfoList.size())
+	{
+		m_boneInfoList.resize(id + 1);
+		m_animBoneTrans.resize(id + 1);
+	}
+
+	m_boneInfoList[id] = { name, id, parentId, bindPose };
+}
+
+SkelAnimation& Model::AddSkelAnimation(const char8* name)
+{
+	return m_animList[name];
+}
+
 //数据的传递要用引用
 //数据的顺序要和id对应
 void Model::UpdateAnimation(float32 elapsed)

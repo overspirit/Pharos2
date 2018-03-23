@@ -47,7 +47,7 @@ namespace Pharos
 			vector<Mesh*>					m_meshGroupList;
 			vector<RenderBlock*>			m_blockList;
 			vector<BoneInfo>				m_boneInfoList;
-			map<string, SkelAnimation>		m_animList;			
+			map<string, SkelAnimation>		m_animList;
 			
 			const SkelAnimation*		m_currAnim;
 			float32						m_animPlayTime;
@@ -69,6 +69,8 @@ namespace Pharos
 
 		public:
 			virtual void AddMesh(Mesh* mesh);
+			virtual void SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose);
+			virtual SkelAnimation& AddSkelAnimation(const char8* name);
 
 			virtual void SetCurrentAnimation(const char8* animName);
 
