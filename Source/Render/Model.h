@@ -59,11 +59,6 @@ namespace Pharos
 
 			vector<Matrix4>				m_animBoneTrans;
 
-		private:
-// 			void CalcBoneSpace(const BoneTree& boneTree, const BoneTran* boneTrans);
-// 
-// 			void UpdateAnimMat(const BoneTree& boneTree);
-
 		public:
 			virtual void UpdateAnimation(float32 elapsed);
 
