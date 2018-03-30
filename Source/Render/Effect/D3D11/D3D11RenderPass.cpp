@@ -26,11 +26,27 @@ D3D11RenderPass::~D3D11RenderPass()
 	SAFE_DELETE(m_frameBuf);
 }
 
+bool D3D11RenderPass::CreateShaderProgram(const char8* vertEnter, const char8* pixelEnter, const char8* shaderText)
+{
+	m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
+
+	D3D11ShaderProgram* shader = static_cast<D3D11ShaderProgram*>(m_renderer->GenerateRenderProgram());
+	if (!shader->CompileVertexShader(shaderText, vertEnter) || !shader->CompilePixelShader(shaderText, pixelEnter))
+	{
+		SAFE_DELETE(shader);
+		return false;
+	}
+
+	m_shader = shader;
+
+	return true;
+}
+
 D3D11RenderPass* D3D11RenderPass::Clone()
 {
 	D3D11RenderPass* pass = new D3D11RenderPass();
 
-	pass->m_renderer = static_cast<D3D11Renderer*>(sRenderMgr->GetCurrentRenderer());
+	pass->m_renderer = m_renderer;
 
 	pass->m_shader = static_cast<D3D11ShaderProgram*>(m_shader->Clone());
 

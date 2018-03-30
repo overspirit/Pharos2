@@ -24,6 +24,8 @@ namespace Pharos
 			string					m_strError;
 
 		public:
+			virtual bool CreateShaderProgram(const char8* vertEnter, const char8* pixelEnter, const char8* shaderText);
+
 			virtual D3D11RenderPass* Clone();
 
 			virtual void BindShaderProgram(RenderProgram* shader);

@@ -256,7 +256,7 @@ void RenderMgr::Render(float32 fElapsed)
 	if (m_globalShaderData != nullptr)
 	{
 		m_globalShaderData->CopyData(&m_globalDataBuffer, sizeof(m_globalDataBuffer));
-		m_globalShaderData->ApplyToDevice(0);
+		m_renderer->BindShaderData(0, m_globalShaderData);
 	}
 
 	for (uint32 i = 0; i < m_blockList.size(); i++)

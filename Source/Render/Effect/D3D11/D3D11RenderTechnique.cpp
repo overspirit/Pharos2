@@ -67,18 +67,21 @@ bool D3D11RenderTechnique::Create(RenderTechInfo* techInfo)
 		}
 	}
 
-	for (uint32 i = 0; i < d3dTechInfo->GetPassNum(); i++)
+	uint32 passNum = d3dTechInfo->GetPassNum();
+	m_passList.resize(passNum);
+
+	for (uint32 i = 0; i < passNum; i++)
 	{
 		if (d3dTechInfo->GetPassValid(i))
 		{
 			string vertEnter = d3dTechInfo->GetPassVertexEnter(i);
 			string pixelEnter = d3dTechInfo->GetPassPixelEnter(i);
 
-			D3D11ShaderProgram* shader = static_cast<D3D11ShaderProgram*>(m_renderer->GenerateRenderProgram());
-			if (!shader->CompileVertexShader(shaderText.c_str(), vertEnter.c_str())
-				|| !shader->CompilePixelShader(shaderText.c_str(), pixelEnter.c_str()))
+			D3D11RenderPass* pass = new D3D11RenderPass();
+			if(!pass->CreateShaderProgram(vertEnter.c_str(), pixelEnter.c_str(), shaderText.c_str()))
 			{
-				SAFE_DELETE(shader);
+				SAFE_DELETE(pass);
+				continue;
 			}
 
 			const RasterizerStateDesc& rasterDesc = d3dTechInfo->GetPassRasterizerState(i);
@@ -89,12 +92,11 @@ bool D3D11RenderTechnique::Create(RenderTechInfo* techInfo)
 			D3D11RasterizerState* rasterizerState = static_cast<D3D11RasterizerState*>(m_renderer->CreateRasterizerState(rasterDesc));
 			D3D11BlendState* blendState = static_cast<D3D11BlendState*>(m_renderer->CreateBlendState(blendDesc));
 
-			D3D11RenderPass* pass = new D3D11RenderPass();
-			pass->BindShaderProgram(shader);
 			pass->BindDepthStencilState(depthState);
 			pass->BindBlendState(blendState);
 			pass->BindRasterizerState(rasterizerState);
-			m_passList.push_back(pass);
+
+			m_passList[i] = pass;
 		}
 	}
 
@@ -177,7 +179,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 			dataOffset += varDataSize;
 		}
 
-		varBlock.shaderData->ApplyToDevice(varBlock.slot);
+		m_renderer->BindShaderData(varBlock.slot, varBlock.shaderData);
 	}
 
 	//绑定texture
