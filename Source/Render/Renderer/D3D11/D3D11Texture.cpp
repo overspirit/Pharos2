@@ -233,7 +233,7 @@ void D3D11Texture::SetSampleState(RenderSamplerState* state)
 	m_pState = static_cast<D3D11SamplerState*>(state);
 }
 
-void D3D11Texture::ApplyToDevice(uint32 slot)
+void D3D11Texture::ApplyDevice(uint32 slot)
 {
 	m_pContext->VSSetShaderResources(slot, 1, &m_pView);
 	m_pContext->PSSetShaderResources(slot, 1, &m_pView);
@@ -244,6 +244,6 @@ void D3D11Texture::ApplyToDevice(uint32 slot)
 
 	if (m_pState != nullptr)
 	{
-		m_pState->ApplyToDevice(slot);
+		m_pState->ApplyDevice(slot);
 	}
 }

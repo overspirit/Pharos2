@@ -349,7 +349,7 @@ bool D3D11RenderLayout::CreateD3D11InputLayout(ID3D10Blob* vs_blob)
 	return SUCCEEDED(hr);
 }
 
-void D3D11RenderLayout::ApplyToDevice()
+void D3D11RenderLayout::ApplyDevice()
 {
 //#pragma message("remove this code!!!")
 	//m_pContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

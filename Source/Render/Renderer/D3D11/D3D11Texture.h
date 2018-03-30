@@ -74,7 +74,7 @@ namespace Pharos
 			virtual uint32 GetHeight() const { return m_height; }
 			virtual EPixelFormat GetFormat() const { return m_fmt; }
 
-			virtual void ApplyToDevice(uint32 slot);
+			virtual void ApplyDevice(uint32 slot);
 
 			virtual ID3D11Texture2D* GetTexture() const { return m_pTexture; }
 			virtual ID3D11ShaderResourceView* GetTextureView() const { return m_pView; }

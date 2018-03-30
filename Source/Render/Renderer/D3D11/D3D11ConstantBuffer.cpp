@@ -15,6 +15,11 @@ D3D11ConstantBuffer::~D3D11ConstantBuffer()
 	SAFE_RELEASE(m_pBuffer);
 }
 
+void D3D11ConstantBuffer::SetDataSize(uint32 dataSize)
+{
+	m_data.ChangeSize(dataSize);
+}
+
 void D3D11ConstantBuffer::CopyData(MemoryBuffer* data, uint32 offset)
 {
 	if (data == nullptr) return;
@@ -40,7 +45,12 @@ void D3D11ConstantBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 	m_data.Insert(offset, data, len);
 }
 
-void D3D11ConstantBuffer::ApplyToDevice(uint32 slot)
+void* D3D11ConstantBuffer::GetDataBufferPointer()
+{
+	return m_data.GetPointer();
+}
+
+void D3D11ConstantBuffer::ApplyDevice(uint32 slot)
 {
 	uint32 dataSize = m_data.GetLength();
 	if (dataSize == 0)

@@ -41,7 +41,7 @@ namespace Pharos
 			virtual void CopyVertexBuffer(MemoryBuffer* data, uint32 dataSize, uint32 nOffsetInBytes = 0, bool bNoOverwrite = true);
 			virtual void CopyIndexBuffer(MemoryBuffer* data, uint32 dataSize, uint32 nOffsetInBytes = 0, bool bNoOverwrite = true);
 
-			virtual void ApplyToDevice();
+			virtual void ApplyDevice();
 
 			virtual uint32 GetVertStride() const { return m_vertStride; }
 			virtual bool IsVertBufferDynamic() const { return (m_vertBufType == EB_Dynamic); }

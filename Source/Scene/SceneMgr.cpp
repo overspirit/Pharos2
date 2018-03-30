@@ -98,13 +98,6 @@ void SceneMgr::Update(float32 fElapsed)
 
 void SceneMgr::Render(float32 fElapsed)
 {
-// 	for (auto& renderHelper : m_renderHelperList)
-// 	{
-// 		renderHelper->DoRender();
-// 	}
-// 
-// 	m_renderHelperList.clear();
-
 	if (m_currScene != nullptr)
 	{
 		m_currScene->Render(fElapsed);

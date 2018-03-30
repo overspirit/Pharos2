@@ -98,14 +98,6 @@ bool D3D11Renderer::Create(const DeviceConfig& cfg)
 	return true;
 }
 
-bool D3D11Renderer::Present()
-{
-	HRESULT hr = m_swapChain->Present(0, 0);
-	if (FAILED(hr)) return false;
-
-	return true;
-}
-
 void D3D11Renderer::BindFrameBuffer(RenderFrameBuffer* frameBuf)
 {
 	D3D11FrameBuffer* d3d11framebuf = static_cast<D3D11FrameBuffer*>(frameBuf);
@@ -126,7 +118,7 @@ void D3D11Renderer::BindLayout(RenderLayout* layout)
 	{
 		m_bindLayout = d3d11layout;
 
-		d3d11layout->ApplyToDevice();
+		d3d11layout->ApplyDevice();
 	}
 }
 
@@ -135,7 +127,7 @@ void D3D11Renderer::BindShaderData(uint32 slot, RenderShaderData* data)
 	D3D11ConstantBuffer* cb = static_cast<D3D11ConstantBuffer*>(data);
 	if (cb != nullptr)
 	{
-		cb->ApplyToDevice(slot);
+		cb->ApplyDevice(slot);
 	}
 }
 
@@ -144,7 +136,7 @@ void D3D11Renderer::BindTexture(uint32 slot, RenderTexture* tex)
 	D3D11Texture* d3d11tex = static_cast<D3D11Texture*>(tex);
 	if (d3d11tex != nullptr)
 	{
-		d3d11tex->ApplyToDevice(slot);
+		d3d11tex->ApplyDevice(slot);
 	}
 }
 
@@ -155,7 +147,7 @@ void D3D11Renderer::BindProgram(RenderProgram* program)
 	{
 		m_bindShader = shader;
 
-		shader->ApplyToDevice();
+		shader->ApplyDevice();
 	}
 }
 
@@ -229,6 +221,14 @@ void D3D11Renderer::DrawImmediate(DrawType type, uint32 start, uint32 count)
 	{
 		m_context->Draw(count, start);
 	}	
+}
+
+bool D3D11Renderer::Present()
+{
+	HRESULT hr = m_swapChain->Present(0, 0);
+	if (FAILED(hr)) return false;
+
+	return true;
 }
 
 RenderProgram* D3D11Renderer::GenerateRenderProgram()

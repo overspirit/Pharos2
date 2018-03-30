@@ -38,7 +38,6 @@ namespace Pharos
 			virtual void Destroy() = 0;			
 
 			virtual RenderFrameBuffer* GetDefaultFrameBuffer() const = 0;
-			//virtual RenderEffectLoaderPtr GetEffectLoader();
 			virtual const char8* GetAdapterName() const = 0;
 			virtual uint32 GetAdapterMemorySize() const = 0;
 

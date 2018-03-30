@@ -62,7 +62,7 @@ RenderSamplerState* D3D11SamplerState::Clone()
 	return state;
 }
 
-void D3D11SamplerState::ApplyToDevice(uint32 slot)
+void D3D11SamplerState::ApplyDevice(uint32 slot)
 {
 	m_pContext->VSSetSamplers(slot, 1, &m_pState);
 	m_pContext->PSSetSamplers(slot, 1, &m_pState);

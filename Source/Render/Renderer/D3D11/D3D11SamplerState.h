@@ -21,7 +21,7 @@ namespace Pharos
 
 			virtual RenderSamplerState* Clone();
 
-			virtual void ApplyToDevice(uint32 slot);
+			virtual void ApplyDevice(uint32 slot);
 		};
 	}
 }

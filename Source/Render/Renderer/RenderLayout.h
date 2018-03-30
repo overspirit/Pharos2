@@ -78,6 +78,8 @@ namespace Pharos
 
 			virtual uint32 GetIndexNum() const { return m_indexNum; }
 			virtual bool IsIndexBufferDynamic() const { return (m_indexBufType == EB_Dynamic); }
+
+			virtual bool IsUseIndexBuffer() = 0;
 		};
 	}
 }

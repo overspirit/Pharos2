@@ -158,7 +158,7 @@ RenderProgram* D3D11ShaderProgram::Clone()
 	return shader;
 }
 
-void D3D11ShaderProgram::ApplyToDevice()
+void D3D11ShaderProgram::ApplyDevice()
 {
 	if (m_pVertexShader != nullptr) m_pContext->VSSetShader(m_pVertexShader, nullptr, 0);
 	if (m_pPixelShader != nullptr) m_pContext->PSSetShader(m_pPixelShader, nullptr, 0);

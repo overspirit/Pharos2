@@ -39,7 +39,7 @@ namespace Pharos
 
 			virtual RenderProgram* Clone();
 
-			virtual void ApplyToDevice();
+			virtual void ApplyDevice();
 		};
 	}
 }

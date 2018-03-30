@@ -49,7 +49,7 @@ namespace Pharos
 			virtual RenderSamplerState* CreateSampleState(const SamplerStateDesc& desc);
 			virtual RenderBlendState* CreateBlendState(const BlendStateDesc& desc);
 			virtual RenderRasterizerState* CreateRasterizerState(const RasterizerStateDesc& desc);
-			virtual RenderDepthStencilState* CreateDepthStencilState(const DepthStencilStateDesc& desc);
+			virtual RenderDepthStencilState* CreateDepthStencilState(const DepthStencilStateDesc& desc);		
 
 			virtual void BindFrameBuffer(RenderFrameBuffer* frameBuf);
 			virtual void BindLayout(RenderLayout* layout);
