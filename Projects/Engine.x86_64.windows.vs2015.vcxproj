@@ -39,13 +39,13 @@
     <ClCompile Include="..\Source\Core\Windows\PlatformWindows.cpp" />
     <ClCompile Include="..\Source\Core\Windows\Timer.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.cpp" />
-    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechInfo.cpp" />
     <ClCompile Include="..\Source\Render\Material.cpp" />
     <ClCompile Include="..\Source\Render\Mesh.cpp" />
     <ClCompile Include="..\Source\Render\Model.cpp" />
+    <ClCompile Include="..\Source\Render\RenderBlock.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11DepthStencilState.cpp" />
@@ -111,11 +111,9 @@
     <ClInclude Include="..\Source\Pharos.h" />
     <ClInclude Include="..\Source\PreCompile.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.h" />
-    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderTechInfo.h" />
-    <ClInclude Include="..\Source\Render\Effect\RenderBlock.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderEffectLoader.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderPass.h" />
     <ClInclude Include="..\Source\Render\Effect\RenderTechnique.h" />
@@ -125,6 +123,7 @@
     <ClInclude Include="..\Source\Render\Material.h" />
     <ClInclude Include="..\Source\Render\Mesh.h" />
     <ClInclude Include="..\Source\Render\Model.h" />
+    <ClInclude Include="..\Source\Render\RenderBlock.h" />
     <ClInclude Include="..\Source\Render\RenderDefine.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.h" />

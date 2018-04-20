@@ -50,6 +50,8 @@ namespace Pharos
 				if (index >= m_passList.size()) return nullptr;
 				return m_passList[index];
 			}
+
+			virtual void ApplyToDevice() = 0;
 		};
 	}
 }

@@ -192,7 +192,7 @@ RenderTechnique* RenderMgr::GenerateRenderTechnique(const char8* tech)
 
 RenderBlock* RenderMgr::GenerateRenderBlock()
 {
-	return new D3D11RenderBlock();
+	return new RenderBlock();
 }
 
 void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil)

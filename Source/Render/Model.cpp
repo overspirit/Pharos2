@@ -128,9 +128,6 @@ void Model::UpdateAnimation(float32 elapsed)
 
 		m_animPlayTime += (elapsed * m_playSpeed);
 	}
-
-
-	//renderHelper->SetBoneTransformMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
 }
 
 void Model::SetCurrentAnimation(const char8* animName)

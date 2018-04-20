@@ -17,6 +17,8 @@ namespace Pharos
 			virtual void BindBlendState(RenderBlendState* state) = 0;
 
 			virtual RenderProgram* GetShaderProgram() = 0;
+
+			virtual void ApplyToDevice() = 0;
 		};
 	}
 }

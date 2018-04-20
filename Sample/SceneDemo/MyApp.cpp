@@ -49,7 +49,7 @@ bool MyApp::Init()
 	//scene->SetSceneSize(Size2Di(128, 128), 128);
 	sSceneMgr->SetCurrScene(m_scene);
 
-	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("hero3/hero3.sceneml");
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Ifrit/Ifrit.sceneml");
 	sceneImporter->ImportScene(m_scene);
 
 	SAFE_DELETE(sceneImporter);

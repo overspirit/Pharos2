@@ -20,7 +20,6 @@
 #include "Effect/RenderVariable.h"
 #include "Effect/RenderPass.h"
 #include "Effect/RenderTechnique.h"
-#include "Effect/RenderBlock.h"
 
 #if defined(_WINDOWS_PLATFORM_)
 
@@ -40,7 +39,6 @@
 #include "Effect/D3D11/D3D11EffectLoader.h"
 #include "Effect/D3D11/D3D11RenderPass.h"
 #include "Effect/D3D11/D3D11RenderTechnique.h"
-#include "Effect/D3D11/D3D11RenderBlock.h"
 
 #define MakeRenderer() new D3D11Renderer()
 #define MakeEffectLoader() new D3D11EffectLoader()
@@ -91,6 +89,9 @@
 
 #endif
 
+#include "IRenderCallback.h"
+#include "RenderBlock.h"
+
 // #include "RenderSprite.h"
 // #include "RenderImage.h"
 // #include "RenderFont.h"
@@ -98,7 +99,6 @@
 #include "Mesh.h"
 #include "Model.h"
 
-#include "IRenderCallback.h"
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()

@@ -85,9 +85,6 @@
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.cpp">
       <Filter>Render\Effect\D3D11</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.cpp">
-      <Filter>Render\Effect\D3D11</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.cpp">
       <Filter>Render\Effect\D3D11</Filter>
     </ClCompile>
@@ -138,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechInfo.cpp">
       <Filter>Render\Effect\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\RenderBlock.cpp">
+      <Filter>Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,9 +346,6 @@
     <ClInclude Include="..\Source\Render\RenderMgr.h">
       <Filter>Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Render\Effect\RenderBlock.h">
-      <Filter>Render\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Render\Effect\RenderEffectLoader.h">
       <Filter>Render\Effect</Filter>
     </ClInclude>
@@ -359,9 +356,6 @@
       <Filter>Render\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.h">
-      <Filter>Render\Effect\D3D11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderBlock.h">
       <Filter>Render\Effect\D3D11</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.h">
@@ -423,6 +417,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderTechInfo.h">
       <Filter>Render\Effect\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\RenderBlock.h">
+      <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
