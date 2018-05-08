@@ -210,6 +210,12 @@ void Model::Draw()
 		
 		RenderBlock* block = m_blockList[i];
 		block->SetBlockDataWorldMatrix(m_world);
+
+		if (m_animBoneTrans.size() > 0)
+		{
+			block->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
+		}
+
 		block->BindLayout(layout);
 		block->BindTechnique(tech);
 		block->SetDrawType(drawType);

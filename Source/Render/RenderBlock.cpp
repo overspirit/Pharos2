@@ -8,7 +8,6 @@ RenderBlock::RenderBlock()
 	m_renderer = nullptr;
 
 	m_blockData = nullptr;
-	m_blockDataBuf = nullptr;
 
 	m_tech = nullptr;
 	m_layout = nullptr;
@@ -22,7 +21,6 @@ RenderBlock::RenderBlock()
 RenderBlock::~RenderBlock()
 {
 	SAFE_DELETE(m_blockData);
-	//SAFE_DELETE(m_blockDataBuf);
 }
 
 void RenderBlock::Init()
@@ -30,25 +28,25 @@ void RenderBlock::Init()
 	m_renderer = sRenderMgr->GetCurrentRenderer();
 
 	m_blockData = m_renderer->CreateShaderData();
-	m_blockData->SetDataSize(sizeof(Matrix4));// sizeof(BlockData));
-	m_blockDataBuf = (BlockData*)m_blockData->GetDataBufferPointer();
+	m_blockData->SetDataSize(sizeof(Matrix4));		//先初始化一个Matrix大小
 }
 
 void RenderBlock::SetBlockDataWorldMatrix(const Matrix4& world)
 {
-	m_blockDataBuf->world = world;
+	if (m_blockData == nullptr) return;
+	m_blockData->CopyData(&world, sizeof(Matrix4));
 }
 
 void RenderBlock::SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum)
 {
-	uint32 copyNum = Math::minimum(255u, boneNum);
+	if (m_blockData == nullptr) return;
 
-	//memcpy(m_blockDataBuffer->bone, bones, copyNum * sizeof(Matrix4));
+	//强制规定骨骼矩阵在世界矩阵的后面，所以偏移一个矩阵的位置拷贝骨骼矩阵
+	m_blockData->CopyData(bones, Math::minimum(255u, boneNum) * sizeof(Matrix4), sizeof(Matrix4));
 }
 
 void RenderBlock::ApplyToDevice()
 {
-	//m_renderer = sRenderMgr->GetCurrentRenderer();
 	if (m_renderer == nullptr)
 	{
 		assert(false);

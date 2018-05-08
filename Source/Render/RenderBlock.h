@@ -9,19 +9,11 @@ namespace Pharos
 		public:
 			RenderBlock();
 			virtual ~RenderBlock();
-
-		private:
-			struct BlockData
-			{
-				Matrix4 world;
-				//Matrix4 bone[255];
-			};
-
+			
 		protected:
 			Renderer*			m_renderer;
 
 			RenderShaderData*	m_blockData;
-			BlockData*			m_blockDataBuf;
 
 			RenderTechnique*	m_tech;
 			RenderLayout*		m_layout;

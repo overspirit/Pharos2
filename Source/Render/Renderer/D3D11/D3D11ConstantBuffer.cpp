@@ -62,6 +62,8 @@ void D3D11ConstantBuffer::ApplyDevice(uint32 slot)
 	//D3D11要求ConstantBuffer的大小必须是16的整数倍...
 	if (dataSize < 16) dataSize = 16;
 
+	//验证MemoryBuffer是否和ConstantBuffer的大小是否匹配
+	//如果MemeoryBuffer比ConstantBuffer的数据大，需要重新建立ConstantBuffer
 	if (m_pBuffer != nullptr)
 	{
 		D3D11_BUFFER_DESC desc;
