@@ -59,11 +59,11 @@ void SceneCamera::BuildProjMatrix( float32 fFOV, uint32 nWidth, uint32 nHeight, 
 
 void SceneCamera::Move(const Vector3Df& vtMove)
 {
-	m_vEye = m_mWorld.TransformCoord(vtMove);
-
- 	Vector3Df lookatMove = vtMove;
+	m_vEye = m_mWorld.TransformPoint(vtMove);
+	
+	Vector3Df lookatMove = vtMove;
 	lookatMove.z += m_fEyeToLookAtLen;
-	m_vLookAt = m_mWorld.TransformCoord(lookatMove);
+	m_vLookAt = m_mWorld.TransformPoint(lookatMove);
 
 	const Vector3Df& xaxis = this->GetWorldRight();
 	const Vector3Df& yaxis = this->GetWorldUp();
@@ -116,7 +116,7 @@ void SceneCamera::Slither(const Vector2Df& vtMove)
 	Matrix4 mWorld = mLookAtTrans * mCameraRotation * m_mWorld;	
 
 	//从原点转换观察点	
-	m_vLookAt = mWorld.TransformCoord(Vector3Df(0, 0, 0));
+	m_vLookAt = mWorld.TransformPoint(Vector3Df(0, 0, 0));
 
 	//建立观察矩阵
 	m_mView.BuildCameraLookAtMatrixLH(m_vEye, m_vLookAt, m_vUp);
@@ -135,7 +135,7 @@ void SceneCamera::Turn(float32 fRad)
 
 	Matrix4 mCameraRotation;
 	mCameraRotation.BuildRotateFromTo(Vector3Df(0, 1.0f, 0), newUp);	
-	m_vUp = mCameraRotation.TransformCoord(m_vUp);
+	m_vUp = mCameraRotation.TransformPoint(m_vUp);
 
 	//建立观察矩阵
 	m_mView.BuildCameraLookAtMatrixLH(m_vEye, m_vLookAt, m_vUp);
@@ -164,7 +164,7 @@ void SceneCamera::Round(const Vector2Df& vtMove)
 	Matrix4 mWorld = mCameraTrans * mCameraRotation * mLookAtTrans * m_mWorld;
 
 	//变换摄像机位置	
-	m_vEye = mWorld.TransformCoord(Vector3Df(0, 0, 0));
+	m_vEye = mWorld.TransformPoint(Vector3Df(0, 0, 0));
 
 	// 得到观察矩阵
 	m_mView.BuildCameraLookAtMatrixLH(m_vEye, m_vLookAt, m_vUp);

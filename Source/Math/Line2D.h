@@ -25,7 +25,7 @@ namespace Pharos
 			}
 
 			//! 使用两点初始化线
-			Line2D(const Vector2D& nstart, const Vector2D& nend)
+			Line2D(const Vector2Df& nstart, const Vector2Df& nend)
 			{
 				start = nstart;
 				end = nend;
@@ -40,11 +40,11 @@ namespace Pharos
 
 			// 运算符重载
 
-			Line2D operator+(const Vector2D& point) const { return Line2D(start + point, end + point); }
-			Line2D& operator+=(const Vector2D& point) { start += point; end += point; return *this; }
+			Line2D operator+(const Vector2Df& point) const { return Line2D(start + point, end + point); }
+			Line2D& operator+=(const Vector2Df& point) { start += point; end += point; return *this; }
 
-			Line2D operator-(const Vector2D& point) const { return Line2D(start - point, end - point); }
-			Line2D& operator-=(const Vector2D& point) { start -= point; end -= point; return *this; }
+			Line2D operator-(const Vector2Df& point) const { return Line2D(start - point, end - point); }
+			Line2D& operator-=(const Vector2Df& point) { start -= point; end -= point; return *this; }
 
 			bool operator==(const Line2D& other) const
 			{
@@ -64,7 +64,7 @@ namespace Pharos
 			}
 
 			//! 设置新值
-			void SetLine(const Vector2D& nstart, const Vector2D& nend)
+			void SetLine(const Vector2Df& nstart, const Vector2Df& nend)
 			{
 				start.Set(nstart); end.Set(nend);
 			}
@@ -82,19 +82,19 @@ namespace Pharos
 			float32 GetLengthSQ() const { return start.GetDistanceFromSQ(end); }
 
 			//! 获得线段的中心点，没有归一化
-			Vector2D GetMiddle() const
+			Vector2Df GetMiddle() const
 			{
 				return (start + end) / (float32)2;
 			}
 
 			//! 获得直线的方向向量
-			Vector2D GetVector() const
+			Vector2Df GetVector() const
 			{
 				return (end - start);
 			}
 
 			//! 检测和另一个直线是否有交点，out为返回的交点，checkOnlySegments为交点必须落在线段内
-			bool IntersectWith(const Line2D& l, Vector2D& out, bool checkOnlySegments = true) const
+			bool IntersectWith(const Line2D& l, Vector2Df& out, bool checkOnlySegments = true) const
 			{
 				// Uses the method given at:
 				// http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
@@ -132,8 +132,8 @@ namespace Pharos
 						{
 							// find the points which are not contributing to the
 							// common part
-							Vector2D maxp;
-							Vector2D minp;
+							Vector2Df maxp;
+							Vector2Df minp;
 							if ((start.x > l.start.x && start.x > l.end.x && start.x > end.x) || (start.y > l.start.y && start.y > l.end.y && start.y > end.y))
 								maxp = start;
 							else if ((end.x > l.start.x && end.x > l.end.x && end.x > start.x) || (end.y > l.start.y && end.y > l.end.y && end.y > start.y))
@@ -153,7 +153,7 @@ namespace Pharos
 
 							// one line is contained in the other. Pick the center
 							// of the remaining points, which overlap for sure
-							out = Vector2D();
+							out = Vector2Df();
 							if (start != maxp && start != minp)
 								out += start;
 							if (end != maxp && end != minp)
@@ -191,36 +191,36 @@ namespace Pharos
 			//! 获得和另一条直线的夹角，结果为弧度制
 			float64 GetAngleWith(const Line2D& l) const
 			{
-				Vector2D vect = GetVector();
-				Vector2D vect2 = l.GetVector();
+				Vector2Df vect = GetVector();
+				Vector2Df vect2 = l.GetVector();
 				return vect.GetAngleWith(vect2);
 			}
 
 			//! 获取一个值，这个值小于0说明点在直线的左侧，大于0说明点在直线的右侧，等于0说明点在直线上
-			float32 GetPointOrientation(const Vector2D& point) const
+			float32 GetPointOrientation(const Vector2Df& point) const
 			{
 				return ((end.x - start.x) * (point.y - start.y) -
 					(point.x - start.x) * (end.y - start.y));
 			}
 
 			//! 检测点是否在线段上
-			bool IsPointOnLine(const Vector2D& point) const
+			bool IsPointOnLine(const Vector2Df& point) const
 			{
 				float32 d = GetPointOrientation(point);
 				return (iszero(d) && point.IsBetweenPoints(start, end));
 			}
 
 			//! 检测点是否在线段两点之间
-			bool IsPointBetweenStartAndEnd(const Vector2D& point) const
+			bool IsPointBetweenStartAndEnd(const Vector2Df& point) const
 			{
 				return point.IsBetweenPoints(start, end);
 			}
 
 			//! 获得直线上距给定点最近的点，checkOnlySegments为是否返回点必须在线段内
-			Vector2D GetClosestPoint(const Vector2D& point, bool checkOnlySegments = true) const
+			Vector2Df GetClosestPoint(const Vector2Df& point, bool checkOnlySegments = true) const
 			{
-				Vector2D c((point.x - start.x), (point.y - start.y));
-				Vector2D v((end.x - start.x), (end.y - start.y));
+				Vector2Df c((point.x - start.x), (point.y - start.y));
+				Vector2Df v((end.x - start.x), (end.y - start.y));
 				float32 d = v.GetLength();
 				if (iszero(d))	// can't tell much when the line is just a single point
 					return start;
@@ -229,17 +229,17 @@ namespace Pharos
 
 				if (checkOnlySegments)
 				{
-					if (t < 0) return Vector2D((float32)start.x, (float32)start.y);
-					if (t > d) return Vector2D((float32)end.x, (float32)end.y);
+					if (t < 0) return Vector2Df((float32)start.x, (float32)start.y);
+					if (t > d) return Vector2Df((float32)end.x, (float32)end.y);
 				}
 
 				v *= t;
-				return Vector2D((float32)(start.x + v.x), (float32)(start.y + v.y));
+				return Vector2Df((float32)(start.x + v.x), (float32)(start.y + v.y));
 			}
 
 		public:
-			Vector2D start;
-			Vector2D end;
+			Vector2Df start;
+			Vector2Df end;
 		};
 	}
 

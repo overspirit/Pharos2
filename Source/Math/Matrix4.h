@@ -103,17 +103,17 @@ namespace Pharos
 			Vector3Df GetScale() const;
 
 			//! 用矩阵转换给定的点，已验证
-			Vector4D Transform(const Vector2D& vect) const;
-			Vector4D Transform(const Vector3Df& vect) const;
-			Vector4D Transform(const Vector4D& vect) const;
+			Vector4Df Transform(const Vector2Df& vect) const;
+			Vector4Df Transform(const Vector3Df& vect) const;
+			Vector4Df Transform(const Vector4Df& vect) const;
 			
 			//! 用矩阵转换给定的点，已验证
-			Vector2D TransformCoord(const Vector2D& vect) const;
-			Vector3Df TransformCoord(const Vector3Df& vect) const;
+			Vector2Df TransformPoint(const Vector2Df& pos) const;
+			Vector3Df TransformPoint(const Vector3Df& pos) const;
 
 			//! 用矩阵转换给定的向量，已验证
-			Vector2D TransformNormal(const Vector2D& vect) const;
-			Vector3Df TransformNormal(const Vector3Df& vect) const;
+			Vector2Df TransformVector(const Vector2Df& vect) const;
+			Vector3Df TransformVector(const Vector3Df& vect) const;
 
 			//! 使用FOV建立一个右手坐标系的透视投影矩阵,已验证
 			CMatrix4& BuildProjectionMatrixPerspectiveFovRH(float32 fieldOfViewRadians, float32 aspectRatio, float32 zNear, float32 zFar);
@@ -780,9 +780,9 @@ namespace Pharos
 			return Vector3Df(sx, sy, sz);
 		}
 
-		inline Vector4D CMatrix4::Transform(const Vector2D& vect) const
+		inline Vector4Df CMatrix4::Transform(const Vector2Df& vect) const
 		{
-			Vector4D out;
+			Vector4Df out;
 			out.x = vect.x*m[0] + vect.y*m[4] + m[12];
 			out.y = vect.x*m[1] + vect.y*m[5] + m[13];
 			out.z = vect.x*m[2] + vect.y*m[6] + m[14];
@@ -790,9 +790,9 @@ namespace Pharos
 			return out;
 		}
 
-		inline Vector4D CMatrix4::Transform(const Vector3Df& vect) const
+		inline Vector4Df CMatrix4::Transform(const Vector3Df& vect) const
 		{
-			Vector4D out;
+			Vector4Df out;
 			out.x = vect.x*m[0] + vect.y*m[4] + vect.z*m[8] + m[12];
 			out.y = vect.x*m[1] + vect.y*m[5] + vect.z*m[9] + m[13];
 			out.z = vect.x*m[2] + vect.y*m[6] + vect.z*m[10] + m[14];
@@ -800,9 +800,9 @@ namespace Pharos
 			return out;
 		}
 
-		inline Vector4D CMatrix4::Transform(const Vector4D& vect) const
+		inline Vector4Df CMatrix4::Transform(const Vector4Df& vect) const
 		{
-			Vector4D out;
+			Vector4Df out;
 			out.x = vect.x*m[0] + vect.y*m[4] + vect.z*m[8] + vect.w*m[12];
 			out.y = vect.x*m[1] + vect.y*m[5] + vect.z*m[9] + vect.w*m[13];
 			out.z = vect.x*m[2] + vect.y*m[6] + vect.z*m[10] + vect.w*m[14];
@@ -810,34 +810,34 @@ namespace Pharos
 			return out;
 		}
 
-		inline Vector2D CMatrix4::TransformCoord(const Vector2D& vect) const
+		inline Vector2Df CMatrix4::TransformPoint(const Vector2Df& pos) const
 		{
-			Vector2D out;
-			float32 w = vect.x*m[3] + vect.y*m[7] + m[15];
-			out.x = (vect.x*m[0] + vect.y*m[4] + m[12]) / w;
-			out.y = (vect.x*m[1] + vect.y*m[5] + m[13]) / w;
+			Vector2Df out;
+			float32 w = pos.x*m[3] + pos.y*m[7] + m[15];
+			out.x = (pos.x*m[0] + pos.y*m[4] + m[12]) / w;
+			out.y = (pos.x*m[1] + pos.y*m[5] + m[13]) / w;
 			return out;
 		}
 
-		inline Vector3Df CMatrix4::TransformCoord(const Vector3Df& vect) const
+		inline Vector3Df CMatrix4::TransformPoint(const Vector3Df& pos) const
 		{
 			Vector3Df out;
-			float32 w = vect.x*m[3] + vect.y*m[7] + vect.z*m[11] + m[15];
-			out.x = (vect.x*m[0] + vect.y*m[4] + vect.z*m[8] + m[12]) / w;
-			out.y = (vect.x*m[1] + vect.y*m[5] + vect.z*m[9] + m[13]) / w;
-			out.z = (vect.x*m[2] + vect.y*m[6] + vect.z*m[10] + m[14]) / w;
+			float32 w = pos.x*m[3] + pos.y*m[7] + pos.z*m[11] + m[15];
+			out.x = (pos.x*m[0] + pos.y*m[4] + pos.z*m[8] + m[12]) / w;
+			out.y = (pos.x*m[1] + pos.y*m[5] + pos.z*m[9] + m[13]) / w;
+			out.z = (pos.x*m[2] + pos.y*m[6] + pos.z*m[10] + m[14]) / w;
 			return out;
 		}
 
-		inline Vector2D CMatrix4::TransformNormal(const Vector2D& vect) const
+		inline Vector2Df CMatrix4::TransformVector(const Vector2Df& vect) const
 		{
-			Vector2D out;
+			Vector2Df out;
 			out.x = vect.x*m[0] + vect.y*m[4];
 			out.y = vect.x*m[1] + vect.y*m[5];
 			return out;
 		}
 
-		inline Vector3Df CMatrix4::TransformNormal(const Vector3Df& vect) const
+		inline Vector3Df CMatrix4::TransformVector(const Vector3Df& vect) const
 		{
 			Vector3Df out;
 			out.x = vect.x*m[0] + vect.y*m[4] + vect.z*m[8];
