@@ -204,14 +204,12 @@ void Model::Draw()
 		Material* material = m_meshGroupList[i]->GetAttachMaterial();
 		if(material == nullptr) continue;
 
- 		RenderVariable* worldVar = material->GetTechniqueWorldVariable();
- 		worldVar->SetValue(m_world);
-
 		RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
 		DrawType drawType = m_meshGroupList[i]->GetDrawType();
 		RenderTechnique* tech = material->GetMaterialTechnique();
 		
 		RenderBlock* block = m_blockList[i];
+		block->SetBlockDataWorldMatrix(m_world);
 		block->BindLayout(layout);
 		block->BindTechnique(tech);
 		block->SetDrawType(drawType);

@@ -15,8 +15,6 @@ namespace Pharos
 
 			RenderTechnique*		m_renderTech;
 
-			RenderVariable*			m_worldVar;
-
 			vector<RenderTexture*>		m_texList;
 
 			map<string, RenderVariable*>	m_variableList;
@@ -32,7 +30,6 @@ namespace Pharos
 			virtual bool SetParameterValue(const char8* valueName, RenderTexture* texture);
 			
 			virtual RenderTechnique* GetMaterialTechnique() { return m_renderTech; }
-			virtual RenderVariable* GetTechniqueWorldVariable() { return m_worldVar; }
 		};
 	}
 }

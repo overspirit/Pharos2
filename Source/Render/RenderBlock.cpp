@@ -7,6 +7,9 @@ RenderBlock::RenderBlock()
 {
 	m_renderer = nullptr;
 
+	m_blockData = nullptr;
+	m_blockDataBuf = nullptr;
+
 	m_tech = nullptr;
 	m_layout = nullptr;
 
@@ -18,12 +21,40 @@ RenderBlock::RenderBlock()
 
 RenderBlock::~RenderBlock()
 {
+	SAFE_DELETE(m_blockData);
+	//SAFE_DELETE(m_blockDataBuf);
+}
 
+void RenderBlock::Init()
+{
+	m_renderer = sRenderMgr->GetCurrentRenderer();
+
+	m_blockData = m_renderer->CreateShaderData();
+	m_blockData->SetDataSize(sizeof(Matrix4));// sizeof(BlockData));
+	m_blockDataBuf = (BlockData*)m_blockData->GetDataBufferPointer();
+}
+
+void RenderBlock::SetBlockDataWorldMatrix(const Matrix4& world)
+{
+	m_blockDataBuf->world = world;
+}
+
+void RenderBlock::SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum)
+{
+	uint32 copyNum = Math::minimum(255u, boneNum);
+
+	//memcpy(m_blockDataBuffer->bone, bones, copyNum * sizeof(Matrix4));
 }
 
 void RenderBlock::ApplyToDevice()
 {
-	m_renderer = sRenderMgr->GetCurrentRenderer();
+	//m_renderer = sRenderMgr->GetCurrentRenderer();
+	if (m_renderer == nullptr)
+	{
+		assert(false);
+		return;
+	}
+
 	if (m_layout == nullptr || m_tech == nullptr)
 	{
 		assert(false);
@@ -42,6 +73,11 @@ void RenderBlock::ApplyToDevice()
 		{
 			m_countNum = m_layout->GetVertNum();
 		}
+	}
+
+	if (m_blockData != nullptr)
+	{
+		m_renderer->BindShaderData(1, m_blockData);
 	}
 
 	m_tech->ApplyToDevice();
@@ -83,17 +119,7 @@ void RenderBlock::Init()
 	//m_blockDataBuffer = (BlockData*)m_blockData->GetDataBufferPointer();
 }
 
-void RenderBlock::SetBlockDataWorldMatrix(const Matrix4& world)
-{
-	//m_blockDataBuffer->world = world;
-}
 
-void RenderBlock::SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum)
-{
-	uint32 copyNum = Math::minimum(255u, boneNum);
-
-	//memcpy(m_blockDataBuffer->bone, bones, copyNum * sizeof(Matrix4));
-}
 
 void RenderBlock::SetBlockPatchSize(uint32 size)
 {

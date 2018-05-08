@@ -158,6 +158,9 @@ bool RenderMgr::LoadEffectFile(const char8* szPath)
 
 		//slot为0的ShaderData渲染模块给了观察和投影矩阵，所以禁用读取的TechInfo中的Slot为0的ShaderData
 		techInfo->SetShaderDataValid(0, false);
+
+		//slot为1的ShaderData渲染模块给了世界矩阵和骨骼矩阵，所以禁用读取的TechInfo中的Slot为1的ShaderData
+		techInfo->SetShaderDataValid(1, false);
 	}
 
 	for (uint32 i = 0; i < effectLoader->GetTechniqueInfoNum(); i++)
@@ -192,7 +195,9 @@ RenderTechnique* RenderMgr::GenerateRenderTechnique(const char8* tech)
 
 RenderBlock* RenderMgr::GenerateRenderBlock()
 {
-	return new RenderBlock();
+	RenderBlock* renderBlock = new RenderBlock();
+	renderBlock->Init();
+	return renderBlock;
 }
 
 void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil)

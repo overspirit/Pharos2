@@ -5,8 +5,6 @@
 Material::Material()
 {
 	m_renderTech = nullptr;
-
-	m_worldVar = nullptr;
 }
 
 Material::~Material()
@@ -25,19 +23,6 @@ bool Material::SetRenderTechnique(const char8* techName)
 	if (m_renderTech == nullptr) return false;
 
 	m_techName = techName;
-
-	if (m_renderTech != nullptr)
-	{
-		m_worldVar = m_renderTech->GetVariable("g_world");
-
-		if (m_worldVar == nullptr)
-		{
-			assert(false);
-			return false;
-		}
-
-		m_worldVar->SetDataSize(64);
-	}
 
 	return true;
 }

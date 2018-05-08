@@ -10,8 +10,18 @@ namespace Pharos
 			RenderBlock();
 			virtual ~RenderBlock();
 
+		private:
+			struct BlockData
+			{
+				Matrix4 world;
+				//Matrix4 bone[255];
+			};
+
 		protected:
 			Renderer*			m_renderer;
+
+			RenderShaderData*	m_blockData;
+			BlockData*			m_blockDataBuf;
 
 			RenderTechnique*	m_tech;
 			RenderLayout*		m_layout;
@@ -22,6 +32,11 @@ namespace Pharos
 			uint32			m_countNum;
 
 		public:
+			virtual void Init();
+
+			virtual void SetBlockDataWorldMatrix(const Matrix4& world);
+			virtual void SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum);
+
 			virtual void BindLayout(RenderLayout* layout) { m_layout = layout; }
 			virtual void BindTechnique(RenderTechnique* tech) { m_tech = tech; }
 
