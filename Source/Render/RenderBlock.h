@@ -4,24 +4,40 @@ namespace Pharos
 {
 	namespace Render
 	{
+		//!!!注意,Block中的数据排列方式是
+		//按照第一个位置是World Matrix,之后的位置是骨骼矩阵, 这样的排列方式设置数据的
+		//即下列排列方式
+		//struct
+		//{
+		//	Matrix4 world;
+		//	Matrix4 bone[255];
+		//}
+
 		class RenderBlock
 		{
 		public:
 			RenderBlock();
 			virtual ~RenderBlock();
 			
-		protected:
+		private:
+			struct BlockPatch
+			{
+				RenderTechnique*	tech;
+				RenderLayout*		layout;
+
+				DrawType		drawType;
+
+				uint32			startIndex;
+				uint32			countNum;
+			};
+
+		private:
 			Renderer*			m_renderer;
 
 			RenderShaderData*	m_blockData;
 
-			RenderTechnique*	m_tech;
-			RenderLayout*		m_layout;
-
-			DrawType		m_drawType;
-
-			uint32			m_startIndex;
-			uint32			m_countNum;
+			vector<BlockPatch>	m_blockPatchList;
+			uint32				m_blockPatchNum;
 
 		public:
 			virtual void Init();
@@ -29,15 +45,16 @@ namespace Pharos
 			virtual void SetBlockDataWorldMatrix(const Matrix4& world);
 			virtual void SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum);
 
-			virtual void BindLayout(RenderLayout* layout) { m_layout = layout; }
-			virtual void BindTechnique(RenderTechnique* tech) { m_tech = tech; }
-
-			virtual RenderTechnique* GetTechnique() { return m_tech; }
-			virtual RenderLayout* GetLayout() { return m_layout; }
-			virtual void SetLayoutRange(uint32 start, uint32 count) { m_startIndex = start; m_countNum = count; }
-			virtual void SetDrawType(DrawType type) { m_drawType = type; }
-			virtual uint32 GetLayoutDrawStart() { return m_startIndex; }
-			virtual uint32 GetLayoutDrawCount() { return m_countNum; }
+			virtual uint32 AddRenderBlockPatch(RenderLayout* layout, RenderTechnique* tech);
+			virtual void SetBlockPatchDrawType(uint32 patchIndex, DrawType type);
+			virtual void SetBlockPatchDrawRange(uint32 patchIndex, uint32 start, uint32 count);
+			
+			virtual uint32 GetRenderBlockPatchNum() { return m_blockPatchNum; }
+			virtual RenderTechnique* GetBlockPatchTechnique(uint32 patchIndex);
+			virtual RenderLayout* GetBlockPatchLayout(uint32 patchIndex);
+			virtual DrawType GetBlockPatchDrawType(uint32 patchIndex);
+			virtual uint32 GetBlockPatchDrawStart(uint32 patchIndex);
+			virtual uint32 GetBlockPatchDrawCount(uint32 patchIndex);
 
 			virtual void ApplyToDevice();
 		};

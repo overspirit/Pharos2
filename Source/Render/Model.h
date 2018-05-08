@@ -45,7 +45,6 @@ namespace Pharos
 			Matrix4							m_world;
 
 			vector<Mesh*>					m_meshGroupList;
-			vector<RenderBlock*>			m_blockList;
 			vector<BoneInfo>				m_boneInfoList;
 			map<string, SkelAnimation>		m_animList;
 			
@@ -56,7 +55,8 @@ namespace Pharos
 			bool						m_playLoop;
 			float32						m_playSpeed;
 			uint32						m_currAnimFrame;
-
+			
+			RenderBlock*				m_renderBlock;
 			vector<Matrix4>				m_animBoneTrans;
 
 		public:

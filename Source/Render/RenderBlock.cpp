@@ -9,13 +9,7 @@ RenderBlock::RenderBlock()
 
 	m_blockData = nullptr;
 
-	m_tech = nullptr;
-	m_layout = nullptr;
-
-	m_drawType = EDT_TRIANGLELIST;
-
-	m_startIndex = 0;
-	m_countNum = 0;
+	m_blockPatchNum = 0;
 }
 
 RenderBlock::~RenderBlock()
@@ -45,88 +39,9 @@ void RenderBlock::SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum)
 	m_blockData->CopyData(bones, Math::minimum(255u, boneNum) * sizeof(Matrix4), sizeof(Matrix4));
 }
 
-void RenderBlock::ApplyToDevice()
+uint32 RenderBlock::AddRenderBlockPatch(RenderLayout* layout, RenderTechnique* tech)
 {
-	if (m_renderer == nullptr)
-	{
-		assert(false);
-		return;
-	}
-
-	if (m_layout == nullptr || m_tech == nullptr)
-	{
-		assert(false);
-		return;
-	}
-
-	if (m_countNum == 0)
-	{
-		m_startIndex = 0;
-
-		if (m_layout->IsUseIndexBuffer())
-		{
-			m_countNum = m_layout->GetIndexNum();
-		}
-		else
-		{
-			m_countNum = m_layout->GetVertNum();
-		}
-	}
-
-	if (m_blockData != nullptr)
-	{
-		m_renderer->BindShaderData(1, m_blockData);
-	}
-
-	m_tech->ApplyToDevice();
-
-	m_renderer->BindLayout(m_layout);
-
-	for (uint32 i = 0; i < m_tech->GetPassNum(); i++)
-	{
-		RenderPass* pass = m_tech->GetPass(i);
-		if (pass == nullptr)
-			break;
-
-		pass->ApplyToDevice();
-
-		m_renderer->DrawImmediate(m_drawType, m_startIndex, m_countNum);
-	}
-}
-
-/*
-RenderBlock::RenderBlock()
-{
-	m_renderer = nullptr;
-
-	m_blockData = nullptr;
-	m_blockDataBuffer = nullptr;
-}
-
-RenderBlock::~RenderBlock()
-{
-
-}
-
-void RenderBlock::Init()
-{
-	m_renderer = sRenderMgr->GetCurrentRenderer();
-
-	//m_blockData = m_renderer->CreateShaderData();
-	//m_blockData->SetDataSize(sizeof(Matrix4));// sizeof(BlockData));
-	//m_blockDataBuffer = (BlockData*)m_blockData->GetDataBufferPointer();
-}
-
-
-
-void RenderBlock::SetBlockPatchSize(uint32 size)
-{
-	m_blockPatchList.resize(size);
-}
-
-void RenderBlock::SetRenderBlockPatch(uint32 patchIndex, RenderLayout* layout, RenderTechnique* tech)
-{
-	if (patchIndex >= m_blockPatchList.size()) return;
+	if (layout == nullptr || tech == nullptr) return 0xFFFFFFFF;
 
 	uint32 countNum = 0;
 
@@ -139,50 +54,109 @@ void RenderBlock::SetRenderBlockPatch(uint32 patchIndex, RenderLayout* layout, R
 		countNum = layout->GetVertNum();
 	}
 
-	m_blockPatchList[patchIndex].layout = layout;
-	m_blockPatchList[patchIndex].tech = tech;
-	m_blockPatchList[patchIndex].drawType = EDT_TRIANGLELIST;
-	m_blockPatchList[patchIndex].startIndex = 0;
-	m_blockPatchList[patchIndex].countNum = countNum;
-}
+	uint32 patchIndex = m_blockPatchNum;
 
-void RenderBlock::SetPatchDrawRange(uint32 patchIndex, DrawType type, uint32 start, uint32 count)
-{
-	if (patchIndex >= m_blockPatchList.size()) return;
+	if (patchIndex >= m_blockPatchList.size())
+	{
+		m_blockPatchList.resize(patchIndex + 1);
+	}
 
 	BlockPatch& blockPatch = m_blockPatchList[patchIndex];
+	blockPatch.layout = layout;
+	blockPatch.tech = tech;
+	blockPatch.drawType = EDT_TRIANGLELIST;
+	blockPatch.startIndex = 0;
+	blockPatch.countNum = countNum;	
 
-	blockPatch.drawType = type;
+	m_blockPatchNum++;
+
+	return patchIndex;
+}
+
+void RenderBlock::SetBlockPatchDrawType(uint32 patchIndex, DrawType type)
+{
+	if (patchIndex >= m_blockPatchNum) return;
+
+	m_blockPatchList[patchIndex].drawType = type;
+}
+
+void RenderBlock::SetBlockPatchDrawRange(uint32 patchIndex, uint32 start, uint32 count)
+{
+	if (patchIndex >= m_blockPatchNum) return;
+
+	BlockPatch& blockPatch = m_blockPatchList[patchIndex];
 	blockPatch.startIndex = start;
 	blockPatch.countNum = count;
 }
 
-void RenderBlock::ApplyDevice()
+RenderTechnique* RenderBlock::GetBlockPatchTechnique(uint32 patchIndex)
 {
-	//if (m_blockData != nullptr)
-	//{
-		//m_renderer->BindShaderData(1, m_blockData);
-	//}
+	if (patchIndex >= m_blockPatchNum) return nullptr;
+	return m_blockPatchList[patchIndex].tech;
+}
 
-	for (uint32 i = 0; i < m_blockPatchList.size(); i++)
+RenderLayout* RenderBlock::GetBlockPatchLayout(uint32 patchIndex)
+{
+	if (patchIndex >= m_blockPatchNum) return nullptr;
+	return m_blockPatchList[patchIndex].layout;
+}
+
+DrawType RenderBlock::GetBlockPatchDrawType(uint32 patchIndex)
+{
+	if (patchIndex >= m_blockPatchNum) return ((DrawType)0xFFFFFFFF);
+	return m_blockPatchList[patchIndex].drawType;
+}
+
+uint32 RenderBlock::GetBlockPatchDrawStart(uint32 patchIndex)
+{
+	if (patchIndex >= m_blockPatchNum) return 0xFFFFFFFF;
+	return m_blockPatchList[patchIndex].startIndex;
+}
+
+uint32 RenderBlock::GetBlockPatchDrawCount(uint32 patchIndex)
+{
+	if (patchIndex >= m_blockPatchNum) return 0xFFFFFFFF;
+	return m_blockPatchList[patchIndex].countNum;
+}
+
+void RenderBlock::ApplyToDevice()
+{
+	if (m_renderer == nullptr)
+	{
+		assert(false);
+		return;
+	}
+
+	if (m_blockData != nullptr)
+	{
+		m_renderer->BindShaderData(1, m_blockData);
+	}
+
+	for (uint32 i = 0; i < m_blockPatchNum; i++)
 	{
 		BlockPatch& blockPatch = m_blockPatchList[i];
 
+		if (blockPatch.layout == nullptr || blockPatch.tech == nullptr)
+		{
+			assert(false);
+			continue;
+		}
+
+		blockPatch.tech->ApplyToDevice();
+
 		m_renderer->BindLayout(blockPatch.layout);
 
-		//blockPatch.tech->ApplyDevice();
-
-		for (uint32 j = 0; j < blockPatch.tech->GetPassNum(); j++)
+		for (uint32 i = 0; i < blockPatch.tech->GetPassNum(); i++)
 		{
-			RenderPass* renderPass = blockPatch.tech->GetPass(j);
-			if (renderPass == nullptr)
+			RenderPass* pass = blockPatch.tech->GetPass(i);
+			if (pass == nullptr)
 				break;
 
-			//renderPass->ApplyDevice();
+			pass->ApplyToDevice();
 
-			//m_renderer->DrawImmediate(blockPatch.drawType, blockPatch.startIndex, blockPatch.countNum);
+			m_renderer->DrawImmediate(blockPatch.drawType, blockPatch.startIndex, blockPatch.countNum);
 		}
 	}
-}
 
-*/
+	m_blockPatchNum = 0;
+}

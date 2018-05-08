@@ -11,6 +11,8 @@ Model::Model()
 	m_playLoop = false;
 	m_playSpeed = 1.0f;
 	m_currAnimFrame = 0;
+
+	m_renderBlock = nullptr;
 }
 
 Model::~Model()
@@ -18,17 +20,20 @@ Model::~Model()
 	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
 	{
 		SAFE_DELETE(m_meshGroupList[i]);
-		SAFE_DELETE(m_blockList[i]);
 	}
+
+	SAFE_DELETE(m_renderBlock);
 }
 
 void Model::AddMesh(Mesh* mesh)
 {
+	if (m_renderBlock == nullptr)
+	{
+		m_renderBlock = sRenderMgr->GenerateRenderBlock();
+	}
+
 	if (mesh != nullptr)
 	{
-		RenderBlock* block = sRenderMgr->GenerateRenderBlock();
-		m_blockList.push_back(block);
-
 		m_meshGroupList.push_back(mesh);
 	}
 }
@@ -199,6 +204,19 @@ void Model::TransformWorld(const Matrix4& world)
 
 void Model::Draw()
 {
+	if (m_renderBlock == nullptr)
+	{
+		assert(false);
+		return;
+	}
+
+	m_renderBlock->SetBlockDataWorldMatrix(m_world);
+
+	if (m_animBoneTrans.size() > 0)
+	{
+		m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
+	}
+
 	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
 	{
 		Material* material = m_meshGroupList[i]->GetAttachMaterial();
@@ -208,18 +226,9 @@ void Model::Draw()
 		DrawType drawType = m_meshGroupList[i]->GetDrawType();
 		RenderTechnique* tech = material->GetMaterialTechnique();
 		
-		RenderBlock* block = m_blockList[i];
-		block->SetBlockDataWorldMatrix(m_world);
-
-		if (m_animBoneTrans.size() > 0)
-		{
-			block->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
-		}
-
-		block->BindLayout(layout);
-		block->BindTechnique(tech);
-		block->SetDrawType(drawType);
-		
-		sRenderMgr->DoRender(block);
+		uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(layout, tech);
+		m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);		
 	}
+
+	sRenderMgr->DoRender(m_renderBlock);
 }
