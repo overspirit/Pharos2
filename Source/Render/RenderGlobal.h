@@ -92,7 +92,7 @@
 #include "IRenderCallback.h"
 #include "RenderBlock.h"
 
-// #include "RenderSprite.h"
+#include "RenderSprite.h"
 // #include "RenderImage.h"
 // #include "RenderFont.h"
 #include "Material.h"

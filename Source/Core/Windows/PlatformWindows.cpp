@@ -1,16 +1,11 @@
 ﻿#include "PreCompile.h"
 #include "CoreGlobal.h"
 #include "RenderGlobal.h"
-//#include "DesktopGlobal.h"
+#include "DesktopGlobal.h"
 #include "SceneGlobal.h"
 
 DEFINE_int32(width, 1334, "The width of the create window.");
 DEFINE_int32(height, 750, "The height of the create window.");
-
-// Engine::IKernel* g_pKernel;
-// Render::IRenderMgr* g_pRenderMgr;
-// Scene::ISceneMgr* g_pSceneMgr;
-// Desktop::IDesktopMgr* g_pDesktopMgr;
 
 PlatformWindows::PlatformWindows()
 {
@@ -74,17 +69,10 @@ bool PlatformWindows::Init()
 	if (!sKernel->Init(m_hWnd)) return false;
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());
-	//g_pKernel = sKernel;
 
 	if (!sRenderMgr->Init()) return false;
-	//g_pRenderMgr = sRenderMgr;
-
 	if (!sSceneMgr->Init()) return false;
-	//g_pSceneMgr = sSceneMgr;
-
-	//if (!sDesktopMgr->Init()) return false;
-	//g_pDesktopMgr = sDesktopMgr;
-
+	if (!sDesktopMgr->Init()) return false;
 	if (!sKernel->StartUp()) return false;
 
 	return true;
@@ -92,7 +80,7 @@ bool PlatformWindows::Init()
 
 void PlatformWindows::Destroy()
 {
-// 	sDesktopMgr->Destroy();
+ 	sDesktopMgr->Destroy();
  	sSceneMgr->Destroy();
  	sRenderMgr->Destroy();
 	sKernel->Destroy();	
@@ -137,7 +125,7 @@ void PlatformWindows::onKeyboardEvent(const KeyEvent& keyEvent)
 {
 	if (GetActiveWindow() != m_hWnd) return;
 
-	//sDesktopMgr->onKeyboardEvent(keyEvent);
+	sDesktopMgr->onKeyboardEvent(keyEvent);
 	sKernel->onKeyboardEvent(keyEvent);
 }
 
@@ -145,7 +133,7 @@ void PlatformWindows::onMouseEvent(const MouseEvent& mouseEvent)
 {
 	if (GetActiveWindow() != m_hWnd) return;
 
-	//sDesktopMgr->onMouseEvent(mouseEvent);
+	sDesktopMgr->onMouseEvent(mouseEvent);
 	sKernel->onMouseEvent(mouseEvent);
 }
 
@@ -156,7 +144,7 @@ void PlatformWindows::onWindowCreate()
 
 void PlatformWindows::onWindowChangeSize(int32 width, int32 height)
 {
-	//sDesktopMgr->onViewChangeSize(width, height);
+	sDesktopMgr->onViewChangeSize(width, height);
 	sKernel->onViewChangeSize(width, height);
 }
 
@@ -187,13 +175,13 @@ int32 PlatformWindows::Run()
 		float32 fElapsed = m_timer.GetElapsedTime();
 		
  		sSceneMgr->Update(fElapsed);
-// 		sDesktopMgr->Update(fElapsed);
+ 		sDesktopMgr->Update(fElapsed);
  		sRenderMgr->Update(fElapsed);
 		sKernel->Update(fElapsed);
 
 		
  		sSceneMgr->Render(fElapsed);
-// 		sDesktopMgr->Render(fElapsed);
+ 		sDesktopMgr->Render(fElapsed);
  		sRenderMgr->Render(fElapsed);
 		sKernel->Render(fElapsed);
 	}

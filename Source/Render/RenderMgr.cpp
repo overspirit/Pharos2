@@ -35,6 +35,8 @@ bool RenderMgr::Init()
 
 void RenderMgr::Destroy()
 {
+	sRenderSpirite->Destroy();
+
 	SAFE_DELETE(m_copyTech);
 	SAFE_DELETE(m_copyLayout);
 
@@ -108,7 +110,7 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	m_globalShaderData = m_renderer->CreateShaderData();
 
-	//if (!sRenderSpirite->Init(m_renderer)) return false;
+	if (!sRenderSpirite->Init(m_renderer)) return false;
 
 	return true;
 }
@@ -290,7 +292,7 @@ void RenderMgr::Render(float32 fElapsed)
 
 	m_blockCount = 0;
 
-	//sRenderSpirite->Resume();
+	sRenderSpirite->Resume();
 
 	m_renderCount++;
 	if (m_timer.GetTime() >= 1.0f)
