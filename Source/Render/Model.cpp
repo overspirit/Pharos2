@@ -7,7 +7,6 @@ Model::Model()
 	m_currAnim = nullptr;
 	m_animPlayTime = 0;
 	m_stopAnim = true;
-	m_stopAnimFlag = false;
 	m_playLoop = false;
 	m_playSpeed = 1.0f;
 	m_currAnimFrame = 0;
@@ -60,8 +59,6 @@ void Model::UpdateAnimation(float32 elapsed)
 {	
 	if (m_currAnim != nullptr && !m_stopAnim)
 	{
-		m_stopAnim = m_stopAnimFlag;
-
 		uint32 frameNum = (uint32)m_currAnim->frameList.size();
 		if (frameNum < 2) return;	//只有1帧的动画是无法计算的....
 
@@ -93,45 +90,53 @@ void Model::UpdateAnimation(float32 elapsed)
 			}
 		}
 
-		//取当前帧和下一帧的数据，根据lerp进行插值
-		const SkelFrame& currFrame = m_currAnim->frameList[m_currAnimFrame];
-		const SkelFrame& nextFrame = m_currAnim->frameList[m_currAnimFrame + 1];
-		for (uint32 i = 0; i < currFrame.tranList.size(); i++)
-		{
-			const BoneTran& currBoneTran = currFrame.tranList[i];
-			const BoneTran& nextBoneTran = nextFrame.tranList[i];
-
-			//旋转要进行球面插值
-			Quaternion rota;
-			rota.Slerp(currBoneTran.rota, nextBoneTran.rota, lerp);
-
-			//位移要进行线性插值
-			Vector3Df tran;
-			tran.Interpolate(currBoneTran.tran, nextBoneTran.tran, lerp);
-	
-			Matrix4 matTran = rota.GetMatrix();
-			matTran[12] = tran.x;
-			matTran[13] = tran.y;
-			matTran[14] = tran.z;
-
-			BoneInfo& boneInfo = m_boneInfoList[currBoneTran.bone_id];
-			if (boneInfo.parentId != 0xFFFFFFFF)
-			{
-				BoneInfo& parentBoneInfo = m_boneInfoList[boneInfo.parentId];
-				m_animBoneTrans[boneInfo.id] = matTran * m_animBoneTrans[parentBoneInfo.id];				
-			}
-			else
-			{
-				m_animBoneTrans[boneInfo.id] = matTran;
-			}
-		}
-
-		for (uint32 i = 0; i < m_boneInfoList.size(); i++)
-		{
-			m_animBoneTrans[i] = m_boneInfoList[i].bindPose * m_animBoneTrans[i];
-		}
+		CalcSkelAnimMatrix(m_currAnim, m_currAnimFrame, m_currAnimFrame + 1, lerp);
 
 		m_animPlayTime += (elapsed * m_playSpeed);
+	}
+}
+
+void Model::CalcSkelAnimMatrix(const SkelAnimation* anim, uint32 currFrameIndex, uint32 nextFrameIndex, float32 lerp)
+{
+	//取当前帧和下一帧的数据，根据lerp进行插值
+	if (anim == nullptr) return;
+
+	const SkelFrame& currFrame = anim->frameList[currFrameIndex];
+	const SkelFrame& nextFrame = anim->frameList[nextFrameIndex];
+
+	for (uint32 i = 0; i < currFrame.tranList.size(); i++)
+	{
+		const BoneTran& currBoneTran = currFrame.tranList[i];
+		const BoneTran& nextBoneTran = nextFrame.tranList[i];
+
+		//旋转要进行球面插值
+		Quaternion rota;
+		rota.Slerp(currBoneTran.rota, nextBoneTran.rota, lerp);
+
+		//位移要进行线性插值
+		Vector3Df tran;
+		tran.Interpolate(currBoneTran.tran, nextBoneTran.tran, lerp);
+
+		Matrix4 matTran = rota.GetMatrix();
+		matTran[12] = tran.x;
+		matTran[13] = tran.y;
+		matTran[14] = tran.z;
+
+		BoneInfo& boneInfo = m_boneInfoList[currBoneTran.bone_id];
+		if (boneInfo.parentId != 0xFFFFFFFF)
+		{
+			BoneInfo& parentBoneInfo = m_boneInfoList[boneInfo.parentId];
+			m_animBoneTrans[boneInfo.id] = matTran * m_animBoneTrans[parentBoneInfo.id];
+		}
+		else
+		{
+			m_animBoneTrans[boneInfo.id] = matTran;
+		}
+	}
+
+	for (uint32 i = 0; i < m_boneInfoList.size(); i++)
+	{
+		m_animBoneTrans[i] = m_boneInfoList[i].bindPose * m_animBoneTrans[i];
 	}
 }
 
@@ -141,37 +146,31 @@ void Model::SetCurrentAnimation(const char8* animName)
 	m_currAnim = (iter != m_animList.end()) ? &iter->second : nullptr;
 
 	m_animPlayTime = 0;
-
-	if (m_stopAnim)
-	{
-		m_stopAnim = false;
-		m_stopAnimFlag = true;
-	}
-
 	m_currAnimFrame = 0;
+
+	CalcSkelAnimMatrix(m_currAnim, 0, 0, 0.0f);
 }
 
 void Model::PlayAnimation(bool loop)
 {  
 	m_stopAnim = false;
-	m_stopAnimFlag = false;
 	m_playLoop = loop;
 }
 
 void Model::PauseAnimation()
 {
 	m_stopAnim = true;
-	m_stopAnimFlag = false;
 }
 
 void Model::StopAnimation()
 {
-	m_stopAnim = false;
-	m_stopAnimFlag = true;
+	m_stopAnim = true;
 	m_playLoop = false;
 
 	m_animPlayTime = 0;
 	m_currAnimFrame = 0;
+
+	CalcSkelAnimMatrix(m_currAnim, 0, 0, 0.0f);
 }
 
 void Model::SetCurrentAnimationFrame(uint32 frame)
@@ -180,11 +179,7 @@ void Model::SetCurrentAnimationFrame(uint32 frame)
 	m_currAnimFrame = Math::minimum(frame, maxFrame);
 	m_animPlayTime = m_currAnim->frameList[m_currAnimFrame].time;
 
-	if (m_stopAnim)
-	{
-		m_stopAnim = false;
-		m_stopAnimFlag = true;
-	}
+	CalcSkelAnimMatrix(m_currAnim, m_currAnimFrame, m_currAnimFrame, 0.0f);
 }
 
 uint32 Model::GetAnimationFrameNum(const char8* animName)

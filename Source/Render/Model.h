@@ -48,19 +48,18 @@ namespace Pharos
 			vector<BoneInfo>				m_boneInfoList;
 			map<string, SkelAnimation>		m_animList;
 			
-			const SkelAnimation*		m_currAnim;
-			float32						m_animPlayTime;
-			bool						m_stopAnim;
-			bool						m_stopAnimFlag;
-			bool						m_playLoop;
-			float32						m_playSpeed;
-			uint32						m_currAnimFrame;
+			const SkelAnimation*		m_currAnim;			//当前播放动画数据
+			float32						m_animPlayTime;		//当前动画总的播放时间
+			bool						m_stopAnim;			//是否停止动画播放
+			bool						m_playLoop;			//动画是否循环播放
+			float32						m_playSpeed;		//动画播放速度
+			uint32						m_currAnimFrame;	//当前播放动画的播放帧索引
 			
 			RenderBlock*				m_renderBlock;
 			vector<Matrix4>				m_animBoneTrans;
 
-		public:
-			virtual void UpdateAnimation(float32 elapsed);
+		private:
+			void CalcSkelAnimMatrix(const SkelAnimation* anim, uint32 currFrameIndex, uint32 nextFrameIndex, float32 lerp);
 
 		public:
 			virtual void AddMesh(Mesh* mesh);
@@ -84,6 +83,8 @@ namespace Pharos
 			virtual uint32 GetCurrentAnimationFrame() { return m_currAnimFrame; }
 
 			virtual void TransformWorld(const Matrix4& world);
+
+			virtual void UpdateAnimation(float32 elapsed);
 
 			virtual void Draw();
 		};
