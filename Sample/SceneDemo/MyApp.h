@@ -1,6 +1,6 @@
 #pragma once
 
-class MyApp : public IApplication, public IRenderCallback
+class MyApp : public IApplication, public IRenderCallback, public IControlViewer
 {
 public:
 	MyApp();
@@ -28,6 +28,7 @@ private:
 
 	OctreeScene*			m_scene;
 	SceneCamera*			m_camera;
+	Model*					m_model;
 	bool			m_bLeftDown;
 	bool			m_bRightDown;
 
@@ -40,11 +41,10 @@ public:
 	virtual void onViewChangeSize(int32 width, int32 height);
 
 	virtual bool onMouseEvent(const MouseEvent& event);
-	virtual bool onKeyboardEvent(const KeyEvent& evnet);
+	virtual bool onKeyboardEvent(const KeyEvent& event);
 
-	virtual void onSensorAccelerometerEvent(const Vector3Df& acc, float64 timestamp);
-	virtual void onSensorMagenticFieldEvent(const Vector3Df& magnetic, float64 timestamp);
-	virtual void onSensorGyroscopeEvnet(const Vector3Df& gryo, float64 timestamp);
+	virtual void onControlCreate(const char8* name, int32 v1, float32 v2);
+	virtual void onControlValueChange(const char8* name, int32 v1, float32 v2);
 
 	virtual void Update(float32 fElapsed);
 	virtual void Render(float32 fElapsed);

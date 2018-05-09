@@ -38,6 +38,9 @@ namespace Pharos
 			virtual void AddSceneNode(SceneNode* pNode);
 			virtual void RemoveSceneNode(SceneNode* pNode);
 
+			virtual uint32 GetSceneNodeNum() { return (uint32)m_nodeList.size(); }
+			virtual SceneNode* GetSceneNode(uint32 index) { return index < (uint32)m_nodeList.size() ? m_nodeList[index] : nullptr; }
+
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
 		};

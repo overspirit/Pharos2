@@ -139,6 +139,42 @@
     <ClCompile Include="..\Source\Render\RenderBlock.cpp">
       <Filter>Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Desktop\DesktopMgr.cpp">
+      <Filter>Desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\VarNode.cpp">
+      <Filter>Desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\Button.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\CheckButton.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\FontString.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\Frame.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\Progress.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\Slider.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\Texture.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\UIObject.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\UIObjects\WorldFrame.cpp">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\RenderSprite.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\TypesDef.h" />
@@ -421,6 +457,51 @@
     <ClInclude Include="..\Source\Render\RenderBlock.h">
       <Filter>Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Desktop\DesktopGlobal.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\DesktopMgr.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIDefine.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\VarNode.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\Button.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\CheckButton.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\FontString.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\Frame.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\Progress.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\Slider.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\Texture.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\UIObject.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\UIObjects\WorldFrame.h">
+      <Filter>Desktop\UIObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\IControlViewer.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\RenderSprite.h">
+      <Filter>Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -458,6 +539,12 @@
     </Filter>
     <Filter Include="Render\Shader\D3D11">
       <UniqueIdentifier>{89887b0b-bb55-45e4-8455-4c7678853379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desktop">
+      <UniqueIdentifier>{21e345af-130d-462f-ba68-3280386d94e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desktop\UIObjects">
+      <UniqueIdentifier>{d49ce9d1-d4a2-424b-8143-721c8d975644}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -176,9 +176,15 @@ void SceneCamera::Round(const Vector2Df& vtMove)
 }
 
 void SceneCamera::Stretch(float32 fMove)
-{
+{	
+	if (m_fEyeToLookAtLen + fMove < 0)
+	{
+		fMove = 0;
+	}
+
 	//计算移动距离和新的摄像机位置和观察点距离
 	m_fEyeToLookAtLen += fMove;
+
 
 	//重新计算摄像机位置
 	m_vEye += ((m_vEye - m_vLookAt).Normalize() * fMove);

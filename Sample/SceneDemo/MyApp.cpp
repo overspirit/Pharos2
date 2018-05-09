@@ -2,26 +2,13 @@
 #include "CoreGlobal.h"
 #include "RenderGlobal.h"
 #include "SceneGlobal.h"
+#include "DesktopGlobal.h"
 #include "Global.h"
-
-const static char8 g_copyShaderVS[] =
-"void CopyVS(float4 pos : POSITION, float2 tex0 : TEXCOORD, out float2 oTex : TEXCOORD, out float4 oPos : SV_Position)\n"
-"{\n"
-"	oPos = pos;\n"
-"	oTex = tex0;\n"
-"}\n";
-
-const static char8 g_copyShaderPS[] =
-"float4 CopyPS(float2 tex : TEXCOORD) : SV_Target\n"
-"{\n"
-"	return float4(1.0, 1.0, 0, 1.0);\n"
-"}\n";
 
 MyApp::MyApp()
 {
 	m_bLeftDown = false;
 	m_bRightDown = false;
-
 }
 
 MyApp::~MyApp()
@@ -45,19 +32,30 @@ bool MyApp::Init()
 
 	sRenderMgr->RegisterRenderCallback(this);
 
+	//Scene
+	//////////////////////////////////////////////////////////////////////////
 	m_scene = sSceneMgr->CreateScene();
-	//scene->SetSceneSize(Size2Di(128, 128), 128);
 	sSceneMgr->SetCurrScene(m_scene);
 
 	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Ifrit/Ifrit.sceneml");
 	sceneImporter->ImportScene(m_scene);
-
 	SAFE_DELETE(sceneImporter);
+
+	SceneNode* sceneNode = m_scene->GetSceneNode(0);
+	m_model = sceneNode->GetModel(0);
 
 	m_camera = m_scene->GetSceneCamera();
 	m_camera->BuildViewMatrix(Vector3Df(5.0f, 5.0f, -5.0f), Vector3Df(0, 0, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
+	//////////////////////////////////////////////////////////////////////////
 
+	//UI
+	//////////////////////////////////////////////////////////////////////////
+	sDesktopMgr->SetDesktopSize(wndSize.width, wndSize.height);
+	sDesktopMgr->RegisterControlViewer(this);
+	sDesktopMgr->LoadUILayoutFile("Interface/Console/Console.xml");
+
+	//////////////////////////////////////////////////////////////////////////
 	return true;
 }
 
@@ -113,19 +111,60 @@ bool MyApp::onKeyboardEvent(const KeyEvent& evnet)
 	return true;
 }
 
-void MyApp::onSensorAccelerometerEvent(const Vector3Df& acc, float64 timestamp)
+void MyApp::onControlCreate(const char8* name, int32 v1, float32 v2)
 {
 
 }
 
-void MyApp::onSensorMagenticFieldEvent(const Vector3Df& magnetic, float64 timestamp)
+void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
 {
+	static const char8* animNameList[] =
+	{
+		"atk1", "atk2", "atk3", "atk4", "bak1", "bak2", "bak3", "bko1", "blk",
+		"coma", "dead", "duck", "ent", "fko1", "jmp1", "jmp2", "jmp3", "lei1",
+		"lei2", "out", "rdy", "rsh", "rsha", "run", "runa", "sf01", "sf02",
+		"sk01", "sk02", "sk03", "sk04", "std", "stop", "stpa", "wlk", "wlka",
+	};
 
-}
+	static int32 animIndex = 0;
 
-void MyApp::onSensorGyroscopeEvnet(const Vector3Df& gryo, float64 timestamp)
-{
+	static bool loop = false;
 
+	if (strcmp(name, "NextAnim") == 0)
+	{
+		animIndex++;
+		animIndex = animIndex % (sizeof(animNameList) / sizeof(const char8*));
+
+		m_model->SetCurrentAnimation(animNameList[animIndex]);
+	}
+	else if (strcmp(name, "PrevAnim") == 0)
+	{
+		animIndex--;
+		if (animIndex < 0) animIndex = (sizeof(animNameList) / sizeof(const char8*)) - 1;
+		animIndex = animIndex % (sizeof(animNameList) / sizeof(const char8*));
+
+		m_model->SetCurrentAnimation(animNameList[animIndex]);
+	}
+	else if (strcmp(name, "PlayAnim") == 0)
+	{
+		m_model->PlayAnimation(loop);
+	}
+	else if (strcmp(name, "PauseAnim") == 0)
+	{
+		m_model->PauseAnimation();
+	}
+	else if (strcmp(name, "StopAnim") == 0)
+	{
+		m_model->StopAnimation();
+	}
+	else if (strcmp(name, "LoopPlay") == 0)
+	{
+		loop = (bool)v1;
+	}
+	else if (strcmp(name, "AnimSpeed") == 0)
+	{
+		m_model->SetPlayAnimationSpeed(v2);
+	}
 }
 
 void MyApp::Update(float32 fElapsed)
@@ -135,15 +174,10 @@ void MyApp::Update(float32 fElapsed)
 
 void MyApp::Render(float32 fElapsed)
 {
-	//m_defFrameBuf->ClearFrameBuffer(0xFFFFFF00);
 
-	//m_renderer->Present();
 }
 
 void MyApp::onRender(float32 elapsed)
 {
-	//m_renderer->BindLayout(m_copyLayout);
-	//m_renderer->BindProgram(m_copyShader);
 
-	//m_renderer->DrawImmediate(EDT_TRIANGLELIST, 0, 6);
 }
