@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UI>
+  <Frame name="Console" enable="true" hidden="false">
+
+    <Region>
+
+      <Size y="150"/>
+
+      <Anchor point="TopLeft" relativePoint="BottomLeft">
+        <Offset x="100" y="200"/>
+      </Anchor>
+
+      <Anchor point="TopRight" relativePoint="BottomRight">
+        <Offset x="-100" y="-200"/>
+      </Anchor>
+
+    </Region>
+
+    <BackDrop>
+      <Texture color="0x3FFFFFFF"/>
+
+      <EdgeInsets left="5" top="5" right="5" bottom="5"/>
+
+    </BackDrop>
+
+    <Frames>
+
+      <Button name="PauseAnim" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="64" y="64"/>
+
+          <Anchor point="Center" relativePoint="Center">
+		  <Offset y="0"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture file="Interface/Console/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/Pause.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Button>
+
+
+
+      <Button name="PlayAnim" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="64" y="64"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="-100" y="0"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture file="Interface/Console/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/Play.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Button>
+
+
+
+
+      <Button name="StopAnim" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="64" y="64"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="100" y="0"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture file="Interface/Console/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/Stop.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Button>
+
+
+
+      <Button name="PrevAnim" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="64" y="64"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="-300" y="0"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture file="Interface/Console/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/Prev.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Button>
+
+      <Button name="NextAnim" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="64" y="64"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="300" y="0"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture file="Interface/Console/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/Next.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Button>
+	  
+      <Slider name="AnimSpeed" enable="true" hidden="false" min="0" max="2.0" step="0" value="1.0" wheel_speed="0.5" put_type="Horizontal">
+
+        <Region>
+
+          <Size x="128" y="32"/>
+
+          <Anchor point="Center" relativePoint="Center">
+		  <Offset x="-100" y="50"/>
+          </Anchor>
+
+		  <Anchor point="Bottom" relativePoint="Bottom"/>
+		  
+        </Region>
+
+        <Thumb>
+
+          <BackStyle>
+            <Texture file="Interface/Console/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          </BackStyle>
+
+          <PushStyle>
+            <Texture file="Interface/Console/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          </PushStyle>
+
+          <HighlightStyle>
+            <Texture file="Interface/Console/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          </HighlightStyle>
+
+          <DisableStyle>
+            <Texture color="0xFFFFFFFF"/>
+          </DisableStyle>
+
+          <Size x="32" y="32"/>
+
+          <EdgeInsets left="5" top="30" right="5" bottom="30"/>
+
+        </Thumb>
+
+        <BackDrop>
+          <Texture file="Interface/Console/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Slider>
+
+      <Progress name="AnimFrame" enable="true" hidden="false" min="1" max="2" value="1.4" puttype="Horizontal">
+
+        <Region>
+          <Size y="20"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset y="-50"/>
+          </Anchor>
+
+		  <Anchor point="Left" relativePoint="Left">
+		  <Offset x="10"/>
+		  </Anchor>
+		  
+		  <Anchor point="Right" relativePoint="Right">
+		  <Offset x="-10"/>
+		  </Anchor>
+        </Region>
+
+        <Bar>
+          <Texture file="Interface/Console/Box.bmp" left="467" top="43" right="503" bottom="58" color="0xFFFFFFFF"/>
+
+          <EdgeInsets left="10" top="10" right="10" bottom="10"/>
+        </Bar>
+
+        <BackDrop>
+          <Texture color="0xFF5E5E5E"/>
+        </BackDrop>
+
+      </Progress>
+
+
+      <CheckButton name="LoopPlay" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="24" y="24"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="100" y="50"/>
+          </Anchor>
+
+		  <Anchor point="Bottom" relativePoint="Bottom">
+		  <Offset y="-8"/>
+		  </Anchor>
+		  
+        </Region>
+
+		<CheckStyle>
+          <Texture file="Interface/Console/LoopCheck.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </CheckStyle>
+		
+        <PushStyle>
+          <Texture file="Interface/Console/LoopPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/LoopHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/LoopBack.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </CheckButton>
+
+    </Frames>
+
+  </Frame>
+
+</UI>
