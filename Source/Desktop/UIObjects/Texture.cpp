@@ -21,13 +21,9 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 {
 	if (!UIObject::LoadFromXml(xmlNode)) return false;
 
-	Image image;
 	string imageFile = GetAttributeStringValue(xmlNode, "file");
-	//if (!image.Open(imageFile)) return false;
-
 	m_imageColor = GetAttributeColorValue(xmlNode, "color");
 
-	//if (image != nullptr)
 	if(!imageFile.empty())
 	{
 		Renderer* renderer = sRenderMgr->GetCurrentRenderer();
@@ -36,16 +32,16 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 		m_renderTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
 		RenderVariable* texVar = m_renderTech->GetVariable("g_tex");
 		texVar->SetValue(m_renderImage);
-
-		m_imageRect.left = GetAttributeIntValue(xmlNode, "left");
-		m_imageRect.top = GetAttributeIntValue(xmlNode, "top");
-		m_imageRect.right = GetAttributeIntValue(xmlNode, "right");
-		m_imageRect.bottom = GetAttributeIntValue(xmlNode, "bottom");
 	}
-	//else
+	else
 	{
-		//m_renderImage = sRenderMgr->GenerateRenderImage(m_imageColor);
+		m_renderTech = sRenderMgr->GenerateRenderTechnique("Sprite2DColor");
 	} 		
+
+	m_imageRect.left = GetAttributeIntValue(xmlNode, "left");
+	m_imageRect.top = GetAttributeIntValue(xmlNode, "top");
+	m_imageRect.right = GetAttributeIntValue(xmlNode, "right");
+	m_imageRect.bottom = GetAttributeIntValue(xmlNode, "bottom");
 
 	return true;
 }
@@ -59,19 +55,17 @@ void Texture::Render(float32 fElapsed)
 {
 	UIObject::Render(fElapsed);
 
+	Vector4Df uv;
+
 	if (m_renderImage != nullptr)
-	{
-		Vector4Df uv;
+	{		
 		uint32 texWidth = m_renderImage->GetWidth();
 		uint32 texHeight = m_renderImage->GetHeight();
 		uv.x = (float32)m_imageRect.left / texWidth;
 		uv.y = (float32)m_imageRect.top / texHeight;
 		uv.z = (float32)m_imageRect.right / texWidth;
 		uv.w = (float32)m_imageRect.bottom / texHeight;
-
-		sRenderSpirite->RenderRect(m_renderTech, uv, m_imageColor, m_rect);
-// 		m_renderImage->SetImageColor(m_imageColor);
-// 		m_renderImage->SetImageRect(m_imageRect);
-// 		m_renderImage->DrawImage(m_rect);
 	}
+	
+	sRenderSpirite->RenderRect(m_renderTech, uv, m_imageColor, m_rect);	
 }
