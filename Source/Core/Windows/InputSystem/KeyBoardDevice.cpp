@@ -60,5 +60,5 @@ bool CKeyBoardDevice::IsKeyBoardButtonUp(KEY_CODE key)
 bool CKeyBoardDevice::IsKeyBoardButtonDown(KEY_CODE key)
 {
 	//如果某位置的数据与0x80为TRUE，这说明该位置的键被按下
-	return ((m_pNewKeys[key] & 0x80) && (!(m_pOldKeys[key] & 0x80)));
+	return ((m_pNewKeys[key] & 0x80) && true);
 }

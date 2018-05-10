@@ -91,7 +91,7 @@ bool CMouseDevice::IsMouseButtonUp(MOUSE_CODE key)
 bool CMouseDevice::IsMouseButtonDown(MOUSE_CODE key)
 {
 	//如果某位置的数据与0x80为TRUE，这说明该位置的键被按下
-	return ((m_stMouseState.rgbButtons[key] & 0x80) && (!(m_stOldMouseState.rgbButtons[key] & 0x80)));
+	return ((m_stMouseState.rgbButtons[key] & 0x80) && true);
 }
 
 const Point2Di& CMouseDevice::GetPosition()

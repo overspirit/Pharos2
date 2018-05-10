@@ -5,10 +5,14 @@
 #include "DesktopGlobal.h"
 #include "Global.h"
 
+#define MOVE_SPEED 10.0f
+
 MyApp::MyApp()
 {
 	m_bLeftDown = false;
 	m_bRightDown = false;
+
+	m_elapsed = 0;
 }
 
 MyApp::~MyApp()
@@ -106,8 +110,42 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 	return false;
 }
 
-bool MyApp::onKeyboardEvent(const KeyEvent& evnet)
+bool MyApp::onKeyboardEvent(const KeyEvent& event)
 {
+	switch (event.key)
+	{
+		case KEY_A:
+		{
+			m_camera->Move(Vector3Df(-1.0f * m_elapsed * MOVE_SPEED, 0, 0));
+		}
+		break;
+		case KEY_D:
+		{
+			m_camera->Move(Vector3Df(1.0f * m_elapsed * MOVE_SPEED, 0, 0));
+		}
+		break;
+		case KEY_W:
+		{
+			m_camera->Move(Vector3Df(0, 0, 1.0f * m_elapsed * MOVE_SPEED));
+		}
+		break;
+		case KEY_S:
+		{
+			m_camera->Move(Vector3Df(0, 0, -1.0f * m_elapsed * MOVE_SPEED));
+		}
+		break;
+		case KEY_Q:
+		{
+			m_camera->Move(Vector3Df(0, 1.0f * m_elapsed * MOVE_SPEED, 0));
+		}
+		break;
+		case KEY_E:
+		{
+			m_camera->Move(Vector3Df(0, -1.0f * m_elapsed * MOVE_SPEED, 0));
+		}
+		break;
+	}
+
 	return true;
 }
 
@@ -159,7 +197,7 @@ void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
 	}
 	else if (strcmp(name, "LoopPlay") == 0)
 	{
-		loop = (bool)v1;
+		loop = (v1 == 0 ? false : true);
 	}
 	else if (strcmp(name, "AnimSpeed") == 0)
 	{
@@ -169,7 +207,7 @@ void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
 
 void MyApp::Update(float32 fElapsed)
 {
-
+	m_elapsed = fElapsed;
 }
 
 void MyApp::Render(float32 fElapsed)

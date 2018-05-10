@@ -32,6 +32,8 @@ private:
 	bool			m_bLeftDown;
 	bool			m_bRightDown;
 
+	float32			m_elapsed;
+
 public:
 	virtual bool Init();
 	virtual void Destroy();
