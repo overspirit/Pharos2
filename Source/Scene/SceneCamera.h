@@ -74,11 +74,11 @@ namespace Pharos
 			virtual void SetLookAtPt(const Vector3Df& vTarget);			//设置观察点
 			virtual const Vector3Df& GetLookAtPt() const { return m_vLookAt; }	//获取观察点
 
-			virtual Vector2Df WorldToScreen(const Vector3Df& vtWorld);			//将三维空间的点映射到屏幕相对坐标系
+			virtual Vector2Df WorldToScreen(const Vector3Df& vtWorld, const Size2Di& wndSize);			//将三维空间的点映射到屏幕相对坐标系
 			virtual Vector3Df WorldToScreenF(const Vector3Df& vtWorld);			//将三维空间的点映射到屏幕绝对坐标系
-			virtual Vector3Df ScreenToWorld(int32 screenX, int32 screenY);		//将屏幕上的点映射到三维空间
-			virtual Vector2Df ScreenFToScreen(const Vector3Df& vtScreen);		//将屏幕的相对坐标系点转换到绝对坐标系
-			virtual Line3Df GetMouseRay(int32 cursorX, int32 cursorY);			//产生一个由摄像机指向指定点的射线
+			virtual Vector3Df ScreenToWorld(int32 screenX, int32 screenY, const Size2Di& wndSize);		//将屏幕上的点映射到三维空间
+			virtual Vector2Df ScreenFToScreen(const Vector3Df& vtScreen, const Size2Di& wndSize);		//将屏幕的相对坐标系点转换到绝对坐标系
+			virtual Line3Df GetMouseRay(int32 cursorX, int32 cursorY, const Size2Di& wndSize);			//产生一个由摄像机指向指定点的射线
 			virtual const Line3Df& GetCameraRay() const { return *(Line3Df*)&m_vEye; }	//获得摄像机位置到观察点的射线
 
 			//得到摄像机的各个信息

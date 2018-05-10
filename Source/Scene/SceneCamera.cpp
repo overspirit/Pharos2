@@ -208,75 +208,59 @@ void SceneCamera::SetLookAtPt(const Vector3Df& vTarget)
 	BuildViewMatrix(m_vEye, vTarget, m_vUp);
 }
 
-Vector2Df SceneCamera::WorldToScreen(const Vector3Df& vtWorld)
+Vector2Df SceneCamera::WorldToScreen(const Vector3Df& vtWorld, const Size2Di& wndSize)
 {
 	//将给出的点依次进行观察变换和投影变换就得到屏幕点
-// 	Vector3Df trans;
-// 	m_mView.TransformCoord(vtWorld, trans);
-// 	m_mProj.TransformCoord(trans);
-// 
-// 	const Size2Di& wndSize = g_pKernel->GetWindowSize();
-// 	int32 nWidth = wndSize.width;
-// 	int32 nHeight = wndSize.height;
+	Vector3Df viewPos = m_mView.TransformPoint(vtWorld);
+	Vector3Df projPos = m_mProj.TransformPoint(viewPos);
 
 	//这时的点是屏幕的相对坐标点，需要转换成绝对坐标点
 	Vector2Df ret;
-// 	ret.x = (int32)((1.0f + trans.x) * 0.5f * nWidth);
-// 	ret.y = (int32)((1.0f - trans.y) * 0.5f * nHeight);
+	ret.x = ((1.0f + projPos.x) * 0.5f * wndSize.width);
+	ret.y = ((1.0f - projPos.y) * 0.5f * wndSize.height);
 	return ret;
 }
 
 Vector3Df SceneCamera::WorldToScreenF(const Vector3Df& vtWorld)
 {
 	//将给出的点依次进行观察变换和投影变换就得到屏幕点
-	Vector3Df trans;
-// 	m_mView.TransformCoord(vtWorld, trans);
-// 	m_mProj.TransformCoord(trans);
-
-	return trans;
+	Vector3Df viewPos = m_mView.TransformPoint(vtWorld);
+	Vector3Df projPos = m_mProj.TransformPoint(viewPos);
+	return projPos;
 }
 
-Vector3Df SceneCamera::ScreenToWorld(int32 screenX, int32 screenY)
+Vector3Df SceneCamera::ScreenToWorld(int32 screenX, int32 screenY, const Size2Di& wndSize)
 {
 	//求投影平面的半长和半宽
-// 	float32 halfW = tanf(m_fFOV * 0.5f) * m_fNearPlane * m_fAspect;
-// 	float32 halfH = halfW / m_fAspect;
-// 
-// 	//获得窗口大小
-// 	const Size2Di& wndSize = g_pKernel->GetWindowSize();
-// 	int32 nWidth = wndSize.width;
-// 	int32 nHeight = wndSize.height;
-
+	float32 halfW = tanf(m_fFOV * 0.5f) * m_fNearPlane * m_fAspect;
+	float32 halfH = halfW / m_fAspect;
+	
 	//这个点在近裁剪面上，求这个点的位置，这时计算的位置是观察坐标系的
 	//所以需要转换到世界坐标系中
 	Vector3Df r;
-// 	r.x = (screenX / (nWidth * 0.5f) - 1.0f) * halfW;
-// 	r.y = (1.0f - screenY / (nHeight * 0.5f)) * halfH;
-// 	r.z = m_fNearPlane;
-// 
-// 	m_mWorld.TransformCoord(r);
+	r.x = (screenX / (wndSize.width * 0.5f) - 1.0f) * halfW;
+	r.y = (1.0f - screenY / (wndSize.height * 0.5f)) * halfH;
+	r.z = m_fNearPlane;
+
+	m_mWorld.TransformPoint(r);
 
 	return r;
 }
 
-Vector2Df SceneCamera::ScreenFToScreen(const Vector3Df& vtScreen)
+Vector2Df SceneCamera::ScreenFToScreen(const Vector3Df& vtScreen, const Size2Di& wndSize)
 {
-// 	const Size2Di& wndSize = g_pKernel->GetWindowSize();
-// 	int32 nWidth = wndSize.width;
-// 	int32 nHeight = wndSize.height;
-
 	//将屏幕相对坐标点转换成绝对坐标点
 	Vector2Df ret;
-// 	ret.x = (int32)((1.0f + vtScreen.x) * 0.5f * nWidth);
-// 	ret.y = (int32)((1.0f - vtScreen.y) * 0.5f * nHeight);
+ 	ret.x = ((1.0f + vtScreen.x) * 0.5f * wndSize.width);
+ 	ret.y = ((1.0f - vtScreen.y) * 0.5f * wndSize.height);
 	return ret;
 }
 
-Line3Df SceneCamera::GetMouseRay(int32 cursorX, int32 cursorY)
+Line3Df SceneCamera::GetMouseRay(int32 cursorX, int32 cursorY, const Size2Di& wndSize)
 {
 	Line3Df out;
-// 	out.start = m_vEye;
-// 	out.end = ScreenToWorld(cursorX, cursorY);
+ 	out.start = m_vEye;
+ 	out.end = ScreenToWorld(cursorX, cursorY, wndSize);
 	return out;
 }
 
