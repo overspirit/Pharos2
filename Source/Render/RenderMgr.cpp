@@ -7,15 +7,26 @@ RenderMgr::RenderMgr()
 	m_fps = 0;
 	m_renderCount = 0;
 
-	m_blockCount = 0;
+	m_renderer = nullptr;
 
-	m_globalShaderData = nullptr;
+	m_defaultFrameBuf = nullptr;
 
-	m_renderCallback = nullptr;
+	m_finalFrameBuf = nullptr;
+	m_finalTargetTex = nullptr;
+
+	m_copyTech = nullptr;
+	m_copyShader = nullptr;
+	m_copyLayout = nullptr;
 
 	m_clearColor = 0xFF3F3F3F;//R=43,G=147,B=223
 	m_clearDepth = 1.0f;
 	m_clearStencil = 0;
+
+	m_blockCount = 0;
+
+	m_renderCallback = nullptr;
+
+	m_globalShaderData = nullptr;
 }
 
 RenderMgr::~RenderMgr()
@@ -76,8 +87,9 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	this->LoadEffectFile("Shader/Font.fxml");
 	this->LoadEffectFile("Shader/Skeletal.fxml");
 	this->LoadEffectFile("Shader/Copy.fxml");
+	this->LoadEffectFile("Shader/PostToneMapping.fxml");
 
-	m_copyTech = this->GenerateRenderTechnique("Copy");
+	m_copyTech = this->GenerateRenderTechnique("GammaCorrection");
 	RenderPass* copyPass = m_copyTech->GetPass(0);
 	m_copyShader = copyPass->GetShaderProgram();
 

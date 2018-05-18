@@ -96,7 +96,8 @@ namespace Pharos
 				sync = false;
 				fullScreen = false;
 
-				hdrEnable = true;
+				hdrEnabled = true;
+				gammaEnabled = true;
 			}
 
 			int32				width;
@@ -105,7 +106,8 @@ namespace Pharos
 			bool				sync;
 			bool				fullScreen;
 
-			bool				hdrEnable;
+			bool				hdrEnabled;
+			bool				gammaEnabled;
 		};
 	}
 }

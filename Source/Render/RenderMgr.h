@@ -36,7 +36,6 @@ namespace Pharos
 
 			RenderParam				m_renderParam;
 			Renderer*				m_renderer;
-			RenderEffectLoader*		m_effectLoader;
 
 			RenderFrameBuffer*		m_defaultFrameBuf;
 
