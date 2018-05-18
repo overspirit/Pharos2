@@ -175,6 +175,21 @@
     <ClCompile Include="..\Source\Render\RenderSprite.cpp">
       <Filter>Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Render\PostProcess\HDRPostProcess.cpp">
+      <Filter>Render\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\PostProcess\ImageStatPostProcess.cpp">
+      <Filter>Render\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\PostProcess\LensEffectsPostProcess.cpp">
+      <Filter>Render\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\PostProcess\PostProcess.cpp">
+      <Filter>Render\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\PostProcess\ToneMappingPostProcess.cpp">
+      <Filter>Render\PostProcess</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\TypesDef.h" />
@@ -502,6 +517,21 @@
     <ClInclude Include="..\Source\Render\RenderSprite.h">
       <Filter>Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Render\PostProcess\HDRPostProcess.h">
+      <Filter>Render\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\PostProcess\ImageStatPostProcess.h">
+      <Filter>Render\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\PostProcess\LensEffectsPostProcess.h">
+      <Filter>Render\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\PostProcess\PostProcess.h">
+      <Filter>Render\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\PostProcess\ToneMappingPostProcess.h">
+      <Filter>Render\PostProcess</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -545,6 +575,9 @@
     </Filter>
     <Filter Include="Desktop\UIObjects">
       <UniqueIdentifier>{d49ce9d1-d4a2-424b-8143-721c8d975644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\PostProcess">
+      <UniqueIdentifier>{bee662c7-202e-4d69-9a21-aad6d275894d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

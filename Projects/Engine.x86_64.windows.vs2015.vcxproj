@@ -56,6 +56,11 @@
     <ClCompile Include="..\Source\Render\Material.cpp" />
     <ClCompile Include="..\Source\Render\Mesh.cpp" />
     <ClCompile Include="..\Source\Render\Model.cpp" />
+    <ClCompile Include="..\Source\Render\PostProcess\HDRPostProcess.cpp" />
+    <ClCompile Include="..\Source\Render\PostProcess\ImageStatPostProcess.cpp" />
+    <ClCompile Include="..\Source\Render\PostProcess\LensEffectsPostProcess.cpp" />
+    <ClCompile Include="..\Source\Render\PostProcess\PostProcess.cpp" />
+    <ClCompile Include="..\Source\Render\PostProcess\ToneMappingPostProcess.cpp" />
     <ClCompile Include="..\Source\Render\RenderBlock.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ConstantBuffer.cpp" />
@@ -149,6 +154,11 @@
     <ClInclude Include="..\Source\Render\Material.h" />
     <ClInclude Include="..\Source\Render\Mesh.h" />
     <ClInclude Include="..\Source\Render\Model.h" />
+    <ClInclude Include="..\Source\Render\PostProcess\HDRPostProcess.h" />
+    <ClInclude Include="..\Source\Render\PostProcess\ImageStatPostProcess.h" />
+    <ClInclude Include="..\Source\Render\PostProcess\LensEffectsPostProcess.h" />
+    <ClInclude Include="..\Source\Render\PostProcess\PostProcess.h" />
+    <ClInclude Include="..\Source\Render\PostProcess\ToneMappingPostProcess.h" />
     <ClInclude Include="..\Source\Render\RenderBlock.h" />
     <ClInclude Include="..\Source\Render\RenderDefine.h" />
     <ClInclude Include="..\Source\Render\Renderer\D3D11\D3D11BlendState.h" />
