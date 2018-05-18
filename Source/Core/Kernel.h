@@ -27,11 +27,8 @@ namespace Pharos
 		public:
 			virtual bool Init(const void* hWnd);			
 			virtual void Destroy();
-
 			virtual bool StartUp();
-
-			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
+			virtual void Run(float32 fElapsed);
 
 			virtual void SetEngineHomePath(const char8* path) { m_homePath = path; }
 			virtual void SetEngineBundlePath(const char8* path) { m_bundlePath = path; }

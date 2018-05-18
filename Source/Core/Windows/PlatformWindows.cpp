@@ -66,23 +66,16 @@ bool PlatformWindows::Init()
 	string homePath = string(path) + "../Data/";
 	string bundlePath = string(path) + "../Data/";
 
-	if (!sKernel->Init(m_hWnd)) return false;
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());
 
-	if (!sRenderMgr->Init()) return false;
-	if (!sSceneMgr->Init()) return false;
-	if (!sDesktopMgr->Init()) return false;
-	if (!sKernel->StartUp()) return false;
+	if (!sKernel->Init(m_hWnd)) return false;
 
 	return true;
 }
 
 void PlatformWindows::Destroy()
 {
- 	sDesktopMgr->Destroy();
- 	sSceneMgr->Destroy();
- 	sRenderMgr->Destroy();
 	sKernel->Destroy();	
 	
 	sInputMgr->Shutdown();
@@ -125,15 +118,13 @@ void PlatformWindows::onKeyboardEvent(const KeyEvent& keyEvent)
 {
 	if (GetActiveWindow() != m_hWnd) return;
 
-	sDesktopMgr->onKeyboardEvent(keyEvent);
 	sKernel->onKeyboardEvent(keyEvent);
 }
 
 void PlatformWindows::onMouseEvent(const MouseEvent& mouseEvent)
 {
 	if (GetActiveWindow() != m_hWnd) return;
-
-	sDesktopMgr->onMouseEvent(mouseEvent);
+		
 	sKernel->onMouseEvent(mouseEvent);
 }
 
@@ -143,8 +134,7 @@ void PlatformWindows::onWindowCreate()
 }
 
 void PlatformWindows::onWindowChangeSize(int32 width, int32 height)
-{
-	sDesktopMgr->onViewChangeSize(width, height);
+{	
 	sKernel->onViewChangeSize(width, height);
 }
 
@@ -172,18 +162,9 @@ int32 PlatformWindows::Run()
 			}
 		}
 		
-		float32 fElapsed = m_timer.GetElapsedTime();
-		
- 		sSceneMgr->Update(fElapsed);
- 		sDesktopMgr->Update(fElapsed);
- 		sRenderMgr->Update(fElapsed);
-		sKernel->Update(fElapsed);
-
-		
- 		sSceneMgr->Render(fElapsed);
- 		sDesktopMgr->Render(fElapsed);
- 		sRenderMgr->Render(fElapsed);
-		sKernel->Render(fElapsed);
+		float32 fElapsed = m_timer.GetElapsedTime();		
+ 
+		sKernel->Run(fElapsed);
 	}
 
 	return 0;
