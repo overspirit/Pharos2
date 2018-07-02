@@ -9,6 +9,16 @@ ImageStatPostProcess::ImageStatPostProcess()
 	m_adaptedTech = nullptr;
 
 	m_inputTex = nullptr;
+	m_outputTex = nullptr;
+
+	m_sumLogTarget = nullptr;
+	m_sumLogTex = nullptr;
+
+	m_sumIterTarget = nullptr;
+	m_sumIterTex = nullptr;
+
+	m_adaptedLumTarget = nullptr;
+	m_adaptedLumTex = nullptr;
 }
 
 ImageStatPostProcess::~ImageStatPostProcess()
@@ -33,7 +43,7 @@ bool ImageStatPostProcess::Init()
 	texCoordOffset[1].Set(1 / 64.0f, -1 / 64.0f);
 	texCoordOffset[2].Set(-1 / 64.0f, 1 / 64.0f);
 	texCoordOffset[3].Set(-1 / 64.0f, -1 / 64.0f);
-	
+
 	texCoordOffsetVar->SetValue(texCoordOffset, sizeof(texCoordOffset));
 
 
@@ -54,7 +64,7 @@ void ImageStatPostProcess::SetInputPin(uint32 index, RenderTexture* tex)
 
 void ImageStatPostProcess::SetOutputPin(uint32 index, RenderTexture* tex)
 {
-
+	m_outputTex = tex;
 }
 
 void ImageStatPostProcess::Apply()
