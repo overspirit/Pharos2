@@ -16,9 +16,16 @@ namespace Pharos
 			RenderTechnique*	m_adaptedTech;
 
 			RenderTexture*		m_inputTex;
+			RenderTexture*		m_outputTex;
 
 			RenderFrameBuffer*	m_sumLogTarget;
 			RenderTexture*		m_sumLogTex;
+
+			RenderFrameBuffer*	m_sumIterTarget;
+			RenderTexture*		m_sumIterTex;
+
+			RenderFrameBuffer*	m_adaptedLumTarget;
+			RenderTexture*		m_adaptedLumTex;
 
 		public:
 			virtual bool Init();
