@@ -4,8 +4,8 @@
 #include "DesktopGlobal.h"
 #include "SceneGlobal.h"
 
-DEFINE_int32(width, 1334, "The width of the create window.");
-DEFINE_int32(height, 750, "The height of the create window.");
+DEFINE_int32(width, 1280, "The width of the create window.");
+DEFINE_int32(height, 720, "The height of the create window.");
 
 PlatformWindows::PlatformWindows()
 {

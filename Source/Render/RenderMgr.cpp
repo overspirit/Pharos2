@@ -14,9 +14,10 @@ RenderMgr::RenderMgr()
 	m_finalFrameBuf = nullptr;
 	m_finalTargetTex = nullptr;
 
-	m_copyTech = nullptr;
-	m_copyShader = nullptr;
-	m_copyLayout = nullptr;
+	m_postProcessTech = nullptr;
+	m_postProcessShader = nullptr;
+
+	m_quadLayout = nullptr;
 
 	m_clearColor = 0xFF3F3F3F;//R=43,G=147,B=223
 	m_clearDepth = 1.0f;
@@ -48,8 +49,11 @@ void RenderMgr::Destroy()
 {
 	sRenderSpirite->Destroy();
 
-	SAFE_DELETE(m_copyTech);
-	SAFE_DELETE(m_copyLayout);
+	SAFE_DELETE(m_imageStatPostProcess);
+
+	SAFE_DELETE(m_postProcessTech);
+
+	SAFE_DELETE(m_quadLayout);
 
 	SAFE_DELETE(m_finalFrameBuf);
 
@@ -88,10 +92,10 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	this->LoadEffectFile("Shader/Skeletal.fxml");
 	this->LoadEffectFile("Shader/Copy.fxml");
 	this->LoadEffectFile("Shader/PostToneMapping.fxml");
+	this->LoadEffectFile("Shader/SumLum.fxml");
 
-	m_copyTech = this->GenerateRenderTechnique("GammaCorrection");
-	RenderPass* copyPass = m_copyTech->GetPass(0);
-	m_copyShader = copyPass->GetShaderProgram();
+	m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
+	m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
 
 	Vertex vertData[] =
 	{
@@ -106,14 +110,14 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	MemoryBuffer vertDataBuf;
 	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-	m_copyLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
+	m_quadLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
 
 	VertLayoutDesc desc[] =
 	{
 		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
 		{ VET_FLOAT32, 2, "TEXCOORD", 0, 12 },
 	};
-	m_copyLayout->SetInputLayoutDesc(desc, 2);
+	m_quadLayout->SetInputLayoutDesc(desc, 2);
 
 	uint32 finalBufferWidth = m_defaultFrameBuf->GetWidth();
 	uint32 finalBufferHeight = m_defaultFrameBuf->GetHeight();
@@ -122,6 +126,10 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	m_globalShaderData = m_renderer->CreateShaderData();
 
+	m_imageStatPostProcess = new ImageStatPostProcess();
+	m_imageStatPostProcess->Init();
+	m_imageStatPostProcess->SetInputPin(0, m_finalTargetTex);
+
 	if (!sRenderSpirite->Init(m_renderer)) return false;
 
 	return true;
@@ -129,17 +137,27 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 void RenderMgr::SetGlobalRenderViewMatrix(const Matrix4& viewMatrix)
 {
-	m_globalDataBuffer.viewMatrix = viewMatrix;
+	if (m_globalShaderData != nullptr)
+	{
+		m_globalShaderData->CopyData(&viewMatrix, sizeof(viewMatrix), offsetof(GlobalData, viewMatrix));
+	}
 }
 
 void RenderMgr::SetGlobalRenderProjMatrix(const Matrix4& projMatrix)
 {
-	m_globalDataBuffer.projMatirx = projMatrix;
+	if (m_globalShaderData != nullptr)
+	{
+		m_globalShaderData->CopyData(&projMatrix, sizeof(projMatrix), offsetof(GlobalData, projMatrix));
+	}
 }
 
 void RenderMgr::SetGlobalRenderEyePostion(const Vector3Df& eyePos)
 {
-	m_globalDataBuffer.eyePosition = Vector4Df(eyePos.x, eyePos.y, eyePos.z, 1.0f);
+	if (m_globalShaderData != nullptr)
+	{
+		Vector4Df eyePosition = Vector4Df(eyePos.x, eyePos.y, eyePos.z, 1.0f);
+		m_globalShaderData->CopyData(&eyePosition, sizeof(eyePosition), offsetof(GlobalData, eyePosition));
+	}
 }
 
 void RenderMgr::DoRender(RenderBlock* block)
@@ -239,26 +257,12 @@ Vector2Df RenderMgr::GetPosFromWindowPos(int32 x, int32 y)
 	return pos;
 }
 
-// IRenderFontPtr RenderMgr::GenerateRenderFont(IFontPtr font)
-// {
-// 	RenderFontPtr renderFont = MakeSharedPtr<RenderFont>();
-// 	if (!renderFont->InitFromFont(font)) return nullptr;
-// 	return renderFont;
-// }
-// 
-// IRenderImagePtr RenderMgr::GenerateRenderImage(IImagePtr image)
-// {
-// 	RenderImagePtr renderImage = MakeSharedPtr<RenderImage>();
-// 	if (!renderImage->InitFromImage(image)) return nullptr;
-// 	return renderImage;
-// }
-// 
-// IRenderImagePtr RenderMgr::GenerateRenderImage(Color4 color)
-// {
-// 	RenderImagePtr renderImage = MakeSharedPtr<RenderImage>();
-// 	if (!renderImage->InitFromColor(color)) return nullptr;
-// 	return renderImage;
-// }
+void RenderMgr::DrawFullScreenQuad(RenderTexture* tex)
+{
+	m_renderer->BindTexture(0, tex);
+	m_renderer->BindLayout(m_quadLayout);
+	m_renderer->DrawImmediate(Render::EDT_TRIANGLELIST, 0, 6);
+}
 
 void RenderMgr::Update(float32 fElapsed)
 {
@@ -274,7 +278,7 @@ void RenderMgr::Render(float32 fElapsed)
 	
 	if (m_globalShaderData != nullptr)
 	{
-		m_globalShaderData->CopyData(&m_globalDataBuffer, sizeof(m_globalDataBuffer));
+		//m_globalShaderData->CopyData(&m_globalDataBuffer, sizeof(m_globalDataBuffer));
 		m_renderer->BindShaderData(0, m_globalShaderData);
 	}
 
@@ -289,16 +293,19 @@ void RenderMgr::Render(float32 fElapsed)
 		m_blockList[i] = nullptr;
 	}
 
-	m_renderer->BindFrameBuffer(nullptr);
-	m_renderer->BindTexture(0, m_finalTargetTex);
-	m_renderer->BindLayout(m_copyLayout);
-	m_renderer->BindProgram(m_copyShader);
-	m_renderer->DrawImmediate(Render::EDT_TRIANGLELIST, 0, 6);
-
 	if (m_renderCallback != nullptr)
 	{
 		m_renderCallback->onRender(fElapsed);
 	}
+
+	if (m_renderParam.hdrEnabled)
+	{
+		m_imageStatPostProcess->Apply();
+	}
+
+	m_renderer->BindFrameBuffer(nullptr);		
+	m_renderer->BindProgram(m_postProcessShader);
+	DrawFullScreenQuad(m_finalTargetTex);
 
 	m_renderer->Present();
 

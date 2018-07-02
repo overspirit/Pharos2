@@ -69,7 +69,7 @@ bool D3D11RenderTechnique::Create(RenderTechInfo* techInfo)
 
 	uint32 passNum = d3dTechInfo->GetPassNum();
 	m_passList.resize(passNum);
-
+	
 	for (uint32 i = 0; i < passNum; i++)
 	{
 		if (d3dTechInfo->GetPassValid(i))
@@ -119,13 +119,13 @@ RenderTechnique* D3D11RenderTechnique::Clone()
 		{
 			string varName = var->GetName();
 			uint32 slot = var->GetSlot();
-
+			
 			RenderVariable* new_var = new RenderVariable(varName.c_str(), slot);
-
+			
 			newVarBlock.varList.push_back(new_var);
 			tech->m_varMap[varName] = new_var;
 		}
-
+		
 		tech->m_blockList.push_back(newVarBlock);
 	}
 
@@ -133,9 +133,9 @@ RenderTechnique* D3D11RenderTechnique::Clone()
 	{
 		string varName = var->GetName();
 		uint32 slot = var->GetSlot();
-
+		
 		RenderVariable* new_var = new RenderVariable(varName.c_str(), slot);
-
+		
 		tech->m_varList.push_back(new_var);
 		tech->m_varMap[varName] = new_var;
 	}
@@ -146,7 +146,7 @@ RenderTechnique* D3D11RenderTechnique::Clone()
 
 		tech->m_passList.push_back(pass->Clone());
 	}
-
+	
 	return tech;
 }
 
@@ -172,7 +172,7 @@ void D3D11RenderTechnique::ApplyToDevice()
 			if (var->IsDataChange())
 			{
 				MemoryBuffer& membuf = var->GetMemoryData();
-				varBlock.shaderData->CopyData(&membuf, dataOffset);
+				varBlock.shaderData->CopyData(membuf, dataOffset);
 				var->SetDataChange(false);
 			}
 

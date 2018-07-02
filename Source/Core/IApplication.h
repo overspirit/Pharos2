@@ -19,6 +19,5 @@ namespace Pharos
 		virtual bool onKeyboardEvent(const KeyEvent& event) = 0;
 
 		virtual void Update(float32 fElapsed) = 0;
-		virtual void Render(float32 fElapsed) = 0;
 	};
 }

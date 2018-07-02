@@ -31,6 +31,7 @@ bool MyApp::Init()
 	param.sampleType = Render::EMT_None;
 	param.sync = false;
 	param.fullScreen = false;
+	param.gammaEnabled = false;
 	sRenderMgr->StartUp(param);
 
 	sRenderMgr->RegisterRenderCallback(this);
@@ -48,7 +49,7 @@ bool MyApp::Init()
 	m_model = sceneNode->GetModel(0);
 
 	m_camera = m_scene->GetSceneCamera();
-	m_camera->BuildViewMatrix(Vector3Df(5.0f, 5.0f, -5.0f), Vector3Df(0, 0, 0));
+	m_camera->BuildViewMatrix(Vector3Df(0, 2.0f, -5.0f), Vector3Df(0, 1.0f, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 	//////////////////////////////////////////////////////////////////////////
 
@@ -207,11 +208,6 @@ void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
 void MyApp::Update(float32 fElapsed)
 {
 	m_elapsed = fElapsed;
-}
-
-void MyApp::Render(float32 fElapsed)
-{
-
 }
 
 void MyApp::onRender(float32 elapsed)

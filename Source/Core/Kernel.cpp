@@ -102,6 +102,4 @@ void Kernel::Run(float32 fElapsed)
 	sSceneMgr->Render(fElapsed);
 	sDesktopMgr->Render(fElapsed);
 	sRenderMgr->Render(fElapsed);
-
-	if (m_pApp != nullptr) m_pApp->Render(fElapsed);
 }

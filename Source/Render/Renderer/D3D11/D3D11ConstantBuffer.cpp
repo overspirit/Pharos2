@@ -15,28 +15,24 @@ D3D11ConstantBuffer::~D3D11ConstantBuffer()
 	SAFE_RELEASE(m_pBuffer);
 }
 
-void D3D11ConstantBuffer::SetDataSize(uint32 dataSize)
+void D3D11ConstantBuffer::CopyData(const MemoryBuffer& data, uint32 offset)
 {
-	m_data.ChangeSize(dataSize);
-}
-
-void D3D11ConstantBuffer::CopyData(MemoryBuffer* data, uint32 offset)
-{
-	if (data == nullptr) return;
-	uint32 dataSize = data->GetLength();
+	uint32 dataSize = data.GetLength();
 	uint32 totalDataSize = m_data.GetLength();
+
 	if (totalDataSize < offset + dataSize)
 	{
 		m_data.ChangeSize(offset + dataSize);
 	}
 
-	m_data.Insert(offset, *data);
+	m_data.Insert(offset, data);
 }
 
 void D3D11ConstantBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 {
 	uint32 dataSize = len;
 	uint32 totalDataSize = m_data.GetLength();
+
 	if (totalDataSize < offset + dataSize)
 	{
 		m_data.ChangeSize(offset + dataSize);
@@ -45,9 +41,17 @@ void D3D11ConstantBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 	m_data.Insert(offset, data, len);
 }
 
-void* D3D11ConstantBuffer::GetDataBufferPointer()
+bool D3D11ConstantBuffer::CreateBuffer(uint32 bufSize)
 {
-	return m_data.GetPointer();
+	D3D11_BUFFER_DESC desc;
+	desc.Usage = D3D11_USAGE_DYNAMIC;
+	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	desc.MiscFlags = 0;
+	desc.ByteWidth = bufSize;
+	HRESULT hr = m_pDevice->CreateBuffer(&desc, nullptr, &m_pBuffer);
+
+	return SUCCEEDED(hr);
 }
 
 void D3D11ConstantBuffer::ApplyDevice(uint32 slot)
@@ -58,9 +62,6 @@ void D3D11ConstantBuffer::ApplyDevice(uint32 slot)
 		//assert(false);
 		return;
 	}
-
-	//D3D11要求ConstantBuffer的大小必须是16的整数倍...
-	if (dataSize < 16) dataSize = 16;
 
 	//验证MemoryBuffer是否和ConstantBuffer的大小是否匹配
 	//如果MemeoryBuffer比ConstantBuffer的数据大，需要重新建立ConstantBuffer
@@ -73,26 +74,22 @@ void D3D11ConstantBuffer::ApplyDevice(uint32 slot)
 		if (dataSize > bufSize)
 		{
 			SAFE_RELEASE(m_pBuffer);
+
+			if (!CreateBuffer(dataSize))
+			{
+				assert(false);
+				return;
+			}
 		}
 	}
-
-	if (m_pBuffer == nullptr)
+	else
 	{
-		D3D11_BUFFER_DESC desc;
-		desc.Usage = D3D11_USAGE_DYNAMIC;
-		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		desc.MiscFlags = 0;
-		desc.ByteWidth = dataSize;
-		HRESULT hr = m_pDevice->CreateBuffer(&desc, nullptr, &m_pBuffer);
-		if (FAILED(hr))
+		//D3D11要求ConstantBuffer的大小必须是16的整数倍...
+		if (!CreateBuffer(dataSize < 16u ? 16u : dataSize))
 		{
-			//建立失败...
 			assert(false);
 			return;
 		}
-
-		m_data.ChangeSize(dataSize);
 	}
 	
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

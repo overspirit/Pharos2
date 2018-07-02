@@ -29,7 +29,7 @@ bool D3D11EffectLoader::Load(const char8* szPath)
 	XmlDocument doc;
 	if (!doc.Open(szPath)) return false;
 	if (!doc.Load()) return false;
-
+	
 	m_filePath = doc.GetResFilePath();
 
 	XmlNode* pRoot = doc.GetRootNode();

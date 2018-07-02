@@ -10,7 +10,7 @@ Material::Material()
 Material::~Material()
 {
 	SAFE_DELETE(m_renderTech);
-
+	
 	for (RenderTexture* tex : m_texList)
 	{
 		SAFE_DELETE(tex);

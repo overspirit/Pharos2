@@ -20,19 +20,10 @@ private:
 
 private:
 	Renderer*				m_renderer;
-	RenderFrameBuffer*		m_defFrameBuf;
 
-	RenderLayout*			m_copyLayout;
-	RenderProgram*			m_copyShader;
+	RenderTexture*			m_copyTex;
 	RenderTechnique*		m_copyTech;
-
-	OctreeScene*			m_scene;
-	SceneCamera*			m_camera;
-	Model*					m_model;
-	bool			m_bLeftDown;
-	bool			m_bRightDown;
-
-	float32			m_elapsed;
+	RenderProgram*			m_copyShader;
 
 public:
 	virtual bool Init();
@@ -49,7 +40,6 @@ public:
 	virtual void onControlValueChange(const char8* name, int32 v1, float32 v2);
 
 	virtual void Update(float32 fElapsed);
-	virtual void Render(float32 fElapsed);
 	virtual void onRender(float32 elapsed);
 };
 

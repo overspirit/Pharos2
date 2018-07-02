@@ -44,6 +44,13 @@ namespace Pharos
 				m_dataChange = true;
 			}
 
+			void SetValue(const void* data, uint32 dataSize)
+			{
+				m_dataBuf.CopyFrom(data, dataSize);
+				m_dataSize = dataSize;
+				m_dataChange = true;
+			}
+
 			void SetValue(RenderTexture* tex)
 			{
 				m_texture = tex;

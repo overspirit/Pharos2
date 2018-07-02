@@ -31,6 +31,12 @@ namespace Pharos
 				uint32			countNum;
 			};
 
+			struct BlockData
+			{
+				Matrix4 world;
+				Matrix4 bone[255];
+			};
+
 		private:
 			Renderer*			m_renderer;
 

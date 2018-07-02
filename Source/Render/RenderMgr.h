@@ -25,7 +25,7 @@ namespace Pharos
 			struct GlobalData
 			{
 				Matrix4		viewMatrix;
-				Matrix4		projMatirx;
+				Matrix4		projMatrix;
 				Vector4Df	eyePosition;
 			};
 
@@ -42,9 +42,10 @@ namespace Pharos
 			RenderFrameBuffer*		m_finalFrameBuf;
 			RenderTexture*			m_finalTargetTex;
 			
-			RenderTechnique*		m_copyTech;
-			RenderProgram*			m_copyShader;
-			RenderLayout*			m_copyLayout;
+			RenderTechnique*		m_postProcessTech;
+			RenderProgram*			m_postProcessShader;
+
+			RenderLayout*			m_quadLayout;
 
 			Color4				m_clearColor;
 			float32				m_clearDepth;
@@ -59,7 +60,8 @@ namespace Pharos
 			map<string, RenderTechnique*>	m_techList;
 
 			RenderShaderData*		m_globalShaderData;
-			GlobalData				m_globalDataBuffer;
+
+			PostProcess*		m_imageStatPostProcess;
 
 		public:
 			virtual bool Init();
@@ -79,9 +81,6 @@ namespace Pharos
 			virtual bool LoadEffectFile(const char8* szPath);
 			virtual RenderTechnique* GenerateRenderTechnique(const char8* tech);
 			virtual RenderBlock* GenerateRenderBlock();
-			//virtual RenderFontPtr GenerateRenderFont(IFontPtr font);
-			//virtual RenderImagePtr GenerateRenderImage(IImagePtr image);			
-			//virtual RenderImagePtr GenerateRenderImage(Color4 color);
 
 			virtual void SetGlobalRenderViewMatrix(const Matrix4& viewMatrix);
 			virtual void SetGlobalRenderProjMatrix(const Matrix4& projMatrix);
@@ -90,6 +89,8 @@ namespace Pharos
 			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
 			
 			virtual void RegisterRenderCallback(IRenderCallback* callback);
+
+			virtual void DrawFullScreenQuad(RenderTexture* tex);
 
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);

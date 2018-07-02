@@ -11,3 +11,8 @@ PostProcess::~PostProcess()
 {
 
 }
+
+bool PostProcess::Init()
+{
+	return false;
+}

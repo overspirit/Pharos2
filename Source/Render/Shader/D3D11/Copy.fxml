@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <effect>
-  
-  <variable type="Texture2D" name="g_tex" bind="t0"/>
-  <variable type="SamplerState" name="g_sam" bind="s0"/>
 
+  <variable type="Texture2D" name="g_mainTex" bind="t0"/>
+  <variable type="SamplerState" name="g_mainSam" bind="s0"/>
+  
+  <variable type="Texture2D" name="g_noiseTex" bind="t1"/>
+  <variable type="SamplerState" name="g_noiseSam" bind="s1"/>
+  
+  <constant name="cbSceneLight" bind="b2">
+    <member type="float4" name="g_dissColor" bind="c0"/>
+    <member type="float4" name="g_addColor" bind="c1"/>
+    <member type="float4" name="g_dissRange" bind="c2"/>
+  </constant>
+
+  <constant name="cbSceneLight" bind="b3">
+    <member type="float4" name="g_dissAmount" bind="c0"/>
+  </constant>
+  
   <shader>
     <![CDATA[
 
@@ -18,11 +31,48 @@ void CopyVS(float4 pos : POSITION,
 
 float4 CopyPS(float2 tex : TEXCOORD) : SV_Target
 {
-	return g_tex.Sample(g_sam, tex);
+	return g_mainTex.Sample(g_mainSam, tex);
+}
+
+float4 DissolvePS(float2 tex : TEXCOORD) : SV_Target
+{
+  //return g_noiseTex.Sample(g_noiseSam, tex);
+  
+  float4 mainColor = g_mainTex.Sample(g_mainSam, tex);
+  
+  float dissValue = g_noiseTex.Sample(g_noiseSam, tex).r;
+  //if(dissValue < g_dissAmount.r) return float4(0, 0, 0, 0);
+  
+  float clipValue = dissValue - g_dissAmount.r;
+  clip(clipValue);
+  
+  if(clipValue < g_dissRange.r)
+  {
+    return lerp(g_dissColor, g_addColor, clipValue / g_dissRange.r);// * mainColor;
+  }
+  
+  return mainColor;
 }
     ]]>
   </shader>
 
+  <technique name="Dissolve">
+    <pass name="p0">
+
+      <param name="blend_enable" value="true"/>
+      <param name="src_blend" value="src_alpha"/>
+      <param name="dest_blend" value="inv_src_alpha"/>
+      <param name="src_blend_alpha" value="src_alpha"/>
+      <param name="dest_blend_alpha" value="inv_src_alpha"/>
+
+      <param name="depth_func" value="less_equal"/>
+
+      <param name="vertex_shader" value="CopyVS"/>
+      <param name="pixel_shader" value="DissolvePS"/>
+
+    </pass>
+  </technique>
+  
   <technique name="Copy">
     <pass name="p0">
       

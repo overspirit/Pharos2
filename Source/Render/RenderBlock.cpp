@@ -22,13 +22,12 @@ void RenderBlock::Init()
 	m_renderer = sRenderMgr->GetCurrentRenderer();
 
 	m_blockData = m_renderer->CreateShaderData();
-	m_blockData->SetDataSize(sizeof(Matrix4));		//先初始化一个Matrix大小
 }
 
 void RenderBlock::SetBlockDataWorldMatrix(const Matrix4& world)
 {
 	if (m_blockData == nullptr) return;
-	m_blockData->CopyData(&world, sizeof(Matrix4));
+	m_blockData->CopyData(&world, sizeof(Matrix4), offsetof(BlockData, world));
 }
 
 void RenderBlock::SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum)
@@ -36,7 +35,7 @@ void RenderBlock::SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum)
 	if (m_blockData == nullptr) return;
 
 	//强制规定骨骼矩阵在世界矩阵的后面，所以偏移一个矩阵的位置拷贝骨骼矩阵
-	m_blockData->CopyData(bones, Math::minimum(255u, boneNum) * sizeof(Matrix4), sizeof(Matrix4));
+	m_blockData->CopyData(bones, Math::minimum(255u, boneNum) * sizeof(Matrix4), offsetof(BlockData, bone));
 }
 
 uint32 RenderBlock::AddRenderBlockPatch(RenderLayout* layout, RenderTechnique* tech)
