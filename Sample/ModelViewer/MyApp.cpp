@@ -31,6 +31,7 @@ bool MyApp::Init()
 	param.sampleType = Render::EMT_None;
 	param.sync = false;
 	param.fullScreen = false;
+	param.hdrEnabled = false;
 	param.gammaEnabled = false;
 	sRenderMgr->StartUp(param);
 
