@@ -9,6 +9,7 @@ ImageStatPostProcess::ImageStatPostProcess()
 	m_adaptedTech = nullptr;
 
 	m_inputTex = nullptr;
+	m_outputTex = nullptr;
 }
 
 ImageStatPostProcess::~ImageStatPostProcess()
@@ -54,7 +55,7 @@ void ImageStatPostProcess::SetInputPin(uint32 index, RenderTexture* tex)
 
 void ImageStatPostProcess::SetOutputPin(uint32 index, RenderTexture* tex)
 {
-
+	m_outputTex = tex;
 }
 
 void ImageStatPostProcess::Apply()
