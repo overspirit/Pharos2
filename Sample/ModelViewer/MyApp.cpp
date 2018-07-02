@@ -30,6 +30,7 @@ bool MyApp::Init()
 	param.height = wndSize.height;
 	param.sampleType = Render::EMT_None;
 	param.sync = false;
+	param.hdrEnabled = true;
 	param.fullScreen = false;
 	sRenderMgr->StartUp(param);
 
