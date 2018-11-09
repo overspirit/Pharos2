@@ -10,7 +10,7 @@
   <variable type="SamplerState" name="last_lum_sampler"/>
 
   <constant name="cbPerObject" bind="b2">
-    <member type="float4" name="tex_coord_offset" array_size="2"/>
+    <member type="float2" name="tex_coord_offset" array_size="4"/>
     <member type="float" name="frame_delta"/>
   </constant>
   
@@ -23,41 +23,37 @@ float CalcAdaptedLum(float adapted_lum, float current_lum)
 }
 
 void SumLumVS(float4 pos : POSITION, float2 tex : TEXCOORD,
-					out float4 oTex0 : TEXCOORD0, out float4 oTex1 : TEXCOORD1, out float4 oPos : SV_Position)
+					out float2 oTex0 : TEXCOORD0, out float2 oTex1 : TEXCOORD1, out float2 oTex2 : TEXCOORD2, out float2 oTex3 : TEXCOORD3, out float4 oPos : SV_Position)
 {
 	oPos = pos;
   
-	oTex0 = tex.xyxy + tex_coord_offset[0];
-	oTex1 = tex.xyxy + tex_coord_offset[1];
+	oTex0 = tex + tex_coord_offset[0];
+	oTex1 = tex + tex_coord_offset[1];
+  oTex2 = tex + tex_coord_offset[2];
+	oTex3 = tex + tex_coord_offset[3];
 }
 
-float4 SumLum4x4LogPS(float4 iTex0 : TEXCOORD0, float4 iTex1 : TEXCOORD1) : SV_Target
+float4 SumLum4x4LogPS(float2 iTex0 : TEXCOORD0, float2 iTex1 : TEXCOORD1, float2 iTex2 : TEXCOORD2, float2 iTex3 : TEXCOORD3) : SV_Target
 {
 	const float3 RGB_TO_LUM = float3(0.2126f, 0.7152f, 0.0722f);
-  
-	float4 tex[2] = { iTex0, iTex1 };
-  
+    
 	float s = 0;
-	for (int i = 0; i < 2; ++ i)
-	{
-		s += log(dot(src_tex.Sample(src_sampler, tex[i].xy).rgb, RGB_TO_LUM) + 0.001f);
-		s += log(dot(src_tex.Sample(src_sampler, tex[i].zw).rgb, RGB_TO_LUM) + 0.001f);
-	}
+  s += log(dot(src_tex.Sample(src_sampler, iTex0).rgb, RGB_TO_LUM) + 0.001f);
+  s += log(dot(src_tex.Sample(src_sampler, iTex1).rgb, RGB_TO_LUM) + 0.001f);
+  s += log(dot(src_tex.Sample(src_sampler, iTex2).rgb, RGB_TO_LUM) + 0.001f);
+  s += log(dot(src_tex.Sample(src_sampler, iTex3).rgb, RGB_TO_LUM) + 0.001f);
 
 	return s / 4;
 }
 
-float4 SumLum4x4IterativePS(float4 iTex0 : TEXCOORD0, float4 iTex1 : TEXCOORD1) : SV_Target
+float4 SumLum4x4IterativePS(float2 iTex0 : TEXCOORD0, float2 iTex1 : TEXCOORD1, float2 iTex2 : TEXCOORD2, float2 iTex3 : TEXCOORD3) : SV_Target
 {
-	float4 tex[2] = { iTex0, iTex1 };
-
 	float s = 0;
-	for (int i = 0; i < 2; ++ i)
-	{
-		s += src_tex.Sample(src_sampler, tex[i].xy).r;
-		s += src_tex.Sample(src_sampler, tex[i].zw).r;
-	}
-
+  s += src_tex.Sample(src_sampler, iTex0).r;
+  s += src_tex.Sample(src_sampler, iTex1).r;
+  s += src_tex.Sample(src_sampler, iTex2).r;
+  s += src_tex.Sample(src_sampler, iTex3).r;
+  
 	return s / 4;
 }
 

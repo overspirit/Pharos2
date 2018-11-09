@@ -11,17 +11,6 @@ namespace Pharos
 			virtual ~RenderMgr();
 
 		private:
-			struct Vertex
-			{
-				Vertex(const Vector3Df& pos, const Vector2Df& tex)
-				{
-					this->pos = pos;
-					this->tex = tex;
-				}
-				Vector3Df	pos;
-				Vector2Df	tex;
-			};
-
 			struct GlobalData
 			{
 				Matrix4		viewMatrix;
@@ -61,7 +50,7 @@ namespace Pharos
 
 			RenderShaderData*		m_globalShaderData;
 
-			PostProcess*		m_imageStatPostProcess;
+			PostProcess*		m_hdrPostProcess;
 
 		public:
 			virtual bool Init();
@@ -77,6 +66,7 @@ namespace Pharos
 			virtual uint32 GetAdapterMemorySize() { return m_renderer->GetAdapterMemorySize(); }
 			virtual uint32 GetFramesPerSecond() { return m_fps; }
 			virtual Vector2Df GetPosFromWindowPos(int32 x, int32 y);	
+			virtual Vector2Df GetSizeFromWindowSize(int32 width, int32 height);
 
 			virtual bool LoadEffectFile(const char8* szPath);
 			virtual RenderTechnique* GenerateRenderTechnique(const char8* tech);

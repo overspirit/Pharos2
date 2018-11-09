@@ -10,11 +10,17 @@ namespace Pharos
 			PostProcess();
 			virtual ~PostProcess();
 
+		protected:
+			vector<RenderTexture*>		m_inputPins;
+			vector<RenderTexture*>		m_outputPins;
+
 		public:
 			virtual bool Init();
 
-			virtual void SetInputPin(uint32 index, RenderTexture* tex) = 0;
-			virtual void SetOutputPin(uint32 index, RenderTexture* tex) = 0;
+			virtual void SetInputPin(uint32 index, RenderTexture* tex);
+			virtual RenderTexture* GetOutputPin(uint32 index);
+			virtual uint32 GetOutputPinsNum() { return (uint32)m_outputPins.size(); }
+
 			virtual void Apply() = 0;
 		};
 	}

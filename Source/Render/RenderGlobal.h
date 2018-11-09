@@ -3,6 +3,7 @@
 #include "Pharos.h"
 
 #include "RenderDefine.h"
+#include "VertexDefine.h"
 
 #include "Renderer/RenderSamplerState.h"
 #include "Renderer/RenderBlendState.h"
@@ -98,9 +99,6 @@
 #include "IRenderCallback.h"
 #include "RenderBlock.h"
 
-#include "RenderSprite.h"
-// #include "RenderImage.h"
-// #include "RenderFont.h"
 #include "Material.h"
 #include "Mesh.h"
 #include "Model.h"
@@ -108,7 +106,5 @@
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()
-
-#define sRenderSpirite RenderSprite::Inst()
 
 using namespace Render;

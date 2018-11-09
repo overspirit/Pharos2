@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <effect>
+  
+  <variable type="SamplerState" name="g_sam" bind="s0"/>
+
+  <variable type="Texture2D" name="src_tex" bind="t0"/>
+  <variable type="Texture2D" name="lum_tex" bind="t1"/>
+  
   <shader>
     <![CDATA[
 float EyeAdaption(float lum)
@@ -22,7 +28,8 @@ float3 F(float3 x)
 float3 ToneMapping(float3 color, float3 blur, float adapted_lum)
 {
 	const float3 BLUE_SHIFT = float3(0.4f, 0.4f, 0.7f);
-
+  const float3 RGB_TO_LUM = float3(0.2126f, 0.7152f, 0.0722f);
+  
 	color += blur * 0.25f;
 	
 	float lum = dot(color, RGB_TO_LUM);
@@ -30,36 +37,45 @@ float3 ToneMapping(float3 color, float3 blur, float adapted_lum)
 	// martin's modified blue shift
 	color = lerp(lum * BLUE_SHIFT, color, saturate(16.0f * lum));
 
-#if KLAYGE_NO_FP_COLOR
-	return color;
-#else
 	float adapted_lum_dest = 3 / (max(0.1f, 1 + 10 * EyeAdaption(adapted_lum)));
 
 	// Filmic Tonemapping from Unchart 2
 	const float White = 11.2f;
 	return F(1.6f * adapted_lum_dest * color) / F(White);
-#endif
 }
 
-void ToneMappingVS(float4 pos : POSITION,
-					out float3 oTex : TEXCOORD0,
-					out float4 oPos : SV_Position)
+void ToneMappingVS(float4 pos : POSITION, float2 tex0 : TEXCOORD,
+              out float2 oTex : TEXCOORD, out float4 oPos : SV_Position)
 {
 	oPos = pos;
-
-	oTex.xy = TexCoordFromPos(pos);
+	oTex = tex0;
   
-	float adapted_lum = lum_tex.SampleLevel(point_sampler, 0.5f.xx, 0);
-  
-	oTex.z = max(0.001f, adapted_lum);
+  //float adapted_lum = lum_tex.SampleLevel(point_sampler, 0.5f.xx, 0);  
+	//oTex.z = max(0.001f, adapted_lum);
 }
 
 float4 ToneMappingPS(float3 iTex : TEXCOORD0) : SV_Target
 {
+  const float3 RGB_TO_LUM = float3(0.2126f, 0.7152f, 0.0722f);
+  
 	// For FXAA
-	float3 ldr_rgb = saturate(ToneMapping(src_tex.Sample(linear_sampler, iTex.xy).rgb, bloom_tex.Sample(linear_sampler, iTex.xy).rgb, iTex.z));
+  float3 src_color = src_tex.Sample(g_sam, iTex.xy).rgb;
+  float3 bloom_color = float3(0.0, 0.0, 0.0);//bloom_tex.Sample(linear_sampler, iTex.xy).rgb;
+  float adapted_lum = lum_tex.Sample(g_sam, float2(0.5, 0.5)).r;//iTex.z;
+	float3 ldr_rgb = saturate(ToneMapping(src_color, bloom_color, adapted_lum));
 	return float4(ldr_rgb, dot(ldr_rgb, RGB_TO_LUM));
 }
 		]]>
   </shader>
+
+  <technique name="ToneMapping">
+    <pass name="p0">
+      <state name="depth_enable" value="false"/>
+      <state name="depth_write_mask" value="zero"/>
+
+      <state name="vertex_shader" value="ToneMappingVS"/>
+      <state name="pixel_shader" value="ToneMappingPS"/>
+    </pass>
+  </technique>
+  
 </effect>

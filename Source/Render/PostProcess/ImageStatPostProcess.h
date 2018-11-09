@@ -12,26 +12,24 @@ namespace Pharos
 
 		private:
 			RenderTechnique*	m_sumLumLogTech;
-			RenderTechnique*	m_sumLumIterTech;
-			RenderTechnique*	m_adaptedTech;
-
-			RenderTexture*		m_inputTex;
-			RenderTexture*		m_outputTex;
-
 			RenderFrameBuffer*	m_sumLogTarget;
 			RenderTexture*		m_sumLogTex;
 
-			RenderFrameBuffer*	m_sumIterTarget;
-			RenderTexture*		m_sumIterTex;
+			RenderTechnique*	m_sumLumIterTech16;
+			RenderFrameBuffer*	m_sumIterTarget16;
+			RenderTexture*		m_sumIterTex16;
 
+			RenderTechnique*	m_sumLumIterTech4;
+			RenderFrameBuffer*	m_sumIterTarget4;
+			RenderTexture*		m_sumIterTex4;
+
+			RenderTechnique*	m_adaptedTech;
 			RenderFrameBuffer*	m_adaptedLumTarget;
 			RenderTexture*		m_adaptedLumTex;
-
+			
 		public:
 			virtual bool Init();
 
-			virtual void SetInputPin(uint32 index, RenderTexture* tex);
-			virtual void SetOutputPin(uint32 index, RenderTexture* tex);
 			virtual void Apply();
 		};
 	}

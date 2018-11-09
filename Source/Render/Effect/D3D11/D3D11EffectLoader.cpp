@@ -26,13 +26,13 @@ D3D11EffectLoader::~D3D11EffectLoader()
 
 bool D3D11EffectLoader::Load(const char8* szPath)
 {	
-	XmlDocument doc;
-	if (!doc.Open(szPath)) return false;
-	if (!doc.Load()) return false;
+	XmlDocument* doc = sResMgr->GenerateXmlDocument(szPath);
+	if (doc == nullptr) return false;
+	if (!doc->Load()) return false;
 	
-	m_filePath = doc.GetResFilePath();
+	m_filePath = doc->GetResFilePath();
 
-	XmlNode* pRoot = doc.GetRootNode();
+	XmlNode* pRoot = doc->GetRootNode();
 	for(uint32 i = 0; i < pRoot->GetChildNum(); i++)
 	{
 		XmlNode* pChild = pRoot->GetChildNode(i);

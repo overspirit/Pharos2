@@ -172,9 +172,6 @@
     <ClCompile Include="..\Source\Desktop\UIObjects\WorldFrame.cpp">
       <Filter>Desktop\UIObjects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Render\RenderSprite.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Render\PostProcess\HDRPostProcess.cpp">
       <Filter>Render\PostProcess</Filter>
     </ClCompile>
@@ -189,6 +186,24 @@
     </ClCompile>
     <ClCompile Include="..\Source\Render\PostProcess\ToneMappingPostProcess.cpp">
       <Filter>Render\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\RenderFont.cpp">
+      <Filter>Desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\RenderImage.cpp">
+      <Filter>Desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\FontTextureManager.cpp">
+      <Filter>Desktop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\ResourceManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Core\ResBase.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Desktop\RenderSprite.cpp">
+      <Filter>Desktop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -514,9 +529,6 @@
     <ClInclude Include="..\Source\Desktop\IControlViewer.h">
       <Filter>Desktop</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Render\RenderSprite.h">
-      <Filter>Render</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Render\PostProcess\HDRPostProcess.h">
       <Filter>Render\PostProcess</Filter>
     </ClInclude>
@@ -531,6 +543,24 @@
     </ClInclude>
     <ClInclude Include="..\Source\Render\PostProcess\ToneMappingPostProcess.h">
       <Filter>Render\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\RenderFont.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\RenderImage.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\FontTextureManager.h">
+      <Filter>Desktop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Core\ResourceManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\VertexDefine.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Desktop\RenderSprite.h">
+      <Filter>Desktop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

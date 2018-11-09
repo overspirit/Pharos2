@@ -25,6 +25,8 @@
     <ClCompile Include="..\Source\Core\Kernel.cpp" />
     <ClCompile Include="..\Source\Core\MemoryBuffer.cpp" />
     <ClCompile Include="..\Source\Core\Properties.cpp" />
+    <ClCompile Include="..\Source\Core\ResBase.cpp" />
+    <ClCompile Include="..\Source\Core\ResourceManager.cpp" />
     <ClCompile Include="..\Source\Core\XmlAttribute.cpp" />
     <ClCompile Include="..\Source\Core\XmlDocument.cpp" />
     <ClCompile Include="..\Source\Core\XmlNode.cpp" />
@@ -39,6 +41,10 @@
     <ClCompile Include="..\Source\Core\Windows\PlatformWindows.cpp" />
     <ClCompile Include="..\Source\Core\Windows\Timer.cpp" />
     <ClCompile Include="..\Source\Desktop\DesktopMgr.cpp" />
+    <ClCompile Include="..\Source\Desktop\FontTextureManager.cpp" />
+    <ClCompile Include="..\Source\Desktop\RenderFont.cpp" />
+    <ClCompile Include="..\Source\Desktop\RenderImage.cpp" />
+    <ClCompile Include="..\Source\Desktop\RenderSprite.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\Button.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\CheckButton.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\FontString.cpp" />
@@ -73,7 +79,6 @@
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Texture.cpp" />
     <ClCompile Include="..\Source\Render\RenderMgr.cpp" />
-    <ClCompile Include="..\Source\Render\RenderSprite.cpp" />
     <ClCompile Include="..\Source\Scene\GridNode.cpp" />
     <ClCompile Include="..\Source\Scene\OctreeScene.cpp" />
     <ClCompile Include="..\Source\Scene\SceneCamera.cpp" />
@@ -94,6 +99,7 @@
     <ClInclude Include="..\Source\Core\Kernel.h" />
     <ClInclude Include="..\Source\Core\MemoryBuffer.h" />
     <ClInclude Include="..\Source\Core\Properties.h" />
+    <ClInclude Include="..\Source\Core\ResourceManager.h" />
     <ClInclude Include="..\Source\Core\XmlAttribute.h" />
     <ClInclude Include="..\Source\Core\XmlDocument.h" />
     <ClInclude Include="..\Source\Core\XmlNode.h" />
@@ -109,7 +115,11 @@
     <ClInclude Include="..\Source\Core\Windows\Timer.h" />
     <ClInclude Include="..\Source\Desktop\DesktopGlobal.h" />
     <ClInclude Include="..\Source\Desktop\DesktopMgr.h" />
+    <ClInclude Include="..\Source\Desktop\FontTextureManager.h" />
     <ClInclude Include="..\Source\Desktop\IControlViewer.h" />
+    <ClInclude Include="..\Source\Desktop\RenderFont.h" />
+    <ClInclude Include="..\Source\Desktop\RenderImage.h" />
+    <ClInclude Include="..\Source\Desktop\RenderSprite.h" />
     <ClInclude Include="..\Source\Desktop\UIDefine.h" />
     <ClInclude Include="..\Source\Desktop\UIObjects\Button.h" />
     <ClInclude Include="..\Source\Desktop\UIObjects\CheckButton.h" />
@@ -184,7 +194,7 @@
     <ClInclude Include="..\Source\Render\Renderer\RenderSamplerState.h" />
     <ClInclude Include="..\Source\Render\RenderGlobal.h" />
     <ClInclude Include="..\Source\Render\RenderMgr.h" />
-    <ClInclude Include="..\Source\Render\RenderSprite.h" />
+    <ClInclude Include="..\Source\Render\VertexDefine.h" />
     <ClInclude Include="..\Source\Scene\GridNode.h" />
     <ClInclude Include="..\Source\Scene\OctreeScene.h" />
     <ClInclude Include="..\Source\Scene\SceneCamera.h" />
@@ -224,7 +234,9 @@
   <ItemGroup>
     <None Include="..\Source\Render\Shader\D3D11\Copy.fxml" />
     <None Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Font.fxml" />
+    <None Include="..\Source\Render\Shader\D3D11\Font.fxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Source\Render\Shader\D3D11\GBuffer.fxml" />
     <None Include="..\Source\Render\Shader\D3D11\PostProcess.fxml" />
     <None Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml" />

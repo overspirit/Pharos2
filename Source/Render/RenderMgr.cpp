@@ -14,6 +14,8 @@ RenderMgr::RenderMgr()
 	m_finalFrameBuf = nullptr;
 	m_finalTargetTex = nullptr;
 
+	m_hdrPostProcess = nullptr;
+
 	m_postProcessTech = nullptr;
 	m_postProcessShader = nullptr;
 
@@ -40,6 +42,39 @@ bool RenderMgr::Init()
 	m_renderer = MakeRenderer();
 	if (!m_renderer->Init()) return false;
 
+	this->LoadEffectFile("Shader/Sprite3D.fxml");
+	this->LoadEffectFile("Shader/Sprite2D.fxml");
+	this->LoadEffectFile("Shader/Font.fxml");
+	this->LoadEffectFile("Shader/Skeletal.fxml");
+	this->LoadEffectFile("Shader/Copy.fxml");
+	this->LoadEffectFile("Shader/PostToneMapping.fxml");
+	this->LoadEffectFile("Shader/SumLum.fxml");
+	this->LoadEffectFile("Shader/ToneMapping.fxml");
+
+	DecalVertex vertData[] =
+	{
+		{ Vector3Df(-1.0f,  1.0f, 0), Vector2Df(0, 0) },
+		{ Vector3Df(1.0f, 1.0f, 0), Vector2Df(1.0f, 0) },
+		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
+
+		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
+		{ Vector3Df(-1.0f, -1.0f, 0), Vector2Df(0, 1.0f) },
+		{ Vector3Df(-1.0f, 1.0f, 0), Vector2Df(0, 0) },
+	};
+
+	MemoryBuffer vertDataBuf;
+	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
+	m_quadLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
+
+	VertLayoutDesc desc[] =
+	{
+		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
+		{ VET_FLOAT32, 2, "TEXCOORD", 0, 12 },
+	};
+	m_quadLayout->SetInputLayoutDesc(desc, 2);
+
+	m_globalShaderData = m_renderer->CreateShaderData();
+
 	m_timer.Reset();
 
 	return true;
@@ -47,9 +82,7 @@ bool RenderMgr::Init()
 
 void RenderMgr::Destroy()
 {
-	sRenderSpirite->Destroy();
-
-	SAFE_DELETE(m_imageStatPostProcess);
+	SAFE_DELETE(m_hdrPostProcess);
 
 	SAFE_DELETE(m_postProcessTech);
 
@@ -84,53 +117,19 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	m_renderParam = param;
 
-	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();
-
-	this->LoadEffectFile("Shader/Sprite3D.fxml");
-	this->LoadEffectFile("Shader/Sprite2D.fxml");
-	this->LoadEffectFile("Shader/Font.fxml");
-	this->LoadEffectFile("Shader/Skeletal.fxml");
-	this->LoadEffectFile("Shader/Copy.fxml");
-	this->LoadEffectFile("Shader/PostToneMapping.fxml");
-	this->LoadEffectFile("Shader/SumLum.fxml");
-
-	m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
-	m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
-
-	Vertex vertData[] =
-	{
-		{ Vector3Df(-1.0f,  1.0f, 0), Vector2Df(0, 0) },
-		{ Vector3Df(1.0f, 1.0f, 0), Vector2Df(1.0f, 0) },
-		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
-
-		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
-		{ Vector3Df(-1.0f, -1.0f, 0), Vector2Df(0, 1.0f) },
-		{ Vector3Df(-1.0f, 1.0f, 0), Vector2Df(0, 0) },
-	};
-
-	MemoryBuffer vertDataBuf;
-	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-	m_quadLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
-
-	VertLayoutDesc desc[] =
-	{
-		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
-		{ VET_FLOAT32, 2, "TEXCOORD", 0, 12 },
-	};
-	m_quadLayout->SetInputLayoutDesc(desc, 2);
+	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();	
 
 	uint32 finalBufferWidth = m_defaultFrameBuf->GetWidth();
 	uint32 finalBufferHeight = m_defaultFrameBuf->GetHeight();
 	m_finalFrameBuf = m_renderer->CreateFrameBuffer(finalBufferWidth, finalBufferHeight);
 	m_finalTargetTex = m_finalFrameBuf->CreateRenderTexture(0, EPF_RGBA8_UNORM);
 
-	m_globalShaderData = m_renderer->CreateShaderData();
+	m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
+	m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
 
-	m_imageStatPostProcess = new ImageStatPostProcess();
-	m_imageStatPostProcess->Init();
-	m_imageStatPostProcess->SetInputPin(0, m_finalTargetTex);
-
-	if (!sRenderSpirite->Init(m_renderer)) return false;
+	m_hdrPostProcess = new HDRPostProcess();
+	m_hdrPostProcess->Init();
+	m_hdrPostProcess->SetInputPin(0, m_finalTargetTex);
 
 	return true;
 }
@@ -257,6 +256,19 @@ Vector2Df RenderMgr::GetPosFromWindowPos(int32 x, int32 y)
 	return pos;
 }
 
+Vector2Df RenderMgr::GetSizeFromWindowSize(int32 width, int32 height)
+{
+	Vector2Df size;
+	const Size2Di& wndSize = sKernel->GetWindowSize();
+	size.x = (float32)width / wndSize.width * 2.0f;
+	size.y = (float32)height / wndSize.height * 2.0f;
+
+	//还要进行视口变换
+	//...
+
+	return size;
+}
+
 void RenderMgr::DrawFullScreenQuad(RenderTexture* tex)
 {
 	m_renderer->BindTexture(0, tex);
@@ -273,8 +285,8 @@ void RenderMgr::Render(float32 fElapsed)
 {
 	m_defaultFrameBuf->ClearFrameBuffer();
 
-	m_renderer->BindFrameBuffer(m_finalFrameBuf);
-	m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
+ 	m_renderer->BindFrameBuffer(m_finalFrameBuf);
+ 	m_finalFrameBuf->ClearFrameBuffer(m_clearColor, m_clearDepth, m_clearStencil);
 	
 	if (m_globalShaderData != nullptr)
 	{
@@ -298,20 +310,24 @@ void RenderMgr::Render(float32 fElapsed)
 		m_renderCallback->onRender(fElapsed);
 	}
 
+	RenderTexture* finalTargetTex = m_finalTargetTex;
+	
 	if (m_renderParam.hdrEnabled)
 	{
-		m_imageStatPostProcess->Apply();
+		m_hdrPostProcess->Apply();
+
+		finalTargetTex = m_hdrPostProcess->GetOutputPin(0);
 	}
 
 	m_renderer->BindFrameBuffer(nullptr);		
 	m_renderer->BindProgram(m_postProcessShader);
-	DrawFullScreenQuad(m_finalTargetTex);
+	DrawFullScreenQuad(finalTargetTex);
 
 	m_renderer->Present();
 
 	m_blockCount = 0;
 
-	sRenderSpirite->Resume();
+	//sRenderSpirite->Resume();
 
 	m_renderCount++;
 	if (m_timer.GetTime() >= 1.0f)
@@ -320,8 +336,8 @@ void RenderMgr::Render(float32 fElapsed)
 		m_fps = m_renderCount;
 		m_renderCount = 0;
 
-		char8 buf[32];
-		sprintf(buf, "FPS:%d\n", m_fps);
-		OutputDebugStringA(buf);
+		//char8 buf[32];
+		//sprintf(buf, "FPS:%d\n", m_fps);
+		//OutputDebugStringA(buf);
 	}
 }
