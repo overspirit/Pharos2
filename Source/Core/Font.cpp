@@ -3,7 +3,7 @@
 
 Font::Font(FT_Library fontLib)
 {
-	m_strResType = "FONT";
+	m_resType = ERT_FONT;
 
 	m_fontLib = fontLib;
 
@@ -188,10 +188,10 @@ void Font::LoadDisChar(char16 ch)
 
 bool Font::SaveCharBitmap(const char8* path)
 {
-	Image image;
-	image.CreateImage(m_samplerSize, m_samplerSize);
+	Image* image = (Image*)sResMgr->GenerateResource(ERT_IMAGE);
+	image->CreateImage(m_samplerSize, m_samplerSize);
 
-	uint32* imageData = (uint32*)image.GetDataPointer();
+	uint32* imageData = (uint32*)image->GetDataPointer();
 
 	for (int i = 0; i < m_charBitmapBuffer.size(); i++)
 	{
@@ -199,7 +199,7 @@ bool Font::SaveCharBitmap(const char8* path)
 		imageData[i] = 0xFF000000 | gray << 16 | gray << 8 | gray;
 	}
 
-	bool ret = image.Save(path);
+	bool ret = image->Save(path);
 
 	return ret;
 }
@@ -521,10 +521,10 @@ bool GlyphFilter::SaveFilterImage(const char8* path)
 		filterMap[i] = (uint8)((m_filter[i] - minValue) / (maxValue - minValue) * 255.0f);
 	}
 
-	Image image;
-	image.CreateImage(m_char_size, m_char_size);
+	Image* image = (Image*)sResMgr->GenerateImage("");
+	image->CreateImage(m_char_size, m_char_size);
 
-	uint32* imageData = (uint32*)image.GetDataPointer();
+	uint32* imageData = (uint32*)image->GetDataPointer();
 
 	for (int i = 0; i < filterMap.size(); i++)
 	{
@@ -532,7 +532,7 @@ bool GlyphFilter::SaveFilterImage(const char8* path)
 		imageData[i] = 0xFF000000 | gray << 16 | gray << 8 | gray;
 	}
 
-	bool ret = image.Save(path);
+	bool ret = image->Save(path);
 
 	return ret;
 }

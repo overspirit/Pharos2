@@ -4,49 +4,38 @@ namespace Pharos
 {
 	namespace Core
 	{
+		enum ResType
+		{
+			ERT_FONT,
+			ERT_IMAGE,
+			ERT_XML,
+		};
+
 		class ResBase
 		{
-		public:
-			ResBase()
-			{
-				m_resFile = nullptr;
-			}
+		protected:
+			ResBase();
+			virtual ~ResBase();
 
-			virtual ~ResBase()
-			{
-				SAFE_DELETE(m_resFile);
-			}
+			friend class ResourceManager;
 
 		protected:
 			File*		m_resFile;
-
-			string		m_strResType;
 			string		m_strFilePath;
 			string		m_strFileType;
 
-		public:
+			ResType		m_resType;			
+
+		protected:
 			virtual bool Open(const char8* path) = 0;
+			virtual bool Save(const char8* path) = 0;			
 
-			virtual const char8* GetResType()
-			{
-				return m_strResType.c_str();
-			}
+		public:
+			virtual const char8* GetResFileType();
+			virtual const char8* GetResFilePath();
 
-			virtual const char8* GetResFileType()
-			{
-				if (m_strFileType.empty())
-				{
-					Utils::Path path(m_strFilePath.c_str());
-					m_strFileType = path.GetExtension();
-				}
-
-				return m_strFileType.c_str();
-			}
-
-			virtual const char8* GetResFilePath()
-			{
-				return m_strFilePath.c_str();
-			}
+			virtual ResType GetResType();
 		};
+
 	}
 }

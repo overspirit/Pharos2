@@ -279,10 +279,10 @@ Matrix4 SceneImporter::ParseMatrix4(const char8* str)
 
 bool SceneImporter::SaveTo(const char8* file)
 {
-	XmlDocument doc;
-	if (!doc.CreateRootNode("Scene")) return false;
+	XmlDocument* doc = (XmlDocument*)sResMgr->GenerateResource(ERT_XML);
+	if (!doc->CreateRootNode("Scene")) return false;
 
-	XmlNode* rootNode = doc.GetRootNode();	
+	XmlNode* rootNode = doc->GetRootNode();	
 	XmlNode* materialChunkNode = rootNode->AppendChild("materials_chunk");
 	XmlNode* modelChunkNode = rootNode->AppendChild("models_chunk");
 	XmlNode* nodeChunkNode = rootNode->AppendChild("nodes_chunk");
@@ -302,7 +302,7 @@ bool SceneImporter::SaveTo(const char8* file)
 		SaveSceneNodeData(nodeData, nodeChunkNode, modelChunkNode);
 	}
 
-	doc.Save(file);
+	doc->Save(file);
 
 	return true;
 }

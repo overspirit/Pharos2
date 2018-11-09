@@ -6,9 +6,11 @@ namespace Pharos
 	{
 		class Image : public ResBase
 		{
-		public:
+		private:
 			Image();
 			virtual ~Image();
+
+			friend class ResourceManager;
 
 		private:
 			FIBITMAP*		m_dib;

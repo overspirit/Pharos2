@@ -9,7 +9,9 @@ const static int32 parse_flag = parse_doctype_node | parse_pi_nodes | parse_vali
 
 XmlDocument::XmlDocument()
 {
-	m_strResType = "XML";
+	m_resType = ERT_XML;
+
+	m_loaded = false;
 }
 
 XmlDocument::~XmlDocument()
@@ -64,6 +66,8 @@ bool XmlDocument::Save(const char8* path)
 
 bool XmlDocument::Load()
 {
+	if (m_loaded) return true;
+
 	uint32 dwFileSize = m_resFile->GetSize();
 
 	char8* str = this->allocate_string(nullptr, dwFileSize + 1);
@@ -73,6 +77,8 @@ bool XmlDocument::Load()
 	this->parse<parse_flag>(str);
 
 	m_strFilePath = m_resFile->GetPath();
+
+	m_loaded = true;
 
 	return true;
 }

@@ -7,28 +7,20 @@
 Kernel::Kernel()
 {
 	m_hWnd = nullptr;
-
-	m_fontLib = nullptr;
-
+	
 	m_pApp = nullptr;
 }
 
 Kernel::~Kernel()
 {
-	FreeImage_DeInitialise();
 
-	FT_Done_FreeType(m_fontLib);
 }
 
 bool Kernel::Init(const void* hWnd)
 {
 	m_hWnd = hWnd;
 
-	FT_Init_FreeType(&m_fontLib);
-	FreeImage_Initialise();
-    
-#pragma message("------------------------------------资源的异步加载未完成!!!------------------------------------")
-#pragma message("------------------------------------资源的引用计数未完成!!!------------------------------------")
+	if (!sResMgr->Init()) return false;
 
 	if (!sRenderMgr->Init()) return false;
 	if (!sSceneMgr->Init()) return false;
@@ -57,22 +49,30 @@ void Kernel::Destroy()
 	sDesktopMgr->Destroy();
 	sSceneMgr->Destroy();
 	sRenderMgr->Destroy();
+
+	sResMgr->Destroy();
 }
 
 void Kernel::onKeyboardEvent(const KeyEvent& keyEvent)
-{
-	sDesktopMgr->onKeyboardEvent(keyEvent);
-	if (m_pApp != nullptr) m_pApp->onKeyboardEvent(keyEvent);
+{	
+	if (!sDesktopMgr->onKeyboardEvent(keyEvent) && m_pApp != nullptr)
+	{
+		m_pApp->onKeyboardEvent(keyEvent);
+	}
 }
 
 void Kernel::onMouseEvent(const MouseEvent& mouseEvent)
-{
-	sDesktopMgr->onMouseEvent(mouseEvent);
-	if (m_pApp != nullptr) m_pApp->onMouseEvent(mouseEvent);
+{	
+	if (!sDesktopMgr->onMouseEvent(mouseEvent) && m_pApp != nullptr)
+	{
+		m_pApp->onMouseEvent(mouseEvent);
+	}
 }
 
 void Kernel::onViewCreate()
 {
+	sDesktopMgr->onViewCreate();
+
 	if (m_pApp != nullptr) m_pApp->onViewCreate();
 }
 
@@ -88,6 +88,8 @@ void Kernel::onViewChangeSize(int32 width, int32 height)
 
 void Kernel::onViewDestroy()
 {
+	sDesktopMgr->onViewDestroy();
+
 	if (m_pApp != nullptr) m_pApp->onViewDestroy();
 }
 

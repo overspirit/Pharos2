@@ -23,21 +23,23 @@ bool D3D11Texture::LoadFromFile(const char8* szPath)
 {
 	if (szPath == nullptr || *szPath == '\0') return false;
 
-	Image image;
-	if (!image.Open(szPath)) return false;
+	Image* image = sResMgr->GenerateImage(szPath);
+	if(image == nullptr) return false;
 
-	if (image.GetBPP() != 32)
+	if (image->GetBPP() != 32)
 	{
-		if (!image.ConvertTo32Bits()) return false;
+		if (!image->ConvertTo32Bits()) return false;
 	}
 
 	return LoadFromImage(image);
 }
 
-bool D3D11Texture::LoadFromImage(const Image& image)
+bool D3D11Texture::LoadFromImage(const Image* image)
 {
-	uint32 width = image.GetWidth();
-	uint32 height = image.GetHeight();
+	if (image == nullptr) return false;
+
+	uint32 width = image->GetWidth();
+	uint32 height = image->GetHeight();
 
 	D3D11_TEXTURE2D_DESC desc;
 	desc.Width = width;
@@ -53,7 +55,7 @@ bool D3D11Texture::LoadFromImage(const Image& image)
 	desc.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA data;
-	data.pSysMem = image.GetDataPointer();
+	data.pSysMem = image->GetDataPointer();
 	data.SysMemPitch = width * 4;
 	data.SysMemSlicePitch = 0;
 

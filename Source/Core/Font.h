@@ -35,9 +35,11 @@ namespace Pharos
 		//base 为 (max_value - min_value) * char_size
 		class Font : public ResBase
 		{
-		public:
+		private:
 			Font(FT_Library fontLib);
 			virtual ~Font();
+
+			friend class ResourceManager;
 
 		private:
 			struct tagCharInfoInternal : public tagCharInfo
@@ -88,8 +90,8 @@ namespace Pharos
 			virtual float32* GetDisCharData(char16 ch);
 			virtual const tagCharInfo& GetDisCharInfo(char16 ch);
 			virtual uint32 GetDisCharSize() { return m_filterSize; }
-			virtual float32 GetDisBase() { return m_min_value * m_filterSize + 1.0f; }
-			virtual float32 GetDisScale() { return (m_max_value - m_min_value) * m_filterSize; }
+			//virtual float32 GetDisBase() { return m_min_value * m_filterSize + 1.0f; }
+			//virtual float32 GetDisScale() { return (m_max_value - m_min_value) * m_filterSize; }
 			virtual float32 GetDisMinValue() { return m_min_value; }
 			virtual float32 GetDisMaxValue() { return m_max_value; }
 			virtual bool SaveCharBitmap(const char8* path);

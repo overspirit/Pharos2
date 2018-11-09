@@ -65,9 +65,11 @@ const char* GetMainBundleDirectory();
 #include "Font.h"
 #include "Image.h"
 #include "Properties.h"
+#include "ResourceManager.h"
 
 #include "Kernel.h"
 
 #define sKernel Kernel::Inst()
+#define sResMgr ResourceManager::Inst()
 
 using namespace Core;

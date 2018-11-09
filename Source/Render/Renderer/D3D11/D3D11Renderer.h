@@ -43,7 +43,7 @@ namespace Pharos
 			virtual RenderLayout* GenerateRenderLayout(uint32 vertSize, MemoryBuffer* buf = nullptr);
 			virtual RenderTexture* CreateTexture(int32 width, int32 height, EPixelFormat fmt);
 			virtual RenderTexture* LoadTexture(const char8* szPath);
-			virtual RenderTexture* LoadTexture(const Image& image);
+			virtual RenderTexture* LoadTexture(const Image* image);
 			virtual RenderShaderData* CreateShaderData();
 			virtual RenderFrameBuffer* CreateFrameBuffer(int32 width, int32 height);
 			virtual RenderSamplerState* CreateSampleState(const SamplerStateDesc& desc);

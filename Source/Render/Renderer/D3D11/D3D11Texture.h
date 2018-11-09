@@ -53,7 +53,7 @@ namespace Pharos
 
 		public:
 			virtual bool LoadFromFile(const char8* szPath);
-			virtual bool LoadFromImage(const Image& pImage);
+			virtual bool LoadFromImage(const Image* pImage);
 
 			//建立一个纹理
 			virtual bool Create(int32 width, int32 height, EPixelFormat fmt = EPF_RGBA8_UNORM);

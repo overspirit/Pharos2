@@ -3,7 +3,7 @@
 
 Image::Image()
 {
-    m_strResType = "IMAGE";
+    m_resType = ERT_IMAGE;
     
     m_dib = nullptr;
 }
@@ -36,13 +36,28 @@ bool Image::Open(const char8* path)
 
 bool Image::Save(const char8* path)
 {
-	string savePath = m_resFile->GetPath();
-	if (path != nullptr) savePath = path;
+	string savePath;
+	
+	if (path != nullptr)
+	{
+		savePath = path;
+	}
+	else if (m_resFile != nullptr)
+	{
+		savePath = m_resFile->GetPath();
+	}
+	else
+	{
+		assert(false);
+	}
+	
+	char16 buf[255];
+	Utils::utf8_to_unicode(savePath.c_str(), -1, buf, 255);
 
-	savePath += ".bmp";
+	wcscat(buf, L".bmp");
 
 	//???没有通过file接口保存，需要指定回调
-	return (FreeImage_Save(FIF_BMP, m_dib, savePath.c_str()) == TRUE);
+	return (FreeImage_SaveU(FIF_BMP, m_dib, buf) == TRUE);
 }
 
 bool Image::LoadImageFile()

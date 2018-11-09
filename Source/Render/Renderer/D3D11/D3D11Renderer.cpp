@@ -271,7 +271,7 @@ RenderTexture* D3D11Renderer::LoadTexture(const char8* szPath)
 	return texture;
 }
 
-RenderTexture* D3D11Renderer::LoadTexture(const Image& image)
+RenderTexture* D3D11Renderer::LoadTexture(const Image* image)
 {
 	D3D11Texture* texture = new D3D11Texture(m_device, m_context);
 	if (!texture->LoadFromImage(image))

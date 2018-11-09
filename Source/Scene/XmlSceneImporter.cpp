@@ -15,11 +15,10 @@ XmlSceneImporter::~XmlSceneImporter(void)
 
 bool XmlSceneImporter::LoadSceneFile(const char8* file)
 {
-	XmlDocument doc;
-	if (!doc.Open(file)) return false;
-	if (!doc.Load()) return false;
+	XmlDocument* doc = sResMgr->GenerateXmlDocument(file);
+	if (!doc->Load()) return false;
 
-	XmlNode* rootNode = doc.GetRootNode();
+	XmlNode* rootNode = doc->GetRootNode();
 	ReadMaterial(rootNode);
 	ReadModel(rootNode);
 	ReadSceneNode(rootNode);
@@ -31,11 +30,10 @@ bool XmlSceneImporter::LoadModelFile(const char8* file)
 {
 	m_resFile = file;
 
-	XmlDocument xmlDoc;
-	if (!xmlDoc.Open(file)) return false;
-	if (!xmlDoc.Load()) return false;
+	XmlDocument* xmlDoc = sResMgr->GenerateXmlDocument(file);
+	if (!xmlDoc->Load()) return false;
 
-	XmlNode* rootNode = xmlDoc.GetRootNode();
+	XmlNode* rootNode = xmlDoc->GetRootNode();
 	if (rootNode == nullptr) return false;
 
 // 	if (!ReadMaterial(rootNode)) return false;

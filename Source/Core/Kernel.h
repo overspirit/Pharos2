@@ -20,8 +20,6 @@ namespace Pharos
 			string			m_homePath;
 			string			m_bundlePath;
 			
-			FT_Library			m_fontLib;
-
 			IApplication*		m_pApp;
 
 		public:
