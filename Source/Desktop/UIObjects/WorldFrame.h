@@ -12,7 +12,11 @@ namespace Pharos
 
 		private:
 			Renderer*		m_renderer;
-			//RenderFont		m_renderFont;
+			RenderFont*		m_renderFont;
+
+			//Font*			m_font;
+			//uint32			m_fontIndex;
+
 
 		public:
 			virtual bool Init();

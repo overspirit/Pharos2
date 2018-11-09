@@ -12,10 +12,16 @@ IMPLEMENT_UI_CLASS(Progress)
 IMPLEMENT_UI_CLASS(Slider)
 IMPLEMENT_UI_CLASS(Texture)
 
+#define MAX_VERT_SIZE	(2048 * 6 * sizeof(DecalColorVertex))
+
 DesktopMgr::DesktopMgr()
 {
 	m_fScaleX = 1.0f;
 	m_fScaleY = 1.0f;
+
+	m_renderBlock = nullptr;
+	m_renderLayout = nullptr;
+	m_vertCount = 0;
 }
 
 DesktopMgr::~DesktopMgr()
@@ -25,8 +31,22 @@ DesktopMgr::~DesktopMgr()
 
 bool DesktopMgr::Init()
 {
-	m_worldFrame = MakeSharedPtr<WorldFrame>();
+	m_worldFrame = MakeSharedPtr<WorldFrame>();	
 	m_worldFrame->Init();
+
+	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
+	m_renderBlock = sRenderMgr->GenerateRenderBlock();	
+	m_renderLayout = renderer->GenerateRenderLayout(MAX_VERT_SIZE);
+
+	VertLayoutDesc desc[] =
+	{
+		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
+		{ VET_UNORM8, 4, "COLOR", 0, 12 },
+		{ VET_FLOAT32, 2, "TEXCOORD", 0, 16 },
+	};
+	m_renderLayout->SetInputLayoutDesc(desc, 3);
+
+	m_layoutBuffer.Alloc(MAX_VERT_SIZE);
 
 	return true;
 }
@@ -37,6 +57,11 @@ void DesktopMgr::Destroy()
 
 	m_frameList.clear();
 	m_controlList.clear();
+
+	SAFE_DELETE(m_renderBlock);
+	SAFE_DELETE(m_renderLayout);
+
+	sFontTexMgr->DestroyAll();
 }
 
 void DesktopMgr::SetDesktopSize(int32 width, int32 height)
@@ -50,11 +75,10 @@ void DesktopMgr::SetDesktopSize(int32 width, int32 height)
 
 bool DesktopMgr::LoadUILayoutFile(const char8* szFile)
 {
-	XmlDocument doc;
-	if (!doc.Open(szFile)) return false;
-	if (!doc.Load()) return false;
+	XmlDocument* doc = sResMgr->GenerateXmlDocument(szFile);	
+	if (!doc->Load()) return false;
 
-	XmlNode* pRoot = doc.GetRootNode();
+	XmlNode* pRoot = doc->GetRootNode();
 	if (pRoot == nullptr) return false;
 
 	for (uint32 i = 0; i < pRoot->GetChildNum(); i++)
@@ -133,6 +157,41 @@ UIObjectPtr DesktopMgr::GetControl(const char8* szName)
 	return (iter != m_frameList.end()) ? iter->second : nullptr;
 }
 
+RenderFont* DesktopMgr::GenerateRenderFont(const char8* fontFilePath)
+{
+	RenderFont* renderFont = new RenderFont();
+	if (renderFont->LoadFont(fontFilePath))
+	{
+		return renderFont;
+	}
+
+	SAFE_DELETE(renderFont);
+	return nullptr;
+}
+
+RenderImage* DesktopMgr::GenerateRenderImage(const char8* imageFilePath)
+{
+	RenderImage* renderImage = new RenderImage();
+	if (renderImage->LoadImage(imageFilePath))
+	{
+		return renderImage;
+	}
+
+	SAFE_DELETE(renderImage);
+	return nullptr;
+}
+
+void DesktopMgr::PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType)
+{
+	m_layoutBuffer.Insert(m_vertCount * sizeof(DecalColorVertex), vertData, vertNum * sizeof(DecalColorVertex));
+
+	uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(m_renderLayout, tech);
+	m_renderBlock->SetBlockPatchDrawRange(patchIndex, m_vertCount, vertNum);
+	m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
+
+	m_vertCount += vertNum;
+}
+
 bool DesktopMgr::onMouseEvent(const MouseEvent& e)
 {
 	if (m_worldFrame == nullptr) return false;
@@ -175,6 +234,11 @@ bool DesktopMgr::onKeyboardEvent(const KeyEvent& e)
 	return false;
 }
 
+void DesktopMgr::onViewCreate()
+{
+
+}
+
 void DesktopMgr::onViewChangeSize(int32 width, int32 height)
 {
 	if (m_worldFrame == nullptr) return;
@@ -184,6 +248,11 @@ void DesktopMgr::onViewChangeSize(int32 width, int32 height)
 
 	m_fScaleX = (float32)desktopSize.width / width;
 	m_fScaleY = (float32)desktopSize.height / height;
+}
+
+void DesktopMgr::onViewDestroy()
+{
+	
 }
 
 void DesktopMgr::Update(float32 fElapsed)
@@ -200,5 +269,9 @@ void DesktopMgr::Render(float32 fElapsed)
 
 	m_worldFrame->Render(fElapsed);
 
-	sRenderSpirite->PostSubmitBlock();
+	m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
+
+	sRenderMgr->DoRender(m_renderBlock);
+
+	m_vertCount = 0;
 }

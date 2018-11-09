@@ -13,8 +13,8 @@ namespace Pharos
 			DECLARE_UI_CLASS(Texture);
 
 		private:
-			RenderTexture*		m_renderImage;
-			RenderTechnique*	m_renderTech;
+			RenderImage*		m_renderImage;
+
 			Color4				m_imageColor;
 			Rect2Di				m_imageRect;
 

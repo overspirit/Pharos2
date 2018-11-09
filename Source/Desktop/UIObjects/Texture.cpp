@@ -8,13 +8,11 @@ Texture::Texture(void)
 	m_type = "Texture";
 
 	m_renderImage = nullptr;
-	m_renderTech = nullptr;
 }
 
 Texture::~Texture(void)
 {
 	SAFE_DELETE(m_renderImage);
-	SAFE_DELETE(m_renderTech);
 }
 
 bool Texture::LoadFromXml(XmlNode* xmlNode)
@@ -24,19 +22,7 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 	string imageFile = GetAttributeStringValue(xmlNode, "file");
 	m_imageColor = GetAttributeColorValue(xmlNode, "color");
 
-	if(!imageFile.empty())
-	{
-		Renderer* renderer = sRenderMgr->GetCurrentRenderer();
-		m_renderImage = renderer->LoadTexture(imageFile.c_str());
-
-		m_renderTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
-		RenderVariable* texVar = m_renderTech->GetVariable("g_tex");
-		texVar->SetValue(m_renderImage);
-	}
-	else
-	{
-		m_renderTech = sRenderMgr->GenerateRenderTechnique("Sprite2DColor");
-	} 		
+	m_renderImage = sDesktopMgr->GenerateRenderImage(imageFile.c_str());
 
 	m_imageRect.left = GetAttributeIntValue(xmlNode, "left");
 	m_imageRect.top = GetAttributeIntValue(xmlNode, "top");
@@ -55,17 +41,12 @@ void Texture::Render(float32 fElapsed)
 {
 	UIObject::Render(fElapsed);
 
-	Vector4Df uv;
-
 	if (m_renderImage != nullptr)
-	{		
-		uint32 texWidth = m_renderImage->GetWidth();
-		uint32 texHeight = m_renderImage->GetHeight();
-		uv.x = (float32)m_imageRect.left / texWidth;
-		uv.y = (float32)m_imageRect.top / texHeight;
-		uv.z = (float32)m_imageRect.right / texWidth;
-		uv.w = (float32)m_imageRect.bottom / texHeight;
+	{
+		m_renderImage->RenderImageRect(m_imageRect, m_imageColor, m_rect);
 	}
-	
-	sRenderSpirite->RenderRect(m_renderTech, uv, m_imageColor, m_rect);	
+	else
+	{
+		sRenderSpirite->RenderRect(m_imageColor, m_rect);
+	}
 }

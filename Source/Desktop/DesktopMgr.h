@@ -20,6 +20,11 @@ namespace Pharos
 
 			vector<IControlViewer*>		m_viewerList;
 			
+			RenderBlock*		m_renderBlock;
+			RenderLayout*		m_renderLayout;
+			MemoryBuffer		m_layoutBuffer;
+			uint32				m_vertCount;
+
 		public:
 			template<class T>
 			std::shared_ptr<T> GenerateUIObjectCastType(XmlNode* xmlNode, const char8* parentName)
@@ -48,10 +53,18 @@ namespace Pharos
 
 			virtual bool onMouseEvent(const MouseEvent& e);
 			virtual bool onKeyboardEvent(const KeyEvent& e);
+
+			virtual void onViewCreate();
 			virtual void onViewChangeSize(int32 width, int32 height);
+			virtual void onViewDestroy();
 
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
+
+			virtual void PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType = EDT_TRIANGLELIST);
+
+			virtual RenderFont* GenerateRenderFont(const char8* fontFilePath);
+			virtual RenderImage* GenerateRenderImage(const char8* imageFilePath);
 
 			virtual WorldFramePtr GetWorldFrame() { return m_worldFrame; }
 			virtual UIObjectPtr GetControl(const char8* szName);

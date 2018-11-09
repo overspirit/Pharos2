@@ -6,6 +6,12 @@
 #include "UIDefine.h"
 #include "IControlViewer.h"
 
+#include "FontTextureManager.h"
+
+#include "RenderFont.h"
+#include "RenderImage.h"
+#include "RenderSprite.h"
+
 #include "UIObjects/UIObject.h"
 #include "UIObjects/Texture.h"
 #include "UIObjects/FontString.h"
@@ -19,6 +25,10 @@
 #include "DesktopMgr.h"
 
 #define sDesktopMgr DesktopMgr::Inst()
+
+#define sFontTexMgr FontTextureManager::Inst()
+
+#define sRenderSpirite RenderSprite::Inst()
 
 using namespace Desktop;
 

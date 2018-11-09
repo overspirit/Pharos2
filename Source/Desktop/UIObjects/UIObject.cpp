@@ -221,6 +221,6 @@ void UIObject::Update(float32 fElapsed)
 
 void UIObject::Render(float32 fElapsed)
 {
-	//sRenderSpirite->RenderBox(Rect2Di(m_rect.left - 1, m_rect.top - 1, m_rect.right + 1, m_rect.bottom + 1), 0xFFDF932B);
+	sRenderSpirite->RenderWireFrame(0xFFDF932B, Rect2Di(m_rect.left - 1, m_rect.top - 1, m_rect.right + 1, m_rect.bottom + 1));
 }
 
