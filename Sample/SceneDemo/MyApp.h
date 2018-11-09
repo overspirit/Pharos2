@@ -25,6 +25,9 @@ private:
 	RenderTechnique*		m_copyTech;
 	RenderProgram*			m_copyShader;
 
+	Font*		m_font;
+	uint32		m_fontIndex;
+
 public:
 	virtual bool Init();
 	virtual void Destroy();

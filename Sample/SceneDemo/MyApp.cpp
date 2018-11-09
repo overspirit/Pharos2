@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+﻿#include "PreCompile.h"
 #include "CoreGlobal.h"
 #include "RenderGlobal.h"
 #include "SceneGlobal.h"
@@ -9,7 +9,7 @@
 
 MyApp::MyApp()
 {
-
+	m_font = nullptr;
 }
 
 MyApp::~MyApp()
@@ -39,11 +39,33 @@ bool MyApp::Init()
 	m_copyTech = sRenderMgr->GenerateRenderTechnique("Copy");
 	m_copyShader = m_copyTech->GetPass(0)->GetShaderProgram();
 
+
+	m_font = sResMgr->GenerateFont("Font/Fontin.ttf");
+
+	//m_fontIndex = sRenderSpirite->GetFontInfoIndex(m_font);
+	
+// 	File charListFile;
+// 	charListFile.Open("Font/charlist.txt");
+// 
+// 	uint16 flag = 0;
+// 	charListFile.Read(&flag, sizeof(flag));
+// 
+// 	uint32 charCount = charListFile.GetSize() / sizeof(char16) - 1;
+// 	char16* charListBuffer = new char16[charCount];
+// 	charListFile.Read(charListBuffer, charCount * sizeof(charCount));
+// 
+// 	for (int i = 0; i < charCount; i++)
+// 	{
+// 		font->GetDisCharInfo(charListBuffer[i]);
+// 	}
+
 	return true;
 }
 
 void MyApp::Destroy()
 {
+	//SAFE_DELETE(m_font);
+
 	SAFE_DELETE(m_copyTex);
 
 	SAFE_DELETE(m_copyTech);
@@ -93,4 +115,15 @@ void MyApp::onRender(float32 elapsed)
 	m_renderer->BindProgram(m_copyShader);
 
 	sRenderMgr->DrawFullScreenQuad(m_copyTex);
+
+// 	const char8 text[] = u8"已加载“C:\\Windows\\System32\\comdlg32.dll”。无法查找或打开 PDB 文件。";
+// 	SpriteBrush brush;
+// 	brush.scale = 1.0f;	//缩放系数...
+// 	brush.color = 0xFFFFFFFF;
+// 	brush.outlineColor = 0xFFFF0000;
+// 	brush.outlineScale = 0.0f;
+// 	brush.shadowColor = 0x00000000;
+// 	brush.shadowOffsetX = 0;
+// 	brush.shadowOffsetY = 0;
+	//sRenderSpirite->RenderText(m_fontIndex, text, sizeof(text), brush, 100, 100);
 }

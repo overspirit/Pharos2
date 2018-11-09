@@ -32,6 +32,7 @@ bool MyApp::Init()
 	param.sync = false;
 	param.fullScreen = false;
 	param.gammaEnabled = false;
+	param.hdrEnabled = false;
 	sRenderMgr->StartUp(param);
 
 	sRenderMgr->RegisterRenderCallback(this);
