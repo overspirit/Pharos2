@@ -8,7 +8,7 @@ using namespace Pharos::Core;
 
 int main(int argc, char* argv[])
 {
-	//_CrtSetBreakAlloc(1734);
+	//_CrtSetBreakAlloc(10750);
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 

@@ -24,6 +24,8 @@ namespace Pharos
 			
 			virtual int32 Run();
 
+			virtual HWND GetWindowsHandle() { return m_hWnd; }
+
 			virtual void onKeyboardEvent(const KeyEvent& keyEvent);
 			virtual void onMouseEvent(const MouseEvent& mouseEvent);
 
