@@ -53,7 +53,7 @@ namespace Pharos
 		public:
 			virtual const string& GetName() const = 0;
 
-			virtual std::shared_ptr<T> CreateObject() const = 0;
+			virtual T* CreateObject() const = 0;
 		};
 
 		//子类型的包装，需要传递当前类型和根类型
@@ -72,7 +72,7 @@ namespace Pharos
 		public:
 			virtual const string& GetName() const { return this->m_name; }
 
-			virtual std::shared_ptr<R> CreateObject() const { return MakeSharedPtr<T>(); }
+			virtual R* CreateObject() const { return new T(); }
 		};
 
 		//类型工厂，需要传递根类型
@@ -115,7 +115,7 @@ namespace Pharos
 				return NULL;
 			}
 
-			std::shared_ptr<T> CreateObject(const string& className) const
+			T* CreateObject(const string& className) const
 			{
 				auto iter = m_nameTable.find(className);
 				if (iter != m_nameTable.end())
