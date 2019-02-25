@@ -208,7 +208,7 @@ void D3D11Renderer::DrawImmediate(DrawType type, uint32 start, uint32 count)
 		ID3D10Blob* blob = m_bindShader->GetVertexBlob();
 		if (!m_bindLayout->CreateD3D11InputLayout(blob))
 		{
-			//assert(false);
+			assert(false);
 			return;
 		}
 	}
