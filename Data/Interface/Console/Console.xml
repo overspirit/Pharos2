@@ -7,17 +7,17 @@
       <Size y="150"/>
 
       <Anchor point="TopLeft" relativePoint="BottomLeft">
-        <Offset x="100" y="200"/>
+        <Offset x="0" y="150"/>
       </Anchor>
 
       <Anchor point="TopRight" relativePoint="BottomRight">
-        <Offset x="-100" y="-200"/>
+        <Offset x="0" y="-150"/>
       </Anchor>
 
     </Region>
 
     <BackDrop>
-      <Texture color="0x3FFFFFFF"/>
+      <Texture color="0x3F000000"/>
 
       <EdgeInsets left="5" top="5" right="5" bottom="5"/>
 
@@ -32,7 +32,7 @@
           <Size x="64" y="64"/>
 
           <Anchor point="Center" relativePoint="Center">
-		  <Offset y="0"/>
+            <Offset y="-16"/>
           </Anchor>
 
         </Region>
@@ -64,7 +64,7 @@
           <Size x="64" y="64"/>
 
           <Anchor point="Center" relativePoint="Center">
-            <Offset x="-100" y="0"/>
+            <Offset x="0" y="-16"/>
           </Anchor>
 
         </Region>
@@ -90,14 +90,14 @@
 
 
 
-      <Button name="StopAnim" enable="true" hidden="false">
+      <!--<Button name="StopAnim" enable="true" hidden="false">
 
         <Region>
 
           <Size x="64" y="64"/>
 
           <Anchor point="Center" relativePoint="Center">
-            <Offset x="100" y="0"/>
+            <Offset x="32" y="0"/>
           </Anchor>
 
         </Region>
@@ -118,7 +118,7 @@
           <Texture file="Interface/Console/Stop.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
-      </Button>
+      </Button>-->
 
 
 
@@ -126,10 +126,10 @@
 
         <Region>
 
-          <Size x="64" y="64"/>
+          <Size x="48" y="48"/>
 
           <Anchor point="Center" relativePoint="Center">
-            <Offset x="-300" y="0"/>
+            <Offset x="-100" y="-12"/>
           </Anchor>
 
         </Region>
@@ -156,10 +156,10 @@
 
         <Region>
 
-          <Size x="64" y="64"/>
+          <Size x="48" y="48"/>
 
           <Anchor point="Center" relativePoint="Center">
-            <Offset x="300" y="0"/>
+            <Offset x="100" y="-12"/>
           </Anchor>
 
         </Region>
@@ -181,8 +181,125 @@
         </BackDrop>
 
       </Button>
-	  
-      <Slider name="AnimSpeed" enable="true" hidden="false" min="0" max="2.0" step="0" value="1.0" wheel_speed="0.5" put_type="Horizontal">
+
+      <Button name="OpenFile" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="48" y="48"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset y="0"/>
+          </Anchor>
+
+          <Anchor point="Left" relativePoint="Left">
+            <Offset x="32"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture file="Interface/Console/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture file="Interface/Console/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture file="Interface/Console/Open.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+        </BackDrop>
+
+      </Button>
+
+      <Slider name="AnimFrame" enable="true" hidden="false" min="1" max="5" step="0.5" value="0" wheel_speed="0.5" put_type="Horizontal">
+
+        <Region>
+          <Size y="5"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset y="42"/>
+          </Anchor>
+
+          <Anchor point="Left" relativePoint="Left">
+            <Offset x="400"/>
+          </Anchor>
+
+          <Anchor point="Right" relativePoint="Right">
+            <Offset x="-400"/>
+          </Anchor>
+        </Region>
+
+
+        <BackDrop>
+          <Texture color="0xFF5E5E5E"/>
+        </BackDrop>
+
+        <Thumb>
+
+          <BackStyle>
+            <Texture file="Interface/Console/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          </BackStyle>
+
+          <PushStyle>
+            <Texture file="Interface/Console/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          </PushStyle>
+
+          <HighlightStyle>
+            <Texture file="Interface/Console/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          </HighlightStyle>
+
+          <DisableStyle>
+            <Texture color="0xFFFFFFFF"/>
+          </DisableStyle>
+
+          <Size x="32" y="32"/>
+
+          <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+
+        </Thumb>
+
+        <Frames>
+          <FontString name="FrameBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+
+            <Region>
+              <Size x="32" y="32"/>
+
+              <Anchor point="Center" relativePoint="Center">
+                <Offset y="0"/>
+              </Anchor>
+
+              <Anchor point="Right" relativePoint="Left">
+                <Offset x="-10"/>
+              </Anchor>
+            </Region>
+
+          </FontString>
+
+          <FontString name="FrameEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+
+            <Region>
+              <Size x="32" y="32"/>
+
+              <Anchor point="Center" relativePoint="Center">
+                <Offset y="0"/>
+              </Anchor>
+
+              <Anchor point="Left" relativePoint="Right">
+                <Offset x="10"/>
+              </Anchor>
+
+            </Region>
+          </FontString>
+        </Frames>
+
+      </Slider>
+
+      <!--<Slider name="AnimSpeed" enable="true" hidden="false" min="0" max="2.0" step="0" value="1.0" wheel_speed="0.5" put_type="Horizontal">
 
         <Region>
 
@@ -229,18 +346,18 @@
       <Progress name="AnimFrame" enable="true" hidden="false" min="1" max="2" value="1.4" puttype="Horizontal">
 
         <Region>
-          <Size y="20"/>
+          <Size y="5"/>
 
           <Anchor point="Center" relativePoint="Center">
-            <Offset y="-50"/>
+            <Offset y="50"/>
           </Anchor>
 
 		  <Anchor point="Left" relativePoint="Left">
-		  <Offset x="10"/>
+		  <Offset x="400"/>
 		  </Anchor>
 		  
 		  <Anchor point="Right" relativePoint="Right">
-		  <Offset x="-10"/>
+		  <Offset x="-400"/>
 		  </Anchor>
         </Region>
 
@@ -254,7 +371,7 @@
           <Texture color="0xFF5E5E5E"/>
         </BackDrop>
 
-      </Progress>
+      </Progress>-->
 
 
       <CheckButton name="LoopPlay" enable="true" hidden="false">
@@ -263,20 +380,20 @@
 
           <Size x="24" y="24"/>
 
-          <Anchor point="Center" relativePoint="Center">
-            <Offset x="100" y="50"/>
+          <Anchor point="Center" relativeTo="AnimFrame" relativePoint="Center">
+            <Offset y="0"/>
           </Anchor>
 
-		  <Anchor point="Bottom" relativePoint="Bottom">
-		  <Offset y="-8"/>
-		  </Anchor>
-		  
+          <Anchor point="Left" relativeTo="AnimFrame" relativePoint="Right">
+            <Offset x="64"/>
+          </Anchor>
+
         </Region>
 
-		<CheckStyle>
+        <CheckStyle>
           <Texture file="Interface/Console/LoopCheck.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </CheckStyle>
-		
+
         <PushStyle>
           <Texture file="Interface/Console/LoopPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
@@ -292,6 +409,24 @@
         <BackDrop>
           <Texture file="Interface/Console/LoopBack.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
+
+        <Frames>
+          <FontString name="LoopPlayLabel" font_file="Font/simhei.ttf" font_width="18" font_height="18" text="循环">
+
+            <Region>
+              <Size x="18" y="18"/>
+
+              <Anchor point="Center" relativePoint="Center">
+                <Offset y="-2"/>
+              </Anchor>
+
+              <Anchor point="Left" relativePoint="Right">
+                <Offset x="2"/>
+              </Anchor>
+            </Region>
+
+          </FontString>
+        </Frames>
 
       </CheckButton>
 
