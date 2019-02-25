@@ -7,7 +7,6 @@ Model::Model()
 	m_currAnim = nullptr;
 	m_animPlayTime = 0;
 	m_stopAnim = true;
-	m_playLoop = false;
 	m_playSpeed = 1.0f;
 	m_currAnimFrame = 0;
 
@@ -50,7 +49,10 @@ void Model::SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matri
 
 SkelAnimation& Model::AddSkelAnimation(const char8* name)
 {
-	return m_animList[name];
+	uint32 slot = (uint32)m_animList.size();
+	m_animList.resize(slot + 1);
+	m_animSlotMap[name] = slot;
+	return *m_animList.rbegin();
 }
 
 //数据的传递要用引用
@@ -62,23 +64,26 @@ void Model::UpdateAnimation(float32 elapsed)
 		uint32 frameNum = (uint32)m_currAnim->frameList.size();
 		if (frameNum < 2) return;	//只有1帧的动画是无法计算的....
 
+		uint32 lastFrame = frameNum - 1;
+
 		//最后一帧动画的时间戳，超过这个时间戳就意味这个动画播放结束
-		float32 lastFrameTime = m_currAnim->frameList[frameNum - 1].time;
+		float32 lastFrameTime = m_currAnim->frameList[lastFrame].time;
 		if (m_animPlayTime >= lastFrameTime)
 		{
-			m_animPlayTime = m_animPlayTime - lastFrameTime;
-			m_currAnimFrame = 0;
-			if (!m_playLoop)
-			{
-				m_stopAnim = true;
-				return;
-			}
+			m_animPlayTime = lastFrameTime;
+			m_currAnimFrame = lastFrame;
+
+			m_stopAnim = true;
+
+			CalcSkelAnimMatrix(m_currAnim, lastFrame, lastFrame, 0.0f);
+
+			return;
 		}
 
 		//插值比例，取值0-1之间
 		float32 lerp = 0;
 
-		for (uint32 i = m_currAnimFrame; i < frameNum - 1; i++)
+		for (uint32 i = m_currAnimFrame; i < lastFrame; i++)
 		{
 			float32 currFrameTime = m_currAnim->frameList[i].time;
 			float32 nextFrameTime = m_currAnim->frameList[i + 1].time;
@@ -142,8 +147,11 @@ void Model::CalcSkelAnimMatrix(const SkelAnimation* anim, uint32 currFrameIndex,
 
 void Model::SetCurrentAnimation(const char8* animName)
 {
-	auto iter = m_animList.find(animName);
-	m_currAnim = (iter != m_animList.end()) ? &iter->second : nullptr;
+	auto iter = m_animSlotMap.find(animName);
+	uint32 slot = iter->second;
+	if (slot >= m_animList.size()) return;
+
+	m_currAnim = (iter != m_animSlotMap.end()) ? &m_animList[slot] : nullptr;
 
 	m_animPlayTime = 0;
 	m_currAnimFrame = 0;
@@ -151,10 +159,9 @@ void Model::SetCurrentAnimation(const char8* animName)
 	CalcSkelAnimMatrix(m_currAnim, 0, 0, 0.0f);
 }
 
-void Model::PlayAnimation(bool loop)
+void Model::PlayAnimation()
 {  
 	m_stopAnim = false;
-	m_playLoop = loop;
 }
 
 void Model::PauseAnimation()
@@ -165,7 +172,6 @@ void Model::PauseAnimation()
 void Model::StopAnimation()
 {
 	m_stopAnim = true;
-	m_playLoop = false;
 
 	m_animPlayTime = 0;
 	m_currAnimFrame = 0;
@@ -182,9 +188,15 @@ void Model::SetCurrentAnimationFrame(uint32 frame)
 	CalcSkelAnimMatrix(m_currAnim, m_currAnimFrame, m_currAnimFrame, 0.0f);
 }
 
-uint32 Model::GetAnimationFrameNum(const char8* animName)
+uint32 Model::GetCurrentAnimationFrameNum()
 {
 	return (m_currAnim != nullptr) ? (uint32)m_currAnim->frameList.size() : 0;
+}
+
+const char8* Model::GetAnimationName(uint32 index)
+{
+	if (index >= m_animList.size()) return "";
+	return m_animList[index].name.c_str();
 }
 
 const char8* Model::GetCurrentAnimationName()
