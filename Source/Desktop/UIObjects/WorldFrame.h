@@ -11,12 +11,7 @@ namespace Pharos
 			virtual ~WorldFrame(void);
 
 		private:
-			Renderer*		m_renderer;
 			RenderFont*		m_renderFont;
-
-			//Font*			m_font;
-			//uint32			m_fontIndex;
-
 
 		public:
 			virtual bool Init();
@@ -30,6 +25,4 @@ namespace Pharos
 			virtual void Render(float32 fElapsed);
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::WorldFrame>	WorldFramePtr;
 }

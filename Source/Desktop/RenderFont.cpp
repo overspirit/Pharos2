@@ -90,7 +90,7 @@ bool RenderFont::LoadFont(const char8* fontFilePath)
 
 void RenderFont::RenderText(const char8* text, int32 textLen, int32 x, int32 y)
 {
-	FillTextVertBuffer(text, textLen, x, y);
+	uint32 vertNum = FillTextVertBuffer(text, textLen, x, y);
 
 	float32 fontBaseValue = sFontTexMgr->GetFontDisBase(m_fontInfoIndex);
 	float32 fontScaleValue = sFontTexMgr->GetFontDisScale(m_fontInfoIndex);
@@ -99,15 +99,15 @@ void RenderFont::RenderText(const char8* text, int32 textLen, int32 x, int32 y)
 	{
 		m_fontShadowDistanceVar->SetValue(Vector4Df(fontBaseValue, fontScaleValue, 0, 0));
 
-		sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], (uint32)m_vertBuffer.size(), m_fontShadowTech);
+		sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], vertNum, m_fontShadowTech);
 	}
 
 	m_fontDistanceVar->SetValue(Vector4Df(fontBaseValue, fontScaleValue, 0, 0));
 
-	sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], (uint32)m_vertBuffer.size(), m_fontTech);
+	sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], vertNum, m_fontTech);
 }
 
-void RenderFont::FillTextVertBuffer(const char8* text, int32 textLen, int32 x, int32 y)
+uint32 RenderFont::FillTextVertBuffer(const char8* text, int32 textLen, int32 x, int32 y)
 {
 	const char8* temp = text;
 
@@ -156,6 +156,8 @@ void RenderFont::FillTextVertBuffer(const char8* text, int32 textLen, int32 x, i
 
 		i += 6;
 	}
+
+	return i;
 }
 
 void RenderFont::SetFontCharSize(int32 width, int32 height)

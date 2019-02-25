@@ -7,6 +7,8 @@ Frame::Frame(void)
 {
 	m_type = "Frame";
 
+	m_backDropTex = nullptr;
+
 	m_bEnable = true;
 	m_bDrawGray = false;
 	m_bHidden = false;
@@ -31,7 +33,7 @@ bool Frame::LoadFromXml(XmlNode* xmlNode)
 	{
 		for (XmlNode* childNode = framesNode->GetFirstNode(); childNode != nullptr; childNode = childNode->GetNextSibling())
 		{
-			UIObjectPtr child = sDesktopMgr->GenerateUIObject(childNode, m_name.c_str());
+			UIObject* child = sDesktopMgr->GenerateUIObject(childNode, m_name.c_str());
 			if (child != nullptr)
 			{
 				this->AddChild(child);
@@ -60,7 +62,7 @@ Rect2Di Frame::GetEdgeFromXmlNode(XmlNode* xmlNode, const char8* name)
 	return rect;
 }
 
-TexturePtr Frame::GetTextureFromXmlNode(XmlNode* xmlNode, const char8* name)
+Texture* Frame::GetTextureFromXmlNode(XmlNode* xmlNode, const char8* name)
 {
 	XmlNode* styleNode = xmlNode->GetFirstNode(name);
 	if (styleNode == nullptr) return nullptr;
@@ -71,11 +73,11 @@ TexturePtr Frame::GetTextureFromXmlNode(XmlNode* xmlNode, const char8* name)
 	return sDesktopMgr->GenerateUIObjectCastType<Texture>(texNode, m_name.c_str());
 }
 
-void Frame::AddChild(UIObjectPtr child)
+void Frame::AddChild(UIObject* child)
 {
 	if (child == nullptr) return;
 
-	UIObjectPtr parent = sDesktopMgr->GetControl(m_name.c_str());
+	UIObject* parent = sDesktopMgr->GetControl(m_name.c_str());
 
 	child->SetParent(parent);
 
@@ -84,6 +86,8 @@ void Frame::AddChild(UIObjectPtr child)
 
 bool Frame::onInputMessage(const tagInputMsg& msg)
 {
+	if (m_bHidden || !m_bEnable) return false;
+
 	bool result = false;
 
 	switch(msg.type)
@@ -95,8 +99,7 @@ bool Frame::onInputMessage(const tagInputMsg& msg)
 
 	for (auto obj : m_childList)
 	{
-		UIObjectPtr uiObj = obj.lock();
-		result = uiObj->onInputMessage(msg) || result;
+		result = obj->onInputMessage(msg) || result;
 	}
 
 	return result;
@@ -117,11 +120,6 @@ bool Frame::onMouseMove(const tagInputMsg& msg)
 	return false;
 }
 
-void Frame::PushEvent(int32 v1, float32 v2)
-{
-	sDesktopMgr->ReceivedEvent(m_name.c_str(), v1, v2);
-}
-
 void Frame::Update(float32 fElapsed)
 {
 	if (m_backDropTex != nullptr)
@@ -133,13 +131,14 @@ void Frame::Update(float32 fElapsed)
 
 	for (auto obj : m_childList)
 	{
-		UIObjectPtr uiObj = obj.lock();
-		uiObj->Update(fElapsed);
+		obj->Update(fElapsed);
 	}
 }
 
 void Frame::Render(float32 fElapsed)
 {	
+	if (m_bHidden) return;
+
 	if (m_backDropTex != nullptr)
 	{
 		m_backDropTex->Render(fElapsed);
@@ -149,7 +148,6 @@ void Frame::Render(float32 fElapsed)
 
 	for (auto obj : m_childList)
 	{
-		UIObjectPtr uiObj = obj.lock();
-		uiObj->Render(fElapsed);
+		obj->Render(fElapsed);
 	}
 }

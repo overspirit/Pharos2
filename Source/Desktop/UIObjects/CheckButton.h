@@ -13,11 +13,11 @@ namespace Pharos
 			DECLARE_UI_CLASS(CheckButton);
 
 		protected:
-			TexturePtr		m_checkTex;
+			Texture*		m_checkTex;
 			bool			m_isCheck;
 
 		protected:
-			virtual void PushEvent(int32 v1, float32 v2);
+			bool onLeftButtonUp(const tagInputMsg& msg);
 			
 		public:
 			virtual bool LoadFromXml(XmlNode* xmlNode);
@@ -26,6 +26,4 @@ namespace Pharos
 			virtual void Render(float32 fElapsed);
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::CheckButton>	CheckButtonPtr;
 }

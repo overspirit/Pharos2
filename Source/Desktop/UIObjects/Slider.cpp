@@ -17,6 +17,13 @@ Slider::Slider()
 
 	m_bInThumb = false;
 	m_thumbState = EBS_PopUp;
+
+	m_thumbBackTex = nullptr;
+	m_thumbPushTex = nullptr;
+	m_thumbHighlightTex = nullptr;
+	m_thumbDisableTex = nullptr;
+
+	m_currThumbTex = nullptr;
 }
 
 Slider::~Slider()
@@ -67,6 +74,29 @@ bool Slider::LoadFromXml(XmlNode* xmlNode)
 	return true;
 }
 
+void Slider::SetValueRange(float32 minValue, float32 maxValue, float32 step)
+{
+	m_minValue = minValue;
+	m_maxValue = maxValue;
+	m_step = step;
+	m_currValue = minValue;
+
+	EventArgs eventArgs(EventType::ValueChange);
+	eventArgs.argNum = 1;
+	eventArgs.args[0].fa = m_currValue;
+	DoEvent(eventArgs);
+}
+
+void Slider::SetValue(float32 value)
+{
+	m_currValue = value;
+
+	EventArgs eventArgs(EventType::ValueChange);
+	eventArgs.argNum = 1;
+	eventArgs.args[0].fa = m_currValue;
+	DoEvent(eventArgs);
+}
+
 void Slider::Update(float32 fElapsed)
 {
 	Frame::Update(fElapsed);
@@ -75,7 +105,7 @@ void Slider::Update(float32 fElapsed)
 
 	//计算滑块中心点的位置(比例点)
 	//(m_fValue - m_fMinValue) / (m_fMaxValue - m_fMinValue)为值所在最大值和最小值之间的比例
-	float32 scale = (m_currValue - m_minValue) / (m_maxValue - m_minValue);	
+	float32 scale = (m_currValue - m_minValue) / (m_maxValue - m_minValue);
 	int32 edgeLeft = m_rect.left + m_thumbEdge.left;
 	int32 edgeTop = m_rect.top + m_thumbEdge.top;
 	int32 edgeWidth = (m_rect.right - m_thumbEdge.right) - edgeLeft;
@@ -120,6 +150,8 @@ void Slider::Update(float32 fElapsed)
 
 void Slider::Render(float32 fElapsed)
 {
+	if (m_bHidden) return;
+
 	Frame::Render(fElapsed);
 
 	if (m_thumbBackTex != nullptr)
@@ -130,7 +162,7 @@ void Slider::Render(float32 fElapsed)
 	if (m_currThumbTex != nullptr)
 	{
 		m_currThumbTex->Render(fElapsed);
-	}	
+	}
 }
 
 void Slider::SetThumbState(ButtonState state)
@@ -170,7 +202,7 @@ bool Slider::onLeftButtonDown(const tagInputMsg& msg)
 {
 	if (!m_bEnable) return false;
 
-	if (m_rect.IsPointInside(msg.p1, msg.p2))
+	//if (m_rect.IsPointInside(msg.p1, msg.p2))
 	{
 		if (m_rtThumb.IsPointInside(msg.p1, msg.p2))
 		{
@@ -186,20 +218,18 @@ bool Slider::onLeftButtonDown(const tagInputMsg& msg)
 
 bool Slider::onLeftButtonUp(const tagInputMsg& msg)
 {
-	if (!m_bEnable) return false;
-
-	m_bInThumb = false;
+	if (!m_bEnable) return false;	
 
 	if (m_rtThumb.IsPointInside(msg.p1, msg.p2))
 	{
 		SetThumbState(EBS_Highlight);
-
-		return true;
 	}
 	else
 	{
 		SetThumbState(EBS_PopUp);
 	}
+
+	m_bInThumb = false;
 
 	return false;
 }
@@ -253,14 +283,17 @@ bool Slider::onMouseMove(const tagInputMsg& msg)
 		}
 		else
 		{
-			int32 stepLen = (int32)(len * m_step / (m_maxValue - m_minValue));
-			m_currValue = (mouse - start + stepLen / 2) / stepLen * m_step + m_minValue;
+			float32 stepLen = len * m_step / (m_maxValue - m_minValue);
+			m_currValue = (float32)Math::round((mouse - start) / stepLen) * m_step + m_minValue;
 		}
 
 		//保证值在最大值和最小值之间
 		m_currValue = Math::clamp(m_currValue, m_minValue, m_maxValue);
 
-		PushEvent(0, m_currValue);
+		EventArgs eventArgs(EventType::ValueChange);
+		eventArgs.argNum = 1;
+		eventArgs.args[0].fa = m_currValue;
+		DoEvent(eventArgs);
 
 		return true;
 	}

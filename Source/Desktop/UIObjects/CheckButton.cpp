@@ -8,6 +8,8 @@ CheckButton::CheckButton(void)
 	m_type = "CheckButton";
 
 	m_isCheck = false;
+
+	m_checkTex = nullptr;
 }
 
 CheckButton::~CheckButton(void)
@@ -24,11 +26,32 @@ bool CheckButton::LoadFromXml(XmlNode* xmlNode)
 	return true;
 }
 
-void CheckButton::PushEvent(int32 v1, float32 v2)
-{
-	m_isCheck = !m_isCheck;
+bool CheckButton::onLeftButtonUp(const tagInputMsg& msg)
+{ 
+	if (!m_bEnable) return false;
 
-	sDesktopMgr->ReceivedEvent(m_name.c_str(), m_isCheck, v2);
+	if (m_rect.IsPointInside(msg.p1, msg.p2))
+	{
+		SetState(EBS_Highlight);
+	}
+	else
+	{
+		SetState(EBS_PopUp);
+	}
+
+	if (m_isInsideDown)
+	{
+		m_isCheck = !m_isCheck;
+
+		EventArgs eventArgs(EventType::Click);
+		eventArgs.argNum = 1;
+		eventArgs.args[0].ba = m_isCheck;
+		DoEvent(eventArgs);
+	}
+
+	m_isInsideDown = false;
+
+	return false;
 }
 
 void CheckButton::Update(float32 fElapsed)
@@ -43,6 +66,8 @@ void CheckButton::Update(float32 fElapsed)
 
 void CheckButton::Render(float32 fElapsed)
 {
+	if (m_bHidden) return;
+
 	Frame::Render(fElapsed);
 
 	if (m_isCheck && m_checkTex != nullptr)

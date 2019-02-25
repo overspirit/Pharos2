@@ -22,6 +22,8 @@ DesktopMgr::DesktopMgr()
 	m_renderBlock = nullptr;
 	m_renderLayout = nullptr;
 	m_vertCount = 0;
+
+	m_worldFrame = nullptr;
 }
 
 DesktopMgr::~DesktopMgr()
@@ -31,7 +33,7 @@ DesktopMgr::~DesktopMgr()
 
 bool DesktopMgr::Init()
 {
-	m_worldFrame = MakeSharedPtr<WorldFrame>();	
+	m_worldFrame = new WorldFrame();	
 	m_worldFrame->Init();
 
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
@@ -53,9 +55,20 @@ bool DesktopMgr::Init()
 
 void DesktopMgr::Destroy()
 {
-	m_worldFrame = nullptr;
+	SAFE_DELETE(m_worldFrame);
+
+	for (auto frame : m_frameList)
+	{
+		SAFE_DELETE(frame.second);
+	}
 
 	m_frameList.clear();
+
+	for (auto control : m_controlList)
+	{
+		SAFE_DELETE(control);
+	}
+
 	m_controlList.clear();
 
 	SAFE_DELETE(m_renderBlock);
@@ -84,7 +97,7 @@ bool DesktopMgr::LoadUILayoutFile(const char8* szFile)
 	for (uint32 i = 0; i < pRoot->GetChildNum(); i++)
 	{
 		XmlNode* childNode = pRoot->GetChildNode(i);
-		UIObjectPtr uiObj = this->GenerateUIObject(childNode, "");
+		UIObject* uiObj = this->GenerateUIObject(childNode, "");
 		if (uiObj != nullptr)
 		{
 			m_worldFrame->AddChild(uiObj);
@@ -94,24 +107,19 @@ bool DesktopMgr::LoadUILayoutFile(const char8* szFile)
 	return true;
 }
 
-bool DesktopMgr::RegisterControlViewer(IControlViewer* viewer)
+bool DesktopMgr::RegisterControlViewer(const char8* uiName, IControlViewer* viewer, EVENT_CALLBACK callback)
 {
 	if (viewer == nullptr) return false;
 
-	m_viewerList.push_back(viewer);
+	UIObject* uiObj = GetControl(uiName);
+	if (uiObj == nullptr) return false;
+
+	uiObj->AttachEventCallback(viewer, callback);
 
 	return true;
 }
 
-void DesktopMgr::ReceivedEvent(const char8* name, int32 v1, float32 v2)
-{
-	for (IControlViewer* viewer : m_viewerList)
-	{
-		viewer->onControlValueChange(name, v1, v2);
-	}
-}
-
-UIObjectPtr DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentName)
+UIObject* DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentName)
 {
 	if (xmlNode == nullptr) return nullptr;
 
@@ -122,7 +130,7 @@ UIObjectPtr DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentNa
 	XmlAttribute* nameAttr = xmlNode->GetAttribute("name");
 	if (nameAttr != nullptr) name = nameAttr->GetStringValue();
 
-	UIObjectPtr uiObj;
+	UIObject* uiObj = nullptr;
 
 	if (!name.empty())		//名字不为空就要判断是否存在这个UIObject，不允许有重名
 	{
@@ -134,7 +142,7 @@ UIObjectPtr DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentNa
 
 		m_frameList[name] = uiObj;
 	}
-	else   //名字为空就进入m_controlList，因为所有parent和child都使用weak_ptr, 不保存列表就会被释放
+	else   //名字为空就进入m_controlList
 	{
 		uiObj = sUIFactroy.CreateObject(type);
 		if (uiObj == nullptr) return nullptr;
@@ -142,7 +150,7 @@ UIObjectPtr DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentNa
 		m_controlList.push_back(uiObj);
 	}
 
-	UIObjectPtr parent = GetControl(parentName);
+	UIObject* parent = GetControl(parentName);
 	if (parent == nullptr) parent = m_worldFrame;
 	uiObj->SetParent(parent);
 
@@ -151,9 +159,9 @@ UIObjectPtr DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentNa
 	return uiObj;
 }
 
-UIObjectPtr DesktopMgr::GetControl(const char8* szName)
+UIObject* DesktopMgr::GetControl(const char8* szName)
 {
-	map<string, UIObjectPtr>::iterator iter = m_frameList.find(szName);
+	map<string, UIObject*>::iterator iter = m_frameList.find(szName);
 	return (iter != m_frameList.end()) ? iter->second : nullptr;
 }
 

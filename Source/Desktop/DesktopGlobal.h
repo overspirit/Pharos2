@@ -2,7 +2,6 @@
 
 #include "Pharos.h"
 
-#include "VarNode.h"
 #include "UIDefine.h"
 #include "IControlViewer.h"
 

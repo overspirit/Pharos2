@@ -15,12 +15,12 @@ namespace Pharos
 		protected:
 			PutType			m_putType;
 
- 			TexturePtr		m_thumbBackTex;
-			TexturePtr		m_thumbPushTex;
-			TexturePtr		m_thumbHighlightTex;
-			TexturePtr		m_thumbDisableTex;
+ 			Texture*		m_thumbBackTex;
+			Texture*		m_thumbPushTex;
+			Texture*		m_thumbHighlightTex;
+			Texture*		m_thumbDisableTex;
  
-			TexturePtr		m_currThumbTex;
+			Texture*		m_currThumbTex;
 
 			Rect2Di			m_rtThumb;
 			Size2Di			m_thumbSize;
@@ -41,14 +41,14 @@ namespace Pharos
 
 			void SetThumbState(ButtonState state);
 
-
 		public:
 			virtual bool LoadFromXml(XmlNode* xmlNode);
 
+			virtual void SetValueRange(float32 minValue, float32 maxValue, float32 step);
+			virtual void SetValue(float32 value);
+			virtual float32 GetValue() { return m_currValue; }
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::Slider>	SliderPtr;
 }

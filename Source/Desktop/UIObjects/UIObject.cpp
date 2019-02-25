@@ -6,6 +6,8 @@
 UIObject::UIObject(void)
 {
 	m_type = "UIObject";
+
+	m_parent = nullptr;
 }
 
 UIObject::~UIObject(void)
@@ -67,6 +69,24 @@ bool UIObject::onInputMessage(const tagInputMsg& msg)
 	return false;
 }
 
+void UIObject::DoEvent(const EventArgs& eventArgs)
+{
+	for (auto callback : m_callbackList)
+	{
+		IControlViewer* viewer = callback.first;
+		EVENT_CALLBACK func = callback.second;
+
+		(viewer->*func)(this, eventArgs);
+
+		printf("DoEvent name:%s event:%d\n", this->m_name.c_str(), eventArgs.type);
+	}
+}
+
+void UIObject::AttachEventCallback(IControlViewer* viewer, EVENT_CALLBACK callback)
+{
+	m_callbackList.push_back(std::make_pair(viewer, callback));
+}
+
 const char8* UIObject::GetAttributeStringValue(XmlNode* node, const char8* name)
 {
 	XmlAttribute* attr = node->GetAttribute(name);
@@ -116,7 +136,7 @@ tagAnchor UIObject::LoadAnchor(XmlNode* xmlNode)
 	anchor.point = GetAnchorType(point);
 
 	const char8* name = GetAttributeStringValue(xmlNode, "relativeTo");
-	UIObjectPtr relativeTo = DesktopMgr::Inst()->GetControl(name);
+	UIObject* relativeTo = DesktopMgr::Inst()->GetControl(name);
 	if (relativeTo == nullptr)
 	{
 		anchor.relativeTo = m_parent;
@@ -164,7 +184,7 @@ void UIObject::Update(float32 fElapsed)
 	//计算m_rect
 	for (auto& anchor : m_anchorList)
 	{
-		UIObjectPtr relativeTo = anchor.relativeTo.lock();
+		UIObject* relativeTo = anchor.relativeTo;
 		const Rect2Di& relativeRect = relativeTo->GetRect();
 		const Point2Di relativeRectCenter = relativeRect.GetCenter();
 		const Size2Di& offset = anchor.offset;
@@ -221,6 +241,5 @@ void UIObject::Update(float32 fElapsed)
 
 void UIObject::Render(float32 fElapsed)
 {
-	sRenderSpirite->RenderWireFrame(0xFFDF932B, Rect2Di(m_rect.left - 1, m_rect.top - 1, m_rect.right + 1, m_rect.bottom + 1));
+	//sRenderSpirite->RenderWireFrame(0xFFDF932B, Rect2Di(m_rect.left - 1, m_rect.top - 1, m_rect.right + 1, m_rect.bottom + 1));
 }
-

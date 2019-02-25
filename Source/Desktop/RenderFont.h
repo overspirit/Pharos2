@@ -41,7 +41,7 @@ namespace Pharos
 			vector<DecalColorVertex>		m_vertBuffer;
 
 		private:
-			void FillTextVertBuffer(const char8* text, int32 textLen, int32 x, int32 y);
+			uint32 FillTextVertBuffer(const char8* text, int32 textLen, int32 x, int32 y);
 
 		public:
 			bool LoadFont(const char8* fontFilePath);

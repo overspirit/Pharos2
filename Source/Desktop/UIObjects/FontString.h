@@ -13,18 +13,16 @@ namespace Pharos
 			DECLARE_UI_CLASS(FontString);
 
 		protected:
-			//SpriteFontPtr		m_fontHandle;
-			//SpriteBrushPtr		m_fontBrush;
-			TextAlignType	m_texAlign;
+			RenderFont*		m_renderFont;
 			string			m_showText;
 
 		public:
 			virtual bool LoadFromXml(XmlNode* xmlNode);
 
+			virtual void SetText(const char8* text) { m_showText = text; }
+
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::FontString>		FontStringPtr;
 }

@@ -11,6 +11,12 @@ Button::Button(void)
 	m_isInsideDown = false;
 
 	m_currColor = 0xFFFFFFFF;
+
+	m_pushTex = nullptr;
+	m_highlightTex = nullptr;
+	m_disableTex = nullptr;
+
+	m_currTex = nullptr;
 }
 
 Button::~Button(void)
@@ -42,6 +48,8 @@ void Button::Update(float32 fElapsed)
 
 void Button::Render(float32 fElapsed)
 {
+	if (m_bHidden) return;
+
 	Frame::Render(fElapsed);
 
 	if (m_currTex != nullptr)
@@ -103,8 +111,8 @@ void Button::Disable()
 
 bool Button::onLeftButtonDown(const tagInputMsg& msg)
 {
-	if (!m_bEnable) return false;
-    
+	if (!m_bEnable) return false;    
+
 	if (m_rect.IsPointInside(msg.p1, msg.p2))
 	{
 		//鼠标在控件中并且被按下就是按下状态
@@ -124,7 +132,7 @@ bool Button::onLeftButtonDown(const tagInputMsg& msg)
 bool Button::onLeftButtonUp(const tagInputMsg& msg)
 {
 	if (!m_bEnable) return false;
-    
+
 	if (m_rect.IsPointInside(msg.p1, msg.p2))
 	{
 		SetState(EBS_Highlight);
@@ -136,7 +144,7 @@ bool Button::onLeftButtonUp(const tagInputMsg& msg)
 
 	if (m_isInsideDown)
 	{
-		PushEvent(0, 0);
+		DoEvent(EventArgs(EventType::Click));
 	}
 
 	m_isInsideDown = false;
@@ -153,6 +161,8 @@ bool Button::onMouseMove(const tagInputMsg& msg)
 	if (m_isInsideDown)
 	{
 		SetState(EBS_PushDown);
+
+		return true;
 	}
 	else
 	{

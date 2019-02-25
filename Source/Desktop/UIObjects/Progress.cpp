@@ -9,6 +9,8 @@ Progress::Progress(void)
 
 	m_putType = EPT_End;
 
+	m_progressTex = nullptr;
+
 	m_minValue = 0;
 	m_maxValue = 100.0f;
 	m_value = 0;
@@ -75,6 +77,8 @@ void Progress::Update(float32 fElapsed)
 
 void Progress::Render(float32 fElapsed)
 {
+	if (m_bHidden) return;
+
 	Frame::Render(fElapsed);
 
 	if (m_progressTex != nullptr)

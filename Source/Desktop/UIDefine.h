@@ -46,7 +46,7 @@ namespace Pharos
 		{
 			tagAnchor(){ point = EAT_End; relativePoint = EAT_End; }
 			AnchorType					point;				//参考点
-			std::weak_ptr<UIObject>		relativeTo;			//参考控件，默认为父控件
+			UIObject*					relativeTo;			//参考控件，默认为父控件
 			AnchorType					relativePoint;		//参考控件的参考点，默认为跟参考点一致
 			Size2Di						offset;				//偏移
 		};

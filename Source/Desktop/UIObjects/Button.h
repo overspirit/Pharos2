@@ -16,11 +16,11 @@ namespace Pharos
 			ButtonState		m_btnState;			//按钮状态
 			bool			m_isInsideDown;
 
-			TexturePtr		m_pushTex;
-			TexturePtr		m_highlightTex;
-			TexturePtr		m_disableTex;
+			Texture*		m_pushTex;
+			Texture*		m_highlightTex;
+			Texture*		m_disableTex;
  
-			TexturePtr		m_currTex;
+			Texture*		m_currTex;
 			Color4			m_currColor;
 
 			Point2Di		m_currMouse;
@@ -44,6 +44,4 @@ namespace Pharos
 			virtual void Disable();
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::Button>	ButtonPtr;
 }

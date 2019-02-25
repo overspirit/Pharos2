@@ -27,6 +27,4 @@ namespace Pharos
 			virtual void Render(float32 fElapsed);
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::Texture>	TexturePtr;
 }

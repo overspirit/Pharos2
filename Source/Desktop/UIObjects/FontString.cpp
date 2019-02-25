@@ -6,35 +6,28 @@
 FontString::FontString(void)
 {
 	m_type = "FontString";
+
+	m_renderFont = nullptr;
 }
 
 FontString::~FontString(void)
 {
-
+	SAFE_DELETE(m_renderFont);
 }
 
 bool FontString::LoadFromXml(XmlNode* xmlNode)
 {
-	//m_pParent = owner;
+	if (!UIObject::LoadFromXml(xmlNode)) return false;
+	
+	const char8* fontFile = GetAttributeStringValue(xmlNode, "font_file");
+	int32 fontWidth = GetAttributeIntValue(xmlNode, "font_width");
+	int32 fontHeight = GetAttributeIntValue(xmlNode, "font_height");
+	m_showText = GetAttributeStringValue(xmlNode, "text");
 
-// 	m_strName = varMgr.GetStringValue("name");
-// 	const char8* inherit = varMgr.GetStringValue("inherit");
-// 
-// 	m_showText = varMgr.GetStringValue("text");
-// 	m_texAlign = GetTextAlignType(varMgr.GetStringValue("text_align"));
-// 	//m_fontColor = varMgr.GetColorValue("font_color");
-// 
-// 	const char8* fontFace = varMgr.GetStringValue("face_file");
-// 	int32 fontWidth = varMgr.GetIntValue("font_width");
-// 	int32 fontHeight = varMgr.GetIntValue("font_height");
-// 	int32 fontWeight = varMgr.GetIntValue("font_weight");
-// 	int32 fontPitch = varMgr.GetIntValue("font_pitch");
-// 	
-// 	//m_fontHandle = Sprite2D::Inst()->CreateFontHandle(fontFace, fontWidth, fontHeight, fontWeight);
-// 	
-// 	varMgr.CallFuncWithName("Region", this, (UI_LOAD_FUNC)&FontString::LoadRegionData, nullptr);
+	m_renderFont = sDesktopMgr->GenerateRenderFont(fontFile);
+	m_renderFont->SetFontCharSize(fontWidth, fontHeight);
 
-	return false;
+	return true;
 }
 
 void FontString::Update(float32 fElapsed)
@@ -44,5 +37,5 @@ void FontString::Update(float32 fElapsed)
 
 void FontString::Render(float32 fElapsed)
 {
-	//Sprite2D::Inst()->DrawText(m_fontHandle, m_showText.c_str(), -1, m_rect.left, m_rect.top, m_fontBrush);
+	m_renderFont->RenderText(m_showText.c_str(), -1, m_rect.left, m_rect.top);
 }

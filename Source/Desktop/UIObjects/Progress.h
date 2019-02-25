@@ -13,7 +13,7 @@ namespace Pharos
 			DECLARE_UI_CLASS(Progress);
 
 		protected:
-			TexturePtr			m_progressTex;	//进度条纹理
+			Texture*			m_progressTex;	//进度条纹理
 			Rect2Di				m_progressEdge;
 			Rect2Di				m_progressRect;
 			PutType				m_putType;		//摆放类型
@@ -35,6 +35,4 @@ namespace Pharos
 			virtual void SetValue(float32 fValue);
 		};
 	}
-
-	typedef std::shared_ptr<Desktop::Progress>	ProgressPtr;
 }
