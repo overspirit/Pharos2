@@ -37,6 +37,14 @@
       oColor = dot(-g_light_direction, normal) * g_light_color + g_environment_color;       
       oTex = tex;
    }
+   
+   void Sprite3DTextureVS(float4 pos : POSITION, float2 tex : TEXCOORD, 
+                    out float4 oColor : COLOR, out float2 oTex : TEXCOORD, out float4 oPos : SV_POSITION)
+   {
+      oPos = mul(pos, mul(g_world, mul(g_view, g_proj)));
+      oColor = float4(1.0, 1.0, 1.0, 1.0);       
+      oTex = tex;
+   }
         
    void Sprite3DColorVS(float4 pos : POSITION, float4 color : COLOR,
                         out float4 oColor : COLOR, out float4 oPos : SV_POSITION)
@@ -118,6 +126,16 @@
       
       <param name="vertex_shader" value="Sprite3DNormalVS"/>
       <param name="pixel_shader" value="Sprite3DColorPS"/>
+    </pass>
+  </technique>
+
+  <technique name="Sprite3DTexture">
+    <pass name="p0">
+      <param name="cull_mode" value="none"/>
+      <!--<param name="fill_mode" value="wireframe"/>-->
+
+      <param name="vertex_shader" value="Sprite3DTextureVS"/>
+      <param name="pixel_shader" value="Sprite3DTexturePS"/>
     </pass>
   </technique>
   

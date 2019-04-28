@@ -206,6 +206,7 @@ bool MyApp::onPauseAnimationClick(UIObject* obj, const EventArgs& eventArgs)
 bool MyApp::onPrevAnimationClick(UIObject* obj, const EventArgs& eventArgs)
 {
 	if (m_model == nullptr) return false;
+	if (m_animNameList.size() <= 0) return false;
 
 	m_currAnimIndex--;
 	m_currAnimIndex = m_currAnimIndex < 0 ? (uint32)(m_animNameList.size() - 1) : m_currAnimIndex;
@@ -220,6 +221,7 @@ bool MyApp::onPrevAnimationClick(UIObject* obj, const EventArgs& eventArgs)
 bool MyApp::onNextAnimationClick(UIObject* obj, const EventArgs& eventArgs)
 {
 	if (m_model == nullptr) return false;
+	if (m_animNameList.size() <= 0) return false;
 
 	m_currAnimIndex++;
 	m_currAnimIndex = m_currAnimIndex >= m_animNameList.size() ? 0 : m_currAnimIndex;
