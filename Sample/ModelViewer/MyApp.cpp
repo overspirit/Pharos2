@@ -67,7 +67,7 @@ bool MyApp::Init()
 	//UI
 	//////////////////////////////////////////////////////////////////////////
 	sDesktopMgr->SetDesktopSize(wndSize.width, wndSize.height);
-	sDesktopMgr->LoadUILayoutFile("Interface/Console/Console.xml");
+	sDesktopMgr->LoadUILayoutFile("Interface/ViewerPanel/Panel.xml");
 
 	m_playBtn = (Button*)sDesktopMgr->GetControl("PlayAnim");
 	m_pauseBtn = (Button*)sDesktopMgr->GetControl("PauseAnim");
