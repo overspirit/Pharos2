@@ -54,7 +54,6 @@
     <ClCompile Include="..\Source\Desktop\UIObjects\Texture.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\UIObject.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\WorldFrame.cpp" />
-    <ClCompile Include="..\Source\Desktop\VarNode.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.cpp" />
@@ -130,7 +129,6 @@
     <ClInclude Include="..\Source\Desktop\UIObjects\Texture.h" />
     <ClInclude Include="..\Source\Desktop\UIObjects\UIObject.h" />
     <ClInclude Include="..\Source\Desktop\UIObjects\WorldFrame.h" />
-    <ClInclude Include="..\Source\Desktop\VarNode.h" />
     <ClInclude Include="..\Source\Math\AABBox3D.h" />
     <ClInclude Include="..\Source\Math\Color.h" />
     <ClInclude Include="..\Source\Math\Common.h" />

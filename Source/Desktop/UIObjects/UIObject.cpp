@@ -77,8 +77,6 @@ void UIObject::DoEvent(const EventArgs& eventArgs)
 		EVENT_CALLBACK func = callback.second;
 
 		(viewer->*func)(this, eventArgs);
-
-		printf("DoEvent name:%s event:%d\n", this->m_name.c_str(), eventArgs.type);
 	}
 }
 

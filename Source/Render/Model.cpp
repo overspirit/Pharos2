@@ -181,6 +181,8 @@ void Model::StopAnimation()
 
 void Model::SetCurrentAnimationFrame(uint32 frame)
 {
+	if (m_currAnim == nullptr) return;
+
 	uint32 maxFrame = (m_currAnim != nullptr) ? (uint32)m_currAnim->frameList.size() : 0;
 	m_currAnimFrame = Math::minimum(frame, maxFrame);
 	m_animPlayTime = m_currAnim->frameList[m_currAnimFrame].time;

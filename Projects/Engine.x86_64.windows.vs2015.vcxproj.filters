@@ -142,9 +142,6 @@
     <ClCompile Include="..\Source\Desktop\DesktopMgr.cpp">
       <Filter>Desktop</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Desktop\VarNode.cpp">
-      <Filter>Desktop</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Desktop\UIObjects\Button.cpp">
       <Filter>Desktop\UIObjects</Filter>
     </ClCompile>
@@ -494,9 +491,6 @@
       <Filter>Desktop</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Desktop\UIDefine.h">
-      <Filter>Desktop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Desktop\VarNode.h">
       <Filter>Desktop</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Desktop\UIObjects\Button.h">
