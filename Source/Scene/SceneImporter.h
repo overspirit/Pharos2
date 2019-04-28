@@ -57,7 +57,6 @@ namespace Pharos
 				SceneNodeData()
 				{
 					boundRadius = 0;
-					modelId = 0xFFFFFFFF;
 				}
 
 				string		nodeName;
@@ -67,7 +66,7 @@ namespace Pharos
 
 				vector<SceneNodeData>		childData;
 
-				uint32		modelId;				
+				vector<uint32>		modelIdList;
 			};
 
 		protected:

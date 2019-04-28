@@ -83,12 +83,19 @@ bool XmlSceneImporter::ReadSceneNodeData(XmlNode* node, SceneNodeData& nodeData)
 			
 			ReadSceneNodeData(childNode, *nodeData.childData.rbegin());
 		}
-		else if (strcmp(childNodeName, "model") == 0)
+		else if (strcmp(childNodeName, "item") == 0)
 		{
-			XmlAttribute* idAttr = childNode->GetAttribute("id");
-			if (idAttr != nullptr)
+			XmlAttribute* typeAttr = childNode->GetAttribute("type");
+			if (typeAttr == nullptr) continue;
+
+			const char8* itemType = typeAttr->GetStringValue();
+			if (strcmp(itemType, "model") == 0)
 			{
-				nodeData.modelId = idAttr->GetIntValue();
+				XmlAttribute* idAttr = childNode->GetAttribute("id");
+				if (idAttr != nullptr)
+				{
+					nodeData.modelIdList.push_back(idAttr->GetIntValue());
+				}
 			}
 		}
 	}

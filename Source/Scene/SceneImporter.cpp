@@ -42,8 +42,11 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 		if (child != nullptr) sceneNode->AddChildNode(child);
 	}
 
-	Model* model = this->CreateModel(m_modelDataList[data.modelId]);
-	sceneNode->AddModel(model);
+	for (auto modelId : data.modelIdList)
+	{
+		Model* model = this->CreateModel(m_modelDataList[modelId]);
+		sceneNode->AddModel(model);
+	}
 
 	return sceneNode;
 }
@@ -320,11 +323,15 @@ void SceneImporter::SaveSceneNodeData(SceneNodeData& nodeData, XmlNode* parentNo
 	XmlAttribute* nodeRadiusAttr = nodeNode->AppendAttribute("bounding_radius");
 	nodeRadiusAttr->SetValue(nodeData.boundRadius);
 
-	if (nodeData.modelId != 0xFFFFFFFF)
+	for(uint32 modelId : nodeData.modelIdList)
 	{
-		XmlNode* modelNode = nodeNode->AppendChild("model");
+		XmlNode* modelNode = nodeNode->AppendChild("item");
+
+		XmlAttribute* typeAttr = modelNode->AppendAttribute("type");
+		typeAttr->SetValue("model");
+
 		XmlAttribute* idAttr = modelNode->AppendAttribute("id");
-		idAttr->SetValue((int32)nodeData.modelId);
+		idAttr->SetValue((int32)modelId);
 	}
 
 	for (SceneNodeData& childData : nodeData.childData)
