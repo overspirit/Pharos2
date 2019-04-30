@@ -63,8 +63,8 @@ bool PlatformWindows::Init()
 	GetCurrentDirectoryA(MAX_PATH, path);
 	int32 len = (int32)strlen(path);
 	if (path[len] != '\\') path[len] = '\\';
-	string homePath = string(path) + "../Data/";
-	string bundlePath = string(path) + "../Data/";
+	string homePath = string(path) + "../";
+	string bundlePath = string(path) + "../Data/";	
 
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());

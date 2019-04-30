@@ -21,6 +21,7 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 
 	string imageFile = GetAttributeStringValue(xmlNode, "file");
 	m_imageColor = GetAttributeColorValue(xmlNode, "color");
+	m_imageColor = COLOR_ARGB_TO_RGBA(m_imageColor);
 
 	m_renderImage = sDesktopMgr->GenerateRenderImage(imageFile.c_str());
 

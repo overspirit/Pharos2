@@ -14,23 +14,7 @@ File::~File(void)
 
 bool File::Create(const char8* path, bool truncate)
 {
-	string fullPath = path;
-	if (DoCreate(fullPath.c_str(), truncate)) return true;
-
-	string homePath = sKernel->GetHomeDirectoryPath();
-	fullPath = homePath + path;
-	if (DoCreate(fullPath.c_str(), truncate)) return true;
-
-	string bundlePath = sKernel->GetBundleDirectoryPath();
-	fullPath = bundlePath + path;
-	if (DoCreate(fullPath.c_str(), truncate)) return true;
-
-	return false;
-}
-
-bool File::DoCreate(const char8* path, bool truncate)
-{
-    //如果该文件存在
+	//如果该文件存在
 	if (access(path, 0) == 0)
 	{
 		if (truncate)
@@ -56,26 +40,10 @@ bool File::DoCreate(const char8* path, bool truncate)
 
 	m_filePath = path;
 
-    return (m_fileHandel != nullptr);
+	return (m_fileHandel != nullptr);
 }
 
 bool File::Open(const char8* path)
-{
-	string fullPath = path;
-	if (DoOpen(fullPath.c_str())) return true;
-
-	string homePath = sKernel->GetHomeDirectoryPath();
-	fullPath = homePath + path;
-	if (DoOpen(fullPath.c_str())) return true;
-
-	string bundlePath = sKernel->GetBundleDirectoryPath();
-	fullPath = bundlePath + path;
-	if (DoOpen(fullPath.c_str())) return true;
-
-	return false;
-}
-
-bool File::DoOpen(const char8* path)
 {
 	//如果该文件存在
 	if (access(path, 0) != 0) return false;

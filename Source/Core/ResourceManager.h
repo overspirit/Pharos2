@@ -19,6 +19,12 @@ namespace Pharos
 			map<string, ResBase*>	m_storageResList;
 
 			vector<ResBase*>		m_pendingResList;
+
+			string			m_currWorkPath;
+
+		private:
+			string FindResourcePath(const char8* path);
+
 		public:
 			virtual bool Init();			
 			virtual void Destroy();

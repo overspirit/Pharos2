@@ -304,9 +304,7 @@ bool D3D11EffectLoader::LoadInclude(XmlNode* pNode)
 		const char8* szPublic = pAttr->GetStringValue();
 		if (!this->Load(szPublic))
 		{
-			Utils::Path relativePath(m_filePath.c_str());
-			string fullPath = string(relativePath.GetFullPath()) + szPublic;
-			if (!this->Load(fullPath.c_str())) return false;
+			return false;
 		}
 	}
 

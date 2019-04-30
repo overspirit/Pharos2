@@ -22,6 +22,8 @@ bool ResourceManager::Init()
 	FT_Init_FreeType(&m_fontLib);
 	FreeImage_Initialise();
 
+	m_currWorkPath = sKernel->GetBundleDirectoryPath();
+
 	return true;
 }
 
@@ -63,6 +65,48 @@ ResBase* ResourceManager::GenerateResource(ResType resType)
 	return res;
 }
 
+string ResourceManager::FindResourcePath(const char8* path)
+{
+	if (access(path, 0) == 0)
+	{
+		return path;
+	}
+
+	Utils::Path pendingPath(path);
+	string pendingDir = pendingPath.GetPathDirectory();
+
+	if (pendingDir.empty())
+	{
+		string fullPath = m_currWorkPath + path;
+		if (access(fullPath.c_str(), 0) == 0)
+		{
+			return fullPath;
+		}
+	}
+	else
+	{
+		string homePath = sKernel->GetHomeDirectoryPath();
+		string fullPath = homePath + path;
+		if (access(fullPath.c_str(), 0) == 0)
+		{
+			Utils::Path tmp_path(fullPath.c_str());
+			m_currWorkPath = tmp_path.GetFullPath();
+			return fullPath;
+		}
+
+		string bundlePath = sKernel->GetBundleDirectoryPath();
+		fullPath = bundlePath + path;
+		if (access(fullPath.c_str(), 0) == 0)
+		{
+			Utils::Path tmp_path(fullPath.c_str());
+			m_currWorkPath = tmp_path.GetFullPath();
+			return fullPath;
+		}
+	}
+
+	return path;
+}
+
 Font* ResourceManager::GenerateFont(const char8* path)
 {
 	auto iter = m_storageResList.find(path);
@@ -76,7 +120,8 @@ Font* ResourceManager::GenerateFont(const char8* path)
 	else
 	{
 		Font* font = new Font(m_fontLib);
-		if (!font->Open(path))
+		const string& absPath = FindResourcePath(path);
+		if (!font->Open(absPath.c_str()))
 		{
 			SAFE_DELETE(font);
 			return nullptr;
@@ -102,7 +147,8 @@ Image* ResourceManager::GenerateImage(const char8* path)
 	else
 	{
 		Image* image = new Image();
-		if (!image->Open(path))
+		const string& absPath = FindResourcePath(path);
+		if (!image->Open(absPath.c_str()))
 		{
 			SAFE_DELETE(image);
 			return nullptr;
@@ -128,7 +174,8 @@ XmlDocument* ResourceManager::GenerateXmlDocument(const char8* path)
 	else
 	{
 		XmlDocument* doc = new XmlDocument();
-		if (!doc->Open(path))
+		const string& absPath = FindResourcePath(path);
+		if (!doc->Open(absPath.c_str()))
 		{
 			SAFE_DELETE(doc);
 			return nullptr;

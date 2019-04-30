@@ -9,6 +9,8 @@
 #define COLOR_ARGB(a,r,g,b) COLOR_RGBA(r,g,b,a)
 #define COLOR_XRGB(r,g,b)   COLOR_ARGB(0xff,r,g,b)
 
+#define COLOR_ARGB_TO_RGBA(c) (COLOR_RGBA(COLOR_R(c), COLOR_G(c), COLOR_B(c), COLOR_A(c)))
+
 namespace Pharos
 {
 	typedef uint32	Color4;

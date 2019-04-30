@@ -36,7 +36,7 @@ OctreeScene* SceneMgr::CreateScene()
 SceneImporter* SceneMgr::CreateSceneImporter(const char8* sceneFile)
 {
 	Utils::Path path(sceneFile);
-	const char8* ext = path.GetExtension();
+	const char8* ext = path.GetFileExtension();
 	ext = strlwr((char8*)ext);
 
 	SceneImporter* importer = nullptr;

@@ -16,7 +16,7 @@ const char8* ResBase::GetResFileType()
 	if (m_strFileType.empty())
 	{
 		Utils::Path path(m_strFilePath.c_str());
-		m_strFileType = path.GetExtension();
+		m_strFileType = path.GetFileExtension();
 	}
 
 	return m_strFileType.c_str();

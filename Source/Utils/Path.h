@@ -4,177 +4,127 @@ namespace Pharos
 {
 	namespace Utils
 	{
-		template<typename T>
-		class TPath
+		class Path
 		{
 		public:
-			TPath(const T* szPath)
+			Path(const char8* path)
 			{
-				m_szDrive = NULL;
-				m_szDir = NULL;
-				m_szFullDir = NULL;
-				m_szFileName = NULL;
-				m_szFileExtension = NULL;
-				m_szFileFullName = NULL;
+				char8 buf[MAX_PATH] = { 0 };
+				strcpy(buf, path);
 
-				if (szPath == NULL) return;
+				char8* tmp = buf;
+				while (*tmp != '\0') { tmp++; }
+				char8* end = tmp;
 
-				const T slash = (T)'\\';
+				//分解盘符和其他部分
+				//////////////////////////////////////////////////////////////////////////
+				tmp = buf;
+				char8* driver = "";
+				char8* full_path = tmp;		//防止出现没有盘符的情况
 
-				ZeroMemory(m_pBuffer, 256 * sizeof(T));
-
-				const T* szTemp = szPath;
-
-				const T* szDrive = NULL;
-				uint32 nDriverLen = 0;
-				const T* szDir = NULL;
-				uint32 nDirLen = 0;
-				const T* szFileName = NULL;
-				uint32 nNameLen = 0;
-				const T* szFileExtension = NULL;
-				uint32 nExtLen = 0;
-
-				while (*szTemp != 0)
+				while (*tmp != '\0')
 				{
-					switch (*szTemp)
+					if (*tmp == ':')
 					{
-					case (T)':':
-					{
-						szDrive = szPath;
-					}
-					break;
-					case (T)'/':
-					case (T)'\\':
-					{
-						szFileName = szTemp + 1;
-
-						if (szDir == NULL)
-						{
-							if (szDrive != NULL) szDir = szTemp + 1;
-							else szDir = szPath;
-
-							if (szDrive != NULL) nDriverLen = (uint32)(szTemp - szDrive);
-						}
-						else
-						{
-							nDirLen = (uint32)(szFileName - szDir);
-						}
-					}
-					break;
-					case (T)'.':
-					{
-						szFileExtension = szTemp;
-						if (szFileName != NULL) nNameLen = (uint32)(szFileExtension - szFileName);
-					}
-					break;
+						*tmp = '\0';
+						driver = buf;
+						full_path = tmp + 1;
+						break;
 					}
 
-					szTemp++;
+					tmp++;
 				}
+				//////////////////////////////////////////////////////////////////////////
 
-				if (szDrive != NULL && nDriverLen == 0) nDriverLen = (uint32)(szTemp - szDrive);
-				if (szDir != NULL && nDirLen == 0) nDirLen = (uint32)(szTemp - szDir);
-				if (szFileName != NULL && nNameLen == 0) nNameLen = (uint32)(szTemp - szFileName);
-				if (szFileExtension != NULL && nExtLen == 0) nExtLen = (uint32)(szTemp - szFileExtension);
-				if (szDrive == NULL && szDir == NULL && szFileName == NULL && szFileExtension == NULL)
+				//分解文件名和目录名
+				//////////////////////////////////////////////////////////////////////////
+				tmp = end;
+				char8* dir = "";
+				char8* full_name = full_path;	//防止出现没有目录的时候
+
+				while (tmp != full_path - 1)
 				{
-					szFileName = szPath;
-					nNameLen = (uint32)(szTemp - szPath);
-				}
+					if (*tmp == '/' || *tmp == '\\')
+					{
+						*tmp = '\0';
+						dir = full_path;
+						full_name = tmp + 1;
+						break;
+					}
 
-				if (szDir == szFileName)
+					tmp--;
+				}
+				//////////////////////////////////////////////////////////////////////////
+
+				//分解文件名和扩展名
+				//////////////////////////////////////////////////////////////////////////
+				tmp = end;
+				char8* name = full_name;
+				char8* ext = "";
+
+				while (tmp != full_name - 1)
 				{
-					szDir = NULL;
-					nDirLen = 0;
+					if (*tmp == '.')
+					{
+						*tmp = '\0';
+						name = full_name;
+						ext = tmp + 1;
+						break;
+					}
+
+					tmp--;
 				}
+				//////////////////////////////////////////////////////////////////////////
 
-				if (szFileName == szFileExtension)
-				{
-					szFileName = NULL;
-					nNameLen = 0;
-				}
-				else if (szFileExtension != NULL && szFileExtension != szPath && szFileName == NULL)
-				{
-					szFileName = szPath;
-					nNameLen = (uint32)(szFileExtension - szFileName);
-				}
+				//将替换的分割符重新加上
+				//////////////////////////////////////////////////////////////////////////
+				m_driver = string(driver);
+				if (!m_driver.empty()) m_driver += ":";
 
-				T* szBuf = m_pBuffer;
+				//如果目录名为空，盘符不为空，说明曾经替换过一个分隔符，要重新加上
+				m_dir = string(dir);
+				if ((m_dir.empty() && !m_driver.empty()) || !m_dir.empty()) m_dir += "/";
 
-				memcpy(szBuf, szDrive, sizeof(T) * nDriverLen);
-				m_szDrive = szBuf;
-				szBuf += nDriverLen;
-				if (szDrive != NULL)
-				{
-					memcpy(szBuf, &slash, sizeof(T));
-					szBuf += 2;
-				}
+				m_fileName = string(name);
+				m_fileExt = string(ext);
+				if (!m_fileExt.empty()) m_fileExt = "." + m_fileExt;
 
-				memcpy(szBuf, szDir, sizeof(T) * nDirLen);
-				m_szDir = szBuf;
-				szBuf += (nDirLen + 1);
-
-				memcpy(szBuf, szFileName, sizeof(T) * nNameLen);
-				m_szFileName = szBuf;
-				szBuf += (nNameLen + 1);
-
-				memcpy(szBuf, szFileExtension, sizeof(T) * nExtLen);
-				m_szFileExtension = szBuf;
-				szBuf += (nExtLen + 1);
-
-				memcpy(szBuf, szDrive, sizeof(T) * nDriverLen);
-				m_szFullDir = szBuf;
-				szBuf += nDriverLen;
-				if (szDrive != NULL)
-				{
-					memcpy(szBuf, &slash, sizeof(T));
-					szBuf++;
-				}
-				memcpy(szBuf, szDir, sizeof(T) * nDirLen);
-				szBuf += (nDirLen + 1);
-
-				memcpy(szBuf, szFileName, sizeof(T) * nNameLen);
-				m_szFileFullName = szBuf;
-				szBuf += nNameLen;
-
-				memcpy(szBuf, szFileExtension, sizeof(T) * nExtLen);
-				szBuf += (nExtLen + 1);
+				m_fullPath = m_driver + m_dir;
+				m_fileFullName = m_fileName + m_fileExt;
+				//////////////////////////////////////////////////////////////////////////
 			}
 
-			virtual ~TPath()
+			virtual ~Path()
 			{
 			}
 
 		private:
-			T	m_pBuffer[256];
-
-			T*	m_szDrive;
-			T*	m_szDir;
-			T*	m_szFullDir;
-			T*	m_szFileName;
-			T*	m_szFileExtension;
-			T*	m_szFileFullName;
+			string	m_driver;
+			string	m_dir;
+			string	m_fullPath;
+			string	m_fileName;
+			string	m_fileExt;
+			string	m_fileFullName;
 
 		public:
 			//获取指定路径的根目录信息。
-			const T* GetPathRoot(){ return m_szDrive; }
+			const char8* GetPathDriver(){ return m_driver.c_str(); }
 
 			//返回指定路径字符串的目录信息。 
-			const T* GetDirectoryName(){ return m_szDir; }
-
+			const char8* GetPathDirectory(){ return m_dir.c_str(); }
+			
 			//返回指定路径字符串的全路径。
-			const T* GetFullPath(){ return m_szFullDir; }
+			const char8* GetFullPath() { return m_fullPath.c_str(); }
 
 			//返回指定路径字符串的文件名和扩展名。
-			const T* GetFileName(){ return m_szFileFullName; }
+			const char8* GetFileFullName() { return m_fileFullName.c_str(); }
 
 			//返回不具有扩展名的指定路径字符串的文件名。
-			const T* GetNameNoExt(){ return m_szFileName; }
+			const char8* GetFileName() { return m_fileName.c_str(); }
 
 			//返回指定的路径字符串的扩展名。 
-			const T* GetExtension(){ return m_szFileExtension; }
+			const char8* GetFileExtension(){ return m_fileExt.c_str(); }
 		};
 
-		typedef TPath<char8> Path;
 	}
 }
