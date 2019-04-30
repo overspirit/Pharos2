@@ -40,7 +40,7 @@ bool MyApp::Init()
 	m_scene = sSceneMgr->CreateScene();
 	sSceneMgr->SetCurrScene(m_scene);
 
-	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Ifrit/Ifrit.sceneml");
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Earth/earth.sceneml");
 	sceneImporter->ImportScene(m_scene);
 	SAFE_DELETE(sceneImporter);
 
@@ -48,15 +48,15 @@ bool MyApp::Init()
 	m_model = sceneNode->GetModel(0);
 
 	m_camera = m_scene->GetSceneCamera();
-	m_camera->BuildViewMatrix(Vector3Df(5.0f, 5.0f, -5.0f), Vector3Df(0, 0, 0));
+	m_camera->BuildViewMatrix(Vector3Df(0, 0, -3.5f), Vector3Df(0, 0, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 	//////////////////////////////////////////////////////////////////////////
 
 	//UI
 	//////////////////////////////////////////////////////////////////////////
 	sDesktopMgr->SetDesktopSize(wndSize.width, wndSize.height);
-	sDesktopMgr->RegisterControlViewer(this);
-	sDesktopMgr->LoadUILayoutFile("Interface/Console/Console.xml");
+	//sDesktopMgr->RegisterControlViewer(this);
+	sDesktopMgr->LoadUILayoutFile("Interface/AtmosphericScattering/AtmosphericScattering.xml");
 
 	//////////////////////////////////////////////////////////////////////////
 	return true;
@@ -111,97 +111,7 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 
 bool MyApp::onKeyboardEvent(const KeyEvent& event)
 {
-	switch (event.key)
-	{
-		case KEY_A:
-		{
-			m_camera->Move(Vector3Df(-1.0f * m_elapsed * MOVE_SPEED, 0, 0));
-		}
-		break;
-		case KEY_D:
-		{
-			m_camera->Move(Vector3Df(1.0f * m_elapsed * MOVE_SPEED, 0, 0));
-		}
-		break;
-		case KEY_W:
-		{
-			m_camera->Move(Vector3Df(0, 0, 1.0f * m_elapsed * MOVE_SPEED));
-		}
-		break;
-		case KEY_S:
-		{
-			m_camera->Move(Vector3Df(0, 0, -1.0f * m_elapsed * MOVE_SPEED));
-		}
-		break;
-		case KEY_Q:
-		{
-			m_camera->Move(Vector3Df(0, 1.0f * m_elapsed * MOVE_SPEED, 0));
-		}
-		break;
-		case KEY_E:
-		{
-			m_camera->Move(Vector3Df(0, -1.0f * m_elapsed * MOVE_SPEED, 0));
-		}
-		break;
-	}
-
 	return true;
-}
-
-void MyApp::onControlCreate(const char8* name, int32 v1, float32 v2)
-{
-
-}
-
-void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
-{
-	static const char8* animNameList[] =
-	{
-		"atk1", "atk2", "atk3", "atk4", "bak1", "bak2", "bak3", "bko1", "blk",
-		"coma", "dead", "duck", "ent", "fko1", "jmp1", "jmp2", "jmp3", "lei1",
-		"lei2", "out", "rdy", "rsh", "rsha", "run", "runa", "sf01", "sf02",
-		"sk01", "sk02", "sk03", "sk04", "std", "stop", "stpa", "wlk", "wlka",
-	};
-
-	static int32 animIndex = 0;
-
-	static bool loop = false;
-
-	if (strcmp(name, "NextAnim") == 0)
-	{
-		animIndex++;
-		animIndex = animIndex % (sizeof(animNameList) / sizeof(const char8*));
-
-		m_model->SetCurrentAnimation(animNameList[animIndex]);
-	}
-	else if (strcmp(name, "PrevAnim") == 0)
-	{
-		animIndex--;
-		if (animIndex < 0) animIndex = (sizeof(animNameList) / sizeof(const char8*)) - 1;
-		animIndex = animIndex % (sizeof(animNameList) / sizeof(const char8*));
-
-		m_model->SetCurrentAnimation(animNameList[animIndex]);
-	}
-	else if (strcmp(name, "PlayAnim") == 0)
-	{
-		m_model->PlayAnimation(loop);
-	}
-	else if (strcmp(name, "PauseAnim") == 0)
-	{
-		m_model->PauseAnimation();
-	}
-	else if (strcmp(name, "StopAnim") == 0)
-	{
-		m_model->StopAnimation();
-	}
-	else if (strcmp(name, "LoopPlay") == 0)
-	{
-		loop = (v1 == 0 ? false : true);
-	}
-	else if (strcmp(name, "AnimSpeed") == 0)
-	{
-		m_model->SetPlayAnimationSpeed(v2);
-	}
 }
 
 void MyApp::Update(float32 fElapsed)

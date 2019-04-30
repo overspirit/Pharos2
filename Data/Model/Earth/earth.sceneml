@@ -10,19 +10,19 @@
 
     <material name="earth_day" technique="Sprite3DTexture">
       <sampler name="g_tex">
-        <texture path="Model/Earth/earth_day.png"/>
+        <texture path="earth_day.png"/>
       </sampler>
     </material>
 
     <material name="ocean_mask" technique="Sprite3DTexture">
       <sampler name="g_tex">
-        <texture path="Model/Ifrit/ocean_mask.png"/>
+        <texture path="ocean_mask.png"/>
       </sampler>
     </material>
 
     <material name="earth_night" technique="Sprite3DTexture">
       <sampler name="g_tex">
-        <texture path="Model/Ifrit/earth_night.png.png"/>
+        <texture path="earth_night.png"/>
       </sampler>
     </material>
     

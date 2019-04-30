@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UI>
+  <Frame name="Panel" enable="true" hidden="false">
+
+    <Region>
+
+      <Size x="250" y="250"/>
+
+      <Anchor point="Right" relativePoint="Right">
+        <Offset x="0" y="0"/>
+      </Anchor>
+
+      <Anchor point="Top" relativePoint="Top">
+        <Offset x="0" y="150"/>
+      </Anchor>
+
+    </Region>
+
+    <BackDrop>
+      <Texture color="0x7F6699CC"/>
+
+      <EdgeInsets left="5" top="5" right="5" bottom="5"/>
+
+    </BackDrop>
+
+    <Frames>
+
+      <Slider name="atmosphere_top" enable="true" hidden="false" min="1" max="5" step="0.5" value="0" wheel_speed="0.5" put_type="Horizontal">
+
+        <Region>
+          <Size y="3"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset y="-75"/>
+          </Anchor>
+
+          <Anchor point="Left" relativePoint="Left">
+            <Offset x="30"/>
+          </Anchor>
+
+          <Anchor point="Right" relativePoint="Right">
+            <Offset x="-30"/>
+          </Anchor>
+        </Region>
+
+        <BackDrop>
+          <Texture color="0x7FFFFFFF"/>
+        </BackDrop>
+
+        <Thumb>
+
+          <BackStyle>
+            <Texture file="Arrow.png" left="0" top="0" right="32" bottom="32" color="0xFFFFFFFF"/>
+          </BackStyle>
+
+          <Size x="16" y="18"/>
+
+          <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+
+        </Thumb>
+
+        <Frames>
+
+          <FontString name="atmosphere_top_static" font_file="Font/simhei.ttf" font_width="14" font_height="14" text="Atmosphere Top">
+
+            <Region>
+
+              <Size x="32" y="32"/>
+
+              <Anchor point="BottomLeft" relativePoint="TopLeft">
+                <Offset x="0" y="0"/>
+              </Anchor>
+
+            </Region>
+
+          </FontString>
+
+        </Frames>
+
+      </Slider>
+
+
+      <Slider name="density" enable="true" hidden="false" min="1" max="5" step="0.5" value="0" wheel_speed="0.5" put_type="Horizontal">
+
+        <Region>
+          <Size y="3"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset y="-15"/>
+          </Anchor>
+
+          <Anchor point="Left" relativePoint="Left">
+            <Offset x="30"/>
+          </Anchor>
+
+          <Anchor point="Right" relativePoint="Right">
+            <Offset x="-30"/>
+          </Anchor>
+        </Region>
+
+        <BackDrop>
+          <Texture color="0x7EFFFFFF"/>
+        </BackDrop>
+
+        <Thumb>
+
+          <BackStyle>
+            <Texture file="Arrow.png" left="0" top="0" right="32" bottom="32" color="0xFFFFFFFF"/>
+          </BackStyle>
+          
+          <Size x="16" y="18"/>
+
+          <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+
+        </Thumb>
+
+        <Frames>
+
+          <FontString name="density_static" font_file="Font/simhei.ttf" font_width="14" font_height="14" text="Density">
+
+            <Region>
+              <Size x="32" y="32"/>
+
+              <Anchor point="BottomLeft" relativePoint="TopLeft">
+                <Offset x="0" y="0"/>
+              </Anchor>
+            </Region>
+
+          </FontString>
+
+        </Frames>
+
+      </Slider>
+
+      <Button name="beta_button" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="32" y="32"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="-20" y="30"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture color="0xFFFFFFFF"/>
+        </BackDrop>
+
+
+        <Frames>
+
+          <FontString name="beta_static" font_file="Font/simhei.ttf" font_width="14" font_height="14" text="Beta:">
+
+            <Region>
+              <Size x="14" y="14"/>
+
+              <Anchor point="Center" relativePoint="Center">
+                <Offset x="0" y="0"/>
+              </Anchor>
+
+              <Anchor point="Right" relativePoint="Left">
+                <Offset x="-45" y="0"/>
+              </Anchor>
+              
+            </Region>
+
+          </FontString>
+
+        </Frames>
+
+      </Button>
+
+      <Button name="absorb_button" enable="true" hidden="false">
+
+        <Region>
+
+          <Size x="32" y="32"/>
+
+          <Anchor point="Center" relativePoint="Center">
+            <Offset x="-20" y="75"/>
+          </Anchor>
+
+        </Region>
+
+        <PushStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </PushStyle>
+
+        <HighlightStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </HighlightStyle>
+
+        <DisableStyle>
+          <Texture color="0xFFFFFFFF"/>
+        </DisableStyle>
+
+        <BackDrop>
+          <Texture color="0xFFFFFFFF"/>
+        </BackDrop>
+
+
+        <Frames>
+
+          <FontString name="absorb_static" font_file="Font/simhei.ttf" font_width="14" font_height="14" text="Absorb:">
+
+            <Region>
+              <Size x="14" y="14"/>
+
+              <Anchor point="Center" relativePoint="Center">
+                <Offset x="0" y="0"/>
+              </Anchor>
+
+              <Anchor point="Right" relativePoint="Left">
+                <Offset x="-45" y="0"/>
+              </Anchor>
+
+            </Region>
+
+          </FontString>
+
+        </Frames>
+
+      </Button>
+
+    </Frames>
+
+  </Frame>
+
+</UI>

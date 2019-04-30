@@ -641,5 +641,8 @@
     <None Include="..\Source\Render\Shader\D3D11\Util.fxml">
       <Filter>Render\Shader\D3D11</Filter>
     </None>
+    <None Include="..\Source\Render\Shader\D3D11\AtmosphericScattering.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </None>
   </ItemGroup>
 </Project>

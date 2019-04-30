@@ -230,6 +230,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Source\Render\Shader\D3D11\AtmosphericScattering.fxml" />
     <None Include="..\Source\Render\Shader\D3D11\Copy.fxml" />
     <None Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml" />
     <None Include="..\Source\Render\Shader\D3D11\Font.fxml">

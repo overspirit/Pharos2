@@ -45,9 +45,6 @@ public:
 	virtual bool onMouseEvent(const MouseEvent& event);
 	virtual bool onKeyboardEvent(const KeyEvent& event);
 
-	virtual void onControlCreate(const char8* name, int32 v1, float32 v2);
-	virtual void onControlValueChange(const char8* name, int32 v1, float32 v2);
-
 	virtual void Update(float32 fElapsed);
 	virtual void Render(float32 fElapsed);
 	virtual void onRender(float32 elapsed);
