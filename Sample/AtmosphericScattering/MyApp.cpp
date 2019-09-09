@@ -31,10 +31,11 @@ bool MyApp::Init()
 	param.sampleType = Render::EMT_None;
 	param.sync = false;
 	param.fullScreen = false;
+	param.gammaEnabled = false;
 	sRenderMgr->StartUp(param);
 
 	sRenderMgr->RegisterRenderCallback(this);
-
+	
 	//Scene
 	//////////////////////////////////////////////////////////////////////////
 	m_scene = sSceneMgr->CreateScene();
@@ -44,8 +45,17 @@ bool MyApp::Init()
 	sceneImporter->ImportScene(m_scene);
 	SAFE_DELETE(sceneImporter);
 
-	SceneNode* sceneNode = m_scene->GetSceneNode(0);
-	m_model = sceneNode->GetModel(0);
+	SceneNode* atmosphereNode = sSceneMgr->GetSceneNode("Atmosphere");
+	Mesh* atmosphereMesh = atmosphereNode->GetModel(0)->GetMesh(0);
+	atmosphereMesh->SetAttachMaterial(nullptr);
+
+	SceneNode* planetNode = sSceneMgr->GetSceneNode("Planet");
+	Mesh* plantMesh = planetNode->GetModel(0)->GetMesh(0);
+	plantMesh->SetAttachMaterial(nullptr);
+
+	//m_scene->GetSceneNodeNum()
+	//SceneNode* sceneNode = m_scene->GetSceneNode(0);
+	//m_model = sceneNode->GetModel(0);
 
 	m_camera = m_scene->GetSceneCamera();
 	m_camera->BuildViewMatrix(Vector3Df(0, 0, -3.5f), Vector3Df(0, 0, 0));

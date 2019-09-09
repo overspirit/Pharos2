@@ -3,37 +3,7 @@
 namespace Pharos
 {
 	namespace Render
-	{
-		struct BoneTran
-		{
-			int32	bone_id;
-			Quaternion rota;
-			Vector3Df tran;
-			Vector3Df scale;
-		};
-
-		struct SkelFrame
-		{
-			float32 time;
-			uint32 joint;
-			vector<BoneTran> tranList;
-		};
-
-		struct SkelAnimation
-		{
-			string name;
-			vector<SkelFrame> frameList;
-		};
-
-		struct BoneInfo
-		{
-			string				name;
-			int32				id;
-			int32				parentId;			
-			Matrix4				bindPose;
-			vector<BoneInfo>	children;
-		};
-
+	{		
 		class Model
 		{
 		public:
@@ -63,6 +33,9 @@ namespace Pharos
 
 		public:
 			virtual void AddMesh(Mesh* mesh);
+			virtual uint32 GetMeshNum() { return (uint32)m_meshGroupList.size(); }
+			virtual Mesh* GetMesh(uint32 index) { return index < (uint32)m_meshGroupList.size() ? m_meshGroupList[index] : nullptr; }
+
 			virtual void SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose);
 			virtual SkelAnimation& AddSkelAnimation(const char8* name);
 

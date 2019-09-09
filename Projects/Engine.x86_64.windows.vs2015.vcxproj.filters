@@ -202,6 +202,12 @@
     <ClCompile Include="..\Source\Desktop\RenderSprite.cpp">
       <Filter>Desktop</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Render\Animation.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Render\Skeleton.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\TypesDef.h" />
@@ -556,6 +562,12 @@
     <ClInclude Include="..\Source\Desktop\RenderSprite.h">
       <Filter>Desktop</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Render\Animation.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Render\Skeleton.h">
+      <Filter>Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -605,44 +617,47 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\Render\Shader\D3D11\Copy.fxml">
+    <Xml Include="..\Source\Render\Shader\D3D11\AtmosphericScattering.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Copy.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\Font.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\GBuffer.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Font.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\PostProcess.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\GBuffer.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\PostProcess.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\Skeletal.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\Sprite2D.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Skeletal.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\Sprite3D.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Sprite2D.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\SumLum.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Sprite3D.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\ToneMapping.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\SumLum.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\Util.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\ToneMapping.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\AtmosphericScattering.fxml">
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Util.fxml">
       <Filter>Render\Shader\D3D11</Filter>
-    </None>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Lighting.fxml">
+      <Filter>Render\Shader\D3D11</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

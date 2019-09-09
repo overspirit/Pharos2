@@ -21,6 +21,7 @@ namespace Pharos
 
 			SceneCamera*			m_camera;	
 
+			bool					m_showGrid;
 			GridNode*				m_gridNode;
 
 		public:
@@ -32,6 +33,7 @@ namespace Pharos
 			virtual void Init();
 
 			virtual void SetSceneSize(const Size2Di& mapSize, uint32 sceneHeight);
+			virtual void SetSceneGridShow(bool show) { m_showGrid = show; }
 
 			virtual SceneCamera* GetSceneCamera(){ return m_camera; }
 

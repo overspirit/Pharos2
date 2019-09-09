@@ -12,6 +12,7 @@ OctreeScene::OctreeScene(void)
 	m_camera = nullptr;
 
 	m_gridNode = nullptr;
+	m_showGrid = false;
 }
 
 OctreeScene::~OctreeScene(void)
@@ -112,7 +113,10 @@ void OctreeScene::Update(float32 fElapsed)
 			node->Update(fElapsed);
 	}
 
-	m_gridNode->Update(fElapsed);
+	if (m_showGrid)
+	{
+		m_gridNode->Update(fElapsed);
+	}
 
 	//Sprite3D::Inst()->DrawGridPlane(m_mapSize.width, m_mapSize.height, 0xFF00FFFF);
 }

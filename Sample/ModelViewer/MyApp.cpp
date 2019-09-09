@@ -50,6 +50,7 @@ bool MyApp::Init()
 	param.fullScreen = false;
 	param.gammaEnabled = false;
 	param.hdrEnabled = false;
+	param.backColor = 0xFF3F3F3F;
 	sRenderMgr->StartUp(param);
 
 	sRenderMgr->RegisterRenderCallback(this);
@@ -58,6 +59,7 @@ bool MyApp::Init()
 	//////////////////////////////////////////////////////////////////////////
 	m_scene = sSceneMgr->CreateScene();
 	sSceneMgr->SetCurrScene(m_scene);
+	m_scene->SetSceneGridShow(true);
 
 	m_camera = m_scene->GetSceneCamera();
 	m_camera->BuildViewMatrix(Vector3Df(0, 2.0f, -5.0f), Vector3Df(0, 1.0f, 0));

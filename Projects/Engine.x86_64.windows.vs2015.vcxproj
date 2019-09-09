@@ -54,6 +54,7 @@
     <ClCompile Include="..\Source\Desktop\UIObjects\Texture.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\UIObject.cpp" />
     <ClCompile Include="..\Source\Desktop\UIObjects\WorldFrame.cpp" />
+    <ClCompile Include="..\Source\Render\Animation.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.cpp" />
     <ClCompile Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11ShaderProgram.cpp" />
     <ClCompile Include="..\Source\Render\Renderer\D3D11\D3D11Texture.cpp" />
     <ClCompile Include="..\Source\Render\RenderMgr.cpp" />
+    <ClCompile Include="..\Source\Render\Skeleton.cpp" />
     <ClCompile Include="..\Source\Scene\GridNode.cpp" />
     <ClCompile Include="..\Source\Scene\OctreeScene.cpp" />
     <ClCompile Include="..\Source\Scene\SceneCamera.cpp" />
@@ -149,6 +151,7 @@
     <ClInclude Include="..\Source\Math\Vector4D.h" />
     <ClInclude Include="..\Source\Pharos.h" />
     <ClInclude Include="..\Source\PreCompile.h" />
+    <ClInclude Include="..\Source\Render\Animation.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11EffectLoader.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderPass.h" />
     <ClInclude Include="..\Source\Render\Effect\D3D11\D3D11RenderTechnique.h" />
@@ -192,6 +195,7 @@
     <ClInclude Include="..\Source\Render\Renderer\RenderSamplerState.h" />
     <ClInclude Include="..\Source\Render\RenderGlobal.h" />
     <ClInclude Include="..\Source\Render\RenderMgr.h" />
+    <ClInclude Include="..\Source\Render\Skeleton.h" />
     <ClInclude Include="..\Source\Render\VertexDefine.h" />
     <ClInclude Include="..\Source\Scene\GridNode.h" />
     <ClInclude Include="..\Source\Scene\OctreeScene.h" />
@@ -230,21 +234,52 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\Render\Shader\D3D11\AtmosphericScattering.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Copy.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Font.fxml">
+    <Xml Include="..\Source\Render\Shader\D3D11\AtmosphericScattering.fxml">
+      <FileType>Document</FileType>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Source\Render\Shader\D3D11\GBuffer.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\PostProcess.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Skeletal.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Sprite2D.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Sprite3D.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\SumLum.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\ToneMapping.fxml" />
-    <None Include="..\Source\Render\Shader\D3D11\Util.fxml" />
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Copy.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\DeferredRendering.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Font.fxml">
+      <SubType>Designer</SubType>
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\GBuffer.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\PostProcess.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\PostToneMapping.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Skeletal.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Sprite2D.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Sprite3D.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\SumLum.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\ToneMapping.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+    <Xml Include="..\Source\Render\Shader\D3D11\Util.fxml">
+      <FileType>Document</FileType>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Source\Render\Shader\D3D11\Lighting.fxml">
+      <FileType>Document</FileType>
+    </Xml>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C71BDBB0-12DC-4ED5-BB04-BCBC7368BD10}</ProjectGuid>
@@ -349,6 +384,9 @@
     <PostBuildEvent>
       <Command>xcopy ..\Source\Render\Shader\D3D11\*.* ..\Data\Shader /C /I /Y /F</Command>
     </PostBuildEvent>
+    <CustomBuildStep />
+    <PreBuildEvent />
+    <CustomBuildStep />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

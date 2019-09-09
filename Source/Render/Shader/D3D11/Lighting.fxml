@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+  <shader>
+    <![CDATA[
+
+float3 FresnelTerm(float3 light_vec, float3 halfway_vec, float3 c_spec)
+{
+	float e_n = saturate(dot(light_vec, halfway_vec));
+	return c_spec > 0 ? c_spec + (1 - c_spec) * exp2(-(5.55473f * e_n + 6.98316f) * e_n) : 0;
+}
+
+float SpecularNormalizeFactor(float shininess)
+{
+	return (shininess + 2) / 8;
+}
+
+float3 DistributionTerm(float3 halfway_vec, float3 normal, float shininess)
+{
+	return exp((shininess + 0.775f) * (max(dot(halfway_vec, normal), 0.0f) - 1));
+}
+
+float3 SpecularTerm(float3 c_spec, float3 light_vec, float3 halfway_vec, float3 normal, float shininess)
+{
+	return SpecularNormalizeFactor(shininess) * DistributionTerm(halfway_vec, normal, shininess)
+		* FresnelTerm(light_vec, halfway_vec, c_spec);
+}
+
+    ]]>
+  </shader>
+</effect>
