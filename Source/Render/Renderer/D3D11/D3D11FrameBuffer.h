@@ -31,6 +31,8 @@ namespace Pharos
 			virtual RenderTexture* GetRenderTexture(uint32 slot);
 			virtual RenderTexture* GetDepthTexture();
 
+			virtual void AttachTexture(uint32 slot, RenderTexture* tex);
+
 			virtual void ApplyDevice();
 		};
 	}

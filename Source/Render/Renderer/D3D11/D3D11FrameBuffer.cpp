@@ -166,6 +166,29 @@ RenderTexture* D3D11FrameBuffer::GetDepthTexture()
 	return m_pDepthTex;
 }
 
+void D3D11FrameBuffer::AttachTexture(uint32 slot, RenderTexture* tex)
+{
+	if (tex == nullptr) return;
+	if (tex->GetWidth() != m_width || tex->GetHeight() != m_height) return;
+
+	SAFE_DELETE(m_pTargetTexs[slot]);
+	SAFE_RELEASE(m_pTargetSlots[slot]);
+
+	EPixelFormat fmt = tex->GetFormat();
+
+	m_pTargetTexs[slot] = static_cast<D3D11Texture*>(tex);
+
+	if (!m_pTargetTexs[slot]->CreateTargetTexture(m_width, m_height, fmt)) return;
+
+	ID3D11Texture2D* pTexture = m_pTargetTexs[slot]->GetTexture();
+
+	D3D11_RENDER_TARGET_VIEW_DESC desc;
+	desc.Format = PF2D3D11FMT(fmt);
+	desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	desc.Texture2D.MipSlice = 0;
+	m_pDevice->CreateRenderTargetView(pTexture, &desc, &m_pTargetSlots[slot]);
+}
+
 void D3D11FrameBuffer::ApplyDevice()
 {
 	m_pContext->OMSetRenderTargets(D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, m_pTargetSlots, m_pDepthView);

@@ -259,6 +259,30 @@ RenderTexture* D3D11Renderer::CreateTexture(int32 width, int32 height, EPixelFor
 	return texture;
 }
 
+RenderTexture* D3D11Renderer::CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt)
+{
+	D3D11Texture* texture = new D3D11Texture(m_device, m_context);
+	if (!texture->CreateTargetTexture(width, height, fmt))
+	{
+		SAFE_DELETE(texture);
+		return nullptr;
+	}
+
+	return texture;
+}
+
+RenderTexture* D3D11Renderer::CreateDepthTexture(int32 width, int32 height)
+{
+	D3D11Texture* texture = new D3D11Texture(m_device, m_context);
+	if (!texture->CreateDepthTexture(width, height))
+	{
+		SAFE_DELETE(texture);
+		return nullptr;
+	}
+
+	return texture;
+}
+
 RenderTexture* D3D11Renderer::LoadTexture(const char8* szPath)
 {
 	D3D11Texture* texture = new D3D11Texture(m_device, m_context);
