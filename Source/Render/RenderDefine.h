@@ -98,10 +98,13 @@ namespace Pharos
 
 				hdrEnabled = true;
 				gammaEnabled = true;
+
+				backColor = 0xFF000000;
 			}
 
 			int32				width;
 			int32				height;
+			Color4				backColor;
 			EMultisampleType	sampleType;
 			bool				sync;
 			bool				fullScreen;

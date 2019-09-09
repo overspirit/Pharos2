@@ -90,19 +90,21 @@
 
 #endif
 
+#include "RenderBlock.h"
+
 #include "PostProcess/PostProcess.h"
 #include "PostProcess/ImageStatPostProcess.h"
 #include "PostProcess/LensEffectsPostProcess.h"
 #include "PostProcess/ToneMappingPostProcess.h"
 #include "PostProcess/HDRPostProcess.h"
 
-#include "IRenderCallback.h"
-#include "RenderBlock.h"
-
 #include "Material.h"
 #include "Mesh.h"
+#include "Skeleton.h"
+#include "Animation.h"
 #include "Model.h"
 
+#include "IRenderCallback.h"
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()

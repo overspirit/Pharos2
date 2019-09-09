@@ -19,15 +19,15 @@ HDRPostProcess::~HDRPostProcess()
 bool HDRPostProcess::Init()
 {
 	m_imageStatPostProcess = new ImageStatPostProcess();
-	m_imageStatPostProcess->Init();
+	//m_imageStatPostProcess->Init();
 	RenderTexture* imageStatOutputTex = m_imageStatPostProcess->GetOutputPin(0);
 
 	m_lensEffectsPostProcess = new LensEffectsPostProcess();
-	m_lensEffectsPostProcess->Init();
+	//m_lensEffectsPostProcess->Init();
 	RenderTexture* lensEffectOutputTex = m_lensEffectsPostProcess->GetOutputPin(0);
 
 	m_toneMappingPostProcess = new ToneMappingPostProcess();
-	m_toneMappingPostProcess->Init();
+	//m_toneMappingPostProcess->Init();
 	m_toneMappingPostProcess->SetInputPin(1, imageStatOutputTex);
 	m_toneMappingPostProcess->SetInputPin(2, lensEffectOutputTex);
 

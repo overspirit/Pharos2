@@ -33,6 +33,7 @@ namespace Pharos
 			
 			RenderTechnique*		m_postProcessTech;
 			RenderProgram*			m_postProcessShader;
+			PostProcess*			m_gammaCorrection;
 
 			RenderLayout*			m_quadLayout;
 
@@ -80,6 +81,7 @@ namespace Pharos
 			
 			virtual void RegisterRenderCallback(IRenderCallback* callback);
 
+			virtual RenderLayout* GetQuadLayout() { return m_quadLayout; }
 			virtual void DrawFullScreenQuad(RenderTexture* tex);
 
 			virtual void Update(float32 fElapsed);

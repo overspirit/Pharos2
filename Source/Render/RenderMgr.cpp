@@ -18,10 +18,11 @@ RenderMgr::RenderMgr()
 
 	m_postProcessTech = nullptr;
 	m_postProcessShader = nullptr;
+	m_gammaCorrection = nullptr;
 
 	m_quadLayout = nullptr;
 
-	m_clearColor = 0xFF3F3F3F;//R=43,G=147,B=223
+	m_clearColor = 0xFF000000;// 0xFF3F3F3F;//R=43,G=147,B=223
 	m_clearDepth = 1.0f;
 	m_clearStencil = 0;
 
@@ -50,6 +51,7 @@ bool RenderMgr::Init()
 	this->LoadEffectFile("Shader/PostToneMapping.fxml");
 	this->LoadEffectFile("Shader/SumLum.fxml");
 	this->LoadEffectFile("Shader/ToneMapping.fxml");
+	this->LoadEffectFile("Shader/AtmosphericScattering.fxml");
 
 	DecalVertex vertData[] =
 	{
@@ -85,6 +87,7 @@ void RenderMgr::Destroy()
 	SAFE_DELETE(m_hdrPostProcess);
 
 	SAFE_DELETE(m_postProcessTech);
+	SAFE_DELETE(m_gammaCorrection);
 
 	SAFE_DELETE(m_quadLayout);
 
@@ -116,6 +119,7 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	if (!m_renderer->Create(cfg)) return false;
 
 	m_renderParam = param;
+	m_clearColor = param.backColor;
 
 	m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();	
 
@@ -127,9 +131,14 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
 	m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
 
-	m_hdrPostProcess = new HDRPostProcess();
-	m_hdrPostProcess->Init();
-	m_hdrPostProcess->SetInputPin(0, m_finalTargetTex);
+	m_gammaCorrection = new PostProcess();
+	m_gammaCorrection->InitWithTech("GammaCorrection");
+	m_gammaCorrection->SetInputPin(0, m_finalTargetTex);
+	//m_gammaCorrection->SetOutputPin();
+
+	//m_hdrPostProcess = new HDRPostProcess();
+	//m_hdrPostProcess->Init();
+	//m_hdrPostProcess->SetInputPin(0, m_finalTargetTex);
 
 	return true;
 }
@@ -314,9 +323,9 @@ void RenderMgr::Render(float32 fElapsed)
 	
 	if (m_renderParam.hdrEnabled)
 	{
-		m_hdrPostProcess->Apply();
+		//m_hdrPostProcess->Apply();
 
-		finalTargetTex = m_hdrPostProcess->GetOutputPin(0);
+		//finalTargetTex = m_hdrPostProcess->GetOutputPin(0);
 	}
 
 	m_renderer->BindFrameBuffer(nullptr);		

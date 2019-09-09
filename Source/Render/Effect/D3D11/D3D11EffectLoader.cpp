@@ -216,15 +216,7 @@ bool D3D11EffectLoader::LoadConstant(XmlNode* pNode)
 		if(pAttr != nullptr) child.type = pAttr->GetStringValue();
 
 		pAttr = pChildInfo->GetAttribute("name");
-		if (pAttr != nullptr)
-		{
-			child.name = pAttr->GetStringValue();
-
-			if (child.name.find('[') != string::npos || child.name.find(']') != string::npos)
-			{
-				//child.name = "";
-			}
-		}
+		if (pAttr != nullptr) child.name = pAttr->GetStringValue();
 
 		pAttr = pChildInfo->GetAttribute("bind");
 		if(pAttr != nullptr) child.bind = pAttr->GetStringValue();
