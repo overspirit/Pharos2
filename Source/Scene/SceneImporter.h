@@ -37,19 +37,38 @@ namespace Pharos
 					drawType = Render::EDT_TRIANGLELIST;
 				}
 
+				string							meshName;
+
 				MemoryBuffer					vertexData;
 				vector<VertLayoutDesc>			vertDesc;
 				MemoryBuffer					indexData;
-				DrawType						drawType;
+				DrawType						drawType;								
+			};
 
-				string							materialName;				
+			struct SkeletonData
+			{
+				string							skelName;
+				vector<BoneInfo>				boneInfoList;
+			};
+
+			struct TreeData
+			{
+				string type;
+				string id;
+				vector<TreeData>	children;
 			};
 
 			struct ModelData
 			{
-				vector<MeshData>				meshDataList;
-				vector<BoneInfo>				boneInfoList;
-				vector<SkelAnimation>			skelAnimList;
+				struct MeshInfo
+				{
+					string id;
+					vector<string> materialList;
+				};
+
+				vector<MeshInfo>	meshList;
+				vector<string>	skeletonList;
+				vector<string>	animList;			
 			};
 
 			struct SceneNodeData
@@ -66,14 +85,17 @@ namespace Pharos
 
 				vector<SceneNodeData>		childData;
 
-				vector<uint32>		modelIdList;
+				vector<string>		modelIdList;
 			};
 
 		protected:
 			string				m_resFile;
 
 			map<string, MaterialData>	m_materialDataList;
-			map<uint32, ModelData>		m_modelDataList;
+			map<string, MeshData>		m_meshDataList;
+			map<string, SkeletonData>	m_skeletonDataList;
+			map<string, SkelAnimation>	m_animDataList;
+			map<string, ModelData>		m_modelDataList;
 			vector<SceneNodeData>		m_nodeDataList;
 			
 		private:
@@ -98,7 +120,6 @@ namespace Pharos
 			virtual bool SaveTo(const char8* file);
 
 			virtual bool LoadSceneFile(const char8* file) = 0;
-			virtual bool LoadModelFile(const char8* file) = 0;
 		};
 	}
 }

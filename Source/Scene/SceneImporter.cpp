@@ -42,7 +42,7 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 		if (child != nullptr) sceneNode->AddChildNode(child);
 	}
 
-	for (auto modelId : data.modelIdList)
+	for (auto& modelId : data.modelIdList)
 	{
 		Model* model = this->CreateModel(m_modelDataList[modelId]);
 		sceneNode->AddModel(model);
@@ -54,30 +54,42 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 Model* SceneImporter::CreateModel(const ModelData& modelData)
 {
 	Model* model = new Model();
-
- 	for (const MeshData& meshData : modelData.meshDataList)
+	
+ 	for (const ModelData::MeshInfo& meshInfo : modelData.meshList)
  	{
+		MeshData& meshData = m_meshDataList[meshInfo.id];
 		Mesh* mesh = this->CreateMesh(meshData);
 		if (mesh != nullptr)
 		{
 			model->AddMesh(mesh);
 		}
+
+		for (const string& materialName : meshInfo.materialList)
+		{
+			Material* material = this->CreateMaterial(m_materialDataList[materialName]);
+			if (material != nullptr) mesh->SetAttachMaterial(material);
+		}
  	}
 
-	for (const BoneInfo& boneInfo : modelData.boneInfoList)
+	for (const string& skelName : modelData.skeletonList)
 	{
-		model->SetBoneInfo(boneInfo.name.c_str(), boneInfo.id, boneInfo.parentId, boneInfo.bindPose);
+		SkeletonData& skelData = m_skeletonDataList[skelName];
+
+		for (const BoneInfo& boneInfo : skelData.boneInfoList)
+		{
+			model->SetBoneInfo(boneInfo.name.c_str(), boneInfo.id, boneInfo.parentId, boneInfo.bindPose);
+		}
 	}
 
-	for (const SkelAnimation& skelAnim : modelData.skelAnimList)
+	for (const string& animName : modelData.animList)
 	{
-		SkelAnimation& modelSkelAnim = model->AddSkelAnimation(skelAnim.name.c_str());
-		modelSkelAnim = skelAnim;
+		SkelAnimation& modelSkelAnim = model->AddSkelAnimation(animName.c_str());
+		modelSkelAnim = m_animDataList[animName];
 	}
 
-	if (modelData.skelAnimList.size() > 0)
+	if (modelData.animList.size() > 0)
 	{
-		model->SetCurrentAnimation(modelData.skelAnimList[0].name.c_str());
+		model->SetCurrentAnimation(modelData.animList[0].c_str());
 	}
 
 	return model;
@@ -86,12 +98,9 @@ Model* SceneImporter::CreateModel(const ModelData& modelData)
 Mesh* SceneImporter::CreateMesh(const MeshData& meshData)
 {
 	Mesh* mesh = new Mesh();
-
+	
 	mesh->SetMeshData((MemoryBuffer*)&meshData.vertexData, meshData.vertDesc, (MemoryBuffer*)&meshData.indexData);
 	mesh->SetDrawType(meshData.drawType);
-
-	Material* material = this->CreateMaterial(m_materialDataList[meshData.materialName]);
-	if (material != nullptr) mesh->SetAttachMaterial(material);
 	
 	return mesh;
 }
@@ -323,7 +332,7 @@ void SceneImporter::SaveSceneNodeData(SceneNodeData& nodeData, XmlNode* parentNo
 	XmlAttribute* nodeRadiusAttr = nodeNode->AppendAttribute("bounding_radius");
 	nodeRadiusAttr->SetValue(nodeData.boundRadius);
 
-	for(uint32 modelId : nodeData.modelIdList)
+	for(const string& modelId : nodeData.modelIdList)
 	{
 		XmlNode* modelNode = nodeNode->AppendChild("item");
 
@@ -331,7 +340,7 @@ void SceneImporter::SaveSceneNodeData(SceneNodeData& nodeData, XmlNode* parentNo
 		typeAttr->SetValue("model");
 
 		XmlAttribute* idAttr = modelNode->AppendAttribute("id");
-		idAttr->SetValue((int32)modelId);
+		idAttr->SetValue(modelId.c_str());
 	}
 
 	for (SceneNodeData& childData : nodeData.childData)
@@ -403,7 +412,7 @@ void SceneImporter::SaveMaterialData(MaterialData& materialData, XmlNode* materi
 uint32 SceneImporter::SaveModelData(ModelData& modelData, XmlNode* modelRootNode)
 {
 	uint32 childNum = modelRootNode->GetChildNum();
-
+	/*
 	XmlNode* modelNode = modelRootNode->AppendChild("model");
 
 	XmlAttribute* modelIdAttr = modelNode->AppendAttribute("id");
@@ -508,6 +517,6 @@ uint32 SceneImporter::SaveModelData(ModelData& modelData, XmlNode* modelRootNode
 // 	{
 // 
 // 	}
-
+*/
 	return childNum;
 }
