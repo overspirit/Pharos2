@@ -3,6 +3,7 @@
   <shader>
     <![CDATA[
 
+
 //将线性的rgb颜色进行gamma校正
 float3 linear_to_srgb(float3 rgb)
 {

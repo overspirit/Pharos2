@@ -19,7 +19,7 @@
   
   <shader>
     <![CDATA[
-
+    
 void CopyVS(float4 pos : POSITION,
               float2 tex0 : TEXCOORD,
               out float2 oTex : TEXCOORD,
