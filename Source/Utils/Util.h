@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #define MASKBITS 0x3F
 #define MASKBYTE 0x80
@@ -134,7 +134,7 @@ namespace Pharos
 			{
 				if (!(*szSrc & MASKBYTE))	// 0xxxxxxx
 				{
-					*szSrc++;
+					szSrc++;
 				}
 				else if ((*szSrc & MASK3BYTES) == MASK3BYTES)	// 1110xxxx 10xxxxxx 10xxxxxx
 				{

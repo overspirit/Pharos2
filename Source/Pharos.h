@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "TypesDef.h"
 
@@ -33,62 +33,24 @@
 #include "Math/Geometry.h"
 ////////////////////////////////////////////////////////////////////////
 
-//Engine
+//Core
 ////////////////////////////////////////////////////////////////////////
-#include "EventDefine.h"
-// #include "Engine/ITimer.h"
-// #include "Engine/IResource.h"
-// #include "Engine/IFile.h"
-// #include "Engine/IFont.h"
-// #include "Engine/IImage.h"
-// #include "Engine/XmlAttribute.h"
-// #include "Engine/XmlNode.h"
-// #include "Engine/XmlDocument.h"
-// #include "Engine/IProperties.h"
-#include "IApplication.h"
-//#include "Engine/IMemBuffer.h"
-// #include "Engine/IKernel.h"
+#include "Core/CoreGlobal.h"
 ////////////////////////////////////////////////////////////////////////
 
 //Render
 ////////////////////////////////////////////////////////////////////////
-// #include "Render/RenderDefine.h"
-// #include "Render/IRenderSampleState.h"
-// #include "Render/IRenderBlendState.h"
-// #include "Render/IRenderDepthStencilState.h"
-// #include "Render/IRenderRasterizerState.h"
-// #include "Render/IRenderTexture.h"
-// #include "Render/IRenderShaderData.h"
-// #include "Render/IRenderProgram.h"
-// #include "Render/IRenderFrameBuffer.h"
-// #include "Render/IRenderLayout.h"
-// #include "Render/IRenderer.h"
-// #include "Render/IRenderVariable.h"
-// #include "Render/IRenderPass.h"
-// #include "Render/IRenderTechnique.h"
-// #include "Render/IRenderBlock.h"
-// #include "Render/IRenderImage.h"
-// #include "Render/IRenderFont.h"
-// #include "Render/IRenderCallback.h"
-// #include "Render/IMaterial.h"
-// #include "Render/IMesh.h"
-// #include "Render/IModel.h"
-// #include "Render/IRenderMgr.h"
+// #include "Render/RenderGlobal.h"
 ////////////////////////////////////////////////////////////////////////
 
 //Desktop
 ////////////////////////////////////////////////////////////////////////
-// #include "Desktop/IControlViewer.h"
-// #include "Desktop/IDesktopMgr.h"
+// #include "Desktop/DesktopGlobal.h"
 ////////////////////////////////////////////////////////////////////////
 
 //Scene
 ////////////////////////////////////////////////////////////////////////
-// #include "Scene/ICamera.h"
-// #include "Scene/ISceneNode.h"
-// #include "Scene/ISceneGraph.h"
-// #include "Scene/ISceneImporter.h"
-// #include "Scene/ISceneMgr.h"
+// #include "Scene/SceneGlobal.h"
 ////////////////////////////////////////////////////////////////////////
 
 using namespace Pharos;

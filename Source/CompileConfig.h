@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
 #define _WINDOWS_PLATFORM_
@@ -13,7 +13,7 @@
 #endif
 
 #if defined (__MAC_OS_X_VERSION_MIN_REQUIRED)
-#define _OSX_PLATFORM_
+#define _MACOS_PLATFORM_
 #endif
 
 ////#if (__IPHONE_OS_VERSION_MIN_REQUIRED <= __IPHONE_7_0)

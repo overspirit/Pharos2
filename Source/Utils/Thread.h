@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #if defined(_WINDOWS_PLATFORM_)
 
@@ -60,7 +60,7 @@ typedef HANDLE								SEMAPHORE_HANDLE;
 
 #endif
 
-#if defined(_IOS_PLATFORM_) || defined(_ANDROID_PLATFORM_)
+#if defined(_IOS_PLATFORM_) || defined(_ANDROID_PLATFORM_) || defined(_MACOS_PLATFORM_)
 
 #include <string.h>
 #include <pthread.h>

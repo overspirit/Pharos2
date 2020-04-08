@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -19,7 +19,7 @@ namespace Pharos
 				//分解盘符和其他部分
 				//////////////////////////////////////////////////////////////////////////
 				tmp = buf;
-				char8* driver = "";
+				char8* driver = NULL;
 				char8* full_path = tmp;		//防止出现没有盘符的情况
 
 				while (*tmp != '\0')
@@ -39,7 +39,7 @@ namespace Pharos
 				//分解文件名和目录名
 				//////////////////////////////////////////////////////////////////////////
 				tmp = end;
-				char8* dir = "";
+				char8* dir = NULL;
 				char8* full_name = full_path;	//防止出现没有目录的时候
 
 				while (tmp != full_path - 1)
@@ -60,7 +60,7 @@ namespace Pharos
 				//////////////////////////////////////////////////////////////////////////
 				tmp = end;
 				char8* name = full_name;
-				char8* ext = "";
+				char8* ext = NULL;
 
 				while (tmp != full_name - 1)
 				{
@@ -78,15 +78,15 @@ namespace Pharos
 
 				//将替换的分割符重新加上
 				//////////////////////////////////////////////////////////////////////////
-				m_driver = string(driver);
+                m_driver = (driver == NULL) ? string("") : string(driver);
 				if (!m_driver.empty()) m_driver += ":";
 
 				//如果目录名为空，盘符不为空，说明曾经替换过一个分隔符，要重新加上
-				m_dir = string(dir);
+				m_dir = (dir == NULL) ? string("") : string(dir);
 				if ((m_dir.empty() && !m_driver.empty()) || !m_dir.empty()) m_dir += "/";
 
 				m_fileName = string(name);
-				m_fileExt = string(ext);
+				m_fileExt = (ext == NULL) ? string("") : string(ext);
 				if (!m_fileExt.empty()) m_fileExt = "." + m_fileExt;
 
 				m_fullPath = m_driver + m_dir;

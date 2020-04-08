@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
 
-#include "Pharos.h"
-
+//Windows
+//////////////////////////////////////////////////////////////////////////
 #if defined(_WINDOWS_PLATFORM_)
 
 #include "Windows/InputSystem/InputDevice.h"
@@ -19,8 +19,26 @@
 #define sPlatform PlatformWindows::Inst()
 
 #endif
+//////////////////////////////////////////////////////////////////////////
 
+//macOS
+//////////////////////////////////////////////////////////////////////////
+#if defined(_MACOS_PLATFORM_)
 
+#include "macOS/Timer.h"
+
+#ifdef __OBJC__
+
+#include "macOS/PlatformMacOS.h"
+#define sPlatform PlatformMacOS::Inst()
+
+#endif
+
+#endif
+//////////////////////////////////////////////////////////////////////////
+
+//iOS
+//////////////////////////////////////////////////////////////////////////
 #if defined(_IOS_PLATFORM_)
 
 #include "iOS/Timer.h"
@@ -30,7 +48,10 @@ const char* GetDocumentDirectory();
 const char* GetMainBundleDirectory();
 
 #endif
+//////////////////////////////////////////////////////////////////////////
 
+//Android
+//////////////////////////////////////////////////////////////////////////
 #if defined(_ANDROID_PLATFORM_)
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Android Application", __VA_ARGS__))
@@ -54,22 +75,28 @@ const char* GetMainBundleDirectory();
 #define sGLUE AndroidGlue::Inst()
 
 #endif
+//////////////////////////////////////////////////////////////////////////
+
+#include "EventDefine.h"
 
 #include "File.h"
-#include "MemoryBuffer.h"
+//#include "Image.h"
 
-#include "ResBase.h"
-#include "XmlAttribute.h"
-#include "XmlNode.h"
-#include "XmlDocument.h"
-#include "Font.h"
-#include "Image.h"
-#include "Properties.h"
-#include "ResourceManager.h"
+//#include "MemoryBuffer.h"
+//
+//#include "ResBase.h"
+//#include "XmlAttribute.h"
+//#include "XmlNode.h"
+//#include "XmlDocument.h"
+//#include "Font.h"
+//#include "Properties.h"
+//#include "ResourceManager.h"
 
+#include "IApplication.h"
 #include "Kernel.h"
 
 #define sKernel Kernel::Inst()
-#define sResMgr ResourceManager::Inst()
+//#define sResMgr ResourceManager::Inst()
 
-using namespace Core;
+using namespace Pharos;
+using namespace Pharos::Core;
