@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 // FreeImage 3
 //
 // Design and implementation by
@@ -150,7 +150,9 @@ FI_STRUCT (FIMULTIBITMAP) { void *data; };
 #ifndef _MSC_VER
 // define portable types for 32-bit / 64-bit OS
 #include <inttypes.h>
+#ifndef OBJC_BOOL_DEFINED
 typedef int32_t BOOL;
+#endif
 typedef uint8_t BYTE;
 typedef uint16_t WORD;
 typedef uint32_t DWORD;
