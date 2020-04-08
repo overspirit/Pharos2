@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "External">
+      <Group
+         location = "container:"
+         name = "rapidXml">
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_define.hpp">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_exceptions.hpp">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_iterators.hpp">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_lookup_tables.hpp">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_memory_pool.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_print.hpp">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_utils.hpp">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_xml_attribute.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_xml_base.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_xml_document.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml_xml_node.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidXml/rapidxml.hpp">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "dlmalloc">
+         <FileRef
+            location = "group:../External/dlmalloc/dlmalloc.h">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:../External/FreeImage-3.17.0/Projects/FreeImage.x86_64.macOS.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../External/freetype-2.8/Projects/freetype.x86_64.macOS.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../External/libjpeg-9b/Projects/libjpeg.x86_64.macOS.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../External/libpng-1.6.29/Projects/libpng.x86_64.macOS.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../External/zlib-1.2.11/Projects/zlib.x86_64.macOS.xcodeproj">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:Engine.x86_64.macOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../Sample/ModelViewer/ModelViewer.xcodeproj">
+   </FileRef>
+</Workspace>
