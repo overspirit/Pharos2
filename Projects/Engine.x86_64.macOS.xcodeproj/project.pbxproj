@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83E8243734400002DFF0 /* CompileConfig.h */; };
+		F97F83EE243734400002DFF0 /* PreCompile.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83EA243734400002DFF0 /* PreCompile.h */; };
+		F97F842F243C2BD50002DFF0 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F97F842E243C2BD50002DFF0 /* main.mm */; };
+		F97F8482243C507B0002DFF0 /* Pharos.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F8480243C507B0002DFF0 /* Pharos.h */; };
+		F97F8483243C507B0002DFF0 /* TypesDef.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F8481243C507B0002DFF0 /* TypesDef.h */; };
+		F97F8486243C51FD0002DFF0 /* EventDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F8484243C51FD0002DFF0 /* EventDefine.h */; };
+		F97F8487243C51FD0002DFF0 /* IApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F8485243C51FD0002DFF0 /* IApplication.h */; };
+		F97F848E243C65880002DFF0 /* PlatformMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F848C243C65870002DFF0 /* PlatformMacOS.h */; };
+		F97F848F243C65880002DFF0 /* PlatformMacOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = F97F848D243C65870002DFF0 /* PlatformMacOS.mm */; };
+		F97F8491243C66500002DFF0 /* CoreGlobal.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F8490243C66500002DFF0 /* CoreGlobal.h */; };
+		F97F849F243C7E740002DFF0 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97F8499243C7E730002DFF0 /* Timer.cpp */; };
+		F97F84A1243C7E740002DFF0 /* Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F849B243C7E740002DFF0 /* Timer.h */; };
+		F97F84AB243C91D30002DFF0 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97F84A9243C91D30002DFF0 /* File.cpp */; };
+		F97F84AC243C91D30002DFF0 /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84AA243C91D30002DFF0 /* File.h */; };
+		F97F84C4243D7E5A0002DFF0 /* Path.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84BE243D7E5A0002DFF0 /* Path.h */; };
+		F97F84C5243D7E5A0002DFF0 /* Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84BF243D7E5A0002DFF0 /* Factory.h */; };
+		F97F84C6243D7E5A0002DFF0 /* Singleton.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84C0243D7E5A0002DFF0 /* Singleton.h */; };
+		F97F84C7243D7E5A0002DFF0 /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84C1243D7E5A0002DFF0 /* Thread.h */; };
+		F97F84C8243D7E5A0002DFF0 /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84C2243D7E5A0002DFF0 /* Util.h */; };
+		F97F84DE243D7E6F0002DFF0 /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84CB243D7E6E0002DFF0 /* Color.h */; };
+		F97F84DF243D7E6F0002DFF0 /* Vector3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84CC243D7E6E0002DFF0 /* Vector3D.h */; };
+		F97F84E0243D7E6F0002DFF0 /* DualQuaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84CD243D7E6E0002DFF0 /* DualQuaternion.h */; };
+		F97F84E1243D7E6F0002DFF0 /* Quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84CE243D7E6E0002DFF0 /* Quaternion.h */; };
+		F97F84E2243D7E6F0002DFF0 /* AABBox3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84CF243D7E6E0002DFF0 /* AABBox3D.h */; };
+		F97F84E3243D7E6F0002DFF0 /* Vector2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D0243D7E6E0002DFF0 /* Vector2D.h */; };
+		F97F84E4243D7E6F0002DFF0 /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D1243D7E6E0002DFF0 /* Matrix4.h */; };
+		F97F84E6243D7E6F0002DFF0 /* Point2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D3243D7E6E0002DFF0 /* Point2D.h */; };
+		F97F84E7243D7E6F0002DFF0 /* Triangle3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D4243D7E6E0002DFF0 /* Triangle3D.h */; };
+		F97F84E8243D7E6F0002DFF0 /* Plane3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D5243D7E6E0002DFF0 /* Plane3D.h */; };
+		F97F84E9243D7E6F0002DFF0 /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D6243D7E6E0002DFF0 /* Geometry.h */; };
+		F97F84EA243D7E6F0002DFF0 /* Size2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D7243D7E6E0002DFF0 /* Size2D.h */; };
+		F97F84EB243D7E6F0002DFF0 /* Line2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D8243D7E6E0002DFF0 /* Line2D.h */; };
+		F97F84EC243D7E6F0002DFF0 /* Vector4D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84D9243D7E6E0002DFF0 /* Vector4D.h */; };
+		F97F84ED243D7E6F0002DFF0 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84DA243D7E6E0002DFF0 /* Common.h */; };
+		F97F84EE243D7E6F0002DFF0 /* Line3D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84DB243D7E6F0002DFF0 /* Line3D.h */; };
+		F97F84EF243D7E6F0002DFF0 /* Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84DC243D7E6F0002DFF0 /* Frustum.h */; };
+		F97F84F0243D7E6F0002DFF0 /* Rect2D.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84DD243D7E6F0002DFF0 /* Rect2D.h */; };
+		F97F84FF243DB4300002DFF0 /* Kernel.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F84FD243DB4300002DFF0 /* Kernel.h */; };
+		F97F8500243DB4300002DFF0 /* Kernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97F84FE243DB4300002DFF0 /* Kernel.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F90BE5762435C21B0018A7F2 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F97F83E8243734400002DFF0 /* CompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompileConfig.h; path = ../Source/CompileConfig.h; sourceTree = "<group>"; };
+		F97F83EA243734400002DFF0 /* PreCompile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreCompile.h; path = ../Source/PreCompile.h; sourceTree = "<group>"; };
+		F97F842E243C2BD50002DFF0 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = main.mm; path = ../Source/Core/macOS/main.mm; sourceTree = "<group>"; };
+		F97F8480243C507B0002DFF0 /* Pharos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Pharos.h; path = ../Source/Pharos.h; sourceTree = "<group>"; };
+		F97F8481243C507B0002DFF0 /* TypesDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TypesDef.h; path = ../Source/TypesDef.h; sourceTree = "<group>"; };
+		F97F8484243C51FD0002DFF0 /* EventDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventDefine.h; path = ../Source/Core/EventDefine.h; sourceTree = "<group>"; };
+		F97F8485243C51FD0002DFF0 /* IApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IApplication.h; path = ../Source/Core/IApplication.h; sourceTree = "<group>"; };
+		F97F848C243C65870002DFF0 /* PlatformMacOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlatformMacOS.h; path = ../Source/Core/macOS/PlatformMacOS.h; sourceTree = "<group>"; };
+		F97F848D243C65870002DFF0 /* PlatformMacOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PlatformMacOS.mm; path = ../Source/Core/macOS/PlatformMacOS.mm; sourceTree = "<group>"; };
+		F97F8490243C66500002DFF0 /* CoreGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreGlobal.h; path = ../Source/Core/CoreGlobal.h; sourceTree = "<group>"; };
+		F97F8493243C7CC20002DFF0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F97F8495243C7CE60002DFF0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		F97F8499243C7E730002DFF0 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Timer.cpp; path = ../Source/Core/macOS/Timer.cpp; sourceTree = "<group>"; };
+		F97F849B243C7E740002DFF0 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Timer.h; path = ../Source/Core/macOS/Timer.h; sourceTree = "<group>"; };
+		F97F84A9243C91D30002DFF0 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = File.cpp; path = ../Source/Core/File.cpp; sourceTree = "<group>"; };
+		F97F84AA243C91D30002DFF0 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.h; path = ../Source/Core/File.h; sourceTree = "<group>"; };
+		F97F84BE243D7E5A0002DFF0 /* Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Path.h; path = ../Source/Utils/Path.h; sourceTree = "<group>"; };
+		F97F84BF243D7E5A0002DFF0 /* Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Factory.h; path = ../Source/Utils/Factory.h; sourceTree = "<group>"; };
+		F97F84C0243D7E5A0002DFF0 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Singleton.h; path = ../Source/Utils/Singleton.h; sourceTree = "<group>"; };
+		F97F84C1243D7E5A0002DFF0 /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = ../Source/Utils/Thread.h; sourceTree = "<group>"; };
+		F97F84C2243D7E5A0002DFF0 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = ../Source/Utils/Util.h; sourceTree = "<group>"; };
+		F97F84CB243D7E6E0002DFF0 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../Source/Math/Color.h; sourceTree = "<group>"; };
+		F97F84CC243D7E6E0002DFF0 /* Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3D.h; path = ../Source/Math/Vector3D.h; sourceTree = "<group>"; };
+		F97F84CD243D7E6E0002DFF0 /* DualQuaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DualQuaternion.h; path = ../Source/Math/DualQuaternion.h; sourceTree = "<group>"; };
+		F97F84CE243D7E6E0002DFF0 /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = ../Source/Math/Quaternion.h; sourceTree = "<group>"; };
+		F97F84CF243D7E6E0002DFF0 /* AABBox3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AABBox3D.h; path = ../Source/Math/AABBox3D.h; sourceTree = "<group>"; };
+		F97F84D0243D7E6E0002DFF0 /* Vector2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2D.h; path = ../Source/Math/Vector2D.h; sourceTree = "<group>"; };
+		F97F84D1243D7E6E0002DFF0 /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = ../Source/Math/Matrix4.h; sourceTree = "<group>"; };
+		F97F84D3243D7E6E0002DFF0 /* Point2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Point2D.h; path = ../Source/Math/Point2D.h; sourceTree = "<group>"; };
+		F97F84D4243D7E6E0002DFF0 /* Triangle3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Triangle3D.h; path = ../Source/Math/Triangle3D.h; sourceTree = "<group>"; };
+		F97F84D5243D7E6E0002DFF0 /* Plane3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane3D.h; path = ../Source/Math/Plane3D.h; sourceTree = "<group>"; };
+		F97F84D6243D7E6E0002DFF0 /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Geometry.h; path = ../Source/Math/Geometry.h; sourceTree = "<group>"; };
+		F97F84D7243D7E6E0002DFF0 /* Size2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Size2D.h; path = ../Source/Math/Size2D.h; sourceTree = "<group>"; };
+		F97F84D8243D7E6E0002DFF0 /* Line2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Line2D.h; path = ../Source/Math/Line2D.h; sourceTree = "<group>"; };
+		F97F84D9243D7E6E0002DFF0 /* Vector4D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector4D.h; path = ../Source/Math/Vector4D.h; sourceTree = "<group>"; };
+		F97F84DA243D7E6E0002DFF0 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Common.h; path = ../Source/Math/Common.h; sourceTree = "<group>"; };
+		F97F84DB243D7E6F0002DFF0 /* Line3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Line3D.h; path = ../Source/Math/Line3D.h; sourceTree = "<group>"; };
+		F97F84DC243D7E6F0002DFF0 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../Source/Math/Frustum.h; sourceTree = "<group>"; };
+		F97F84DD243D7E6F0002DFF0 /* Rect2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rect2D.h; path = ../Source/Math/Rect2D.h; sourceTree = "<group>"; };
+		F97F84FD243DB4300002DFF0 /* Kernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kernel.h; path = ../Source/Core/Kernel.h; sourceTree = "<group>"; };
+		F97F84FE243DB4300002DFF0 /* Kernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.cpp; path = ../Source/Core/Kernel.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F90BE5742435C21B0018A7F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F90BE56D2435C21B0018A7F2 = {
+			isa = PBXGroup;
+			children = (
+				F97F83F0243734430002DFF0 /* Source */,
+				F97F8492243C7CC20002DFF0 /* Frameworks */,
+				F90BE5772435C21B0018A7F2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F90BE5772435C21B0018A7F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F90BE5762435C21B0018A7F2 /* libEngine.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F97F83F0243734430002DFF0 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				F97F84CA243D7E5F0002DFF0 /* Math */,
+				F97F84BD243D7E460002DFF0 /* Utils */,
+				F97F83F1243734740002DFF0 /* Core */,
+				F97F83E8243734400002DFF0 /* CompileConfig.h */,
+				F97F8480243C507B0002DFF0 /* Pharos.h */,
+				F97F83EA243734400002DFF0 /* PreCompile.h */,
+				F97F8481243C507B0002DFF0 /* TypesDef.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		F97F83F1243734740002DFF0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F97F8490243C66500002DFF0 /* CoreGlobal.h */,
+				F97F8484243C51FD0002DFF0 /* EventDefine.h */,
+				F97F84A9243C91D30002DFF0 /* File.cpp */,
+				F97F84AA243C91D30002DFF0 /* File.h */,
+				F97F8485243C51FD0002DFF0 /* IApplication.h */,
+				F97F84FE243DB4300002DFF0 /* Kernel.cpp */,
+				F97F84FD243DB4300002DFF0 /* Kernel.h */,
+				F97F842E243C2BD50002DFF0 /* main.mm */,
+				F97F848C243C65870002DFF0 /* PlatformMacOS.h */,
+				F97F848D243C65870002DFF0 /* PlatformMacOS.mm */,
+				F97F8499243C7E730002DFF0 /* Timer.cpp */,
+				F97F849B243C7E740002DFF0 /* Timer.h */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		F97F8492243C7CC20002DFF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F97F8495243C7CE60002DFF0 /* AppKit.framework */,
+				F97F8493243C7CC20002DFF0 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F97F84BD243D7E460002DFF0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F97F84BF243D7E5A0002DFF0 /* Factory.h */,
+				F97F84BE243D7E5A0002DFF0 /* Path.h */,
+				F97F84C0243D7E5A0002DFF0 /* Singleton.h */,
+				F97F84C1243D7E5A0002DFF0 /* Thread.h */,
+				F97F84C2243D7E5A0002DFF0 /* Util.h */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		F97F84CA243D7E5F0002DFF0 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				F97F84CF243D7E6E0002DFF0 /* AABBox3D.h */,
+				F97F84CB243D7E6E0002DFF0 /* Color.h */,
+				F97F84DA243D7E6E0002DFF0 /* Common.h */,
+				F97F84CD243D7E6E0002DFF0 /* DualQuaternion.h */,
+				F97F84DC243D7E6F0002DFF0 /* Frustum.h */,
+				F97F84D6243D7E6E0002DFF0 /* Geometry.h */,
+				F97F84D8243D7E6E0002DFF0 /* Line2D.h */,
+				F97F84DB243D7E6F0002DFF0 /* Line3D.h */,
+				F97F84D1243D7E6E0002DFF0 /* Matrix4.h */,
+				F97F84D5243D7E6E0002DFF0 /* Plane3D.h */,
+				F97F84D3243D7E6E0002DFF0 /* Point2D.h */,
+				F97F84CE243D7E6E0002DFF0 /* Quaternion.h */,
+				F97F84DD243D7E6F0002DFF0 /* Rect2D.h */,
+				F97F84D7243D7E6E0002DFF0 /* Size2D.h */,
+				F97F84D4243D7E6E0002DFF0 /* Triangle3D.h */,
+				F97F84D0243D7E6E0002DFF0 /* Vector2D.h */,
+				F97F84CC243D7E6E0002DFF0 /* Vector3D.h */,
+				F97F84D9243D7E6E0002DFF0 /* Vector4D.h */,
+			);
+			name = Math;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F90BE5722435C21B0018A7F2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F97F84C6243D7E5A0002DFF0 /* Singleton.h in Headers */,
+				F97F84FF243DB4300002DFF0 /* Kernel.h in Headers */,
+				F97F8491243C66500002DFF0 /* CoreGlobal.h in Headers */,
+				F97F84ED243D7E6F0002DFF0 /* Common.h in Headers */,
+				F97F84E9243D7E6F0002DFF0 /* Geometry.h in Headers */,
+				F97F84E8243D7E6F0002DFF0 /* Plane3D.h in Headers */,
+				F97F84E2243D7E6F0002DFF0 /* AABBox3D.h in Headers */,
+				F97F84E7243D7E6F0002DFF0 /* Triangle3D.h in Headers */,
+				F97F84E1243D7E6F0002DFF0 /* Quaternion.h in Headers */,
+				F97F8486243C51FD0002DFF0 /* EventDefine.h in Headers */,
+				F97F84EB243D7E6F0002DFF0 /* Line2D.h in Headers */,
+				F97F84C5243D7E5A0002DFF0 /* Factory.h in Headers */,
+				F97F84EC243D7E6F0002DFF0 /* Vector4D.h in Headers */,
+				F97F8483243C507B0002DFF0 /* TypesDef.h in Headers */,
+				F97F84DF243D7E6F0002DFF0 /* Vector3D.h in Headers */,
+				F97F84DE243D7E6F0002DFF0 /* Color.h in Headers */,
+				F97F84AC243C91D30002DFF0 /* File.h in Headers */,
+				F97F8482243C507B0002DFF0 /* Pharos.h in Headers */,
+				F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */,
+				F97F83EE243734400002DFF0 /* PreCompile.h in Headers */,
+				F97F84C8243D7E5A0002DFF0 /* Util.h in Headers */,
+				F97F848E243C65880002DFF0 /* PlatformMacOS.h in Headers */,
+				F97F84F0243D7E6F0002DFF0 /* Rect2D.h in Headers */,
+				F97F84E4243D7E6F0002DFF0 /* Matrix4.h in Headers */,
+				F97F84EE243D7E6F0002DFF0 /* Line3D.h in Headers */,
+				F97F84C4243D7E5A0002DFF0 /* Path.h in Headers */,
+				F97F84A1243C7E740002DFF0 /* Timer.h in Headers */,
+				F97F84EF243D7E6F0002DFF0 /* Frustum.h in Headers */,
+				F97F84C7243D7E5A0002DFF0 /* Thread.h in Headers */,
+				F97F8487243C51FD0002DFF0 /* IApplication.h in Headers */,
+				F97F84EA243D7E6F0002DFF0 /* Size2D.h in Headers */,
+				F97F84E3243D7E6F0002DFF0 /* Vector2D.h in Headers */,
+				F97F84E0243D7E6F0002DFF0 /* DualQuaternion.h in Headers */,
+				F97F84E6243D7E6F0002DFF0 /* Point2D.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F90BE5752435C21B0018A7F2 /* Engine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F90BE5812435C21B0018A7F2 /* Build configuration list for PBXNativeTarget "Engine" */;
+			buildPhases = (
+				F90BE5722435C21B0018A7F2 /* Headers */,
+				F90BE5732435C21B0018A7F2 /* Sources */,
+				F90BE5742435C21B0018A7F2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Engine;
+			productName = Engine;
+			productReference = F90BE5762435C21B0018A7F2 /* libEngine.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F90BE56E2435C21B0018A7F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = mindbrain;
+				TargetAttributes = {
+					F90BE5752435C21B0018A7F2 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = F90BE5712435C21B0018A7F2 /* Build configuration list for PBXProject "Engine.x86_64.macOS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F90BE56D2435C21B0018A7F2;
+			productRefGroup = F90BE5772435C21B0018A7F2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F90BE5752435C21B0018A7F2 /* Engine */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F90BE5732435C21B0018A7F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F97F848F243C65880002DFF0 /* PlatformMacOS.mm in Sources */,
+				F97F842F243C2BD50002DFF0 /* main.mm in Sources */,
+				F97F84AB243C91D30002DFF0 /* File.cpp in Sources */,
+				F97F8500243DB4300002DFF0 /* Kernel.cpp in Sources */,
+				F97F849F243C7E740002DFF0 /* Timer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F90BE57F2435C21B0018A7F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F90BE5802435C21B0018A7F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F90BE5822435C21B0018A7F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q9K3JMNPJ8;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				HEADER_SEARCH_PATHS = (
+					"../External/FreeImage-3.17.0/Include",
+					"../External/libpng-1.6.29/Source",
+					"../External/libjpeg-9b/Source",
+					"../External/freetype-2.8/Include",
+					"../External/zlib-1.2.11/Source",
+					../External/rapidXml,
+					../External/dlmalloc,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F90BE5832435C21B0018A7F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q9K3JMNPJ8;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				HEADER_SEARCH_PATHS = (
+					"../External/FreeImage-3.17.0/Include",
+					"../External/libpng-1.6.29/Source",
+					"../External/libjpeg-9b/Source",
+					"../External/freetype-2.8/Include",
+					"../External/zlib-1.2.11/Source",
+					../External/rapidXml,
+					../External/dlmalloc,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F90BE5712435C21B0018A7F2 /* Build configuration list for PBXProject "Engine.x86_64.macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F90BE57F2435C21B0018A7F2 /* Debug */,
+				F90BE5802435C21B0018A7F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F90BE5812435C21B0018A7F2 /* Build configuration list for PBXNativeTarget "Engine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F90BE5822435C21B0018A7F2 /* Debug */,
+				F90BE5832435C21B0018A7F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F90BE56E2435C21B0018A7F2 /* Project object */;
+}
