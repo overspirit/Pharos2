@@ -1,6 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 ToneMappingPostProcess::ToneMappingPostProcess()
 {

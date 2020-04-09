@@ -1,6 +1,4 @@
-﻿#pragma once
-
-#include "Pharos.h"
+#pragma once
 
 #include "SceneCamera.h"
 #include "SceneNode.h"

@@ -1,7 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "DesktopGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 #define HORI_CHAR_NUM 64	//横向有多少个字符
 #define VERT_CHAR_NUM 64	//纵向有多少个字符

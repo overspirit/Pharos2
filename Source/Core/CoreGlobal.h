@@ -21,6 +21,8 @@
 #endif
 //////////////////////////////////////////////////////////////////////////
 
+
+
 //macOS
 //////////////////////////////////////////////////////////////////////////
 #if defined(_MACOS_PLATFORM_)
@@ -37,6 +39,8 @@
 #endif
 //////////////////////////////////////////////////////////////////////////
 
+
+
 //iOS
 //////////////////////////////////////////////////////////////////////////
 #if defined(_IOS_PLATFORM_)
@@ -49,6 +53,9 @@ const char* GetMainBundleDirectory();
 
 #endif
 //////////////////////////////////////////////////////////////////////////
+
+
+
 
 //Android
 //////////////////////////////////////////////////////////////////////////
@@ -77,26 +84,29 @@ const char* GetMainBundleDirectory();
 #endif
 //////////////////////////////////////////////////////////////////////////
 
+
+
+
 #include "EventDefine.h"
 
 #include "File.h"
-//#include "Image.h"
 
-//#include "MemoryBuffer.h"
-//
-//#include "ResBase.h"
-//#include "XmlAttribute.h"
-//#include "XmlNode.h"
-//#include "XmlDocument.h"
-//#include "Font.h"
-//#include "Properties.h"
-//#include "ResourceManager.h"
+#include "MemoryBuffer.h"
+
+#include "ResBase.h"
+#include "XmlAttribute.h"
+#include "XmlNode.h"
+#include "XmlDocument.h"
+#include "Font.h"
+#include "Image.h"
+#include "Properties.h"
+#include "ResourceManager.h"
 
 #include "IApplication.h"
 #include "Kernel.h"
 
 #define sKernel Kernel::Inst()
-//#define sResMgr ResourceManager::Inst()
+#define sResMgr ResourceManager::Inst()
 
 using namespace Pharos;
 using namespace Pharos::Core;

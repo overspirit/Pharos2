@@ -1,7 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "DesktopGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 Texture::Texture(void)
 {

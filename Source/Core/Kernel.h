@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -33,10 +33,7 @@ namespace Pharos
             
 			virtual void onKeyboardEvent(const KeyEvent& keyEvent);
 			virtual void onMouseEvent(const MouseEvent& mouseEvent);
-
-			virtual void onViewCreate();
-			virtual void onViewChangeSize(int32 width, int32 height);
-			virtual void onViewDestroy();
+			virtual void onWindowChangeSize(int32 width, int32 height);
 
 		public:
 			virtual IApplication* GetUserApplication() { return m_pApp; }

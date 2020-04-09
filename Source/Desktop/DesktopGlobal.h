@@ -1,6 +1,4 @@
-﻿#pragma once
-
-#include "Pharos.h"
+#pragma once
 
 #include "UIDefine.h"
 #include "IControlViewer.h"

@@ -1,5 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 XmlAttribute::XmlAttribute()
 {

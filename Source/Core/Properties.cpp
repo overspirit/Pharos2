@@ -1,5 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 Properties::Properties()   
 {
@@ -302,7 +302,10 @@ void Properties::readProperties(File* file)
                         {
                             // Back up from fgetc()
                             if (file->Seek(-1, EFST_CURR) == false)
+                            {
                                 //GP_ERROR("Failed to Seek backwards a single character after testing if the next line starts with '{'.");
+                                return;
+                            }
 
                             // Store "name value" as a name/value pair, or even just "name".
                             if (value != NULL)
@@ -346,6 +349,7 @@ void Properties::skipWhiteSpace(File* file)
         if (file->Seek(-1, EFST_CURR) == false)
         {
             //GP_ERROR("Failed to Seek backwards one character after skipping whitespace.");
+            return;
         }
     }
 }

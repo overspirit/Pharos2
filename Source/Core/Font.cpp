@@ -1,5 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 Font::Font(FT_Library fontLib)
 {
@@ -168,6 +168,7 @@ void Font::LoadDisChar(char16 ch)
 	}
 
 	//for test
+    /*
 	if (false)
 	{
 		char buf[4] = { 0 };
@@ -184,6 +185,7 @@ void Font::LoadDisChar(char16 ch)
 		string savePath = string("D:\\") + string(buf);
 		this->SaveCharBitmap(savePath.c_str());
 	}
+     */
 }
 
 bool Font::SaveCharBitmap(const char8* path)

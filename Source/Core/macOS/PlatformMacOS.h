@@ -4,6 +4,7 @@ namespace Pharos
 {
 	namespace Core
 	{
+        
 		class PlatformMacOS : public Utils::Singleton<PlatformMacOS>
 		{
 		public:
@@ -14,20 +15,18 @@ namespace Pharos
             NSWindow*       m_window;
             MTKView*        m_view;
 			Timer			m_timer;
-
+            NSTrackingArea* m_trackingArea;
+            NSResponder* m_wc;
+            
 		public:
 			virtual bool Init();			
 			virtual void Destroy();			
 			virtual void Update();
 
-			//virtual HWND GetWindowsHandle() { return m_hWnd; }
+            virtual void onKeyboardEvent(NSEvent* keyEvent);
+			virtual void onMouseEvent(NSEvent* mouseEvent);
 
-            //virtual void onKeyboardEvent(const Pharos::KeyEvent& keyEvent);
-			//virtual void onMouseEvent(const Pharos::MouseEvent& mouseEvent);
-
-			virtual void onWindowCreate();
-			virtual void onWindowChangeSize(int32 width, int32 height);
-			virtual void onWindowDestroy();
+			virtual void onViewChangeSize(int32 width, int32 height);
 		};
 	}
 }

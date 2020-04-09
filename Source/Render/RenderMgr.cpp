@@ -1,6 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 RenderMgr::RenderMgr()
 {
@@ -292,6 +291,8 @@ void RenderMgr::Update(float32 fElapsed)
 
 void RenderMgr::Render(float32 fElapsed)
 {
+    if (m_defaultFrameBuf == nullptr) return;
+    
 	m_defaultFrameBuf->ClearFrameBuffer();
 
  	m_renderer->BindFrameBuffer(m_finalFrameBuf);

@@ -1,7 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 SceneMgr::SceneMgr()
 {
@@ -37,7 +35,7 @@ SceneImporter* SceneMgr::CreateSceneImporter(const char8* sceneFile)
 {
 	Utils::Path path(sceneFile);
 	const char8* ext = path.GetFileExtension();
-	ext = strlwr((char8*)ext);
+	//ext = strlwr((char8*)ext);
 
 	SceneImporter* importer = nullptr;
 	if (strcmp(ext, ".sceneml") == 0)

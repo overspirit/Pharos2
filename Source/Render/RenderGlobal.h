@@ -1,6 +1,4 @@
-﻿#pragma once
-
-#include "Pharos.h"
+#pragma once
 
 #include "RenderDefine.h"
 #include "VertexDefine.h"
@@ -22,6 +20,9 @@
 #include "Effect/RenderPass.h"
 #include "Effect/RenderTechnique.h"
 
+
+//Windows
+//////////////////////////////////////////////////////////////////////////
 #if defined(_WINDOWS_PLATFORM_)
 
 #include "Renderer/D3D11/D3D11Utils.h"
@@ -46,27 +47,34 @@
 #define MakeRenderTechnique() new D3D11RenderTechnique()
 
 #endif
+//////////////////////////////////////////////////////////////////////////
 
-#if defined(_ANDROID_PLATFORM_)
+//macOS
+//////////////////////////////////////////////////////////////////////////
+#include "Renderer/Metal/MetalSamplerState.h"
+#include "Renderer/Metal/MetalBlendState.h"
+#include "Renderer/Metal/MetalDepthStencilState.h"
+#include "Renderer/Metal/MetalRasterizerState.h"
+#include "Renderer/Metal/MetalTexture.h"
+#include "Renderer/Metal/MetalFrameBuffer.h"
+#include "Renderer/Metal/MetalConstantBuffer.h"
+#include "Renderer/Metal/MetalRenderLayout.h"
+#include "Renderer/Metal/MetalShaderProgram.h"
+#include "Renderer/Metal/MetalRenderer.h"
 
-#include "Renderer/OpenGL/OpenGLUtils.h"
-#include "Renderer/OpenGL/OpenGLBlendState.h"
-#include "Renderer/OpenGL/OpenGLDepthStencilState.h"
-#include "Renderer/OpenGL/OpenGLRasterizerState.h"
-#include "Renderer/OpenGL/OpenGLSampleState.h"
-#include "Renderer/OpenGL/OpenGLTexture.h"
-#include "Renderer/OpenGL/OpenGLFrameBuf.h"
-#include "Renderer/OpenGL/OpenGLUniformBuf.h"
-#include "Renderer/OpenGL/OpenGLRenderPass.h"
-#include "Renderer/OpenGL/OpenGLRenderTechnique.h"
-#include "Renderer/OpenGL/OpenGLRenderLayout.h"
-#include "Renderer/OpenGL/OpenGLRenderBlock.h"
-#include "Renderer/OpenGL/OpenGLEffectLoader.h"
-#include "Renderer/OpenGL/OpenGLRenderer.h"
-#include "Renderer/OpenGL/OGLAndroidRenderer.h"
+#include "Effect/Metal/MetalRenderTechInfo.h"
+#include "Effect/Metal/MetalEffectLoader.h"
+#include "Effect/Metal/MetalRenderPass.h"
+#include "Effect/Metal/MetalRenderTechnique.h"
 
-#endif
+#define MakeRenderer() new MetalRenderer()
+#define MakeEffectLoader() new MetalEffectLoader()
+#define MakeRenderTechnique() new MetalRenderTechnique()
 
+//////////////////////////////////////////////////////////////////////////
+
+//iOS
+//////////////////////////////////////////////////////////////////////////
 #if defined(_IOS_PLATFORM_)
 
 #include "Renderer/OpenGL/OpenGLUtils.h"
@@ -89,6 +97,33 @@
 #define MakeEffectLoader() MakeSharedPtr<OpenGLEffectLoader>()
 
 #endif
+//////////////////////////////////////////////////////////////////////////
+
+
+//Android
+//////////////////////////////////////////////////////////////////////////
+#if defined(_ANDROID_PLATFORM_)
+
+#include "Renderer/OpenGL/OpenGLUtils.h"
+#include "Renderer/OpenGL/OpenGLBlendState.h"
+#include "Renderer/OpenGL/OpenGLDepthStencilState.h"
+#include "Renderer/OpenGL/OpenGLRasterizerState.h"
+#include "Renderer/OpenGL/OpenGLSampleState.h"
+#include "Renderer/OpenGL/OpenGLTexture.h"
+#include "Renderer/OpenGL/OpenGLFrameBuf.h"
+#include "Renderer/OpenGL/OpenGLUniformBuf.h"
+#include "Renderer/OpenGL/OpenGLRenderPass.h"
+#include "Renderer/OpenGL/OpenGLRenderTechnique.h"
+#include "Renderer/OpenGL/OpenGLRenderLayout.h"
+#include "Renderer/OpenGL/OpenGLRenderBlock.h"
+#include "Renderer/OpenGL/OpenGLEffectLoader.h"
+#include "Renderer/OpenGL/OpenGLRenderer.h"
+#include "Renderer/OpenGL/OGLAndroidRenderer.h"
+
+#endif
+//////////////////////////////////////////////////////////////////////////
+
+
 
 #include "RenderBlock.h"
 

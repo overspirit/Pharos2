@@ -1,7 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 SceneNode::SceneNode()
 {

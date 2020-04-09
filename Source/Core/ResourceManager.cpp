@@ -1,11 +1,8 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "DesktopGlobal.h"
-#include "SceneGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
-#pragma message("------------------------------------资源的异步加载未完成!!!------------------------------------")
-#pragma message("------------------------------------资源的引用计数未完成!!!------------------------------------")
+//#pragma message("------------------------------------资源的异步加载未完成!!!------------------------------------")
+//#pragma message("------------------------------------资源的引用计数未完成!!!------------------------------------")
 
 ResourceManager::ResourceManager()
 {

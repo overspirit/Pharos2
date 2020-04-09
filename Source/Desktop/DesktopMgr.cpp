@@ -1,7 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "DesktopGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 //放在这里才会进入UIFactory，否则由于没有这几个类的实例所以会被编译器优化掉
 IMPLEMENT_UI_CLASS(Button)
@@ -265,11 +263,13 @@ void DesktopMgr::onViewDestroy()
 
 void DesktopMgr::Update(float32 fElapsed)
 {
-	m_worldFrame->Update(fElapsed);
+	if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
 }
 
 void DesktopMgr::Render(float32 fElapsed)
 {
+    if (m_worldFrame == nullptr) return;
+    
 	//IFrameBuffer* defFrameBuf = g_pDevice->GetDefaultFrameBuffer();
 	//defFrameBuf->ClearFrameBuffer(0x00, 1.0f, 0);
 

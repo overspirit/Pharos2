@@ -1,7 +1,5 @@
-﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
+#include "PreCompile.h"
+#include "Pharos.h"
 
 TreeNode::TreeNode(void)
 {
@@ -174,7 +172,7 @@ void TreeNode::Recompute(const Vector3Df& vtCenter, float32 fRadius)
 //计算基本点
 void TreeNode::ComputeBasePos()
 {
-	float32 r = m_fRadius/2.0f;
+	//float32 r = m_fRadius/2.0f;
 	float32 offset = Math::g_sin[45] * (m_fRadius / 2.0f);
 
 	for(int32 i = 0; i < 8; i++)
