@@ -29,6 +29,7 @@
 		F90BE618243728520018A7F2 /* pnginfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F90BE600243728520018A7F2 /* pnginfo.h */; };
 		F90BE619243728520018A7F2 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = F90BE601243728520018A7F2 /* pngerror.c */; };
 		F90BE61A243728520018A7F2 /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = F90BE602243728520018A7F2 /* pngread.c */; };
+		F9D98245243F10A30028DD41 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D98244243F10A30028DD41 /* libzlib.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		F90BE600243728520018A7F2 /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pnginfo.h; path = ../Source/pnginfo.h; sourceTree = "<group>"; };
 		F90BE601243728520018A7F2 /* pngerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngerror.c; path = ../Source/pngerror.c; sourceTree = "<group>"; };
 		F90BE602243728520018A7F2 /* pngread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngread.c; path = ../Source/pngread.c; sourceTree = "<group>"; };
+		F9D98244243F10A30028DD41 /* libzlib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libzlib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9D98245243F10A30028DD41 /* libzlib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +76,7 @@
 			children = (
 				F90BE5EA2437283C0018A7F2 /* Source */,
 				F90BE5492435C1FB0018A7F2 /* Products */,
+				F9D98243243F10A30028DD41 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +115,14 @@
 				F90BE5FD243728520018A7F2 /* pngwutil.c */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		F9D98243243F10A30028DD41 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9D98244243F10A30028DD41 /* libzlib.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,8 +344,10 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = "../../zlib-1.2.11/source";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wno-comma";
 			};
 			name = Debug;
 		};
@@ -347,8 +361,10 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				HEADER_SEARCH_PATHS = "../../zlib-1.2.11/source";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wno-comma";
 			};
 			name = Release;
 		};

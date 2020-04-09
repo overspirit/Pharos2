@@ -448,8 +448,14 @@
 					../Include,
 					"../../zlib-1.2.11/Source",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wno-documentation",
+					"-Wno-shorten-64-to-32",
+					"-Wno-comma",
+				);
 			};
 			name = Debug;
 		};
@@ -467,8 +473,14 @@
 					../Include,
 					"../../zlib-1.2.11/Source",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wno-documentation",
+					"-Wno-shorten-64-to-32",
+					"-Wno-comma",
+				);
 			};
 			name = Release;
 		};

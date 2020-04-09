@@ -88,6 +88,8 @@
 		F90BE79724372B230018A7F2 /* FreeImageTag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90BE73B24372B230018A7F2 /* FreeImageTag.cpp */; };
 		F90BE79824372B230018A7F2 /* FIRational.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90BE73C24372B230018A7F2 /* FIRational.cpp */; };
 		F90BE79924372B230018A7F2 /* ConversionRGBAF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F90BE73D24372B230018A7F2 /* ConversionRGBAF.cpp */; };
+		F9D98240243F109A0028DD41 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D9823F243F109A0028DD41 /* libjpeg.a */; };
+		F9D98242243F109A0028DD41 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D98241243F109A0028DD41 /* libpng.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -173,6 +175,8 @@
 		F90BE73B24372B230018A7F2 /* FreeImageTag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FreeImageTag.cpp; path = ../Source/FreeImageTag.cpp; sourceTree = "<group>"; };
 		F90BE73C24372B230018A7F2 /* FIRational.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FIRational.cpp; path = ../Source/FIRational.cpp; sourceTree = "<group>"; };
 		F90BE73D24372B230018A7F2 /* ConversionRGBAF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConversionRGBAF.cpp; path = ../Source/ConversionRGBAF.cpp; sourceTree = "<group>"; };
+		F9D9823F243F109A0028DD41 /* libjpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libjpeg.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9D98241243F109A0028DD41 /* libpng.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libpng.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9D98240243F109A0028DD41 /* libjpeg.a in Frameworks */,
+				F9D98242243F109A0028DD41 /* libpng.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +198,7 @@
 				F90BE6C324372AF90018A7F2 /* Include */,
 				F90BE6C224372AE90018A7F2 /* Source */,
 				F90BE5042435C16E0018A7F2 /* Products */,
+				F9D9823E243F109A0028DD41 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -296,6 +303,15 @@
 				F90BE6CB24372B0E0018A7F2 /* Utilities.h */,
 			);
 			name = Include;
+			sourceTree = "<group>";
+		};
+		F9D9823E243F109A0028DD41 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9D9823F243F109A0028DD41 /* libjpeg.a */,
+				F9D98241243F109A0028DD41 /* libpng.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,8 +598,20 @@
 					"../../libpng-1.6.29/Source",
 					"../../zlib-1.2.11/Source",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wno-documentation-deprecated-sync",
+					"-Wno-documentation",
+					"-Wno-shorten-64-to-32",
+					"-Wno-format",
+					"-Wno-switch",
+					"-Wno-comma",
+					"-Wno-logical-op-parentheses",
+					"-Wno-unused-comparison",
+					"-Wno-bitwise-op-parentheses",
+				);
 			};
 			name = Debug;
 		};
@@ -603,8 +631,20 @@
 					"../../libpng-1.6.29/Source",
 					"../../zlib-1.2.11/Source",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wno-documentation-deprecated-sync",
+					"-Wno-documentation",
+					"-Wno-shorten-64-to-32",
+					"-Wno-format",
+					"-Wno-switch",
+					"-Wno-comma",
+					"-Wno-logical-op-parentheses",
+					"-Wno-unused-comparison",
+					"-Wno-bitwise-op-parentheses",
+				);
 			};
 			name = Release;
 		};

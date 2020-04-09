@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 // PNG Loader and Writer
 //
 // Design and implementation by
@@ -71,13 +71,13 @@ _WriteProc(png_structp png_ptr, unsigned char *data, png_size_t size) {
 
 static void
 _FlushProc(png_structp png_ptr) {
-	(png_structp)png_ptr;
+	//(png_structp)png_ptr;
 	// empty flush implementation
 }
 
 static void
 error_handler(png_structp png_ptr, const char *error) {
-	(png_structp)png_ptr;
+	//(png_structp)png_ptr;
 	throw error;
 }
 
@@ -85,8 +85,8 @@ error_handler(png_structp png_ptr, const char *error) {
 
 static void
 warning_handler(png_structp png_ptr, const char *warning) {
-	(png_structp)png_ptr;
-	(char*)warning;
+	//(png_structp)png_ptr;
+	//(char*)warning;
 }
 
 // ==========================================================

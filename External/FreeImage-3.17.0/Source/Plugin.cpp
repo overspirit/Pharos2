@@ -1,4 +1,4 @@
-﻿// =====================================================================
+// =====================================================================
 // FreeImage Plugin Interface
 //
 // Design and implementation by
@@ -54,7 +54,7 @@ s_search_list[] = {
 	"plugins\\",
 };
 
-static int s_search_list_size = sizeof(s_search_list) / sizeof(char *);
+//static int s_search_list_size = sizeof(s_search_list) / sizeof(char *);
 static PluginList *s_plugins = NULL;
 static int s_plugin_reference_count = 0;
 
@@ -225,8 +225,9 @@ FreeImage_Initialise(BOOL load_local_plugins_only) {
 		*/
 
 		// initialise the TagLib singleton
-		TagLib& s = TagLib::instance();
-
+		//TagLib& s = TagLib::instance();
+        TagLib::instance();
+        
 		// internal plugin initialization
 
 		s_plugins = new(std::nothrow) PluginList;

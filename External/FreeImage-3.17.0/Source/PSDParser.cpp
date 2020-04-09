@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 // Photoshop Loader
 //
 // Design and implementation by
@@ -494,7 +494,8 @@ bool psdParser::ReadImageResources(FreeImageIO *io, fi_handle handle, LONG lengt
 		oResource._Length = length;
 	} else {
 		BYTE Length[4];
-		int n = (int)io->read_proc(&Length, sizeof(Length), 1, handle);
+		//int n = (int)io->read_proc(&Length, sizeof(Length), 1, handle);
+        io->read_proc(&Length, sizeof(Length), 1, handle);
 		
 		oResource._Length = psdGetValue( Length, sizeof(oResource._Length) );
 	}
