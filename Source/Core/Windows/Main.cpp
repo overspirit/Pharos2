@@ -1,7 +1,5 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
+#include "Pharos.h"
 
 using namespace Pharos;
 using namespace Pharos::Core;

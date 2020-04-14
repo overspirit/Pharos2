@@ -1,6 +1,5 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
+#include "Pharos.h"
 
 D3D11Renderer::D3D11Renderer(void)
 {

@@ -1,8 +1,4 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
-#include "DesktopGlobal.h"
 #include "Global.h"
 
 #define MOVE_SPEED 10.0f
@@ -17,6 +13,42 @@ MyApp::~MyApp()
 }
 
 IMPL_CREATE_APPLICATION(MyApp)
+
+int GetAllgpxFilepathFromfolder(char*  Path)
+{
+	char szFind[MAX_PATH];
+	WIN32_FIND_DATAA FindFileData;
+	strcpy(szFind, Path);
+	strcat(szFind, "\\*.*");
+	HANDLE hFind = FindFirstFileA(szFind, &FindFileData);
+	if (INVALID_HANDLE_VALUE == hFind)
+		return -1;
+
+	do
+	{
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			if (strcmp(FindFileData.cFileName, ".") != 0 && strcmp(FindFileData.cFileName, "..") != 0)
+			{
+				//发现子目录，递归之
+				char szFile[MAX_PATH] = { 0 };
+				strcpy(szFile, Path);
+				strcat(szFile, "\\");
+				strcat(szFile, FindFileData.cFileName);
+				GetAllgpxFilepathFromfolder(szFile);
+			}
+		}
+		else
+		{
+			//找到文件，处理之
+			std::cout << Path << "\\" << FindFileData.cFileName << std::endl;
+		}
+	} while (FindNextFileA(hFind, &FindFileData));
+
+	FindClose(hFind);
+
+	return 0;
+}
 
 bool MyApp::Init()
 {
@@ -71,17 +103,7 @@ void MyApp::Destroy()
 	SAFE_DELETE(m_copyTech);
 }
 
-void MyApp::onViewCreate()
-{
-
-}
-
-void MyApp::onViewDestroy()
-{
-
-}
-
-void MyApp::onViewChangeSize(int32 width, int32 height)
+void MyApp::onWindowChangeSize(int32 width, int32 height)
 {
 
 }

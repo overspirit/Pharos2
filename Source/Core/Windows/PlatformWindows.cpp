@@ -1,8 +1,5 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "DesktopGlobal.h"
-#include "SceneGlobal.h"
+#include "Pharos.h"
 
 DEFINE_int32(width, 1280, "The width of the create window.");
 DEFINE_int32(height, 720, "The height of the create window.");
@@ -89,7 +86,7 @@ LRESULT CALLBACK PlatformWindows::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 	{
 	case WM_SHOWWINDOW:
 	{
-		sPlatform->onWindowCreate();
+		//sPlatform->onWindowCreate();
 	}
 	break;
 	case WM_SIZE:
@@ -104,7 +101,7 @@ LRESULT CALLBACK PlatformWindows::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 	break;
 	case WM_DESTROY:
 	{
-		sPlatform->onWindowDestroy();
+		//sPlatform->onWindowDestroy();
 	}
 	break;
 	default:
@@ -128,19 +125,9 @@ void PlatformWindows::onMouseEvent(const MouseEvent& mouseEvent)
 	sKernel->onMouseEvent(mouseEvent);
 }
 
-void PlatformWindows::onWindowCreate()
-{
-	sKernel->onViewCreate();
-}
-
 void PlatformWindows::onWindowChangeSize(int32 width, int32 height)
 {	
-	sKernel->onViewChangeSize(width, height);
-}
-
-void PlatformWindows::onWindowDestroy()
-{
-	sKernel->onViewDestroy();
+	sKernel->onWindowChangeSize(width, height);
 }
 
 int32 PlatformWindows::Run()

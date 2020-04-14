@@ -51,6 +51,8 @@
 
 //macOS
 //////////////////////////////////////////////////////////////////////////
+#if defined(_MACOS_PLATFORM_)
+
 #include "Renderer/Metal/MetalSamplerState.h"
 #include "Renderer/Metal/MetalBlendState.h"
 #include "Renderer/Metal/MetalDepthStencilState.h"
@@ -71,6 +73,7 @@
 #define MakeEffectLoader() new MetalEffectLoader()
 #define MakeRenderTechnique() new MetalRenderTechnique()
 
+#endif
 //////////////////////////////////////////////////////////////////////////
 
 //iOS

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EventDefine.h"
+
 //Windows
 //////////////////////////////////////////////////////////////////////////
 #if defined(_WINDOWS_PLATFORM_)
@@ -65,7 +67,6 @@ const char* GetMainBundleDirectory();
 #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "Android Application", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Android Application", __VA_ARGS__))
 
-/*对于调试版本，始终在此库中启用调试跟踪*/
 #ifndef NDEBUG
 #  define LOGV(...)  ((void)__android_log_print(ANDROID_LOG_VERBOSE, "Android Application", __VA_ARGS__))
 #else
@@ -84,10 +85,6 @@ const char* GetMainBundleDirectory();
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-
-
-
-#include "EventDefine.h"
 
 #include "File.h"
 

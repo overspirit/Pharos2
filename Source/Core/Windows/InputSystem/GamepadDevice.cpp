@@ -1,5 +1,5 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
+#include "Pharos.h"
 
 CGamepadDevice::CGamepadDevice(void)
 {

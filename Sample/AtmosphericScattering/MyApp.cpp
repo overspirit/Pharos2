@@ -1,8 +1,4 @@
 #include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
-#include "DesktopGlobal.h"
 #include "Global.h"
 
 #define MOVE_SPEED 10.0f
@@ -77,17 +73,7 @@ void MyApp::Destroy()
 	SAFE_DELETE(m_scene);
 }
 
-void MyApp::onViewCreate()
-{
-
-}
-
-void MyApp::onViewDestroy()
-{
-
-}
-
-void MyApp::onViewChangeSize(int32 width, int32 height)
+void MyApp::onWindowChangeSize(int32 width, int32 height)
 {
 
 }

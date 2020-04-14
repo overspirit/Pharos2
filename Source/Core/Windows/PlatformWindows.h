@@ -28,10 +28,7 @@ namespace Pharos
 
 			virtual void onKeyboardEvent(const KeyEvent& keyEvent);
 			virtual void onMouseEvent(const MouseEvent& mouseEvent);
-
-			virtual void onWindowCreate();
 			virtual void onWindowChangeSize(int32 width, int32 height);
-			virtual void onWindowDestroy();
 		};
 	}
 }

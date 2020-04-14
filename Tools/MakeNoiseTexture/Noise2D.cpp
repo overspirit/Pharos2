@@ -1,8 +1,4 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
-#include "SceneGlobal.h"
-#include "DesktopGlobal.h"
 #include "Global.h"
 
 Noise2D::Noise2D()

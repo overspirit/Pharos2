@@ -1,6 +1,5 @@
 ﻿#include "PreCompile.h"
-#include "CoreGlobal.h"
-#include "RenderGlobal.h"
+#include "Pharos.h"
 
 D3D11SamplerState::D3D11SamplerState(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

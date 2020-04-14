@@ -43,10 +43,7 @@ public:
 	virtual bool Init();
 	virtual void Destroy();
 
-	virtual void onViewCreate();
-	virtual void onViewDestroy();
-	virtual void onViewChangeSize(int32 width, int32 height);
-
+	virtual void onWindowChangeSize(int32 width, int32 height);
 	virtual bool onMouseEvent(const MouseEvent& event);
 	virtual bool onKeyboardEvent(const KeyEvent& event);
 
