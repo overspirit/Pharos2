@@ -1,4 +1,4 @@
-// MakeNoiseTexture.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+ï»¿// MakeNoiseTexture.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
 //
 
 #include "stdafx.h"

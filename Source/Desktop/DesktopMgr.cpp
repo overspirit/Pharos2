@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+﻿#include "PreCompile.h"
 #include "Pharos.h"
 
 //放在这里才会进入UIFactory，否则由于没有这几个类的实例所以会被编译器优化掉

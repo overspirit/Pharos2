@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+﻿#include "PreCompile.h"
 #include "Pharos.h"
 
 #define HORI_CHAR_NUM 64	//横向有多少个字符

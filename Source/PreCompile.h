@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 //standard
 //////////////////////////////////////////////////////////////////////////
@@ -156,7 +156,7 @@ using namespace std;
 using namespace rapidxml;
 
 
-//½öÔÚwindowsÏÂÊ¹ÓÃgflags¿â½âÎöÃüÁî²ÎÊı
+//ä»…åœ¨windowsä¸‹ä½¿ç”¨gflagsåº“è§£æå‘½ä»¤å‚æ•°
 ////////////////////////////////////////////////////////////////////////
 #if defined(_WINDOWS_PLATFORM_)
 

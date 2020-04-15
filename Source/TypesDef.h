@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace Pharos
 {
@@ -12,7 +12,7 @@ namespace Pharos
 	typedef long long				int64;
 
 	typedef char			char8;
-	typedef wchar_t			char16;			//wchar_t ÔÚ²»Í¬Æ½Ì¨ÉÏÕ¼ÓÃµÄ×Ö½ÚÊı²»Í¬£¬ËùÒÔ²»ÄÜ¶¨Òå³Échar16
+	typedef wchar_t			char16;			//wchar_t åœ¨ä¸åŒå¹³å°ä¸Šå ç”¨çš„å­—èŠ‚æ•°ä¸åŒï¼Œæ‰€ä»¥ä¸èƒ½å®šä¹‰æˆchar16
     
     typedef float		float32;
 	typedef double		float64;

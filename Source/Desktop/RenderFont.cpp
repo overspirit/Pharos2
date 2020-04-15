@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+﻿#include "PreCompile.h"
 #include "Pharos.h"
 
 #define FONT_VERT_BUFFER_SIZE		(128 * 6)

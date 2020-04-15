@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 
-//IControlViewer·ÅÔÚµÚÒ»Î»£¬·ÀÖ¹³öÏÖIControlViewerÖĞÀà³ÉÔ±º¯ÊıÖ¸Õë×¢²áÊ±³öÏÖµÄ±àÒë¾¯¸æ
+//IControlVieweræ”¾åœ¨ç¬¬ä¸€ä½ï¼Œé˜²æ­¢å‡ºç°IControlViewerä¸­ç±»æˆå‘˜å‡½æ•°æŒ‡é’ˆæ³¨å†Œæ—¶å‡ºç°çš„ç¼–è¯‘è­¦å‘Š
 class MyApp : public IControlViewer, public IRenderCallback, public IApplication
 {
 public:

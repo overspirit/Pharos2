@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 class MyApp : public IApplication, public IRenderCallback, public IControlViewer
 {

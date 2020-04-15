@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+ï»¿#include "PreCompile.h"
 #include "Global.h"
 
 #define MOVE_SPEED 10.0f
@@ -234,13 +234,13 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 	TCHAR szFileName[MAX_PATH] = _T("");
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = sPlatform->GetWindowsHandle();;    //¸¸´°¿Ú¾ä±ú
-	ofn.lpstrFilter = _T("All Files (*.*)\0*.*\0");   //´ò¿ªµÄÎÄ¼şÀàĞÍ£¬ÕâÀïÒÔxmlºÍËùÓĞÎÄ¼şÎªÀı
+	ofn.hwndOwner = sPlatform->GetWindowsHandle();;    //çˆ¶çª—å£å¥æŸ„
+	ofn.lpstrFilter = _T("All Files (*.*)\0*.*\0");   //æ‰“å¼€çš„æ–‡ä»¶ç±»å‹ï¼Œè¿™é‡Œä»¥xmlå’Œæ‰€æœ‰æ–‡ä»¶ä¸ºä¾‹
 	ofn.lpstrFile = szFileName;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_FILEMUSTEXIST;
-	ofn.lpstrDefExt = _T("*");        //Ä¬ÈÏµÄ´ò¿ªµÄÎÄ¼şÀàĞÍ
-	ofn.lpstrInitialDir = _T(".\\");     //Ä¬ÈÏµÄ´ò¿ªµÄÎÄ¼şÂ·¾¶£¬ÕâÀïÒÔµ±Ç°Ä¿Â¼ÎªÀı
+	ofn.lpstrDefExt = _T("*");        //é»˜è®¤çš„æ‰“å¼€çš„æ–‡ä»¶ç±»å‹
+	ofn.lpstrInitialDir = _T(".\\");     //é»˜è®¤çš„æ‰“å¼€çš„æ–‡ä»¶è·¯å¾„ï¼Œè¿™é‡Œä»¥å½“å‰ç›®å½•ä¸ºä¾‹
 
 	if (!GetOpenFileName(&ofn)) return false;
 

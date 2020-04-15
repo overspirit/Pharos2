@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define MASKBITS 0x3F
 #define MASKBYTE 0x80

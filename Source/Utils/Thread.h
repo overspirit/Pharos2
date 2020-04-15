@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #if defined(_WINDOWS_PLATFORM_)
 
