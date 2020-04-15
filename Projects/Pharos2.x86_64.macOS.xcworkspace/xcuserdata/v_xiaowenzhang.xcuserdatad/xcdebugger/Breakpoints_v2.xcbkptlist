@@ -74,29 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Sample/ModelViewer/MyApp.cpp"
-            timestampString = "608024958.902944"
+            timestampString = "608462257.642223"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Sample/ModelViewer/MyApp.cpp"
-            timestampString = "608024958.903008"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
-            landmarkName = "MyApp::onRender(float32 elapsed)"
-            landmarkType = "7">
+            startingLineNumber = "340"
+            endingLineNumber = "340">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -113,53 +95,6 @@
             endingLineNumber = "37"
             landmarkName = "MyApp::~MyApp()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MyApp::~MyApp()"
-                  moduleName = "ModelViewer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/v_xiaowenzhang/workspace/Pharos2/Sample/ModelViewer/MyApp.mm"
-                  timestampString = "608116092.89587"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "38"
-                  endingLineNumber = "38"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MyApp::~MyApp()"
-                  moduleName = "ModelViewer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/v_xiaowenzhang/workspace/Pharos2/Sample/ModelViewer/MyApp.mm"
-                  timestampString = "608116092.9006341"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MyApp::~MyApp()"
-                  moduleName = "ModelViewer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/v_xiaowenzhang/workspace/Pharos2/Sample/ModelViewer/MyApp.mm"
-                  timestampString = "608116092.90561"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

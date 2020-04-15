@@ -11,13 +11,18 @@ namespace Pharos
 			virtual ~MetalRenderer(void);
 
 		private:
-
+            id<MTLDevice>              m_device;
+            
+            id<MTLCommandQueue>         m_commandQueue;
+            
+            MetalFrameBuffer*        m_defFrameBuf;
+            
 		public:
 			virtual bool Init();
 			virtual bool Create(const DeviceConfig& cfg);
 			virtual void Destroy();
 
-			virtual RenderFrameBuffer* GetDefaultFrameBuffer() const { return NULL; }
+			virtual RenderFrameBuffer* GetDefaultFrameBuffer() const { return m_defFrameBuf; }
             virtual const char8* GetAdapterName() const { return NULL; }
 			virtual uint32 GetAdapterMemorySize() const { return 0; }
 

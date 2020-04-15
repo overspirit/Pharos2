@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Global.h"
 
 #define MOVE_SPEED 10.0f
@@ -30,10 +30,10 @@ bool MyApp::Init()
 	sRenderMgr->RegisterRenderCallback(this);
 
 	m_renderer = sRenderMgr->GetCurrentRenderer();
-	m_copyTex = m_renderer->LoadTexture("Model/Earth/AtmosphericScattering.bmp");
+	//m_copyTex = m_renderer->LoadTexture("Model/Earth/AtmosphericScattering.bmp");
 
-	m_copyTech = sRenderMgr->GenerateRenderTechnique("Copy");
-	m_copyShader = m_copyTech->GetPass(0)->GetShaderProgram();
+	//m_copyTech = sRenderMgr->GenerateRenderTechnique("Copy");
+	//m_copyShader = m_copyTech->GetPass(0)->GetShaderProgram();
 
 
 	m_font = sResMgr->GenerateFont("Font/Fontin.ttf");

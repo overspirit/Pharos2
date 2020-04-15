@@ -11,6 +11,10 @@ MetalDepthStencilState::~MetalDepthStencilState(void)
 
 bool MetalDepthStencilState::CreateState(const DepthStencilStateDesc& desc)
 {
+//    MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
+//    depthStateDesc.depthCompareFunction = MTLCompareFunctionLess;
+//    depthStateDesc.depthWriteEnabled = YES;
+//    _depthState = [_device newDepthStencilStateWithDescriptor:depthStateDesc];
 
 	return true;
 }

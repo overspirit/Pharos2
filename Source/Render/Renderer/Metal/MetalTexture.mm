@@ -21,6 +21,25 @@ bool MetalTexture::LoadFromImage(const Image* image)
 
 bool MetalTexture::Create(int32 width, int32 height, EPixelFormat fmt)
 {
+//    MTKTextureLoader* textureLoader = [[MTKTextureLoader alloc] initWithDevice:_device];
+//    
+//    NSDictionary *textureLoaderOptions =
+//    @{
+//      MTKTextureLoaderOptionTextureUsage       : @(MTLTextureUsageShaderRead),
+//      MTKTextureLoaderOptionTextureStorageMode : @(MTLStorageModePrivate)
+//      };
+//    
+//    _colorMap = [textureLoader newTextureWithName:@"ColorMap"
+//                                      scaleFactor:1.0
+//                                           bundle:nil
+//                                          options:textureLoaderOptions
+//                                            error:&error];
+//    
+//    if(!_colorMap || error)
+//    {
+//        NSLog(@"Error creating texture %@", error.localizedDescription);
+//    }
+    
 	return true;
 }
 

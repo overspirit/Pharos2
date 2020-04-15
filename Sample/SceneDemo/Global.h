@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
 
 #include "Pharos.h"
 
-//using namespace Pharos::Core;
+using namespace Pharos;
 
 #include "MyApp.h"

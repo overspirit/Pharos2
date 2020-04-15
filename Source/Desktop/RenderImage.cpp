@@ -31,6 +31,8 @@ bool RenderImage::LoadImage(const char8* imageFilePath)
 	if (m_imageTex == nullptr) return false;
 
 	m_imageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
+    if(m_imageTech == nullptr) return false;
+    
 	m_imageTexVar = m_imageTech->GetVariable("g_tex");
 	m_imageTexVar->SetValue(m_imageTex);
 

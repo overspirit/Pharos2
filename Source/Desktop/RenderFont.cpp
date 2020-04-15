@@ -47,6 +47,8 @@ bool RenderFont::LoadFont(const char8* fontFilePath)
 	m_fontTex = sFontTexMgr->GetFontTexture(m_fontInfoIndex);
 	
 	m_fontTech = sRenderMgr->GenerateRenderTechnique("Font");
+    if(m_fontTech == nullptr) return false;
+    
 	m_fontTextureVar = m_fontTech->GetVariable("g_tex");
 	m_fontDistanceVar = m_fontTech->GetVariable("g_font_distance");
 	m_fontOffsetVar = m_fontTech->GetVariable("g_font_offset");

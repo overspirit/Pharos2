@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F944EA5F2444260B00B6D702 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = F944EA5E2444260B00B6D702 /* Shaders.metal */; };
 		F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83E8243734400002DFF0 /* CompileConfig.h */; };
 		F97F83EE243734400002DFF0 /* PreCompile.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83EA243734400002DFF0 /* PreCompile.h */; };
 		F97F842F243C2BD50002DFF0 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F97F842E243C2BD50002DFF0 /* main.mm */; };
@@ -92,13 +93,13 @@
 		F9D9817D243EFDE20028DD41 /* LensEffectsPostProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98173243EFDE10028DD41 /* LensEffectsPostProcess.h */; };
 		F9D9817E243EFDE20028DD41 /* ImageStatPostProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98174243EFDE20028DD41 /* ImageStatPostProcess.h */; };
 		F9D98187243EFF460028DD41 /* MetalRenderTechnique.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9817F243EFF460028DD41 /* MetalRenderTechnique.h */; };
-		F9D98188243EFF460028DD41 /* MetalRenderTechInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9D98180243EFF460028DD41 /* MetalRenderTechInfo.cpp */; };
+		F9D98188243EFF460028DD41 /* MetalRenderTechInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98180243EFF460028DD41 /* MetalRenderTechInfo.mm */; };
 		F9D98189243EFF460028DD41 /* MetalRenderTechInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98181243EFF460028DD41 /* MetalRenderTechInfo.h */; };
 		F9D9818A243EFF460028DD41 /* MetalEffectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98182243EFF460028DD41 /* MetalEffectLoader.h */; };
-		F9D9818B243EFF460028DD41 /* MetalEffectLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9D98183243EFF460028DD41 /* MetalEffectLoader.cpp */; };
-		F9D9818C243EFF460028DD41 /* MetalRenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9D98184243EFF460028DD41 /* MetalRenderPass.cpp */; };
+		F9D9818B243EFF460028DD41 /* MetalEffectLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98183243EFF460028DD41 /* MetalEffectLoader.mm */; };
+		F9D9818C243EFF460028DD41 /* MetalRenderPass.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98184243EFF460028DD41 /* MetalRenderPass.mm */; };
 		F9D9818D243EFF460028DD41 /* MetalRenderPass.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98185243EFF460028DD41 /* MetalRenderPass.h */; };
-		F9D9818E243EFF460028DD41 /* MetalRenderTechnique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9D98186243EFF460028DD41 /* MetalRenderTechnique.cpp */; };
+		F9D9818E243EFF460028DD41 /* MetalRenderTechnique.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98186243EFF460028DD41 /* MetalRenderTechnique.mm */; };
 		F9D981A1243EFF6C0028DD41 /* MetalShaderProgram.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9818F243EFF6B0028DD41 /* MetalShaderProgram.mm */; };
 		F9D981A2243EFF6C0028DD41 /* MetalTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98190243EFF6B0028DD41 /* MetalTexture.h */; };
 		F9D981A3243EFF6C0028DD41 /* MetalRenderLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98191243EFF6B0028DD41 /* MetalRenderLayout.h */; };
@@ -189,6 +190,7 @@
 
 /* Begin PBXFileReference section */
 		F90BE5762435C21B0018A7F2 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F944EA5E2444260B00B6D702 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = ../Source/Render/Shader/Metal/Shaders.metal; sourceTree = "<group>"; };
 		F97F83E8243734400002DFF0 /* CompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompileConfig.h; path = ../Source/CompileConfig.h; sourceTree = "<group>"; };
 		F97F83EA243734400002DFF0 /* PreCompile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreCompile.h; path = ../Source/PreCompile.h; sourceTree = "<group>"; };
 		F97F842E243C2BD50002DFF0 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = main.mm; path = ../Source/Core/macOS/main.mm; sourceTree = "<group>"; };
@@ -276,13 +278,13 @@
 		F9D98173243EFDE10028DD41 /* LensEffectsPostProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LensEffectsPostProcess.h; path = ../Source/Render/PostProcess/LensEffectsPostProcess.h; sourceTree = "<group>"; };
 		F9D98174243EFDE20028DD41 /* ImageStatPostProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageStatPostProcess.h; path = ../Source/Render/PostProcess/ImageStatPostProcess.h; sourceTree = "<group>"; };
 		F9D9817F243EFF460028DD41 /* MetalRenderTechnique.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderTechnique.h; path = ../Source/Render/Effect/Metal/MetalRenderTechnique.h; sourceTree = "<group>"; };
-		F9D98180243EFF460028DD41 /* MetalRenderTechInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalRenderTechInfo.cpp; path = ../Source/Render/Effect/Metal/MetalRenderTechInfo.cpp; sourceTree = "<group>"; };
+		F9D98180243EFF460028DD41 /* MetalRenderTechInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderTechInfo.mm; path = ../Source/Render/Effect/Metal/MetalRenderTechInfo.mm; sourceTree = "<group>"; };
 		F9D98181243EFF460028DD41 /* MetalRenderTechInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderTechInfo.h; path = ../Source/Render/Effect/Metal/MetalRenderTechInfo.h; sourceTree = "<group>"; };
 		F9D98182243EFF460028DD41 /* MetalEffectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalEffectLoader.h; path = ../Source/Render/Effect/Metal/MetalEffectLoader.h; sourceTree = "<group>"; };
-		F9D98183243EFF460028DD41 /* MetalEffectLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalEffectLoader.cpp; path = ../Source/Render/Effect/Metal/MetalEffectLoader.cpp; sourceTree = "<group>"; };
-		F9D98184243EFF460028DD41 /* MetalRenderPass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalRenderPass.cpp; path = ../Source/Render/Effect/Metal/MetalRenderPass.cpp; sourceTree = "<group>"; };
+		F9D98183243EFF460028DD41 /* MetalEffectLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalEffectLoader.mm; path = ../Source/Render/Effect/Metal/MetalEffectLoader.mm; sourceTree = "<group>"; };
+		F9D98184243EFF460028DD41 /* MetalRenderPass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderPass.mm; path = ../Source/Render/Effect/Metal/MetalRenderPass.mm; sourceTree = "<group>"; };
 		F9D98185243EFF460028DD41 /* MetalRenderPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderPass.h; path = ../Source/Render/Effect/Metal/MetalRenderPass.h; sourceTree = "<group>"; };
-		F9D98186243EFF460028DD41 /* MetalRenderTechnique.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalRenderTechnique.cpp; path = ../Source/Render/Effect/Metal/MetalRenderTechnique.cpp; sourceTree = "<group>"; };
+		F9D98186243EFF460028DD41 /* MetalRenderTechnique.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderTechnique.mm; path = ../Source/Render/Effect/Metal/MetalRenderTechnique.mm; sourceTree = "<group>"; };
 		F9D9818F243EFF6B0028DD41 /* MetalShaderProgram.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalShaderProgram.mm; path = ../Source/Render/Renderer/Metal/MetalShaderProgram.mm; sourceTree = "<group>"; };
 		F9D98190243EFF6B0028DD41 /* MetalTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalTexture.h; path = ../Source/Render/Renderer/Metal/MetalTexture.h; sourceTree = "<group>"; };
 		F9D98191243EFF6B0028DD41 /* MetalRenderLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderLayout.h; path = ../Source/Render/Renderer/Metal/MetalRenderLayout.h; sourceTree = "<group>"; };
@@ -593,13 +595,13 @@
 		F9D98167243EFD720028DD41 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
-				F9D98183243EFF460028DD41 /* MetalEffectLoader.cpp */,
+				F9D98183243EFF460028DD41 /* MetalEffectLoader.mm */,
 				F9D98182243EFF460028DD41 /* MetalEffectLoader.h */,
-				F9D98184243EFF460028DD41 /* MetalRenderPass.cpp */,
+				F9D98184243EFF460028DD41 /* MetalRenderPass.mm */,
 				F9D98185243EFF460028DD41 /* MetalRenderPass.h */,
-				F9D98180243EFF460028DD41 /* MetalRenderTechInfo.cpp */,
+				F9D98180243EFF460028DD41 /* MetalRenderTechInfo.mm */,
 				F9D98181243EFF460028DD41 /* MetalRenderTechInfo.h */,
-				F9D98186243EFF460028DD41 /* MetalRenderTechnique.cpp */,
+				F9D98186243EFF460028DD41 /* MetalRenderTechnique.mm */,
 				F9D9817F243EFF460028DD41 /* MetalRenderTechnique.h */,
 			);
 			name = Metal;
@@ -633,6 +635,7 @@
 		F9D9816A243EFDB90028DD41 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
+				F944EA5E2444260B00B6D702 /* Shaders.metal */,
 			);
 			name = Metal;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				F90BE5722435C21B0018A7F2 /* Headers */,
 				F90BE5732435C21B0018A7F2 /* Sources */,
 				F90BE5742435C21B0018A7F2 /* Frameworks */,
+				F944EA602444276F00B6D702 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -882,6 +886,26 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F944EA602444276F00B6D702 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#xcrun -sdk macosx metal -c Shaders.metal -o Shaders.air\n#xcrun -sdk macosx metal-ar rcs Shaders.metalar Shaders.air \n#xcrun -sdk macosx metallib -o default.metallib Shaders.metalar\nMY_PROJECT_DIR=\"${PROJECT_DIR}/..\"\nSRC_METAL_FILE=\"Source/Render/Shader/Metal/*\"\nmkdir ${MY_PROJECT_DIR}/Data/Shader\nxcrun -sdk macosx metal -c ${MY_PROJECT_DIR}/${SRC_METAL_FILE} -o ${PROJECT_TEMP_DIR}/Shaders.air \nxcrun -sdk macosx metallib -o ${MY_PROJECT_DIR}/Data/Shader/default.metallib ${PROJECT_TEMP_DIR}/Shaders.air \n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F90BE5732435C21B0018A7F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -902,6 +926,7 @@
 				F9D98124243EFB560028DD41 /* RenderMgr.cpp in Sources */,
 				F9D981D6243F06190028DD41 /* Properties.cpp in Sources */,
 				F97F848F243C65880002DFF0 /* PlatformMacOS.mm in Sources */,
+				F944EA5F2444260B00B6D702 /* Shaders.metal in Sources */,
 				F9D98238243F0BDD0028DD41 /* Texture.cpp in Sources */,
 				F9D981CB243F06190028DD41 /* XmlDocument.cpp in Sources */,
 				F9D981CD243F06190028DD41 /* Font.cpp in Sources */,
@@ -920,13 +945,13 @@
 				F9D981B1243EFF6C0028DD41 /* MetalSamplerState.mm in Sources */,
 				F9D981AD243EFF6C0028DD41 /* MetalDepthStencilState.mm in Sources */,
 				F9D981C5243F06190028DD41 /* XmlAttribute.cpp in Sources */,
-				F9D9818B243EFF460028DD41 /* MetalEffectLoader.cpp in Sources */,
+				F9D9818B243EFF460028DD41 /* MetalEffectLoader.mm in Sources */,
 				F9D981A8243EFF6C0028DD41 /* MetalTexture.mm in Sources */,
 				F9D9822D243F0BDD0028DD41 /* FontString.cpp in Sources */,
-				F9D98188243EFF460028DD41 /* MetalRenderTechInfo.cpp in Sources */,
+				F9D98188243EFF460028DD41 /* MetalRenderTechInfo.mm in Sources */,
 				F9D9820F243F0BC10028DD41 /* RenderImage.cpp in Sources */,
 				F9D9817A243EFDE20028DD41 /* ImageStatPostProcess.cpp in Sources */,
-				F9D9818E243EFF460028DD41 /* MetalRenderTechnique.cpp in Sources */,
+				F9D9818E243EFF460028DD41 /* MetalRenderTechnique.mm in Sources */,
 				F9D98232243F0BDD0028DD41 /* Slider.cpp in Sources */,
 				F9D98233243F0BDD0028DD41 /* Progress.cpp in Sources */,
 				F9D98237243F0BDD0028DD41 /* WorldFrame.cpp in Sources */,
@@ -942,7 +967,7 @@
 				F9D98159243EFCEF0028DD41 /* Animation.cpp in Sources */,
 				F9D98150243EFCEF0028DD41 /* Model.cpp in Sources */,
 				F97F8500243DB4300002DFF0 /* Kernel.cpp in Sources */,
-				F9D9818C243EFF460028DD41 /* MetalRenderPass.cpp in Sources */,
+				F9D9818C243EFF460028DD41 /* MetalRenderPass.mm in Sources */,
 				F9D981F8243F0BA00028DD41 /* XmlSceneImporter.cpp in Sources */,
 				F9D981D3243F06190028DD41 /* MemoryBuffer.cpp in Sources */,
 				F97F849F243C7E740002DFF0 /* Timer.cpp in Sources */,

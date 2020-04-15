@@ -23,6 +23,7 @@ bool FontString::LoadFromXml(XmlNode* xmlNode)
 	m_showText = GetAttributeStringValue(xmlNode, "text");
 
 	m_renderFont = sDesktopMgr->GenerateRenderFont(fontFile);
+    if(m_renderFont == nullptr) return false;    
 	m_renderFont->SetFontCharSize(fontWidth, fontHeight);
 
 	return true;

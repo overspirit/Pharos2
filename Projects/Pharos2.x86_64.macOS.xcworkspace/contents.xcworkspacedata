@@ -73,4 +73,7 @@
    <FileRef
       location = "group:../Sample/ModelViewer/ModelViewer.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:../Sample/SceneDemo/SceneDemo.xcodeproj">
+   </FileRef>
 </Workspace>

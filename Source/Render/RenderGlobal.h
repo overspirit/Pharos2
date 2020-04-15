@@ -53,6 +53,8 @@
 //////////////////////////////////////////////////////////////////////////
 #if defined(_MACOS_PLATFORM_)
 
+#ifdef __OBJC__
+
 #include "Renderer/Metal/MetalSamplerState.h"
 #include "Renderer/Metal/MetalBlendState.h"
 #include "Renderer/Metal/MetalDepthStencilState.h"
@@ -69,9 +71,17 @@
 #include "Effect/Metal/MetalRenderPass.h"
 #include "Effect/Metal/MetalRenderTechnique.h"
 
-#define MakeRenderer() new MetalRenderer()
-#define MakeEffectLoader() new MetalEffectLoader()
-#define MakeRenderTechnique() new MetalRenderTechnique()
+#endif
+
+Pharos::Render::Renderer* MakeMetalRenderer();
+Pharos::Render::RenderEffectLoader* MakeMetalEffectLoader();
+Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
+
+#define MakeRenderer() MakeMetalRenderer()
+#define MakeEffectLoader() MakeMetalEffectLoader()
+#define MakeRenderTechnique() MakeMetalRenderTechnique()
+
+#endif
 
 #endif
 //////////////////////////////////////////////////////////////////////////

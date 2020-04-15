@@ -16,6 +16,7 @@ WorldFrame::~WorldFrame(void)
 bool WorldFrame::Init()
 {
 	m_renderFont = sDesktopMgr->GenerateRenderFont("Font/simhei.ttf");
+    if(m_renderFont == nullptr) return false;
 	
 	m_renderFont->SetFontCharSize(32, 32);
 
@@ -49,6 +50,7 @@ void WorldFrame::Update(float32 fElapsed)
 void WorldFrame::Render(float32 fElapsed)
 {
 	if (m_bHidden) return;
+    if (m_renderFont == nullptr) return;
 
 	char8 buf[255];
 

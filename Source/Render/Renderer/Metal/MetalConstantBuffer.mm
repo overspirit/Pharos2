@@ -24,4 +24,11 @@ bool MetalConstantBuffer::CreateBuffer(uint32 bufSize)
 
 void MetalConstantBuffer::ApplyDevice(uint32 slot)
 {
+//    NSUInteger uniformBufferSize = kAlignedUniformsSize * kMaxBuffersInFlight;
+//    
+//    _dynamicUniformBuffer = [_device newBufferWithLength:uniformBufferSize
+//                                                 options:MTLResourceStorageModeShared];
+//    
+//    _dynamicUniformBuffer.label = @"UniformBuffer";
+    
 }

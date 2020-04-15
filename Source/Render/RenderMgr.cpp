@@ -127,12 +127,12 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	m_finalFrameBuf = m_renderer->CreateFrameBuffer(finalBufferWidth, finalBufferHeight);
 	m_finalTargetTex = m_finalFrameBuf->CreateRenderTexture(0, EPF_RGBA8_UNORM);
 
-	m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
-	m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
-
-	m_gammaCorrection = new PostProcess();
-	m_gammaCorrection->InitWithTech("GammaCorrection");
-	m_gammaCorrection->SetInputPin(0, m_finalTargetTex);
+//    m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
+//    m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
+//
+//    m_gammaCorrection = new PostProcess();
+//    m_gammaCorrection->InitWithTech("GammaCorrection");
+//    m_gammaCorrection->SetInputPin(0, m_finalTargetTex);
 	//m_gammaCorrection->SetOutputPin();
 
 	//m_hdrPostProcess = new HDRPostProcess();

@@ -11,7 +11,8 @@ namespace Pharos
 			virtual ~MetalRenderLayout();
 
 		private:
-
+            MTLVertexDescriptor*        m_vertDesc;
+            
 		public:
 			virtual bool CreateVertexBuffer(uint32 sizeInBytes, MemoryBuffer* data = nullptr);
 			virtual bool CreateIndexBuffer(uint32 indexNum, MemoryBuffer* data = nullptr);

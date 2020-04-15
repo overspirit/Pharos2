@@ -41,24 +41,15 @@ bool PlatformMacOS::Init()
     m_timer.Reset();
     
     NSString* appPath = [[NSBundle mainBundle] bundlePath];
-    string homePath = [appPath UTF8String];
-    string bundlePath = homePath + "/Data/";
+    string homePath = [appPath UTF8String] + string("/");
+    string bundlePath = homePath + "Contents/Resources/";
 
     sKernel->SetEngineHomePath(homePath.c_str());
     sKernel->SetEngineBundlePath(bundlePath.c_str());
-
-    
-    
-    m_view.device = MTLCreateSystemDefaultDevice();
-    //Renderer* renderer = [[Renderer alloc] initWithMetalKitView: view];
-    //[renderer mtkView: view drawableSizeWillChange: view.bounds.size];
-    //m_view.delegate = delegate;
     
     if (!sKernel->Init((__bridge void*)m_view)) return false;
     
-
-    
-	return true;
+    return true;
 }
 
 void PlatformMacOS::Destroy()
@@ -85,5 +76,8 @@ void PlatformMacOS::onViewChangeSize(int32 width, int32 height)
 void PlatformMacOS::Update()
 {
     float32 fElapsed = m_timer.GetElapsedTime();
+    
+    //NSLog(@"elapsed:%f", fElapsed);
+    
     sKernel->Run(fElapsed);
 }
