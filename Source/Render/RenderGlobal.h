@@ -82,8 +82,6 @@ Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
 #define MakeRenderTechnique() MakeMetalRenderTechnique()
 
 #endif
-
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 //iOS
