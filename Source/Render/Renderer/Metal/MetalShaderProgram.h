@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -15,8 +15,6 @@ namespace Pharos
 		public:
 			virtual bool CompileVertexShader(const char8* shader, const char8* enter);
 			virtual bool CompilePixelShader(const char8* shader, const char8* enter);
-
-			virtual RenderProgram* Clone();
 
 			virtual void ApplyDevice();
 		};

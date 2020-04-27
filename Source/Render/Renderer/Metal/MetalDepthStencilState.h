@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -14,7 +14,7 @@ namespace Pharos
 
 		public:
 			virtual bool CreateState(const DepthStencilStateDesc& desc);
-			
+
 			virtual RenderDepthStencilState* Clone();
 
 			virtual void ApplyDevice();
