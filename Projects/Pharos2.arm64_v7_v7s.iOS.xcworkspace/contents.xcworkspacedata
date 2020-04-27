@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../External/freetype-2.8/Projects/freetype.arm64_v7_v7s.iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../External/zlib-1.2.11/Projects/zlib.arm64_v7_v7s.iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../External/libjpeg-9b/Projects/libjpeg.arm64_v7_v7s.iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../External/libpng-1.6.29/Projects/libpng.arm64_v7_v7s.iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../External/FreeImage-3.17.0/Projects/FreeImage.arm64_v7_v7s.iOS.xcodeproj">
+   </FileRef>
+</Workspace>
