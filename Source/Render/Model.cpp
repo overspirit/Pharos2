@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Model::Model()
@@ -57,7 +57,7 @@ SkelAnimation& Model::AddSkelAnimation(const char8* name)
 //数据的传递要用引用
 //数据的顺序要和id对应
 void Model::UpdateAnimation(float32 elapsed)
-{	
+{
 	if (m_currAnim != nullptr && !m_stopAnim)
 	{
 		uint32 frameNum = (uint32)m_currAnim->frameList.size();
@@ -159,7 +159,7 @@ void Model::SetCurrentAnimation(const char8* animName)
 }
 
 void Model::PlayAnimation()
-{  
+{
 	m_stopAnim = false;
 }
 
@@ -225,18 +225,18 @@ void Model::Draw()
 		m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
 	}
 
-	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
-	{
-		Material* material = m_meshGroupList[i]->GetAttachMaterial();
-		if(material == nullptr) continue;
-
-		RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
-		DrawType drawType = m_meshGroupList[i]->GetDrawType();
-		RenderTechnique* tech = material->GetMaterialTechnique();
-		
-		uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(layout, tech);
-		m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);		
-	}
+	//    for (uint32 i = 0; i < m_meshGroupList.size(); i++)
+	//    {
+	//        Material* material = m_meshGroupList[i]->GetAttachMaterial();
+	//        if(material == nullptr) continue;
+	//
+	//        RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
+	//        DrawType drawType = m_meshGroupList[i]->GetDrawType();
+	//        RenderTechnique* tech = material->GetMaterialTechnique();
+	//
+	//        uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(layout, tech);
+	//        m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
+	//    }
 
 	sRenderMgr->DoRender(m_renderBlock);
 }

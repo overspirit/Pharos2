@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -16,10 +16,10 @@ namespace Pharos
 			vector<UIObject*>			m_controlList;
 
 			float32		m_fScaleX;
-			float32		m_fScaleY;			
-			
+			float32		m_fScaleY;
+
 			RenderBlock*		m_renderBlock;
-			RenderLayout*		m_renderLayout;
+			//RenderLayout*		m_renderLayout;
 			MemoryBuffer		m_layoutBuffer;
 			uint32				m_vertCount;
 
@@ -42,10 +42,10 @@ namespace Pharos
 			virtual void Destroy();
 
 			virtual void SetDesktopSize(int32 width, int32 height);
-			virtual const Size2Di& GetDesktopSize(){ return m_worldFrame->GetSize(); }
+			virtual const Size2Di& GetDesktopSize() { return m_worldFrame->GetSize(); }
 
 			virtual bool LoadUILayoutFile(const char8* szFile);
-			
+
 			virtual bool RegisterControlViewer(const char8* uiName, IControlViewer* viewer, EVENT_CALLBACK callback);
 
 			virtual bool onMouseEvent(const MouseEvent& e);

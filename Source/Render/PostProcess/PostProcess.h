@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -19,7 +19,7 @@ namespace Pharos
 			vector<RenderTexture*>		m_inputPins;
 			vector<RenderTexture*>		m_outputPins;
 
-			RenderFrameBuffer*			m_frameBuf;
+			//RenderFrameBuffer*			m_frameBuf;
 
 		public:
 			virtual bool InitWithTech(const char8* techName);

@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 XmlSceneImporter::XmlSceneImporter()
@@ -48,7 +48,7 @@ bool XmlSceneImporter::ReadSceneNode(XmlNode* node, SceneNodeData& nodeData)
 {
 	XmlAttribute* nameAttr = node->GetAttribute("name");
 	if (nameAttr != nullptr) nodeData.nodeName = nameAttr->GetStringValue();
-	
+
 	XmlAttribute* transAttr = node->GetAttribute("transform");
 	if (transAttr != nullptr) nodeData.localTrans = transAttr->GetMatrix4Value();
 
@@ -63,7 +63,7 @@ bool XmlSceneImporter::ReadSceneNode(XmlNode* node, SceneNodeData& nodeData)
 		if (strcmp(childNodeName, "node") == 0)
 		{
 			nodeData.childData.resize(nodeData.childData.size() + 1);
-			
+
 			ReadSceneNode(childNode, *nodeData.childData.rbegin());
 		}
 		else if (strcmp(childNodeName, "item") == 0)
@@ -122,7 +122,7 @@ bool XmlSceneImporter::ReadModelChunk(XmlNode* node)
 				string modelName = nameAttr->GetStringValue();
 				ModelData& modelData = m_modelDataList[modelName];
 
-				ReadModel(modelNode, modelData);				
+				ReadModel(modelNode, modelData);
 			}
 		}
 	}
@@ -185,17 +185,17 @@ bool XmlSceneImporter::ReadModel(XmlNode* node, ModelData& modelData)
 }
 
 bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
-{	
+{
 	//读取网格信息
 	//////////////////////////////////////////////////////////////////////////
 	XmlNode* meshListNode = node->GetFirstNode("meshes_chunk");
-	
+
 	uint32 meshNum = meshListNode->GetChildNum();
 
 	//注意！！根据可以读取顶点的信息修改大小
 	MemoryBuffer tempVertData;
 	tempVertData.Alloc(128);
-	
+
 	for (uint32 i = 0; i < meshNum; i++)
 	{
 		XmlNode* meshNode = meshListNode->GetChildNode(i);
@@ -203,7 +203,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 		//////////////////////////////////////////////////////////////////////////
 		XmlAttribute* meshNameAttr = meshNode->GetAttribute("name");
 		if (meshNameAttr == nullptr) continue;
-		
+
 		const char8* meshName = meshNameAttr->GetStringValue();
 		MeshData& meshData = m_meshDataList[meshName];
 		meshData.meshName = meshName;
@@ -215,7 +215,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 		//读取顶点信息
 		//////////////////////////////////////////////////////////////////////////
 		XmlNode* pVertListNode = meshNode->GetFirstNode("vertices_chunk");
-		uint32 vertNum = pVertListNode->GetChildNum();		
+		uint32 vertNum = pVertListNode->GetChildNum();
 
 		for (uint32 j = 0; j < vertNum; j++)
 		{
@@ -229,7 +229,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 				Vector3Df pos;
 				ReadArray(pVertNode, "v", (float32*)pos, 3);
 				tempVertData.Insert(offset, &pos, sizeof(pos));
-				currVertDesc.push_back({ Render::VET_FLOAT32, 3, "POSITION", 0, offset });
+				currVertDesc.push_back({ VET_FLOAT32, 3, VAL_POSITION, offset, 0 });
 				offset += 12;
 
 				XmlNode* normalNode = pVertNode->GetFirstNode("normal");
@@ -238,7 +238,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 					Vector3Df normal;
 					ReadArray(normalNode, "v", (float32*)normal, 3);
 					tempVertData.Insert(offset, &normal, sizeof(normal));
-					currVertDesc.push_back({ Render::VET_FLOAT32, 3, "NORMAL", 0, offset });
+					currVertDesc.push_back({ VET_FLOAT32, 3, VAL_NORMAL, offset, 0 });
 					offset += 12;
 				}
 
@@ -248,7 +248,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 					Vector4Df  tangentQuat;
 					ReadArray(tangentQuatNode, "v", (float32*)tangentQuat, 4);
 					tempVertData.Insert(offset, &tangentQuat, sizeof(tangentQuat));
-					currVertDesc.push_back({ Render::VET_FLOAT32, 4, "TANGENT_QUAT", 0, offset });
+					currVertDesc.push_back({ VET_FLOAT32, 4, VAL_TANGENT_QUAT, offset, 0 });
 					offset += 16;
 				}
 
@@ -258,7 +258,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 					Vector3Df tangent;
 					ReadArray(tangentNode, "v", (float32*)tangent, 3);
 					tempVertData.Insert(offset, &tangent, sizeof(tangent));
-					currVertDesc.push_back({ Render::VET_FLOAT32, 3, "TANGENT", 0, offset });
+					currVertDesc.push_back({ VET_FLOAT32, 3, VAL_TANGENT, offset, 0 });
 					offset += 12;
 				}
 
@@ -268,13 +268,13 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 					Vector4Df weight;
 					ReadArray(weightNode, "weight", (float32*)weight, 4);
 					tempVertData.Insert(offset, &weight, sizeof(weight));
-					currVertDesc.push_back({ Render::VET_FLOAT32, 4, "WEIGHT", 0, offset });
+					currVertDesc.push_back({ VET_FLOAT32, 4, VAL_WEIGHT, offset, 0 });
 					offset += 16;
 
 					uint8 indices[4] = { 0, 0, 0, 0 };
 					ReadArray(weightNode, "joint", (uint8*)&indices, 4);
 					tempVertData.Insert(offset, &indices, sizeof(indices));
-					currVertDesc.push_back({ Render::VET_UINT8, 4, "INDICES", 0, offset });
+					currVertDesc.push_back({ VET_UINT8, 4, VAL_INDICES, offset, 0 });
 					offset += 4;
 				}
 
@@ -284,7 +284,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 					Vector2Df tex;
 					ReadArray(pTexNode, "v", (float32*)tex, 2);
 					tempVertData.Insert(offset, &tex, sizeof(tex));
-					currVertDesc.push_back({ Render::VET_FLOAT32, 2, "TEXCOORD", 0, offset });
+					currVertDesc.push_back({ VET_FLOAT32, 2, VAL_TEXCOORD0, offset, 0 });
 					offset += 8;
 				}
 
@@ -330,7 +330,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 		meshData.drawType = Render::EDT_TRIANGLELIST;
 	}
 	//////////////////////////////////////////////////////////////////////////
-	
+
 	return true;
 }
 
@@ -395,7 +395,7 @@ bool XmlSceneImporter::ReadAnimationChunk(XmlNode* node)
 	if (animListNode == nullptr) return false;
 
 	uint32 animNum = animListNode->GetChildNum();
-	for(uint32 i = 0; i < animNum; i++)
+	for (uint32 i = 0; i < animNum; i++)
 	{
 		XmlNode* animationNode = animListNode->GetChildNode(i);
 		if (animationNode == nullptr) continue;
@@ -406,7 +406,7 @@ bool XmlSceneImporter::ReadAnimationChunk(XmlNode* node)
 		//XmlAttribute* pKeyFrameNumAttr = animationNode->GetAttribute("frames_num");
 
 		uint32 keyFrameNum = animationNode->GetChildNum();
-		
+
 		SkelAnimation& animData = m_animDataList[animName];
 		animData.name = animName;
 		animData.frameList.resize(keyFrameNum);
@@ -518,7 +518,7 @@ bool XmlSceneImporter::ReadMaterialChunk(XmlNode* node)
 						SamplerData& sampleData = materialData.samplerDataList[sampleName];
 						sampleData.samplerName = sampleName;
 
-						XmlNode* texNode = childNode->GetFirstNode("texture");						
+						XmlNode* texNode = childNode->GetFirstNode("texture");
 						XmlAttribute* pathAttr = texNode->GetAttribute("path");
 						if (pathAttr != nullptr)
 						{
@@ -540,8 +540,8 @@ bool XmlSceneImporter::CompareVertexDesc(const vector<VertLayoutDesc>& desc1, co
 
 	for (uint32 i = 0; i < desc1.size(); i++)
 	{
-		if (desc1[i].elementType != desc2[i].elementType || desc1[i].elementNum != desc2[i].elementNum 
-			|| desc1[i].elementSemantic != desc2[i].elementSemantic || desc1[i].semanticIndex != desc2[i].semanticIndex
+		if (desc1[i].elementType != desc2[i].elementType || desc1[i].elementNum != desc2[i].elementNum
+			|| desc1[i].elementLocation != desc2[i].elementLocation || desc1[i].layoutIndex != desc2[i].layoutIndex
 			|| desc1[i].elementOffset != desc2[i].elementOffset)
 			return false;
 	}

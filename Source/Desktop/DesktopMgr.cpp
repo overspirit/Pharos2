@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 //放在这里才会进入UIFactory，否则由于没有这几个类的实例所以会被编译器优化掉
@@ -18,7 +18,7 @@ DesktopMgr::DesktopMgr()
 	m_fScaleY = 1.0f;
 
 	m_renderBlock = nullptr;
-	m_renderLayout = nullptr;
+	//     m_renderLayout = nullptr;
 	m_vertCount = 0;
 
 	m_worldFrame = nullptr;
@@ -31,20 +31,20 @@ DesktopMgr::~DesktopMgr()
 
 bool DesktopMgr::Init()
 {
-	m_worldFrame = new WorldFrame();	
+	m_worldFrame = new WorldFrame();
 	m_worldFrame->Init();
 
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
-	m_renderBlock = sRenderMgr->GenerateRenderBlock();	
-	m_renderLayout = renderer->GenerateRenderLayout(MAX_VERT_SIZE);
+	m_renderBlock = sRenderMgr->GenerateRenderBlock();
+	//    m_renderLayout = renderer->GenerateRenderLayout(MAX_VERT_SIZE);
 
 	VertLayoutDesc desc[] =
 	{
-		{ VET_FLOAT32, 3, "POSITION", 0, 0 },
-		{ VET_UNORM8, 4, "COLOR", 0, 12 },
-		{ VET_FLOAT32, 2, "TEXCOORD", 0, 16 },
+		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
+		{ VET_UNORM8, 4, VAL_COLOR, 12, 0 },
+		{ VET_FLOAT32, 2, VAL_TEXCOORD0, 16, 0 },
 	};
-	m_renderLayout->SetInputLayoutDesc(desc, 3);
+	//m_renderLayout->SetInputLayoutDesc(desc, 3);
 
 	m_layoutBuffer.Alloc(MAX_VERT_SIZE);
 
@@ -70,7 +70,7 @@ void DesktopMgr::Destroy()
 	m_controlList.clear();
 
 	SAFE_DELETE(m_renderBlock);
-	SAFE_DELETE(m_renderLayout);
+	//    SAFE_DELETE(m_renderLayout);
 
 	sFontTexMgr->DestroyAll();
 }
@@ -86,7 +86,7 @@ void DesktopMgr::SetDesktopSize(int32 width, int32 height)
 
 bool DesktopMgr::LoadUILayoutFile(const char8* szFile)
 {
-	XmlDocument* doc = sResMgr->GenerateXmlDocument(szFile);	
+	XmlDocument* doc = sResMgr->GenerateXmlDocument(szFile);
 	if (!doc->Load()) return false;
 
 	XmlNode* pRoot = doc->GetRootNode();
@@ -122,7 +122,7 @@ UIObject* DesktopMgr::GenerateUIObject(XmlNode* xmlNode, const char8* parentName
 	if (xmlNode == nullptr) return nullptr;
 
 	const char8* type = xmlNode->GetName();
-	
+
 	string name;
 
 	XmlAttribute* nameAttr = xmlNode->GetAttribute("name");
@@ -191,9 +191,9 @@ void DesktopMgr::PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNu
 {
 	m_layoutBuffer.Insert(m_vertCount * sizeof(DecalColorVertex), vertData, vertNum * sizeof(DecalColorVertex));
 
-	uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(m_renderLayout, tech);
-	m_renderBlock->SetBlockPatchDrawRange(patchIndex, m_vertCount, vertNum);
-	m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
+	//    uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(m_renderLayout, tech);
+	//    m_renderBlock->SetBlockPatchDrawRange(patchIndex, m_vertCount, vertNum);
+	//    m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
 
 	m_vertCount += vertNum;
 }
@@ -206,30 +206,30 @@ bool DesktopMgr::onMouseEvent(const MouseEvent& e)
 
 	switch (e.state)
 	{
-	case STATE_KEEP: msg.type = Desktop::EIT_MOUSE_MOVE; break;
-	case STATE_DOWN:
-	{
-		switch (e.button)
+		case STATE_KEEP: msg.type = Desktop::EIT_MOUSE_MOVE; break;
+		case STATE_DOWN:
 		{
-		case MOUSE_LEFT: msg.type = Desktop::EIT_LEFT_DOWN; break;
+			switch (e.button)
+			{
+				case MOUSE_LEFT: msg.type = Desktop::EIT_LEFT_DOWN; break;
+			}
 		}
-	}
-	break;
-	case STATE_UP:
-	{
-		switch (e.button)
+		break;
+		case STATE_UP:
 		{
-		case MOUSE_LEFT: msg.type = Desktop::EIT_LEFT_UP; break;
+			switch (e.button)
+			{
+				case MOUSE_LEFT: msg.type = Desktop::EIT_LEFT_UP; break;
+			}
 		}
-	}
-	break;
+		break;
 	}
 
 	msg.p1 = (int32)(e.x * m_fScaleX);
 	msg.p2 = (int32)(e.y * m_fScaleY);
 	msg.p3 = (int32)(e.ox * m_fScaleX);
 	msg.p4 = (int32)(e.oy * m_fScaleY);
-	
+
 	return m_worldFrame->onInputMessage(msg);
 }
 
@@ -258,7 +258,7 @@ void DesktopMgr::onViewChangeSize(int32 width, int32 height)
 
 void DesktopMgr::onViewDestroy()
 {
-	
+
 }
 
 void DesktopMgr::Update(float32 fElapsed)
@@ -268,8 +268,8 @@ void DesktopMgr::Update(float32 fElapsed)
 
 void DesktopMgr::Render(float32 fElapsed)
 {
-    if (m_worldFrame == nullptr) return;
-    
+	if (m_worldFrame == nullptr) return;
+
 	//IFrameBuffer* defFrameBuf = g_pDevice->GetDefaultFrameBuffer();
 	//defFrameBuf->ClearFrameBuffer(0x00, 1.0f, 0);
 
@@ -277,7 +277,7 @@ void DesktopMgr::Render(float32 fElapsed)
 
 	m_worldFrame->Render(fElapsed);
 
-	m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
+	//m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
 
 	sRenderMgr->DoRender(m_renderBlock);
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -7,13 +7,13 @@ namespace Pharos
 		class RenderTechnique
 		{
 		public:
-			virtual ~RenderTechnique(){}
+			virtual ~RenderTechnique() {}
 
 		protected:
 			struct VarBlock
 			{
 				uint32						slot;
-				RenderShaderData*			shaderData;
+				//RenderShaderData*			shaderData;
 				vector<RenderVariable*>		varList;
 			};
 
@@ -25,7 +25,7 @@ namespace Pharos
 			vector<RenderVariable*>				m_varList;	//单独的变量，现在只有只有一种Texture
 			vector<VarBlock>					m_blockList;//对应D3D11中的ConstantBuf,OpenGL中的UniformBuf
 
-			vector<RenderPass*>					m_passList;
+			//vector<RenderPass*>					m_passList;
 
 		public:
 			virtual bool Create(RenderTechInfo* techInfo) = 0;
@@ -40,16 +40,16 @@ namespace Pharos
 				return iter != m_varMap.end() ? iter->second : nullptr;
 			}
 
-			uint32 GetPassNum()
-			{
-				return (uint32)m_passList.size();
-			}
+			//            uint32 GetPassNum()
+			//            {
+			//                return (uint32)m_passList.size();
+			//            }
 
-			RenderPass* GetPass(uint32 index)
-			{
-				if (index >= m_passList.size()) return nullptr;
-				return m_passList[index];
-			}
+			//            RenderPass* GetPass(uint32 index)
+			//            {
+			//                if (index >= m_passList.size()) return nullptr;
+			//                return m_passList[index];
+			//            }
 
 			virtual void ApplyToDevice() = 0;
 		};

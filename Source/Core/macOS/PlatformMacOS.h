@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
 	namespace Core
 	{
-        
+
 		class PlatformMacOS : public Utils::Singleton<PlatformMacOS>
 		{
 		public:
@@ -12,18 +12,20 @@ namespace Pharos
 			virtual ~PlatformMacOS(void);
 
 		private:
-            NSWindow*       m_window;
-            MTKView*        m_view;
+			NSWindow*       m_window;
+			MTKView*        m_view;
 			Timer			m_timer;
-            NSTrackingArea* m_trackingArea;
-            NSResponder* m_wc;
-            
+			NSTrackingArea* m_trackingArea;
+			NSResponder* m_wc;
+
+			Point2Di         m_mousePos;
+
 		public:
-			virtual bool Init();			
-			virtual void Destroy();			
+			virtual bool Init();
+			virtual void Destroy();
 			virtual void Update();
 
-            virtual void onKeyboardEvent(NSEvent* keyEvent);
+			virtual void onKeyboardEvent(NSEvent* keyEvent);
 			virtual void onMouseEvent(NSEvent* mouseEvent);
 
 			virtual void onViewChangeSize(int32 width, int32 height);

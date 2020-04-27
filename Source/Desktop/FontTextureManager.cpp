@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 #define HORI_CHAR_NUM 64	//横向有多少个字符
@@ -21,7 +21,7 @@ uint32 FontTextureManager::AttendFont(Font* font)
 {
 	uint32 fontInfoSize = (uint32)m_fontInfoList.size();
 	m_fontInfoList.resize(fontInfoSize + 1);
-		
+
 	FontInfo& fontInfo = *m_fontInfoList.rbegin();
 	fontInfo.font = font;
 
@@ -53,7 +53,7 @@ void FontTextureManager::ResumeFontInfo(FontInfo& fontInfo)
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
 
 	if (fontInfo.fontTex == nullptr)
-	{		
+	{
 		fontInfo.fontTex = renderer->CreateTexture(disCharSize * HORI_CHAR_NUM, disCharSize * VERT_CHAR_NUM, Render::EPF_A8_UNORM);
 	}
 	else
@@ -87,7 +87,7 @@ Vector4Df FontTextureManager::GetFontCharTexcoord(uint32 fontIndex, char16 ch)
 	float32 fontMaxValue = font->GetDisMaxValue();
 
 	//如果纹理满了 或者 minValue 和 maxValue 不在原有的区间
-	if ((fontInfo.currCharPosX == 0 && fontInfo.currCharPosY == 0) 
+	if ((fontInfo.currCharPosX == 0 && fontInfo.currCharPosY == 0)
 		|| (fontMinValue < fontInfo.currMinValue || fontMaxValue > fontInfo.currMaxValue))
 	{
 		ResumeFontInfo(fontInfo);
@@ -134,7 +134,7 @@ RenderTexture* FontTextureManager::GetFontTexture(uint32 fontIndex)
 
 //向字体纹理中添加一个字符信息
 uint32 FontTextureManager::InsertChar(FontInfo& fontInfo, char16 ch)
-{	
+{
 	//扩大FontInfo中的charInfoList，并存储该字符的索引
 	vector<CharPos>& charPosList = fontInfo.charPosList;
 	uint32 charPosListSize = (uint32)charPosList.size();
@@ -157,7 +157,7 @@ uint32 FontTextureManager::InsertChar(FontInfo& fontInfo, char16 ch)
 	{
 		charData[i] = (uint8)((charDisData[i] - fontInfo.currMinValue) / (fontInfo.currMaxValue - fontInfo.currMinValue) * 255.0f);
 	}
-	
+
 	Rect2Di copyRect;
 	copyRect.left = charPos.x * fontCharSize;
 	copyRect.top = charPos.y * fontCharSize;

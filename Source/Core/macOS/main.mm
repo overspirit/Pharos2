@@ -1,4 +1,4 @@
-﻿//
+//
 //  main.m
 //  ModelViewer
 //
@@ -8,7 +8,7 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-@interface AppDelegate : NSWindowController <NSApplicationDelegate, MTKViewDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, MTKViewDelegate>
 
 @end
 
@@ -16,67 +16,84 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    sPlatform->Init();
+	sPlatform->Init();
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
+-(void)applicationWillTerminate : (NSNotification *)aNotification
 {
-    sPlatform->Destroy();
+	sPlatform->Destroy();
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+-(BOOL)applicationShouldTerminateAfterLastWindowClosed : (NSApplication *)sender
 {
-    return YES;
+	return YES;
 }
 
-- (void)keyUp:(NSEvent *)event
+-(void)keyEvent : (NSEvent *)event
 {
-    sPlatform->onKeyboardEvent(event);
+	sPlatform->onKeyboardEvent(event);
 }
 
-- (void)mouseUp:(NSEvent *)event
+-(void)mouseEvent : (NSEvent *)event
 {
-    sPlatform->onMouseEvent(event);
+	sPlatform->onMouseEvent(event);
 }
 
-- (void)rightMouseUp:(NSEvent *)event
+-(void)mtkView : (nonnull MTKView *)view drawableSizeWillChange : (CGSize)size
 {
-    sPlatform->onMouseEvent(event);
+	sPlatform->onViewChangeSize(size.width, size.height);
 }
 
-- (void)otherMouseUp:(NSEvent *)event
+-(void)drawInMTKView : (nonnull MTKView *)view
 {
-    sPlatform->onMouseEvent(event);
-}
-
-- (void)mouseMoved:(NSEvent *)event
-{
-    sPlatform->onMouseEvent(event);
-}
-
-- (void)scrollWheel:(NSEvent *)event
-{
-    sPlatform->onMouseEvent(event);
-}
-
-- (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
-{
-    sPlatform->onViewChangeSize(size.width, size.height);
-}
-
-- (void)drawInMTKView:(nonnull MTKView *)view
-{
-    sPlatform->Update();
+	sPlatform->Update();
 }
 
 @end
 
 int main(int argc, const char * argv[])
 {
-    NSApplication* applicaton = [NSApplication sharedApplication];
-    AppDelegate* delegate = [[AppDelegate alloc] init];
-    applicaton.delegate = delegate;
-    
-    return NSApplicationMain(argc, argv);
+	NSApplication* applicaton = [NSApplication sharedApplication];
+	AppDelegate* delegate = [[AppDelegate alloc] init];
+	applicaton.delegate = delegate;
+
+	NSEventMask mask = NSEventMaskLeftMouseDown | NSEventMaskLeftMouseUp |
+		NSEventMaskRightMouseDown | NSEventMaskRightMouseUp |
+		NSEventMaskOtherMouseDown | NSEventMaskOtherMouseUp |
+		NSEventMaskScrollWheel | NSEventMaskMouseMoved |
+		NSEventMaskLeftMouseDragged | NSEventMaskRightMouseDragged | NSEventMaskOtherMouseDragged |
+		NSEventMaskKeyDown | NSEventMaskKeyUp;
+
+	[NSEvent addLocalMonitorForEventsMatchingMask : mask handler : ^NSEvent*_Nullable(NSEvent *event) {
+		//NSLog(@"local monitor: %@", event);
+
+		NSApplication* applicaton = [NSApplication sharedApplication];
+		AppDelegate* delegate = (AppDelegate*)applicaton.delegate;
+
+		switch (event.type)
+		{
+			case NSEventTypeKeyUp:
+			case NSEventTypeKeyDown:
+				[delegate keyEvent:event];
+				break;
+			case NSEventTypeLeftMouseDown:
+			case NSEventTypeLeftMouseUp:
+			case NSEventTypeRightMouseDown:
+			case NSEventTypeRightMouseUp:
+			case NSEventTypeOtherMouseDown:
+			case NSEventTypeOtherMouseUp:
+			case NSEventTypeMouseMoved:
+			case NSEventTypeScrollWheel:
+			case NSEventTypeLeftMouseDragged:
+			case NSEventTypeRightMouseDragged:
+			case NSEventTypeOtherMouseDragged:
+				[delegate mouseEvent:event];
+				break;
+		}
+
+		return event;
+	}];
+
+	return NSApplicationMain(argc, argv);
 }
 

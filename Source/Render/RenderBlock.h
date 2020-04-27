@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -18,12 +18,12 @@ namespace Pharos
 		public:
 			RenderBlock();
 			virtual ~RenderBlock();
-			
+
 		private:
 			struct BlockPatch
 			{
 				RenderTechnique*	tech;
-				RenderLayout*		layout;
+				//RenderLayout*		layout;
 
 				DrawType		drawType;
 
@@ -40,7 +40,7 @@ namespace Pharos
 		private:
 			Renderer*			m_renderer;
 
-			RenderShaderData*	m_blockData;
+			//RenderShaderData*	m_blockData;
 
 			vector<BlockPatch>	m_blockPatchList;
 			uint32				m_blockPatchNum;
@@ -51,13 +51,13 @@ namespace Pharos
 			virtual void SetBlockDataWorldMatrix(const Matrix4& world);
 			virtual void SetBlockDataBoneMatrix(const Matrix4* bones, uint32 boneNum);
 
-			virtual uint32 AddRenderBlockPatch(RenderLayout* layout, RenderTechnique* tech);
+			//virtual uint32 AddRenderBlockPatch(RenderLayout* layout, RenderTechnique* tech);
 			virtual void SetBlockPatchDrawType(uint32 patchIndex, DrawType type);
 			virtual void SetBlockPatchDrawRange(uint32 patchIndex, uint32 start, uint32 count);
-			
+
 			virtual uint32 GetRenderBlockPatchNum() { return m_blockPatchNum; }
 			virtual RenderTechnique* GetBlockPatchTechnique(uint32 patchIndex);
-			virtual RenderLayout* GetBlockPatchLayout(uint32 patchIndex);
+			//virtual RenderLayout* GetBlockPatchLayout(uint32 patchIndex);
 			virtual DrawType GetBlockPatchDrawType(uint32 patchIndex);
 			virtual uint32 GetBlockPatchDrawStart(uint32 patchIndex);
 			virtual uint32 GetBlockPatchDrawCount(uint32 patchIndex);

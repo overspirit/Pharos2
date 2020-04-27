@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C75C81122450242A00CCEE69 /* RenderProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = C75C81112450242A00CCEE69 /* RenderProgram.h */; };
 		F944EA5F2444260B00B6D702 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = F944EA5E2444260B00B6D702 /* Shaders.metal */; };
 		F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83E8243734400002DFF0 /* CompileConfig.h */; };
 		F97F83EE243734400002DFF0 /* PreCompile.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83EA243734400002DFF0 /* PreCompile.h */; };
@@ -52,13 +53,11 @@
 		F9D98124243EFB560028DD41 /* RenderMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9D98121243EFB560028DD41 /* RenderMgr.cpp */; };
 		F9D98125243EFB560028DD41 /* RenderGlobal.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98122243EFB560028DD41 /* RenderGlobal.h */; };
 		F9D98126243EFB560028DD41 /* RenderMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98123243EFB560028DD41 /* RenderMgr.h */; };
-		F9D98133243EFCD70028DD41 /* RenderShaderData.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98128243EFCD60028DD41 /* RenderShaderData.h */; };
-		F9D98134243EFCD70028DD41 /* RenderProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98129243EFCD60028DD41 /* RenderProgram.h */; };
 		F9D98135243EFCD70028DD41 /* RenderBlendState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812A243EFCD60028DD41 /* RenderBlendState.h */; };
 		F9D98137243EFCD70028DD41 /* Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812C243EFCD60028DD41 /* Renderer.h */; };
-		F9D98138243EFCD70028DD41 /* RenderLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812D243EFCD60028DD41 /* RenderLayout.h */; };
+		F9D98138243EFCD70028DD41 /* RenderBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812D243EFCD60028DD41 /* RenderBuffer.h */; };
 		F9D98139243EFCD70028DD41 /* RenderDepthStencilState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812E243EFCD60028DD41 /* RenderDepthStencilState.h */; };
-		F9D9813A243EFCD70028DD41 /* RenderFrameBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812F243EFCD70028DD41 /* RenderFrameBuffer.h */; };
+		F9D9813A243EFCD70028DD41 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9812F243EFCD70028DD41 /* RenderTarget.h */; };
 		F9D9813B243EFCD70028DD41 /* RenderTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98130243EFCD70028DD41 /* RenderTexture.h */; };
 		F9D9813C243EFCD70028DD41 /* RenderSamplerState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98131243EFCD70028DD41 /* RenderSamplerState.h */; };
 		F9D9813D243EFCD70028DD41 /* RenderRasterizerState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98132243EFCD70028DD41 /* RenderRasterizerState.h */; };
@@ -80,7 +79,6 @@
 		F9D98162243EFD6C0028DD41 /* RenderTechnique.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9815D243EFD6C0028DD41 /* RenderTechnique.h */; };
 		F9D98163243EFD6C0028DD41 /* RenderTechInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9815E243EFD6C0028DD41 /* RenderTechInfo.h */; };
 		F9D98164243EFD6C0028DD41 /* RenderVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9815F243EFD6C0028DD41 /* RenderVariable.h */; };
-		F9D98165243EFD6C0028DD41 /* RenderPass.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98160243EFD6C0028DD41 /* RenderPass.h */; };
 		F9D98166243EFD6C0028DD41 /* RenderEffectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98161243EFD6C0028DD41 /* RenderEffectLoader.h */; };
 		F9D98175243EFDE20028DD41 /* HDRPostProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9816B243EFDE10028DD41 /* HDRPostProcess.h */; };
 		F9D98176243EFDE20028DD41 /* PostProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9816C243EFDE10028DD41 /* PostProcess.h */; };
@@ -97,25 +95,21 @@
 		F9D98189243EFF460028DD41 /* MetalRenderTechInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98181243EFF460028DD41 /* MetalRenderTechInfo.h */; };
 		F9D9818A243EFF460028DD41 /* MetalEffectLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98182243EFF460028DD41 /* MetalEffectLoader.h */; };
 		F9D9818B243EFF460028DD41 /* MetalEffectLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98183243EFF460028DD41 /* MetalEffectLoader.mm */; };
-		F9D9818C243EFF460028DD41 /* MetalRenderPass.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98184243EFF460028DD41 /* MetalRenderPass.mm */; };
-		F9D9818D243EFF460028DD41 /* MetalRenderPass.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98185243EFF460028DD41 /* MetalRenderPass.h */; };
 		F9D9818E243EFF460028DD41 /* MetalRenderTechnique.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98186243EFF460028DD41 /* MetalRenderTechnique.mm */; };
 		F9D981A1243EFF6C0028DD41 /* MetalShaderProgram.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9818F243EFF6B0028DD41 /* MetalShaderProgram.mm */; };
 		F9D981A2243EFF6C0028DD41 /* MetalTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98190243EFF6B0028DD41 /* MetalTexture.h */; };
-		F9D981A3243EFF6C0028DD41 /* MetalRenderLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98191243EFF6B0028DD41 /* MetalRenderLayout.h */; };
-		F9D981A4243EFF6C0028DD41 /* MetalFrameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98192243EFF6B0028DD41 /* MetalFrameBuffer.mm */; };
-		F9D981A5243EFF6C0028DD41 /* MetalFrameBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98193243EFF6B0028DD41 /* MetalFrameBuffer.h */; };
+		F9D981A4243EFF6C0028DD41 /* MetalRenderTarget.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98192243EFF6B0028DD41 /* MetalRenderTarget.mm */; };
+		F9D981A5243EFF6C0028DD41 /* MetalRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98193243EFF6B0028DD41 /* MetalRenderTarget.h */; };
 		F9D981A6243EFF6C0028DD41 /* MetalBlendState.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98194243EFF6B0028DD41 /* MetalBlendState.mm */; };
-		F9D981A7243EFF6C0028DD41 /* MetalConstantBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98195243EFF6B0028DD41 /* MetalConstantBuffer.h */; };
+		F9D981A7243EFF6C0028DD41 /* MetalRenderBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98195243EFF6B0028DD41 /* MetalRenderBuffer.h */; };
 		F9D981A8243EFF6C0028DD41 /* MetalTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98196243EFF6B0028DD41 /* MetalTexture.mm */; };
 		F9D981A9243EFF6C0028DD41 /* MetalDepthStencilState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98197243EFF6B0028DD41 /* MetalDepthStencilState.h */; };
-		F9D981AA243EFF6C0028DD41 /* MetalRenderLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D98198243EFF6B0028DD41 /* MetalRenderLayout.mm */; };
 		F9D981AB243EFF6C0028DD41 /* MetalShaderProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98199243EFF6B0028DD41 /* MetalShaderProgram.h */; };
 		F9D981AC243EFF6C0028DD41 /* MetalRasterizerState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9819A243EFF6B0028DD41 /* MetalRasterizerState.h */; };
 		F9D981AD243EFF6C0028DD41 /* MetalDepthStencilState.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9819B243EFF6B0028DD41 /* MetalDepthStencilState.mm */; };
 		F9D981AE243EFF6C0028DD41 /* MetalRasterizerState.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9819C243EFF6B0028DD41 /* MetalRasterizerState.mm */; };
 		F9D981AF243EFF6C0028DD41 /* MetalSamplerState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D9819D243EFF6B0028DD41 /* MetalSamplerState.h */; };
-		F9D981B0243EFF6C0028DD41 /* MetalConstantBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9819E243EFF6B0028DD41 /* MetalConstantBuffer.mm */; };
+		F9D981B0243EFF6C0028DD41 /* MetalRenderBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9819E243EFF6B0028DD41 /* MetalRenderBuffer.mm */; };
 		F9D981B1243EFF6C0028DD41 /* MetalSamplerState.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9D9819F243EFF6B0028DD41 /* MetalSamplerState.mm */; };
 		F9D981B2243EFF6C0028DD41 /* MetalBlendState.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D981A0243EFF6B0028DD41 /* MetalBlendState.h */; };
 		F9D981C5243F06190028DD41 /* XmlAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9D981B3243F06180028DD41 /* XmlAttribute.cpp */; };
@@ -186,9 +180,16 @@
 		F9D98239243F0BDD0028DD41 /* Progress.h in Headers */ = {isa = PBXBuildFile; fileRef = F9D98227243F0BDD0028DD41 /* Progress.h */; };
 		F9D9823B243F104D0028DD41 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D9823A243F104D0028DD41 /* libfreetype.a */; };
 		F9D9823D243F106F0028DD41 /* libFreeImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D9823C243F106F0028DD41 /* libFreeImage.a */; };
+		F9F95FA92446F6AD0012DE8A /* MetalRenderPipeline.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9F95FA52446F6AC0012DE8A /* MetalRenderPipeline.mm */; };
+		F9F95FAA2446F6AD0012DE8A /* MetalRenderPipeline.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F95FA62446F6AC0012DE8A /* MetalRenderPipeline.h */; };
+		F9F95FAB2446F6AD0012DE8A /* MetalRenderCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F95FA72446F6AD0012DE8A /* MetalRenderCommand.h */; };
+		F9F95FAC2446F6AD0012DE8A /* MetalRenderCommand.mm in Sources */ = {isa = PBXBuildFile; fileRef = F9F95FA82446F6AD0012DE8A /* MetalRenderCommand.mm */; };
+		F9F95FAF2446F6C00012DE8A /* RenderCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F95FAD2446F6C00012DE8A /* RenderCommand.h */; };
+		F9F95FB02446F6C00012DE8A /* RenderPipeline.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F95FAE2446F6C00012DE8A /* RenderPipeline.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C75C81112450242A00CCEE69 /* RenderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderProgram.h; path = ../Source/Render/Renderer/RenderProgram.h; sourceTree = "<group>"; };
 		F90BE5762435C21B0018A7F2 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F944EA5E2444260B00B6D702 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = ../Source/Render/Shader/Metal/Shaders.metal; sourceTree = "<group>"; };
 		F97F83E8243734400002DFF0 /* CompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompileConfig.h; path = ../Source/CompileConfig.h; sourceTree = "<group>"; };
@@ -237,13 +238,11 @@
 		F9D98121243EFB560028DD41 /* RenderMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderMgr.cpp; path = ../Source/Render/RenderMgr.cpp; sourceTree = "<group>"; };
 		F9D98122243EFB560028DD41 /* RenderGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderGlobal.h; path = ../Source/Render/RenderGlobal.h; sourceTree = "<group>"; };
 		F9D98123243EFB560028DD41 /* RenderMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderMgr.h; path = ../Source/Render/RenderMgr.h; sourceTree = "<group>"; };
-		F9D98128243EFCD60028DD41 /* RenderShaderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderShaderData.h; path = ../Source/Render/Renderer/RenderShaderData.h; sourceTree = "<group>"; };
-		F9D98129243EFCD60028DD41 /* RenderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderProgram.h; path = ../Source/Render/Renderer/RenderProgram.h; sourceTree = "<group>"; };
 		F9D9812A243EFCD60028DD41 /* RenderBlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderBlendState.h; path = ../Source/Render/Renderer/RenderBlendState.h; sourceTree = "<group>"; };
 		F9D9812C243EFCD60028DD41 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Renderer.h; path = ../Source/Render/Renderer/Renderer.h; sourceTree = "<group>"; };
-		F9D9812D243EFCD60028DD41 /* RenderLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderLayout.h; path = ../Source/Render/Renderer/RenderLayout.h; sourceTree = "<group>"; };
+		F9D9812D243EFCD60028DD41 /* RenderBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderBuffer.h; path = ../Source/Render/Renderer/RenderBuffer.h; sourceTree = "<group>"; };
 		F9D9812E243EFCD60028DD41 /* RenderDepthStencilState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderDepthStencilState.h; path = ../Source/Render/Renderer/RenderDepthStencilState.h; sourceTree = "<group>"; };
-		F9D9812F243EFCD70028DD41 /* RenderFrameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderFrameBuffer.h; path = ../Source/Render/Renderer/RenderFrameBuffer.h; sourceTree = "<group>"; };
+		F9D9812F243EFCD70028DD41 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../Source/Render/Renderer/RenderTarget.h; sourceTree = "<group>"; };
 		F9D98130243EFCD70028DD41 /* RenderTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTexture.h; path = ../Source/Render/Renderer/RenderTexture.h; sourceTree = "<group>"; };
 		F9D98131243EFCD70028DD41 /* RenderSamplerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderSamplerState.h; path = ../Source/Render/Renderer/RenderSamplerState.h; sourceTree = "<group>"; };
 		F9D98132243EFCD70028DD41 /* RenderRasterizerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderRasterizerState.h; path = ../Source/Render/Renderer/RenderRasterizerState.h; sourceTree = "<group>"; };
@@ -265,7 +264,6 @@
 		F9D9815D243EFD6C0028DD41 /* RenderTechnique.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTechnique.h; path = ../Source/Render/Effect/RenderTechnique.h; sourceTree = "<group>"; };
 		F9D9815E243EFD6C0028DD41 /* RenderTechInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTechInfo.h; path = ../Source/Render/Effect/RenderTechInfo.h; sourceTree = "<group>"; };
 		F9D9815F243EFD6C0028DD41 /* RenderVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderVariable.h; path = ../Source/Render/Effect/RenderVariable.h; sourceTree = "<group>"; };
-		F9D98160243EFD6C0028DD41 /* RenderPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderPass.h; path = ../Source/Render/Effect/RenderPass.h; sourceTree = "<group>"; };
 		F9D98161243EFD6C0028DD41 /* RenderEffectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderEffectLoader.h; path = ../Source/Render/Effect/RenderEffectLoader.h; sourceTree = "<group>"; };
 		F9D9816B243EFDE10028DD41 /* HDRPostProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HDRPostProcess.h; path = ../Source/Render/PostProcess/HDRPostProcess.h; sourceTree = "<group>"; };
 		F9D9816C243EFDE10028DD41 /* PostProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostProcess.h; path = ../Source/Render/PostProcess/PostProcess.h; sourceTree = "<group>"; };
@@ -282,25 +280,21 @@
 		F9D98181243EFF460028DD41 /* MetalRenderTechInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderTechInfo.h; path = ../Source/Render/Effect/Metal/MetalRenderTechInfo.h; sourceTree = "<group>"; };
 		F9D98182243EFF460028DD41 /* MetalEffectLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalEffectLoader.h; path = ../Source/Render/Effect/Metal/MetalEffectLoader.h; sourceTree = "<group>"; };
 		F9D98183243EFF460028DD41 /* MetalEffectLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalEffectLoader.mm; path = ../Source/Render/Effect/Metal/MetalEffectLoader.mm; sourceTree = "<group>"; };
-		F9D98184243EFF460028DD41 /* MetalRenderPass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderPass.mm; path = ../Source/Render/Effect/Metal/MetalRenderPass.mm; sourceTree = "<group>"; };
-		F9D98185243EFF460028DD41 /* MetalRenderPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderPass.h; path = ../Source/Render/Effect/Metal/MetalRenderPass.h; sourceTree = "<group>"; };
 		F9D98186243EFF460028DD41 /* MetalRenderTechnique.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderTechnique.mm; path = ../Source/Render/Effect/Metal/MetalRenderTechnique.mm; sourceTree = "<group>"; };
 		F9D9818F243EFF6B0028DD41 /* MetalShaderProgram.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalShaderProgram.mm; path = ../Source/Render/Renderer/Metal/MetalShaderProgram.mm; sourceTree = "<group>"; };
 		F9D98190243EFF6B0028DD41 /* MetalTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalTexture.h; path = ../Source/Render/Renderer/Metal/MetalTexture.h; sourceTree = "<group>"; };
-		F9D98191243EFF6B0028DD41 /* MetalRenderLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderLayout.h; path = ../Source/Render/Renderer/Metal/MetalRenderLayout.h; sourceTree = "<group>"; };
-		F9D98192243EFF6B0028DD41 /* MetalFrameBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalFrameBuffer.mm; path = ../Source/Render/Renderer/Metal/MetalFrameBuffer.mm; sourceTree = "<group>"; };
-		F9D98193243EFF6B0028DD41 /* MetalFrameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalFrameBuffer.h; path = ../Source/Render/Renderer/Metal/MetalFrameBuffer.h; sourceTree = "<group>"; };
+		F9D98192243EFF6B0028DD41 /* MetalRenderTarget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderTarget.mm; path = ../Source/Render/Renderer/Metal/MetalRenderTarget.mm; sourceTree = "<group>"; };
+		F9D98193243EFF6B0028DD41 /* MetalRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderTarget.h; path = ../Source/Render/Renderer/Metal/MetalRenderTarget.h; sourceTree = "<group>"; };
 		F9D98194243EFF6B0028DD41 /* MetalBlendState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalBlendState.mm; path = ../Source/Render/Renderer/Metal/MetalBlendState.mm; sourceTree = "<group>"; };
-		F9D98195243EFF6B0028DD41 /* MetalConstantBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalConstantBuffer.h; path = ../Source/Render/Renderer/Metal/MetalConstantBuffer.h; sourceTree = "<group>"; };
+		F9D98195243EFF6B0028DD41 /* MetalRenderBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderBuffer.h; path = ../Source/Render/Renderer/Metal/MetalRenderBuffer.h; sourceTree = "<group>"; };
 		F9D98196243EFF6B0028DD41 /* MetalTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalTexture.mm; path = ../Source/Render/Renderer/Metal/MetalTexture.mm; sourceTree = "<group>"; };
 		F9D98197243EFF6B0028DD41 /* MetalDepthStencilState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalDepthStencilState.h; path = ../Source/Render/Renderer/Metal/MetalDepthStencilState.h; sourceTree = "<group>"; };
-		F9D98198243EFF6B0028DD41 /* MetalRenderLayout.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderLayout.mm; path = ../Source/Render/Renderer/Metal/MetalRenderLayout.mm; sourceTree = "<group>"; };
 		F9D98199243EFF6B0028DD41 /* MetalShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalShaderProgram.h; path = ../Source/Render/Renderer/Metal/MetalShaderProgram.h; sourceTree = "<group>"; };
 		F9D9819A243EFF6B0028DD41 /* MetalRasterizerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRasterizerState.h; path = ../Source/Render/Renderer/Metal/MetalRasterizerState.h; sourceTree = "<group>"; };
 		F9D9819B243EFF6B0028DD41 /* MetalDepthStencilState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalDepthStencilState.mm; path = ../Source/Render/Renderer/Metal/MetalDepthStencilState.mm; sourceTree = "<group>"; };
 		F9D9819C243EFF6B0028DD41 /* MetalRasterizerState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRasterizerState.mm; path = ../Source/Render/Renderer/Metal/MetalRasterizerState.mm; sourceTree = "<group>"; };
 		F9D9819D243EFF6B0028DD41 /* MetalSamplerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalSamplerState.h; path = ../Source/Render/Renderer/Metal/MetalSamplerState.h; sourceTree = "<group>"; };
-		F9D9819E243EFF6B0028DD41 /* MetalConstantBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalConstantBuffer.mm; path = ../Source/Render/Renderer/Metal/MetalConstantBuffer.mm; sourceTree = "<group>"; };
+		F9D9819E243EFF6B0028DD41 /* MetalRenderBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderBuffer.mm; path = ../Source/Render/Renderer/Metal/MetalRenderBuffer.mm; sourceTree = "<group>"; };
 		F9D9819F243EFF6B0028DD41 /* MetalSamplerState.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalSamplerState.mm; path = ../Source/Render/Renderer/Metal/MetalSamplerState.mm; sourceTree = "<group>"; };
 		F9D981A0243EFF6B0028DD41 /* MetalBlendState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalBlendState.h; path = ../Source/Render/Renderer/Metal/MetalBlendState.h; sourceTree = "<group>"; };
 		F9D981B3243F06180028DD41 /* XmlAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlAttribute.cpp; path = ../Source/Core/XmlAttribute.cpp; sourceTree = "<group>"; };
@@ -371,6 +365,12 @@
 		F9D98227243F0BDD0028DD41 /* Progress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Progress.h; path = ../Source/Desktop/UIObjects/Progress.h; sourceTree = "<group>"; };
 		F9D9823A243F104D0028DD41 /* libfreetype.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libfreetype.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9D9823C243F106F0028DD41 /* libFreeImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFreeImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9F95FA52446F6AC0012DE8A /* MetalRenderPipeline.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderPipeline.mm; path = ../Source/Render/Renderer/Metal/MetalRenderPipeline.mm; sourceTree = "<group>"; };
+		F9F95FA62446F6AC0012DE8A /* MetalRenderPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderPipeline.h; path = ../Source/Render/Renderer/Metal/MetalRenderPipeline.h; sourceTree = "<group>"; };
+		F9F95FA72446F6AD0012DE8A /* MetalRenderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalRenderCommand.h; path = ../Source/Render/Renderer/Metal/MetalRenderCommand.h; sourceTree = "<group>"; };
+		F9F95FA82446F6AD0012DE8A /* MetalRenderCommand.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalRenderCommand.mm; path = ../Source/Render/Renderer/Metal/MetalRenderCommand.mm; sourceTree = "<group>"; };
+		F9F95FAD2446F6C00012DE8A /* RenderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderCommand.h; path = ../Source/Render/Renderer/RenderCommand.h; sourceTree = "<group>"; };
+		F9F95FAE2446F6C00012DE8A /* RenderPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderPipeline.h; path = ../Source/Render/Renderer/RenderPipeline.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,14 +540,15 @@
 				F9D98127243EFCB70028DD41 /* Metal */,
 				F9D9812A243EFCD60028DD41 /* RenderBlendState.h */,
 				F9D9812E243EFCD60028DD41 /* RenderDepthStencilState.h */,
-				F9D9812C243EFCD60028DD41 /* Renderer.h */,
-				F9D9812F243EFCD70028DD41 /* RenderFrameBuffer.h */,
-				F9D9812D243EFCD60028DD41 /* RenderLayout.h */,
-				F9D98129243EFCD60028DD41 /* RenderProgram.h */,
 				F9D98132243EFCD70028DD41 /* RenderRasterizerState.h */,
 				F9D98131243EFCD70028DD41 /* RenderSamplerState.h */,
-				F9D98128243EFCD60028DD41 /* RenderShaderData.h */,
+				F9D9812F243EFCD70028DD41 /* RenderTarget.h */,
+				C75C81112450242A00CCEE69 /* RenderProgram.h */,
+				F9F95FAE2446F6C00012DE8A /* RenderPipeline.h */,
+				F9D9812D243EFCD60028DD41 /* RenderBuffer.h */,
 				F9D98130243EFCD70028DD41 /* RenderTexture.h */,
+				F9F95FAD2446F6C00012DE8A /* RenderCommand.h */,
+				F9D9812C243EFCD60028DD41 /* Renderer.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -557,24 +558,26 @@
 			children = (
 				F9D981A0243EFF6B0028DD41 /* MetalBlendState.h */,
 				F9D98194243EFF6B0028DD41 /* MetalBlendState.mm */,
-				F9D98195243EFF6B0028DD41 /* MetalConstantBuffer.h */,
-				F9D9819E243EFF6B0028DD41 /* MetalConstantBuffer.mm */,
 				F9D98197243EFF6B0028DD41 /* MetalDepthStencilState.h */,
 				F9D9819B243EFF6B0028DD41 /* MetalDepthStencilState.mm */,
-				F9D98193243EFF6B0028DD41 /* MetalFrameBuffer.h */,
-				F9D98192243EFF6B0028DD41 /* MetalFrameBuffer.mm */,
 				F9D9819A243EFF6B0028DD41 /* MetalRasterizerState.h */,
 				F9D9819C243EFF6B0028DD41 /* MetalRasterizerState.mm */,
-				F9D9811D243EFB110028DD41 /* MetalRenderer.h */,
-				F9D9811C243EFB110028DD41 /* MetalRenderer.mm */,
-				F9D98191243EFF6B0028DD41 /* MetalRenderLayout.h */,
-				F9D98198243EFF6B0028DD41 /* MetalRenderLayout.mm */,
 				F9D9819D243EFF6B0028DD41 /* MetalSamplerState.h */,
 				F9D9819F243EFF6B0028DD41 /* MetalSamplerState.mm */,
+				F9D98195243EFF6B0028DD41 /* MetalRenderBuffer.h */,
+				F9D9819E243EFF6B0028DD41 /* MetalRenderBuffer.mm */,
+				F9D98193243EFF6B0028DD41 /* MetalRenderTarget.h */,
+				F9D98192243EFF6B0028DD41 /* MetalRenderTarget.mm */,
 				F9D98199243EFF6B0028DD41 /* MetalShaderProgram.h */,
 				F9D9818F243EFF6B0028DD41 /* MetalShaderProgram.mm */,
+				F9F95FA62446F6AC0012DE8A /* MetalRenderPipeline.h */,
+				F9F95FA52446F6AC0012DE8A /* MetalRenderPipeline.mm */,
 				F9D98190243EFF6B0028DD41 /* MetalTexture.h */,
 				F9D98196243EFF6B0028DD41 /* MetalTexture.mm */,
+				F9F95FA72446F6AD0012DE8A /* MetalRenderCommand.h */,
+				F9F95FA82446F6AD0012DE8A /* MetalRenderCommand.mm */,
+				F9D9811D243EFB110028DD41 /* MetalRenderer.h */,
+				F9D9811C243EFB110028DD41 /* MetalRenderer.mm */,
 			);
 			name = Metal;
 			sourceTree = "<group>";
@@ -584,7 +587,6 @@
 			children = (
 				F9D98167243EFD720028DD41 /* Metal */,
 				F9D98161243EFD6C0028DD41 /* RenderEffectLoader.h */,
-				F9D98160243EFD6C0028DD41 /* RenderPass.h */,
 				F9D9815E243EFD6C0028DD41 /* RenderTechInfo.h */,
 				F9D9815D243EFD6C0028DD41 /* RenderTechnique.h */,
 				F9D9815F243EFD6C0028DD41 /* RenderVariable.h */,
@@ -597,8 +599,6 @@
 			children = (
 				F9D98183243EFF460028DD41 /* MetalEffectLoader.mm */,
 				F9D98182243EFF460028DD41 /* MetalEffectLoader.h */,
-				F9D98184243EFF460028DD41 /* MetalRenderPass.mm */,
-				F9D98185243EFF460028DD41 /* MetalRenderPass.h */,
 				F9D98180243EFF460028DD41 /* MetalRenderTechInfo.mm */,
 				F9D98181243EFF460028DD41 /* MetalRenderTechInfo.h */,
 				F9D98186243EFF460028DD41 /* MetalRenderTechnique.mm */,
@@ -719,9 +719,8 @@
 			files = (
 				F97F84C6243D7E5A0002DFF0 /* Singleton.h in Headers */,
 				F9D98175243EFDE20028DD41 /* HDRPostProcess.h in Headers */,
-				F9D981A3243EFF6C0028DD41 /* MetalRenderLayout.h in Headers */,
 				F97F84FF243DB4300002DFF0 /* Kernel.h in Headers */,
-				F9D981A7243EFF6C0028DD41 /* MetalConstantBuffer.h in Headers */,
+				F9D981A7243EFF6C0028DD41 /* MetalRenderBuffer.h in Headers */,
 				F97F8491243C66500002DFF0 /* CoreGlobal.h in Headers */,
 				F9D981C7243F06190028DD41 /* XmlNode.h in Headers */,
 				F9D98229243F0BDD0028DD41 /* Slider.h in Headers */,
@@ -739,21 +738,20 @@
 				F9D981D4243F06190028DD41 /* ResourceManager.h in Headers */,
 				F9D9815A243EFCEF0028DD41 /* Material.h in Headers */,
 				F9D981C9243F06190028DD41 /* Font.h in Headers */,
-				F9D981A5243EFF6C0028DD41 /* MetalFrameBuffer.h in Headers */,
+				F9D981A5243EFF6C0028DD41 /* MetalRenderTarget.h in Headers */,
 				F97F84E8243D7E6F0002DFF0 /* Plane3D.h in Headers */,
-				F9D9818D243EFF460028DD41 /* MetalRenderPass.h in Headers */,
 				F97F84E2243D7E6F0002DFF0 /* AABBox3D.h in Headers */,
 				F9D981F3243F0BA00028DD41 /* GridNode.h in Headers */,
 				F97F84E7243D7E6F0002DFF0 /* Triangle3D.h in Headers */,
 				F97F84E1243D7E6F0002DFF0 /* Quaternion.h in Headers */,
 				F9D9822B243F0BDD0028DD41 /* FontString.h in Headers */,
-				F9D98138243EFCD70028DD41 /* RenderLayout.h in Headers */,
-				F9D98165243EFD6C0028DD41 /* RenderPass.h in Headers */,
+				F9D98138243EFCD70028DD41 /* RenderBuffer.h in Headers */,
 				F9D98125243EFB560028DD41 /* RenderGlobal.h in Headers */,
 				F9D98155243EFCEF0028DD41 /* Mesh.h in Headers */,
 				F97F8486243C51FD0002DFF0 /* EventDefine.h in Headers */,
 				F9D9811F243EFB110028DD41 /* MetalRenderer.h in Headers */,
 				F97F84EB243D7E6F0002DFF0 /* Line2D.h in Headers */,
+				F9F95FAB2446F6AD0012DE8A /* MetalRenderCommand.h in Headers */,
 				F9D981EE243F0BA00028DD41 /* SceneNode.h in Headers */,
 				F9D981CA243F06190028DD41 /* XmlAttribute.h in Headers */,
 				F9D981D0243F06190028DD41 /* Image.h in Headers */,
@@ -765,13 +763,13 @@
 				F9D981B2243EFF6C0028DD41 /* MetalBlendState.h in Headers */,
 				F9D9820D243F0BC10028DD41 /* RenderFont.h in Headers */,
 				F9D9817C243EFDE20028DD41 /* ToneMappingPostProcess.h in Headers */,
+				F9F95FAF2446F6C00012DE8A /* RenderCommand.h in Headers */,
 				F97F84C5243D7E5A0002DFF0 /* Factory.h in Headers */,
 				F9D9814E243EFCEF0028DD41 /* Animation.h in Headers */,
 				F9D9813C243EFCD70028DD41 /* RenderSamplerState.h in Headers */,
 				F9D98176243EFDE20028DD41 /* PostProcess.h in Headers */,
 				F9D98156243EFCEF0028DD41 /* Skeleton.h in Headers */,
 				F97F84EC243D7E6F0002DFF0 /* Vector4D.h in Headers */,
-				F9D98134243EFCD70028DD41 /* RenderProgram.h in Headers */,
 				F9D98189243EFF460028DD41 /* MetalRenderTechInfo.h in Headers */,
 				F9D981A9243EFF6C0028DD41 /* MetalDepthStencilState.h in Headers */,
 				F9D98154243EFCEF0028DD41 /* Model.h in Headers */,
@@ -787,6 +785,7 @@
 				F97F84DE243D7E6F0002DFF0 /* Color.h in Headers */,
 				F97F84AC243C91D30002DFF0 /* File.h in Headers */,
 				F97F8482243C507B0002DFF0 /* Pharos.h in Headers */,
+				F9F95FAA2446F6AD0012DE8A /* MetalRenderPipeline.h in Headers */,
 				F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */,
 				F9D98213243F0BC10028DD41 /* RenderSprite.h in Headers */,
 				F9D98163243EFD6C0028DD41 /* RenderTechInfo.h in Headers */,
@@ -802,7 +801,7 @@
 				F9D98166243EFD6C0028DD41 /* RenderEffectLoader.h in Headers */,
 				F9D98139243EFCD70028DD41 /* RenderDepthStencilState.h in Headers */,
 				F97F84F0243D7E6F0002DFF0 /* Rect2D.h in Headers */,
-				F9D9813A243EFCD70028DD41 /* RenderFrameBuffer.h in Headers */,
+				F9D9813A243EFCD70028DD41 /* RenderTarget.h in Headers */,
 				F97F84E4243D7E6F0002DFF0 /* Matrix4.h in Headers */,
 				F9D981F2243F0BA00028DD41 /* SceneGlobal.h in Headers */,
 				F97F84EE243D7E6F0002DFF0 /* Line3D.h in Headers */,
@@ -812,6 +811,7 @@
 				F9D981AB243EFF6C0028DD41 /* MetalShaderProgram.h in Headers */,
 				F9D98153243EFCEF0028DD41 /* RenderDefine.h in Headers */,
 				F97F84C4243D7E5A0002DFF0 /* Path.h in Headers */,
+				C75C81122450242A00CCEE69 /* RenderProgram.h in Headers */,
 				F9D98135243EFCD70028DD41 /* RenderBlendState.h in Headers */,
 				F9D9822C243F0BDD0028DD41 /* Texture.h in Headers */,
 				F9D98214243F0BC10028DD41 /* RenderImage.h in Headers */,
@@ -829,7 +829,7 @@
 				F9D981C8243F06190028DD41 /* Properties.h in Headers */,
 				F97F84E0243D7E6F0002DFF0 /* DualQuaternion.h in Headers */,
 				F97F84E6243D7E6F0002DFF0 /* Point2D.h in Headers */,
-				F9D98133243EFCD70028DD41 /* RenderShaderData.h in Headers */,
+				F9F95FB02446F6C00012DE8A /* RenderPipeline.h in Headers */,
 				F9D981AC243EFF6C0028DD41 /* MetalRasterizerState.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -875,6 +875,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = F90BE56D2435C21B0018A7F2;
 			productRefGroup = F90BE5772435C21B0018A7F2 /* Products */;
@@ -921,7 +922,7 @@
 				F9D9811E243EFB110028DD41 /* MetalRenderer.mm in Sources */,
 				F9D981D2243F06190028DD41 /* XmlNode.cpp in Sources */,
 				F9D981A6243EFF6C0028DD41 /* MetalBlendState.mm in Sources */,
-				F9D981B0243EFF6C0028DD41 /* MetalConstantBuffer.mm in Sources */,
+				F9D981B0243EFF6C0028DD41 /* MetalRenderBuffer.mm in Sources */,
 				F9D981EA243F0BA00028DD41 /* SceneCamera.cpp in Sources */,
 				F9D98124243EFB560028DD41 /* RenderMgr.cpp in Sources */,
 				F9D981D6243F06190028DD41 /* Properties.cpp in Sources */,
@@ -937,7 +938,7 @@
 				F9D98152243EFCEF0028DD41 /* Mesh.cpp in Sources */,
 				F9D98235243F0BDD0028DD41 /* UIObject.cpp in Sources */,
 				F9D98208243F0BC10028DD41 /* RenderSprite.cpp in Sources */,
-				F9D981A4243EFF6C0028DD41 /* MetalFrameBuffer.mm in Sources */,
+				F9D981A4243EFF6C0028DD41 /* MetalRenderTarget.mm in Sources */,
 				F9D981A1243EFF6C0028DD41 /* MetalShaderProgram.mm in Sources */,
 				F9D981C6243F06190028DD41 /* Image.cpp in Sources */,
 				F9D9815B243EFCEF0028DD41 /* RenderBlock.cpp in Sources */,
@@ -950,13 +951,14 @@
 				F9D9822D243F0BDD0028DD41 /* FontString.cpp in Sources */,
 				F9D98188243EFF460028DD41 /* MetalRenderTechInfo.mm in Sources */,
 				F9D9820F243F0BC10028DD41 /* RenderImage.cpp in Sources */,
+				F9F95FA92446F6AD0012DE8A /* MetalRenderPipeline.mm in Sources */,
 				F9D9817A243EFDE20028DD41 /* ImageStatPostProcess.cpp in Sources */,
 				F9D9818E243EFF460028DD41 /* MetalRenderTechnique.mm in Sources */,
 				F9D98232243F0BDD0028DD41 /* Slider.cpp in Sources */,
 				F9D98233243F0BDD0028DD41 /* Progress.cpp in Sources */,
 				F9D98237243F0BDD0028DD41 /* WorldFrame.cpp in Sources */,
+				F9F95FAC2446F6AD0012DE8A /* MetalRenderCommand.mm in Sources */,
 				F9D9820C243F0BC10028DD41 /* DesktopMgr.cpp in Sources */,
-				F9D981AA243EFF6C0028DD41 /* MetalRenderLayout.mm in Sources */,
 				F9D981F1243F0BA00028DD41 /* SceneImporter.cpp in Sources */,
 				F9D981F9243F0BA00028DD41 /* SceneMgr.cpp in Sources */,
 				F9D98177243EFDE20028DD41 /* ToneMappingPostProcess.cpp in Sources */,
@@ -967,7 +969,6 @@
 				F9D98159243EFCEF0028DD41 /* Animation.cpp in Sources */,
 				F9D98150243EFCEF0028DD41 /* Model.cpp in Sources */,
 				F97F8500243DB4300002DFF0 /* Kernel.cpp in Sources */,
-				F9D9818C243EFF460028DD41 /* MetalRenderPass.mm in Sources */,
 				F9D981F8243F0BA00028DD41 /* XmlSceneImporter.cpp in Sources */,
 				F9D981D3243F06190028DD41 /* MemoryBuffer.cpp in Sources */,
 				F97F849F243C7E740002DFF0 /* Timer.cpp in Sources */,

@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Global.h"
 
 #define MOVE_SPEED 10.0f
@@ -230,6 +230,7 @@ bool MyApp::onLoopPlayClick(UIObject* obj, const EventArgs& eventArgs)
 
 bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 {
+    /*
 	OPENFILENAME ofn;
 	TCHAR szFileName[MAX_PATH] = _T("");
 	ZeroMemory(&ofn, sizeof(ofn));
@@ -261,6 +262,7 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 	}
 
 	SetSliderFromAnimation();
+*/
 
 	return true;
 }

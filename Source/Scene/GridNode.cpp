@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 #define GRID_SIZE 10
@@ -20,8 +20,8 @@ GridNode::~GridNode()
 bool GridNode::BuildGridData()
 {
 	vector<VertLayoutDesc> vertDesc;
-	vertDesc.push_back({ VertElementType::VET_FLOAT32, 3, "POSITION", 0, 0 });
-	vertDesc.push_back({ VertElementType::VET_UNORM8, 4, "COLOR", 0, 12 });
+	vertDesc.push_back({ VET_FLOAT32, 3, VAL_POSITION, 0, 0 });
+	vertDesc.push_back({ VET_UNORM8, 4, VAL_COLOR, 12, 0 });
 
 	uint32 gridNum = GRID_SIZE * SMALL_GRID_SLICE + 1;
 	MemoryBuffer vertexData;
@@ -38,7 +38,7 @@ bool GridNode::BuildGridData()
 		Vertex vt2 = { Vector3Df(halfGridSize, 0, halfGridSize - i * smallGridSize), color };
 		Vertex vt3 = { Vector3Df(halfGridSize - i * smallGridSize, 0, -halfGridSize), color };
 		Vertex vt4 = { Vector3Df(halfGridSize - i * smallGridSize, 0, halfGridSize), color };
-		
+
 		vertexData.Insert((i * 4 + 0) * sizeof(Vertex), &vt1, sizeof(Vertex));
 		vertexData.Insert((i * 4 + 1) * sizeof(Vertex), &vt2, sizeof(Vertex));
 		vertexData.Insert((i * 4 + 2) * sizeof(Vertex), &vt3, sizeof(Vertex));

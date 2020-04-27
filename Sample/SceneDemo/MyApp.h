@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 class MyApp : public IApplication, public IRenderCallback, public IControlViewer
 {
@@ -7,26 +7,39 @@ public:
 	virtual ~MyApp();
 
 private:
+	struct SceneMatrix
+	{
+		Matrix4 proj;
+		Matrix4 view;
+	};
+
 	struct Vertex
 	{
-		Vertex(const Vector3Df& pos, const Vector2Df& tex)
-		{
-			this->pos = pos;
-			this->tex = tex;
-		}
+		//        Vertex(const Vector3Df& pos, const Vector2Df& tex)
+		//        {
+		//            this->pos = pos;
+		//            this->tex = tex;
+		//        }
 		Vector3Df	pos;
-		Vector2Df	tex;
+		Color4  	color;
 	};
 
 private:
 	Renderer*				m_renderer;
 
-	RenderTexture*			m_copyTex;
-	RenderTechnique*		m_copyTech;
-	RenderProgram*			m_copyShader;
+	RenderBuffer*           m_vertBuf;
+	RenderPipeline*         m_pipeline;
+	RenderCommand*          m_renderCommand;
+	RenderTexture*          m_texture;
 
-	Font*		m_font;
-	uint32		m_fontIndex;
+	OctreeScene*            m_scene;
+	SceneCamera*            m_camera;
+
+	SceneMatrix             m_sceneMat;
+	RenderBuffer*           m_uniformBuf;
+
+	bool            m_bLeftDown;
+	bool            m_bRightDown;
 
 public:
 	virtual bool Init();

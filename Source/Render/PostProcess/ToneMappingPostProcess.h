@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -12,7 +12,7 @@ namespace Pharos
 
 		private:
 			RenderTechnique*	m_toneMappingTech;
-			RenderFrameBuffer*	m_toneMappingTarget;
+			//RenderFrameBuffer*	m_toneMappingTarget;
 			RenderTexture*		m_toneMappingTex;
 			
 		public:

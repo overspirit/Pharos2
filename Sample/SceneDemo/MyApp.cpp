@@ -1,11 +1,9 @@
 #include "PreCompile.h"
 #include "Global.h"
 
-#define MOVE_SPEED 10.0f
-
 MyApp::MyApp()
 {
-	m_font = nullptr;
+	m_renderer = nullptr;
 }
 
 MyApp::~MyApp()
@@ -18,53 +16,80 @@ bool MyApp::Init()
 {
 	Size2Di wndSize = sKernel->GetWindowSize();
 
-	Render::RenderParam param;
-	param.width = wndSize.width;
-	param.height = wndSize.height;
-	param.sampleType = Render::EMT_None;
-	param.sync = false;
-	param.fullScreen = false;
-	//param.gammaEnabled = false;
-	sRenderMgr->StartUp(param);
+	m_renderer = MakeRenderer();
 
-	sRenderMgr->RegisterRenderCallback(this);
+	DeviceConfig cfg;
+	m_renderer->Create(cfg);
 
-	m_renderer = sRenderMgr->GetCurrentRenderer();
-	//m_copyTex = m_renderer->LoadTexture("Model/Earth/AtmosphericScattering.bmp");
+	//layout
+	//////////////////////////////////////////////////////////////////
+	Vertex vertData[] =
+	{
+		{ Vector3Df(-0.5f,  0.5f, 0), 0xFFFF0000},// Vector2Df(0, 0) },
+		{ Vector3Df(0.5f, 0.5f, 0), 0xFF00FF00},//, Vector2Df(1.0f, 0) },
+		{ Vector3Df(0.5f, -0.5f, 0), 0xFF00FFFF},//, Vector2Df(1.0f, 1.0f) },
 
-	//m_copyTech = sRenderMgr->GenerateRenderTechnique("Copy");
-	//m_copyShader = m_copyTech->GetPass(0)->GetShaderProgram();
+		{ Vector3Df(0.5f, -0.5f, 0), 0xFF00FFFF},//, 0xFFFF0000},//, Vector2Df(1.0f, 1.0f) },
+		{ Vector3Df(-0.5f, -0.5f, 0), 0xFF0000FF},//, Vector2Df(0, 1.0f) },
+		{ Vector3Df(-0.5f, 0.5f, 0), 0xFFFF0000},//, Vector2Df(0, 0) },
+	};
+
+	MemoryBuffer vertDataBuf;
+	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
+
+	m_vertBuf = m_renderer->GenerateRenderBuffer(sizeof(vertData), &vertDataBuf);
+	//////////////////////////////////////////////////////////////////
+
+	//render pipeline
+	//////////////////////////////////////////////////////////////////
+	VertLayoutDesc desc[] =
+	{
+		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
+		{ VET_UNORM8, 4, VAL_COLOR, 12, 0 },
+	};
+
+	m_pipeline = m_renderer->GenerateRenderPipeline();
+	m_pipeline->SetInputLayoutDesc(desc, 2);
+	//////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////
+	//texture
+	m_texture = m_renderer->LoadTexture("drang.jpeg");
+	//m_texture = m_renderer->LoadTexture("Prev.png");
+	//////////////////////////////////////////////////////////////////
 
 
-	m_font = sResMgr->GenerateFont("Font/Fontin.ttf");
+	//////////////////////////////////////////////////////////////////
+	//uniform buffer
+	//m_renderer->BindLayout(m_layout);
+	//m_renderer->Bind
+	//////////////////////////////////////////////////////////////////
 
-	//m_fontIndex = sRenderSpirite->GetFontInfoIndex(m_font);
-	
-// 	File charListFile;
-// 	charListFile.Open("Font/charlist.txt");
-// 
-// 	uint16 flag = 0;
-// 	charListFile.Read(&flag, sizeof(flag));
-// 
-// 	uint32 charCount = charListFile.GetSize() / sizeof(char16) - 1;
-// 	char16* charListBuffer = new char16[charCount];
-// 	charListFile.Read(charListBuffer, charCount * sizeof(charCount));
-// 
-// 	for (int i = 0; i < charCount; i++)
-// 	{
-// 		font->GetDisCharInfo(charListBuffer[i]);
-// 	}
+
+	//////////////////////////////////////////////////////////////////
+	//render command
+	m_renderCommand = m_renderer->GenerateRenderCommand();
+	//////////////////////////////////////////////////////////////////   
+
+	//Scene
+	//////////////////////////////////////////////////////////////////////////
+	m_scene = sSceneMgr->CreateScene();
+	sSceneMgr->SetCurrScene(m_scene);
+	m_scene->SetSceneGridShow(true);
+
+	m_camera = m_scene->GetSceneCamera();
+	m_camera->BuildViewMatrix(Vector3Df(0, 0, -5.0f), Vector3Df(0, 0, 0));
+	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
+	//////////////////////////////////////////////////////////////////////////
+
+	m_uniformBuf = m_renderer->GenerateRenderBuffer(sizeof(SceneMatrix));
 
 	return true;
 }
 
 void MyApp::Destroy()
 {
-	//SAFE_DELETE(m_font);
 
-	SAFE_DELETE(m_copyTex);
-
-	SAFE_DELETE(m_copyTech);
 }
 
 void MyApp::onWindowChangeSize(int32 width, int32 height)
@@ -74,6 +99,28 @@ void MyApp::onWindowChangeSize(int32 width, int32 height)
 
 bool MyApp::onMouseEvent(const MouseEvent& event)
 {
+	if (event.button == MOUSE_LEFT)
+	{
+		m_bLeftDown = (event.state == STATE_DOWN) ? true : false;
+	}
+	else if (event.button == MOUSE_RIGHT)
+	{
+		m_bRightDown = (event.state == STATE_DOWN) ? true : false;
+	}
+	else
+	{
+		m_camera->Stretch(event.wheel / 120.0f);
+	}
+
+	if (m_bLeftDown)
+	{
+		m_camera->Slither(Vector2Df((float32)event.ox, (float32)event.oy));
+	}
+	else if (m_bRightDown)
+	{
+		m_camera->Round(Vector2Df((float32)event.ox, (float32)event.oy));
+	}
+
 	return false;
 }
 
@@ -93,23 +140,24 @@ void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
 
 void MyApp::Update(float32 fElapsed)
 {
+	m_sceneMat.proj = m_camera->GetProjMatrix();
+	m_sceneMat.view = m_camera->GetViewMatrix();
 
+	m_uniformBuf->CopyData(&m_sceneMat, sizeof(SceneMatrix));
+
+	m_renderCommand->SetVertexBuffer(2, m_uniformBuf);
+
+	m_renderCommand->SetPipeline(m_pipeline);
+
+	m_renderCommand->SetVertexBuffer(0, m_vertBuf);
+
+	m_renderCommand->SetFragmentTexture(0, m_texture);
+
+	m_renderCommand->DrawImmediate(EDT_TRIANGLELIST, 0, 6);
+	m_renderCommand->Present();
 }
 
 void MyApp::onRender(float32 elapsed)
 {
-	m_renderer->BindProgram(m_copyShader);
 
-	sRenderMgr->DrawFullScreenQuad(m_copyTex);
-
-// 	const char8 text[] = u8"已加载“C:\\Windows\\System32\\comdlg32.dll”。无法查找或打开 PDB 文件。";
-// 	SpriteBrush brush;
-// 	brush.scale = 1.0f;	//缩放系数...
-// 	brush.color = 0xFFFFFFFF;
-// 	brush.outlineColor = 0xFFFF0000;
-// 	brush.outlineScale = 0.0f;
-// 	brush.shadowColor = 0x00000000;
-// 	brush.shadowOffsetX = 0;
-// 	brush.shadowOffsetY = 0;
-	//sRenderSpirite->RenderText(m_fontIndex, text, sizeof(text), brush, 100, 100);
 }

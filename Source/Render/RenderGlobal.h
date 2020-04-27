@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "RenderDefine.h"
 #include "VertexDefine.h"
@@ -8,16 +8,16 @@
 #include "Renderer/RenderDepthStencilState.h"
 #include "Renderer/RenderRasterizerState.h"
 #include "Renderer/RenderTexture.h"
-#include "Renderer/RenderFrameBuffer.h"
-#include "Renderer/RenderShaderData.h"
+#include "Renderer/RenderTarget.h"
+#include "Renderer/RenderBuffer.h"
 #include "Renderer/RenderProgram.h"
-#include "Renderer/RenderLayout.h"
+#include "Renderer/RenderPipeline.h"
+#include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"
 
 #include "Effect/RenderTechInfo.h"
 #include "Effect/RenderEffectLoader.h"
 #include "Effect/RenderVariable.h"
-#include "Effect/RenderPass.h"
 #include "Effect/RenderTechnique.h"
 
 
@@ -60,15 +60,15 @@
 #include "Renderer/Metal/MetalDepthStencilState.h"
 #include "Renderer/Metal/MetalRasterizerState.h"
 #include "Renderer/Metal/MetalTexture.h"
-#include "Renderer/Metal/MetalFrameBuffer.h"
-#include "Renderer/Metal/MetalConstantBuffer.h"
-#include "Renderer/Metal/MetalRenderLayout.h"
+#include "Renderer/Metal/MetalRenderBuffer.h"
+#include "Renderer/Metal/MetalRenderTarget.h"
 #include "Renderer/Metal/MetalShaderProgram.h"
+#include "Renderer/Metal/MetalRenderPipeline.h"
+#include "Renderer/Metal/MetalRenderCommand.h"
 #include "Renderer/Metal/MetalRenderer.h"
 
 #include "Effect/Metal/MetalRenderTechInfo.h"
 #include "Effect/Metal/MetalEffectLoader.h"
-#include "Effect/Metal/MetalRenderPass.h"
 #include "Effect/Metal/MetalRenderTechnique.h"
 
 #endif
