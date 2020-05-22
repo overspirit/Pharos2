@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -35,10 +35,6 @@ namespace Pharos
 			EPF_RGBA32_FLOAT,
 			EPF_RGBA32_UINT,
 			EPF_RGBA32_SINT,
-
-			EPF_RGB32_FLOAT,
-			EPF_RGB32_UINT,
-			EPF_RGB32_SINT,
 
 			EPF_RG32_FLOAT,
 			EPF_RG32_UINT,
@@ -78,7 +74,9 @@ namespace Pharos
 			EPF_A8_UNORM,
 
             EPF_BGRA8_UNORM,
-            
+			EPF_BGRA8_UNORM_SRGB,
+			
+			EPF_D32_FLOAT_S8_UINT,
 			EPF_D32_FLOAT,
 			EPF_D24_UNORM_S8_UINT,
 			EPF_D16_UNORM,

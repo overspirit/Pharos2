@@ -11,19 +11,19 @@ RenderMgr::RenderMgr()
 	//m_defaultFrameBuf = nullptr;
 
 	//m_finalFrameBuf = nullptr;
-	m_finalTargetTex = nullptr;
+	//m_finalTargetTex = nullptr;
 
-	m_hdrPostProcess = nullptr;
-
-	m_postProcessTech = nullptr;
-	m_postProcessShader = nullptr;
-	m_gammaCorrection = nullptr;
+//	m_hdrPostProcess = nullptr;
+//
+//	m_postProcessTech = nullptr;
+//	m_postProcessShader = nullptr;
+//	m_gammaCorrection = nullptr;
 
 	//m_quadLayout = nullptr;
 
-	m_clearColor = 0xFF000000;// 0xFF3F3F3F;//R=43,G=147,B=223
-	m_clearDepth = 1.0f;
-	m_clearStencil = 0;
+//	m_clearColor = 0xFF000000;// 0xFF3F3F3F;//R=43,G=147,B=223
+//	m_clearDepth = 1.0f;
+//	m_clearStencil = 0;
 
 	m_blockCount = 0;
 
@@ -42,31 +42,18 @@ bool RenderMgr::Init()
 	m_renderer = MakeRenderer();
 	if (!m_renderer->Init()) return false;
 
-	this->LoadEffectFile("Shader/Sprite3D.fxml");
-	this->LoadEffectFile("Shader/Sprite2D.fxml");
-	this->LoadEffectFile("Shader/Font.fxml");
-	this->LoadEffectFile("Shader/Skeletal.fxml");
-	this->LoadEffectFile("Shader/Copy.fxml");
-	this->LoadEffectFile("Shader/PostToneMapping.fxml");
-	this->LoadEffectFile("Shader/SumLum.fxml");
-	this->LoadEffectFile("Shader/ToneMapping.fxml");
-	this->LoadEffectFile("Shader/AtmosphericScattering.fxml");
+//	this->LoadEffectFile("Shader/Sprite3D.fxml");
+//	this->LoadEffectFile("Shader/Sprite2D.fxml");
+//	this->LoadEffectFile("Shader/Font.fxml");
+//	this->LoadEffectFile("Shader/Skeletal.fxml");
+//	this->LoadEffectFile("Shader/Copy.fxml");
+//	this->LoadEffectFile("Shader/PostToneMapping.fxml");
+//	this->LoadEffectFile("Shader/SumLum.fxml");
+//	this->LoadEffectFile("Shader/ToneMapping.fxml");
+//	this->LoadEffectFile("Shader/AtmosphericScattering.fxml");
 
-	DecalVertex vertData[] =
-	{
-		{ Vector3Df(-1.0f,  1.0f, 0), Vector2Df(0, 0) },
-		{ Vector3Df(1.0f, 1.0f, 0), Vector2Df(1.0f, 0) },
-		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
-
-		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
-		{ Vector3Df(-1.0f, -1.0f, 0), Vector2Df(0, 1.0f) },
-		{ Vector3Df(-1.0f, 1.0f, 0), Vector2Df(0, 0) },
-	};
-
-	MemoryBuffer vertDataBuf;
-	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-	//m_quadLayout = m_renderer->GenerateRenderLayout(sizeof(vertData), &vertDataBuf);
-
+	
+	
 //    VertLayoutDesc desc[] =
 //    {
 //        { VET_FLOAT32, 3, "POSITION", 0, 0 },
@@ -83,10 +70,10 @@ bool RenderMgr::Init()
 
 void RenderMgr::Destroy()
 {
-	SAFE_DELETE(m_hdrPostProcess);
+	//SAFE_DELETE(m_hdrPostProcess);
 
-	SAFE_DELETE(m_postProcessTech);
-	SAFE_DELETE(m_gammaCorrection);
+//	SAFE_DELETE(m_postProcessTech);
+//	SAFE_DELETE(m_gammaCorrection);
 
 	//SAFE_DELETE(m_quadLayout);
 
@@ -117,21 +104,84 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	if (!m_renderer->Create(cfg)) return false;
 
 	m_renderParam = param;
-	m_clearColor = param.backColor;
+	//m_clearColor = param.backColor;
 
-	//m_defaultFrameBuf = m_renderer->GetDefaultFrameBuffer();
+	
+	
+	DecalVertex vertData[] =
+	{
+		{ Vector3Df(-1.0f,  1.0f, 0), Vector2Df(0, 0) },
+		{ Vector3Df(1.0f, 1.0f, 0), Vector2Df(1.0f, 0) },
+		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
+		
+		{ Vector3Df(1.0f, -1.0f, 0), Vector2Df(1.0f, 1.0f) },
+		{ Vector3Df(-1.0f, -1.0f, 0), Vector2Df(0, 1.0f) },
+		{ Vector3Df(-1.0f, 1.0f, 0), Vector2Df(0, 0) },
+	};
+	
+	MemoryBuffer vertDataBuf;
+	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
+	m_quadVertBuf = m_renderer->GenerateRenderBuffer(sizeof(vertData), &vertDataBuf);
+	
+	
+	
+	
+	
+	VertLayoutDesc desc[] =
+	{
+		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
+		{ VET_FLOAT32, 2, VAL_TEXCOORD0, 12, 0 },
+	};
+	
+	
+	
+	
+	m_defaultProgram = m_renderer->GenerateRenderProgram();
+	m_defaultProgram->SetLibraryWithPath("default.metallib");
+	m_defaultProgram->CompileVertexFunctionWithName("vertexShader");
+	m_defaultProgram->CompileFragmentFunctionWithName("fragmentShader");
+	
+	m_defaultTarget = m_renderer->GetDefaultRenderTarget();
+	
+	m_defaultPipeline = m_renderer->GenerateRenderPipeline();
+	m_defaultPipeline->SetInputLayoutDesc(desc, 2);
+	m_defaultPipeline->SetProgramShader(m_defaultProgram);
+	
+	m_defaultCommand = m_renderer->GenerateRenderCommand(m_defaultTarget);
+	m_defaultCommand->SetDebugLabel("default render");
+	
+	
+	
+	
+	
+	
+	m_finalProgram = m_renderer->GenerateRenderProgram();
+	m_finalProgram->SetLibraryWithPath("default.metallib");
+	m_finalProgram->CompileVertexFunctionWithName("vertexShaderFinal");
+	m_finalProgram->CompileFragmentFunctionWithName("fragmentShaderFinal");
+	
+	m_finalTarget = m_renderer->CreateRenderTarget(1280, 720);
+	m_finalTexture = m_finalTarget->GenerateColorAttach(0, EPF_RGBA8_UNORM);
+	
+	m_finalPipeline = m_renderer->GenerateRenderPipeline();
+	m_finalPipeline->SetInputLayoutDesc(desc, 2);
+	m_finalPipeline->SetProgramShader(m_finalProgram);
+	
+	m_finalCommand = m_renderer->GenerateRenderCommand(m_finalTarget);
+	m_finalCommand->SetDebugLabel("final render");
+	
 
-//    uint32 finalBufferWidth = m_defaultFrameBuf->GetWidth();
-//    uint32 finalBufferHeight = m_defaultFrameBuf->GetHeight();
-//    m_finalFrameBuf = m_renderer->CreateFrameBuffer(finalBufferWidth, finalBufferHeight);
-//    m_finalTargetTex = m_finalFrameBuf->CreateRenderTexture(0, EPF_RGBA8_UNORM);
-
-	m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
+	
+	
+	
+	
+	
+	//m_postProcessTech = this->GenerateRenderTechnique(m_renderParam.gammaEnabled ? "GammaCorrection" : "Copy");
 	//m_postProcessShader = m_postProcessTech->GetPass(0)->GetShaderProgram();
 
-	m_gammaCorrection = new PostProcess();
-	m_gammaCorrection->InitWithTech("GammaCorrection");
-	m_gammaCorrection->SetInputPin(0, m_finalTargetTex);
+//	m_gammaCorrection = new PostProcess();
+//	m_gammaCorrection->InitWithTech("GammaCorrection");
+//	m_gammaCorrection->SetInputPin(0, m_finalTargetTex);
 	//m_gammaCorrection->SetOutputPin();
 
 	//m_hdrPostProcess = new HDRPostProcess();
@@ -182,7 +232,7 @@ void RenderMgr::DoRender(RenderBlock* block)
 
 bool RenderMgr::LoadEffectFile(const char8* szPath)
 {
-	RenderEffectLoader* effectLoader = MakeEffectLoader();
+	RenderEffectLoader* effectLoader = nullptr;//MakeEffectLoader();
 	if (!effectLoader->Load(szPath))
 	{
 		SAFE_DELETE(effectLoader);
@@ -205,7 +255,7 @@ bool RenderMgr::LoadEffectFile(const char8* szPath)
 	{
 		RenderTechInfo* techInfo = effectLoader->GetTechniqueInfo(i);
 
-		RenderTechnique* renderTech = MakeRenderTechnique();
+		RenderTechnique* renderTech = nullptr;//MakeRenderTechnique();
 
 		if (renderTech->Create(techInfo))
 		{
@@ -238,11 +288,21 @@ RenderBlock* RenderMgr::GenerateRenderBlock()
 	return renderBlock;
 }
 
+RenderObject* RenderMgr::GenerateRenderObject()
+{
+	return new RenderObject();
+}
+
+RenderObject* RenderMgr::GetRenderObject(const char8* name)
+{
+	return nullptr;
+}
+
 void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil)
 {
-	m_clearColor = color;
-	m_clearDepth = depth;
-	m_clearStencil = stencil;
+//	m_clearColor = color;
+//	m_clearDepth = depth;
+//	m_clearStencil = stencil;
 }
 
 void RenderMgr::RegisterRenderCallback(IRenderCallback* callback)
@@ -319,7 +379,7 @@ void RenderMgr::Render(float32 fElapsed)
 		m_renderCallback->onRender(fElapsed);
 	}
 
-	RenderTexture* finalTargetTex = m_finalTargetTex;
+	//RenderTexture* finalTargetTex = m_finalTargetTex;
 
 	if (m_renderParam.hdrEnabled)
 	{

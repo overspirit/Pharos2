@@ -56,23 +56,20 @@ namespace Pharos
         
         class RenderPipeline
         {
-            public:
+		public:
             virtual ~RenderPipeline() {}
             
-            protected:
+		protected:
             vector<VertLayoutDesc>    m_layoutDesc;
             
-            public:
+		public:
             virtual bool SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum) = 0;
             
-            virtual bool SetVertexShader(RenderProgram* program, const char8* enter) = 0;
-            virtual bool SetPixelShader(RenderProgram* program, const char8* enter) = 0;
-            
-            virtual void SetRenderTarget(RenderTarget* target) = 0;
-            
+            virtual bool SetProgramShader(RenderProgram* program) = 0;
+			
             virtual void SetBlendState(RenderBlendState* state) = 0;
             virtual void SetRasterizerState(RenderRasterizerState* state) = 0;
-            //virtual void SetDepthStencilState(RenderDepthStencilState* state) = 0;
+			virtual void SetDepthStencilState(RenderDepthStencilState* state) = 0;
         };
     }
 }

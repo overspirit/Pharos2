@@ -55,13 +55,16 @@
 
 #ifdef __OBJC__
 
+#include "Renderer/Metal/MetalUtils.h"
+#include "Renderer/Metal/IMetalCommandFactory.h"
 #include "Renderer/Metal/MetalSamplerState.h"
 #include "Renderer/Metal/MetalBlendState.h"
 #include "Renderer/Metal/MetalDepthStencilState.h"
 #include "Renderer/Metal/MetalRasterizerState.h"
-#include "Renderer/Metal/MetalTexture.h"
+#include "Renderer/Metal/MetalRenderTexture.h"
 #include "Renderer/Metal/MetalRenderBuffer.h"
 #include "Renderer/Metal/MetalRenderTarget.h"
+#include "Renderer/Metal/MetalViewRenderTarget.h"
 #include "Renderer/Metal/MetalShaderProgram.h"
 #include "Renderer/Metal/MetalRenderPipeline.h"
 #include "Renderer/Metal/MetalRenderCommand.h"
@@ -72,14 +75,6 @@
 #include "Effect/Metal/MetalRenderTechnique.h"
 
 #endif
-
-Pharos::Render::Renderer* MakeMetalRenderer();
-Pharos::Render::RenderEffectLoader* MakeMetalEffectLoader();
-Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
-
-#define MakeRenderer() MakeMetalRenderer()
-#define MakeEffectLoader() MakeMetalEffectLoader()
-#define MakeRenderTechnique() MakeMetalRenderTechnique()
 
 #endif
 //////////////////////////////////////////////////////////////////////////
@@ -135,8 +130,8 @@ Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
 //////////////////////////////////////////////////////////////////////////
 
 
-
 #include "RenderBlock.h"
+#include "RenderObject.h"
 
 #include "PostProcess/PostProcess.h"
 #include "PostProcess/ImageStatPostProcess.h"
@@ -152,6 +147,9 @@ Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
 
 #include "IRenderCallback.h"
 #include "RenderMgr.h"
+
+Pharos::Render::Renderer* MakeRenderer();
+#define IMPL_MAKE_RENDERER(renderer) Pharos::Render::Renderer* MakeRenderer(){return new renderer();}
 
 #define sRenderMgr RenderMgr::Inst()
 
