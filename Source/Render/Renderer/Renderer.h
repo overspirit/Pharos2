@@ -37,7 +37,7 @@ namespace Pharos
 			virtual const char8* GetAdapterName() const = 0;
 			virtual uint32 GetAdapterMemorySize() const = 0;
             
-			virtual RenderBuffer* GenerateRenderBuffer(uint32 bufSize, MemoryBuffer* buf = nullptr) = 0;
+			virtual RenderBuffer* GenerateRenderBuffer(BufferType type) = 0;
 			virtual RenderTexture* CreateTexture(int32 width, int32 height, EPixelFormat fmt) = 0;
 			virtual RenderTexture* LoadTexture(const char8* szPath) = 0;
 			virtual RenderTexture* LoadTexture(const Image* image) = 0;

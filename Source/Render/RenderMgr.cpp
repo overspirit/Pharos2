@@ -121,8 +121,8 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	
 	MemoryBuffer vertDataBuf;
 	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-	m_quadVertBuf = m_renderer->GenerateRenderBuffer(sizeof(vertData), &vertDataBuf);
-	
+	m_quadVertBuf = m_renderer->GenerateRenderBuffer(VERTEX_BUFFER);
+	m_quadVertBuf->Allocate(sizeof(vertData), &vertDataBuf);	
 	
 	
 	

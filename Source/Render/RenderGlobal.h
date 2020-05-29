@@ -76,6 +76,14 @@
 
 #endif
 
+Pharos::Render::Renderer* MakeMetalRenderer();
+Pharos::Render::RenderEffectLoader* MakeMetalEffectLoader();
+Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
+
+#define MakeRenderer() MakeMetalRenderer()
+#define MakeEffectLoader() MakeMetalEffectLoader()
+#define MakeRenderTechnique() MakeMetalRenderTechnique()
+
 #endif
 //////////////////////////////////////////////////////////////////////////
 
@@ -129,6 +137,29 @@
 #endif
 //////////////////////////////////////////////////////////////////////////
 
+//Linux
+//////////////////////////////////////////////////////////////////////////
+#if defined(_LINUX_PLATFORM_)
+
+#include "Renderer/Vulkan/VulkanInitializeHelper.h"
+#include "Renderer/Vulkan/VulkanBlendState.h"
+#include "Renderer/Vulkan/VulkanDepthStencilState.h"
+#include "Renderer/Vulkan/VulkanRasterizerState.h"
+#include "Renderer/Vulkan/VulkanSamplerState.h"
+#include "Renderer/Vulkan/VulkanRenderTexture.h"
+#include "Renderer/Vulkan/VulkanRenderTarget.h"
+#include "Renderer/Vulkan/VulkanRenderBuffer.h"
+#include "Renderer/Vulkan/VulkanUniformBuffer.h"
+#include "Renderer/Vulkan/VulkanRenderCommand.h"
+#include "Renderer/Vulkan/VulkanRenderPipeline.h"
+#include "Renderer/Vulkan/VulkanShaderProgram.h"
+#include "Renderer/Vulkan/VulkanRenderer.h"
+
+#define MakeRenderer() (new VulkanRenderer())
+#define sInitHelper (VulkanInitializeHelper::Inst())
+
+#endif
+//////////////////////////////////////////////////////////////////////////
 
 #include "RenderBlock.h"
 #include "RenderObject.h"
@@ -147,9 +178,6 @@
 
 #include "IRenderCallback.h"
 #include "RenderMgr.h"
-
-Pharos::Render::Renderer* MakeRenderer();
-#define IMPL_MAKE_RENDERER(renderer) Pharos::Render::Renderer* MakeRenderer(){return new renderer();}
 
 #define sRenderMgr RenderMgr::Inst()
 

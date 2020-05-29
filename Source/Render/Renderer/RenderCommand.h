@@ -11,6 +11,8 @@ namespace Pharos
             
         public:
 			virtual void SetDebugLabel(const char8* label) = 0;
+
+            virtual void BeginCommand() = 0;
 			
             virtual void SetVertexBuffer(uint32 slot, RenderBuffer* buffer) = 0;
             virtual void SetFragmentBuffer(uint32 slot, RenderBuffer* buffer) = 0;
