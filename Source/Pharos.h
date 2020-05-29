@@ -57,8 +57,3 @@ using namespace Pharos;
 
 IApplication* NewApplication();
 #define IMPL_CREATE_APPLICATION(myApp) IApplication* NewApplication(){return new myApp();}
-// 
-// extern Engine::IKernel* g_pKernel;
-// extern Render::IRenderMgr* g_pRenderMgr;
-// extern Scene::ISceneMgr* g_pSceneMgr;
-// extern Desktop::IDesktopMgr* g_pDesktopMgr;

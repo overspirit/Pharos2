@@ -105,6 +105,11 @@ bool File::IsEndOfFile()
 	return Tell() >= GetSize();
 }
 
+void File::Flush()
+{
+	fflush(m_fileHandel);
+}
+
 uint32 File::GetSize()
 {
     if(m_fileHandel == nullptr) return 0;

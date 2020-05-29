@@ -24,6 +24,9 @@
 #define _ANDROID_PLATFORM_
 #endif
 
+#if defined(__linux)
+#define _LINUX_PLATFORM_
+#endif
 
 #if !defined(REALINLINE)
 #if defined(_MSC_VER)

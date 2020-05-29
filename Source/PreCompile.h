@@ -134,7 +134,22 @@ using namespace std;
 #endif
 ////////////////////////////////////////////////////////////////////////
 
+#if defined(_LINUX_PLATFORM_)
 
+#define MAX_PATH 256
+#define ZeroMemory(p, l) memset((p), 0, (l))
+
+#include <cstring>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cassert>
+
+#include <xcb/xcb.h>
+
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan_xcb.h>
+
+#endif
 
 //3rd party
 ////////////////////////////////////////////////////////////////////////
@@ -155,7 +170,6 @@ using namespace std;
 
 using namespace rapidxml;
 
-
 //仅在windows下使用gflags库解析命令参数
 ////////////////////////////////////////////////////////////////////////
 #if defined(_WINDOWS_PLATFORM_)
@@ -165,6 +179,27 @@ using namespace rapidxml;
 #endif
 ////////////////////////////////////////////////////////////////////////
 
+//在linux下使用glfw库建立窗口
+////////////////////////////////////////////////////////////////////////
+#if defined(_LINUX_PLATFORM_)
+
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
+
+// #include <SPIRV/GLSL.std.450.h>
+// #include <SPIRV/GlslangToSpv.h>
+// #include <StandAlone/ResourceLimits.h>
+// #include <glslang/OSDependent/osinclude.h>
+// #include <glslang/Include/ShHandle.h>
+// #include <glslang/Include/revision.h>
+
+
+#endif
+////////////////////////////////////////////////////////////////////////
+
 #define new DEBUG_NEW
 
 ////////////////////////////////////////////////////////////////////////
+
+
+

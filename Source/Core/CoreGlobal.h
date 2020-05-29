@@ -86,6 +86,21 @@ const char* GetMainBundleDirectory();
 //////////////////////////////////////////////////////////////////////////
 
 
+//Linux
+//////////////////////////////////////////////////////////////////////////
+#if defined(_LINUX_PLATFORM_)
+
+#include "Linux/Timer.h"
+#include "Linux/glfw_window.h"
+#include "Linux/PlatformLinux.h"
+
+#define sPlatform PlatformLinux::Inst()
+#define sWindow glfw_window::Inst()
+
+#endif
+//////////////////////////////////////////////////////////////////////////
+
+
 #include "File.h"
 
 #include "MemoryBuffer.h"
@@ -104,6 +119,8 @@ const char* GetMainBundleDirectory();
 
 #define sKernel Kernel::Inst()
 #define sResMgr ResourceManager::Inst()
+
+
 
 using namespace Pharos;
 using namespace Pharos::Core;
