@@ -40,6 +40,8 @@ bool glfw_window::create_window(const char8* title, uint32 width, uint32 height)
 	glfwSetInputMode(m_handle, GLFW_STICKY_KEYS, 1);
 	glfwSetInputMode(m_handle, GLFW_STICKY_MOUSE_BUTTONS, 1);
 
+	sPlatform->onWindowChangeSize(width, height);
+
 	return true;
 }
 
@@ -62,7 +64,7 @@ void glfw_window::window_close_callback(GLFWwindow *window)
 
 void glfw_window::window_size_callback(GLFWwindow *window, int width, int height)
 {
-
+	sPlatform->onWindowChangeSize(width, height);
 }
 
 void glfw_window::window_focus_callback(GLFWwindow *window, int focused)

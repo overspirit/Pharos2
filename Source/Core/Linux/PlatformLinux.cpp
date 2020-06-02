@@ -53,6 +53,7 @@ void PlatformLinux::onMouseEvent(const MouseEvent& mouseEvent)
 
 void PlatformLinux::onWindowChangeSize(int32 width, int32 height)
 {	
+	sKernel->onWindowChangeSize(width, height);
 }
 
 int32 PlatformLinux::Run()
