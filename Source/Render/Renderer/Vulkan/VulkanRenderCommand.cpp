@@ -8,6 +8,8 @@ VulkanRenderCommand::VulkanRenderCommand(VkDevice device, VkCommandBuffer cmdBuf
 	m_renderTarget = renderTarget;
 
     m_pipelineLayout = VK_NULL_HANDLE;
+
+    m_descPool = VK_NULL_HANDLE;
 }
 
 VulkanRenderCommand::~VulkanRenderCommand()
@@ -16,9 +18,23 @@ VulkanRenderCommand::~VulkanRenderCommand()
 
 void VulkanRenderCommand::BeginCommand()
 {
-    if(m_pipelineLayout == VK_NULL_HANDLE)
+    if (m_descPool == VK_NULL_HANDLE)
     {
-        CreatePipelineLayout();
+        VkDescriptorPoolSize type_count[2];
+        type_count[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        type_count[0].descriptorCount = 1;
+        type_count[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        type_count[1].descriptorCount = 1;
+
+        VkDescriptorPoolCreateInfo descriptor_pool = {};
+        descriptor_pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        descriptor_pool.pNext = NULL;
+        descriptor_pool.maxSets = 1;
+        descriptor_pool.poolSizeCount = 2;
+        descriptor_pool.pPoolSizes = type_count;
+
+        VkResult res = vkCreateDescriptorPool(m_device, &descriptor_pool, NULL, &m_descPool);
+        assert(res == VK_SUCCESS);
     }
 
     VkRenderPassBeginInfo beginPassInfo = m_renderTarget->GetRenderPassBeginInfo();
@@ -47,15 +63,21 @@ void VulkanRenderCommand::SetVertexBuffer(uint32 slot, RenderBuffer *buffer)
 
     if (buffer->GetBufferType() == UNIFORM_BUFFFER)
     {
-        VulkanUniformBuffer *vulkanBuffer = static_cast<VulkanUniformBuffer*>(buffer);
+        VulkanUniformBuffer* vulkanBuffer = static_cast<VulkanUniformBuffer*>(buffer);
+
+        vulkanBuffer->Apply(m_descPool, slot);
+
+        VkDescriptorSet descSet = vulkanBuffer->GetDescriptorSet();
+        VkDescriptorSetLayout descSetLayout = vulkanBuffer->GetDescriptorSetLayout();
+
+        m_setLayouts.push_back(descSetLayout);
+        m_setList.push_back(descSet);
     }
     else
     {
-        VulkanRenderBuffer *vulkanBuffer = static_cast<VulkanRenderBuffer*>(buffer);
-        VkBuffer vulkan_buffer = vulkanBuffer->GetBuffer();
+        VulkanRenderBuffer* vulkanBuffer = static_cast<VulkanRenderBuffer*>(buffer);
 
-        const VkDeviceSize offsets[1] = {0};
-        vkCmdBindVertexBuffers(m_cmdBuf, 0, 1, &vulkan_buffer, offsets);
+        vulkanBuffer->Apply(m_cmdBuf, slot);
     }
 }
 
@@ -72,9 +94,6 @@ void VulkanRenderCommand::SetFragmentTexture(uint32 slot, RenderTexture *tex)
 
 void VulkanRenderCommand::SetPipeline(RenderPipeline *pipeline)
 {
-    VulkanRenderPipeline* vulkanPipeline = static_cast<VulkanRenderPipeline*>(pipeline);
-    vulkanPipeline->SetRenderTarget(m_pipelineLayout, m_renderTarget);
-
     VkViewport viewport;
     viewport.width = (float)m_renderTarget->GetWidth();
     viewport.height = (float)m_renderTarget->GetHeight();
@@ -91,13 +110,43 @@ void VulkanRenderCommand::SetPipeline(RenderPipeline *pipeline)
     scissor.offset.y = 0;
     vkCmdSetScissor(m_cmdBuf, 0, NUM_SCISSORS, &scissor);
 
-    VkPipeline vulkan_pipeline = vulkanPipeline->GetVulkanPipeline();
-    vkCmdBindPipeline(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, vulkan_pipeline);
+    m_currentPipeline = static_cast<VulkanRenderPipeline*>(pipeline);
+
 }
 
 void VulkanRenderCommand::DrawImmediate(DrawType type, uint32 start, uint32 count)
 {
+    if (m_pipelineLayout == VK_NULL_HANDLE)
+    {
+        /* Now use the descriptor layout to create a pipeline layout */
+        VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
+        pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+        pPipelineLayoutCreateInfo.pNext = NULL;
+        pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+        pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+        pPipelineLayoutCreateInfo.setLayoutCount = m_setLayouts.size();
+        pPipelineLayoutCreateInfo.pSetLayouts = m_setLayouts.data();
+
+        VkResult res = vkCreatePipelineLayout(m_device, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
+        assert(res == VK_SUCCESS);
+    }
+
+    //建立pipeline
+    m_currentPipeline->SetRenderTarget(m_pipelineLayout, m_renderTarget);
+
+    VkPipeline vulkan_pipeline = m_currentPipeline->GetVulkanPipeline();
+    vkCmdBindPipeline(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, vulkan_pipeline);
+
+    uint32 descSetSize = m_setList.size();
+    if (descSetSize > 0)
+    {
+        vkCmdBindDescriptorSets(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, descSetSize, m_setList.data(), 0, NULL);
+    }
+
     vkCmdDraw(m_cmdBuf, count, 1, start, 0);
+
+    m_setLayouts.clear();
+    m_setList.clear();
 }
 
 void VulkanRenderCommand::EndCommand()
@@ -105,51 +154,4 @@ void VulkanRenderCommand::EndCommand()
 	vkCmdEndRenderPass(m_cmdBuf);
     VkResult res = vkEndCommandBuffer(m_cmdBuf);
 	assert(res == VK_SUCCESS);
-}
-
-void VulkanRenderCommand::CreatePipelineLayout()
-{
-    bool use_texture = false;
-    const int NUM_DESCRIPTOR_SETS = 1;
-    VkDescriptorSetLayoutCreateFlags descSetLayoutCreateFlags = 0;
-
-    VkDescriptorSetLayoutBinding layout_bindings[2];
-    layout_bindings[0].binding = 0;
-    layout_bindings[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    layout_bindings[0].descriptorCount = 1;
-    layout_bindings[0].stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-    layout_bindings[0].pImmutableSamplers = NULL;
-
-    if (use_texture) {
-        layout_bindings[1].binding = 1;
-        layout_bindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        layout_bindings[1].descriptorCount = 1;
-        layout_bindings[1].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-        layout_bindings[1].pImmutableSamplers = NULL;
-    }
-
-    /* Next take layout bindings and use them to create a descriptor set layout
-     */
-    VkDescriptorSetLayoutCreateInfo descriptor_layout = {};
-    descriptor_layout.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    descriptor_layout.pNext = NULL;
-    descriptor_layout.flags = descSetLayoutCreateFlags;
-    descriptor_layout.bindingCount = use_texture ? 2 : 1;
-    descriptor_layout.pBindings = layout_bindings;
-
-    m_setLayouts.resize(NUM_DESCRIPTOR_SETS);
-    VkResult res = vkCreateDescriptorSetLayout(m_device, &descriptor_layout, NULL, m_setLayouts.data());
-    assert(res == VK_SUCCESS);
-
-    /* Now use the descriptor layout to create a pipeline layout */
-    VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
-    pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pPipelineLayoutCreateInfo.pNext = NULL;
-    pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
-    pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-    pPipelineLayoutCreateInfo.setLayoutCount = m_setLayouts.size();
-    pPipelineLayoutCreateInfo.pSetLayouts = m_setLayouts.data();
-
-    res = vkCreatePipelineLayout(m_device, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
-    assert(res == VK_SUCCESS);
 }

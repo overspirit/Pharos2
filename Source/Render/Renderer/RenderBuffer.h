@@ -9,6 +9,7 @@ namespace Pharos
 			UNIFORM_BUFFFER = 0,
 			VERTEX_BUFFER = 1,
 			INDICES_BUFFER = 2,
+			BUFFER_TYPE_NUM,
 		};
 
 		class RenderBuffer
@@ -18,6 +19,7 @@ namespace Pharos
 
 		protected:
 			BufferType		m_type;
+			uint32			m_size;
 
 		public:
 			virtual BufferType GetBufferType() { return m_type; }

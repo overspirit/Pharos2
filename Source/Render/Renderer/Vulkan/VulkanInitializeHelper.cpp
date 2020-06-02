@@ -60,6 +60,7 @@ VkBool32 VulkanInitializeHelper::VulkanDebugCallback(
 	const char8* msg = callback_data->pMessage;
 	File* logFile = (File*)user_data;
 	logFile->Write(msg, strlen(msg));
+	logFile->Write("\n", 1);
 	logFile->Flush();
 	
 	return VK_FALSE;

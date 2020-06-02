@@ -4,22 +4,22 @@ namespace Pharos
 {
 	namespace Render
 	{
-		class VulkanUniformBuffer : public RenderBuffer
+		class VulkanUniformBuffer : public VulkanRenderBuffer
 		{
 		public:
 			VulkanUniformBuffer(BufferType type, VkDevice device);
 			virtual ~VulkanUniformBuffer();
 
 		private:
-			VkDevice	m_device;
+			VkDescriptorSetLayout	m_descSetLayout;
+			VkDescriptorSet			m_descSet;
 
 		public:
+			VkDescriptorSetLayout GetDescriptorSetLayout() { return m_descSetLayout; }
+			VkDescriptorSet GetDescriptorSet() { return m_descSet; }
 
 		public:
-			virtual bool Allocate(uint32 bufSize, MemoryBuffer* buf = nullptr);
-
-			virtual void CopyData(const MemoryBuffer& data, uint32 offset = 0);
-			virtual void CopyData(const void* data, uint32 len, uint32 offset = 0);
+			virtual void Apply(VkDescriptorPool descPool, uint32 slot);
 		};
 	}
 }

@@ -12,14 +12,20 @@ namespace Pharos
 
 		private:
 			VkDevice				m_device;
+
 			VkCommandBuffer			m_cmdBuf;
+
 			VulkanRenderTarget*		m_renderTarget;	
 
+			VulkanRenderPipeline*	m_currentPipeline;
+
+			VkDescriptorPool				m_descPool;
 			vector<VkDescriptorSetLayout>	m_setLayouts;
+			vector<VkDescriptorSet>			m_setList;
+
 			VkPipelineLayout				m_pipelineLayout;
 
-		public:
-			void CreatePipelineLayout();			
+		public:		
 
 		public:			
 			virtual void SetDebugLabel(const char8* label);
