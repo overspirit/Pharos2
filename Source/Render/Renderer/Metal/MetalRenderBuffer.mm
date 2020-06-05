@@ -10,7 +10,7 @@ MetalRenderBuffer::~MetalRenderBuffer()
 {
 }
 
-bool MetalRenderBuffer::CreateBuffer(uint32 bufSize, MemoryBuffer* buf)
+bool MetalRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
 {
 	if (buf == nullptr)
 	{
@@ -44,13 +44,12 @@ void MetalRenderBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 	memcpy((uint8*)m_buffer.contents + offset, data, len);
 }
 
-void MetalRenderBuffer::ApplyDevice(uint32 slot)
+void MetalRenderBuffer::ApplyVertexBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder)
 {
-	//    NSUInteger uniformBufferSize = kAlignedUniformsSize * kMaxBuffersInFlight;
-	//
-	//    _dynamicUniformBuffer = [_device newBufferWithLength:uniformBufferSize
-	//                                                 options:MTLResourceStorageModeShared];
-	//
-	//    _dynamicUniformBuffer.label = @"UniformBuffer";
+	[encoder setVertexBuffer:m_buffer offset:0 atIndex:slot];
+}
 
+void MetalRenderBuffer::ApplyFragmentBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder)
+{
+	[encoder setFragmentBuffer:m_buffer offset:0 atIndex:slot];
 }

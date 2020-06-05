@@ -1,10 +1,6 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-Pharos::Render::Renderer* MakeMetalRenderer() { return new Pharos::Render::MetalRenderer(); }
-Pharos::Render::RenderEffectLoader* MakeMetalEffectLoader() { return new Pharos::Render::MetalEffectLoader(); }
-Pharos::Render::RenderTechnique* MakeMetalRenderTechnique() { return new Pharos::Render::MetalRenderTechnique(); }
-
 MetalRenderer::MetalRenderer(void)
 {
 }
@@ -12,6 +8,8 @@ MetalRenderer::MetalRenderer(void)
 MetalRenderer::~MetalRenderer(void)
 {
 }
+
+IMPL_MAKE_RENDERER(MetalRenderer)
 
 bool MetalRenderer::Init()
 {
@@ -35,34 +33,43 @@ bool MetalRenderer::Create(const DeviceConfig& cfg)
 	m_view.preferredFramesPerSecond = 60;
 
 	m_commandQueue = [m_device newCommandQueue];
-
-	//m_defFrameBuf = new MetalFrameBuffer();
-	//m_defFrameBuf->ApplyDevice();
-
+	m_currCmdBuffer = [m_commandQueue commandBuffer];
+	
+	m_defaultTarget = new MetalViewRenderTarget(m_device, m_view);
+	
 	return true;
 }
 
-//
-//RenderProgram* MetalRenderer::GenerateRenderProgram()
-//{
-//    return new MetalShaderProgram();
-//}
-//
-RenderBuffer* MetalRenderer::GenerateRenderBuffer(uint32 bufSize, MemoryBuffer* buf)
+void MetalRenderer::Commit()
 {
-	MetalRenderBuffer* metalBuf = new MetalRenderBuffer(m_device);
-	if (!metalBuf->CreateBuffer(bufSize, buf))
-	{
-		SAFE_DELETE(metalBuf);
-		return nullptr;
-	}
+	[m_currCmdBuffer presentDrawable : m_view.currentDrawable];
+	
+	[m_currCmdBuffer commit];
+}
 
-	return metalBuf;
+//该方法实现自IMetalCommandFactory, 目前逻辑为当前的CommandBuffer 未Commit 之前都返回同一个对象。
+id<MTLCommandBuffer> MetalRenderer::MakeMetalCommandBuffer()
+{
+	if(m_currCmdBuffer.status <= MTLCommandBufferStatusEnqueued)
+	{
+		//NSLog(@"command buffer status:%lu", (unsigned long)m_currCmdBuffer.status);
+		
+		return m_currCmdBuffer;
+	}
+	
+	m_currCmdBuffer = [m_commandQueue commandBuffer];
+	
+	return m_currCmdBuffer;
+}
+
+RenderBuffer* MetalRenderer::GenerateRenderBuffer(BufferType type)
+{
+	return new MetalRenderBuffer(m_device);
 }
 
 RenderTexture* MetalRenderer::CreateTexture(int32 width, int32 height, EPixelFormat fmt)
 {
-	MetalTexture* texture = new MetalTexture(m_device);
+	MetalRenderTexture* texture = new MetalRenderTexture(m_device);
 	if (!texture->Create(width, height, fmt))
 	{
 		SAFE_DELETE(texture);
@@ -71,34 +78,10 @@ RenderTexture* MetalRenderer::CreateTexture(int32 width, int32 height, EPixelFor
 
 	return texture;
 }
-//
-//RenderTexture* MetalRenderer::CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt)
-//{
-//    MetalTexture* texture = new MetalTexture();
-//    if (!texture->CreateTargetTexture(width, height, fmt))
-//    {
-//        SAFE_DELETE(texture);
-//        return nullptr;
-//    }
-//    
-//    return texture;
-//}
-//
-//RenderTexture* MetalRenderer::CreateDepthTexture(int32 width, int32 height)
-//{
-//    MetalTexture* texture = new MetalTexture();
-//    if (!texture->CreateDepthTexture(width, height))
-//    {
-//        SAFE_DELETE(texture);
-//        return nullptr;
-//    }
-//    
-//    return texture;
-//}
 
 RenderTexture* MetalRenderer::LoadTexture(const char8* szPath)
 {
-	MetalTexture* texture = new MetalTexture(m_device);
+	MetalRenderTexture* texture = new MetalRenderTexture(m_device);
 	if (!texture->LoadFromFile(szPath))
 	{
 		SAFE_DELETE(texture);
@@ -110,7 +93,7 @@ RenderTexture* MetalRenderer::LoadTexture(const char8* szPath)
 
 RenderTexture* MetalRenderer::LoadTexture(const Image* image)
 {
-	MetalTexture* texture = new MetalTexture(m_device);
+	MetalRenderTexture* texture = new MetalRenderTexture(m_device);
 	if (!texture->LoadFromImage(image))
 	{
 		SAFE_DELETE(texture);
@@ -120,23 +103,21 @@ RenderTexture* MetalRenderer::LoadTexture(const Image* image)
 	return texture;
 }
 
-RenderProgram* MetalRenderer::GenerateRenderProgram(const char8* libPath)
+RenderProgram* MetalRenderer::GenerateRenderProgram()
 {
-	return nullptr;
+	return new MetalShaderProgram(m_device);
 }
 
 RenderTarget* MetalRenderer::CreateRenderTarget(int32 width, int32 height)
 {
-	//    MetalFrameBuffer* frameBuf = new MetalFrameBuffer();
-	//    if (!frameBuf->InitFrameBuffer(width, height))
-	//    {
-	//        SAFE_DELETE(frameBuf);
-	//        return nullptr;
-	//    }
-	//
-	//    return frameBuf;
-
-	return nullptr;
+	MetalRenderTarget* renderTarget = new MetalRenderTarget(m_device);
+	if(!renderTarget->InitRenderPass(width, height))
+	{
+		SAFE_DELETE(renderTarget);
+		return nullptr;
+	}
+	
+	return renderTarget;
 }
 
 RenderSamplerState* MetalRenderer::CreateSampleState(const SamplerStateDesc& desc)
@@ -183,15 +164,10 @@ RenderDepthStencilState* MetalRenderer::CreateDepthStencilState(const DepthStenc
 	return state;
 }
 
-RenderCommand* MetalRenderer::GenerateRenderCommand()
+RenderCommand* MetalRenderer::GenerateRenderCommand(RenderTarget* renderTarget)
 {
-	MetalRenderCommand* command = new MetalRenderCommand(m_commandQueue, m_view);
-	if (!command->Init())
-	{
-		SAFE_DELETE(command);
-		return nullptr;
-	}
-
+	MetalRenderCommand* command = new MetalRenderCommand(this, static_cast<MetalRenderTarget*>(renderTarget));
+	
 	return command;
 }
 

@@ -12,27 +12,26 @@ namespace Pharos
 
 		private:
 			id<MTLDevice>   m_device;
-
-			id<MTLRenderPipelineState>  m_pipelineState;
-
+			
+			id<MTLRenderPipelineState>		m_pipelineState;
+			MTLRenderPipelineDescriptor*	m_stateDescriptor;
+		
 		private:
 			MTLVertexFormat GetMetalFormat(VertElementType elementType, uint32 elementNum);
 			uint32 GetVertElementSize(VertElementType elementType, uint32 elementNum);
 
 		public:
-			id<MTLRenderPipelineState>  GetMetalPipeline() { return m_pipelineState; }
-
-		public:
 			virtual bool SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum);
 
-			virtual bool SetVertexShader(RenderProgram* program, const char8* enter);
-			virtual bool SetPixelShader(RenderProgram* program, const char8* enter);
-
-			virtual void SetRenderTarget(RenderTarget* target);
+			virtual bool SetProgramShader(RenderProgram* program);
 
 			virtual void SetBlendState(RenderBlendState* state);
 			virtual void SetRasterizerState(RenderRasterizerState* state);
 			virtual void SetDepthStencilState(RenderDepthStencilState* state);
+			
+			virtual void SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat depthFmt, EPixelFormat stencilFmt);
+			
+			virtual void ApplyToEncoder(id<MTLRenderCommandEncoder> encoder);
 		};
 	}
 }

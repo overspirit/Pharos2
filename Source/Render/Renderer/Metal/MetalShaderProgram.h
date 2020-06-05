@@ -7,16 +7,25 @@ namespace Pharos
 		class MetalShaderProgram : public RenderProgram
 		{
 		public:
-			MetalShaderProgram();
+			MetalShaderProgram(id<MTLDevice> device);
 			virtual ~MetalShaderProgram();
 
 		private:
+			id<MTLDevice>		m_device;
+			id<MTLLibrary>		m_library;
+			id<MTLFunction>		m_vertexFunc;
+			id<MTLFunction>		m_fragmentFunc;
 
 		public:
-			virtual bool CompileVertexShader(const char8* shader, const char8* enter);
-			virtual bool CompilePixelShader(const char8* shader, const char8* enter);
-
-			virtual void ApplyDevice();
+			id<MTLFunction> GetVertexFunction() { return m_vertexFunc; }
+			id<MTLFunction> GetFragmentFunction() { return m_fragmentFunc; }
+			
+		public:
+			virtual bool SetLibraryWithPath(const char8* libPath);
+			virtual bool SetSourceWithPath(const char8* sourcePath);
+			virtual bool SetSource(const char8* source);
+			virtual bool CompileVertexFunctionWithName(const char8* name);
+			virtual bool CompileFragmentFunctionWithName(const char8* name);
 		};
 	}
 }
