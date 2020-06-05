@@ -6,7 +6,7 @@ PostProcess::PostProcess()
 	m_renderer = nullptr;
 
 	m_tech = nullptr;
-	m_block = nullptr;
+	//m_block = nullptr;
 
 //    m_frameBuf = nullptr;
 }
@@ -14,7 +14,7 @@ PostProcess::PostProcess()
 PostProcess::~PostProcess()
 {
 	SAFE_DELETE(m_tech);
-	SAFE_DELETE(m_block);
+	//SAFE_DELETE(m_block);
 //    SAFE_DELETE(m_frameBuf);
 }
 
@@ -90,5 +90,5 @@ void PostProcess::Apply()
 //        m_renderer->BindTexture(i, m_inputPins[i]);
 //    }
 
-	m_block->ApplyToDevice();
+	//m_block->ApplyToDevice();
 }
