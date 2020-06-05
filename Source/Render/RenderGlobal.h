@@ -42,10 +42,6 @@
 #include "Effect/D3D11/D3D11RenderPass.h"
 #include "Effect/D3D11/D3D11RenderTechnique.h"
 
-#define MakeRenderer() new D3D11Renderer()
-#define MakeEffectLoader() new D3D11EffectLoader()
-#define MakeRenderTechnique() new D3D11RenderTechnique()
-
 #endif
 //////////////////////////////////////////////////////////////////////////
 
@@ -76,14 +72,6 @@
 
 #endif
 
-Pharos::Render::Renderer* MakeMetalRenderer();
-Pharos::Render::RenderEffectLoader* MakeMetalEffectLoader();
-Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
-
-#define MakeRenderer() MakeMetalRenderer()
-#define MakeEffectLoader() MakeMetalEffectLoader()
-#define MakeRenderTechnique() MakeMetalRenderTechnique()
-
 #endif
 //////////////////////////////////////////////////////////////////////////
 
@@ -106,9 +94,6 @@ Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
 #include "Renderer/OpenGL/OpenGLRenderBlock.h"
 #include "Renderer/OpenGL/OpenGLContextIOS.h"
 #include "Renderer/OpenGL/OpenGLRenderer.h"
-
-#define MakeRenderer() MakeSharedPtr<OpenGLRenderer>();
-#define MakeEffectLoader() MakeSharedPtr<OpenGLEffectLoader>()
 
 #endif
 //////////////////////////////////////////////////////////////////////////
@@ -155,20 +140,10 @@ Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
 #include "Renderer/Vulkan/VulkanRenderCommand.h"
 #include "Renderer/Vulkan/VulkanRenderer.h"
 
-#define MakeRenderer() (new VulkanRenderer())
-#define sInitHelper (VulkanInitializeHelper::Inst())
-
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-#include "RenderBlock.h"
 #include "RenderObject.h"
-
-#include "PostProcess/PostProcess.h"
-#include "PostProcess/ImageStatPostProcess.h"
-#include "PostProcess/LensEffectsPostProcess.h"
-#include "PostProcess/ToneMappingPostProcess.h"
-#include "PostProcess/HDRPostProcess.h"
 
 #include "Material.h"
 #include "Mesh.h"
@@ -176,9 +151,18 @@ Pharos::Render::RenderTechnique* MakeMetalRenderTechnique();
 #include "Animation.h"
 #include "Model.h"
 
+#include "PostProcess/PostProcess.h"
+#include "PostProcess/ImageStatPostProcess.h"
+#include "PostProcess/LensEffectsPostProcess.h"
+#include "PostProcess/ToneMappingPostProcess.h"
+#include "PostProcess/HDRPostProcess.h"
+
 #include "IRenderCallback.h"
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()
+
+Pharos::Render::Renderer* MakeRenderer();
+#define IMPL_MAKE_RENDERER(renderer) Pharos::Render::Renderer* MakeRenderer(){return new renderer();}
 
 using namespace Render;

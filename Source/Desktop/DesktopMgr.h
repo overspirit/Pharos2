@@ -18,7 +18,7 @@ namespace Pharos
 			float32		m_fScaleX;
 			float32		m_fScaleY;
 
-			RenderBlock*		m_renderBlock;
+			//RenderBlock*		m_renderBlock;
 			//RenderLayout*		m_renderLayout;
 			MemoryBuffer		m_layoutBuffer;
 			uint32				m_vertCount;

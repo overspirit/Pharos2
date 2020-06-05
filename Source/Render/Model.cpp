@@ -9,7 +9,7 @@ Model::Model()
 	m_playSpeed = 1.0f;
 	m_currAnimFrame = 0;
 
-	m_renderBlock = nullptr;
+	//m_renderBlock = nullptr;
 }
 
 Model::~Model()
@@ -19,15 +19,15 @@ Model::~Model()
 		SAFE_DELETE(m_meshGroupList[i]);
 	}
 
-	SAFE_DELETE(m_renderBlock);
+	//SAFE_DELETE(m_renderBlock);
 }
 
 void Model::AddMesh(Mesh* mesh)
 {
-	if (m_renderBlock == nullptr)
-	{
-		m_renderBlock = sRenderMgr->GenerateRenderBlock();
-	}
+//	if (m_renderBlock == nullptr)
+//	{
+//		m_renderBlock = sRenderMgr->GenerateRenderBlock();
+//	}
 
 	if (mesh != nullptr)
 	{
@@ -212,18 +212,18 @@ void Model::TransformWorld(const Matrix4& world)
 
 void Model::Draw()
 {
-	if (m_renderBlock == nullptr)
-	{
-		assert(false);
-		return;
-	}
-
-	m_renderBlock->SetBlockDataWorldMatrix(m_world);
-
-	if (m_animBoneTrans.size() > 0)
-	{
-		m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
-	}
+//	if (m_renderBlock == nullptr)
+//	{
+//		assert(false);
+//		return;
+//	}
+//
+//	m_renderBlock->SetBlockDataWorldMatrix(m_world);
+//
+//	if (m_animBoneTrans.size() > 0)
+//	{
+//		m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
+//	}
 
 	//    for (uint32 i = 0; i < m_meshGroupList.size(); i++)
 	//    {
@@ -238,5 +238,5 @@ void Model::Draw()
 	//        m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
 	//    }
 
-	sRenderMgr->DoRender(m_renderBlock);
+	//sRenderMgr->DoRender(m_renderBlock);
 }

@@ -46,7 +46,7 @@ namespace Pharos
 			//RenderShaderData*		m_globalShaderData;
 
 			//使用blockCount主要是为了优化，防止blockList反复变换大小
-			vector<RenderBlock*>		m_blockList;
+			//vector<RenderBlock*>		m_blockList;
 			uint32						m_blockCount;
 			
 		public:
@@ -55,7 +55,7 @@ namespace Pharos
 
 			virtual bool StartUp(const RenderParam& param);
 
-			virtual void DoRender(RenderBlock* block);
+			virtual void DoRender(RenderObject* obj);
 
 			virtual Renderer* GetCurrentRenderer() { return m_renderer; }
 			virtual RenderTarget* GetDefaultRenderTarget() { return m_renderer->GetDefaultRenderTarget(); }
@@ -67,7 +67,6 @@ namespace Pharos
 
 			virtual bool LoadEffectFile(const char8* szPath);
 			virtual RenderTechnique* GenerateRenderTechnique(const char8* tech);
-			virtual RenderBlock* GenerateRenderBlock();
 			virtual RenderObject* GenerateRenderObject();
 			virtual RenderObject* GetRenderObject(const char8* name);
 

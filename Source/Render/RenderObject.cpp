@@ -10,3 +10,8 @@ RenderObject::~RenderObject()
 {
 	
 }
+
+void RenderObject::Draw()
+{
+	
+}

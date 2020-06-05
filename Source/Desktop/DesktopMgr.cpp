@@ -17,7 +17,7 @@ DesktopMgr::DesktopMgr()
 	m_fScaleX = 1.0f;
 	m_fScaleY = 1.0f;
 
-	m_renderBlock = nullptr;
+	//m_renderBlock = nullptr;
 	//     m_renderLayout = nullptr;
 	m_vertCount = 0;
 
@@ -35,7 +35,7 @@ bool DesktopMgr::Init()
 	m_worldFrame->Init();
 
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
-	m_renderBlock = sRenderMgr->GenerateRenderBlock();
+	//m_renderBlock = sRenderMgr->GenerateRenderBlock();
 	//    m_renderLayout = renderer->GenerateRenderLayout(MAX_VERT_SIZE);
 
 	VertLayoutDesc desc[] =
@@ -69,7 +69,7 @@ void DesktopMgr::Destroy()
 
 	m_controlList.clear();
 
-	SAFE_DELETE(m_renderBlock);
+	//SAFE_DELETE(m_renderBlock);
 	//    SAFE_DELETE(m_renderLayout);
 
 	sFontTexMgr->DestroyAll();
@@ -279,7 +279,7 @@ void DesktopMgr::Render(float32 fElapsed)
 
 	//m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
 
-	sRenderMgr->DoRender(m_renderBlock);
+	//sRenderMgr->DoRender(m_renderBlock);
 
 	m_vertCount = 0;
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -25,7 +25,7 @@ namespace Pharos
 			float32						m_playSpeed;		//动画播放速度
 			uint32						m_currAnimFrame;	//当前播放动画的播放帧索引
 			
-			RenderBlock*				m_renderBlock;
+			//RenderBlock*				m_renderBlock;
 			vector<Matrix4>				m_animBoneTrans;
 
 		private:

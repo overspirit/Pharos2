@@ -14,7 +14,7 @@ namespace Pharos
 			Renderer*					m_renderer;
 
 			RenderTechnique*			m_tech;
-			RenderBlock*				m_block;
+			//RenderBlock*				m_block;
 
 			vector<RenderTexture*>		m_inputPins;
 			vector<RenderTexture*>		m_outputPins;

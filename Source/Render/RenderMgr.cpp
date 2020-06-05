@@ -216,18 +216,9 @@ void RenderMgr::SetGlobalRenderEyePostion(const Vector3Df& eyePos)
 	//    }
 }
 
-void RenderMgr::DoRender(RenderBlock* block)
+void RenderMgr::DoRender(RenderObject* obj)
 {
-	if (block == nullptr) return;
-
-	if (m_blockCount <= m_blockList.size())
-	{
-		m_blockList.resize(m_blockCount + 1);
-	}
-
-	m_blockList[m_blockCount] = block;
-
-	m_blockCount++;
+	
 }
 
 bool RenderMgr::LoadEffectFile(const char8* szPath)
@@ -279,13 +270,6 @@ RenderTechnique* RenderMgr::GenerateRenderTechnique(const char8* tech)
 	}
 
 	return nullptr;
-}
-
-RenderBlock* RenderMgr::GenerateRenderBlock()
-{
-	RenderBlock* renderBlock = new RenderBlock();
-	renderBlock->Init();
-	return renderBlock;
 }
 
 RenderObject* RenderMgr::GenerateRenderObject()
@@ -363,16 +347,16 @@ void RenderMgr::Render(float32 fElapsed)
 	//        m_renderer->BindShaderData(0, m_globalShaderData);
 	//    }
 
-	for (uint32 i = 0; i < m_blockList.size(); i++)
-	{
-		RenderBlock* block = m_blockList[i];
-		if (block != nullptr)
-		{
-			block->ApplyToDevice();
-		}
-
-		m_blockList[i] = nullptr;
-	}
+//	for (uint32 i = 0; i < m_blockList.size(); i++)
+//	{
+//		RenderBlock* block = m_blockList[i];
+//		if (block != nullptr)
+//		{
+//			block->ApplyToDevice();
+//		}
+//
+//		m_blockList[i] = nullptr;
+//	}
 
 	if (m_renderCallback != nullptr)
 	{
