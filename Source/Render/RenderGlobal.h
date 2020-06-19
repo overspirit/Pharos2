@@ -117,6 +117,7 @@
 //////////////////////////////////////////////////////////////////////////
 #if defined(_LINUX_PLATFORM_)
 
+#include "Renderer/Vulkan/VulkanUtils.h"
 #include "Renderer/Vulkan/VulkanInitializeHelper.h"
 #include "Renderer/Vulkan/VulkanBlendState.h"
 #include "Renderer/Vulkan/VulkanDepthStencilState.h"
@@ -125,11 +126,12 @@
 #include "Renderer/Vulkan/VulkanRenderTexture.h"
 #include "Renderer/Vulkan/VulkanRenderTarget.h"
 #include "Renderer/Vulkan/VulkanRenderBuffer.h"
-#include "Renderer/Vulkan/VulkanUniformBuffer.h"
 #include "Renderer/Vulkan/VulkanShaderProgram.h"
 #include "Renderer/Vulkan/VulkanRenderPipeline.h"
 #include "Renderer/Vulkan/VulkanRenderCommand.h"
 #include "Renderer/Vulkan/VulkanRenderer.h"
+
+#define sInitHelper VulkanInitializeHelper::Inst()
 
 #endif
 //////////////////////////////////////////////////////////////////////////
@@ -142,11 +144,11 @@
 #include "Animation.h"
 #include "Model.h"
 
-#include "PostProcess/PostProcess.h"
-#include "PostProcess/ImageStatPostProcess.h"
-#include "PostProcess/LensEffectsPostProcess.h"
-#include "PostProcess/ToneMappingPostProcess.h"
-#include "PostProcess/HDRPostProcess.h"
+// #include "PostProcess/PostProcess.h"
+// #include "PostProcess/ImageStatPostProcess.h"
+// #include "PostProcess/LensEffectsPostProcess.h"
+// #include "PostProcess/ToneMappingPostProcess.h"
+// #include "PostProcess/HDRPostProcess.h"
 
 #include "IRenderCallback.h"
 #include "RenderMgr.h"

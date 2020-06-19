@@ -18,6 +18,14 @@ set(SRC_FILES
         Source/zutil.c
 )
 
-add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
+set(ZIP_SRC_FILES
+        Source/ioapi.c
+        Source/mztools.c
+        Source/unzip.c
+        Source/zip.c
+
+)
+
+add_library(${PROJECT_NAME} STATIC ${SRC_FILES} ${ZIP_SRC_FILES})
 
 

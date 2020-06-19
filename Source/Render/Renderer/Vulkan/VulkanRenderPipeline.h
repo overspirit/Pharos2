@@ -15,22 +15,28 @@ namespace Pharos
 
 			VkPipelineShaderStageCreateInfo*		m_shaderStages;
 			
-			VkVertexInputBindingDescription      m_vertexBinding;
-			VkVertexInputAttributeDescription    m_vertexAttribute[2];
+			vector<VkVertexInputBindingDescription>			m_vertexBindings;
+			vector<VkVertexInputAttributeDescription>    	m_vertexAttributes;
 			
-			VkPipelineVertexInputStateCreateInfo	m_vertInputState;
+			VkPipelineVertexInputStateCreateInfo			m_vertInputState;
+			VkPipelineRasterizationStateCreateInfo			m_rasterState;
+			VkPipelineColorBlendAttachmentState				m_attachmentState[8];
+			VkPipelineColorBlendStateCreateInfo				m_blendState;	
+			VkPipelineDepthStencilStateCreateInfo			m_depthStencilState;
 
 			VkPipeline		m_pipeline;
 
+		private:
+			VkFormat GetVulkanFormat(VertElementType elementType, uint32 elementNum);
+			uint32 GetVertElementSize(VertElementType elementType, uint32 elementNum);
+
 		public:
-			VkPipeline GetVulkanPipeline() { return m_pipeline; }
+			VkPipeline GetVulkanPipeline(VkPrimitiveTopology prim, VkPipelineLayout pipelineLayout, VkRenderPass renderPass);
 
 		public:
 			virtual bool SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum);
 
-			virtual bool SetProgramShader(RenderProgram* program);
-
-			virtual void SetRenderTarget(VkPipelineLayout pipelineLayout, VulkanRenderTarget* target);
+			virtual bool SetProgramShader(RenderProgram* program);			
 
 			virtual void SetBlendState(RenderBlendState* state);
 			virtual void SetRasterizerState(RenderRasterizerState* state);

@@ -22,6 +22,9 @@ namespace Pharos
 			static void error_callback(int error, const char *description);
 			static void window_close_callback(GLFWwindow *window);
 
+		private:
+			void on_mouse_event(int button, int action, int xpos, int ypos);
+
 		public:
 			virtual bool create_window(const char8 *title, uint32 width, uint32 height);
 			virtual VkSurfaceKHR create_surface(VkInstance instance);

@@ -62,6 +62,8 @@ VkBool32 VulkanInitializeHelper::VulkanDebugCallback(
 	logFile->Write(msg, strlen(msg));
 	logFile->Write("\n", 1);
 	logFile->Flush();
+
+	printf("%s\n", msg);
 	
 	return VK_FALSE;
 }
@@ -196,6 +198,9 @@ VkDevice VulkanInitializeHelper::CreateDevice(VkPhysicalDevice gpu, uint32 queue
 	std::vector<const char*> exts;
 	exts.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
+	VkPhysicalDeviceFeatures features;
+	vkGetPhysicalDeviceFeatures(gpu, &features);
+
 	VkDeviceCreateInfo device_info = {};
 	device_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	device_info.pNext = NULL;
@@ -205,7 +210,7 @@ VkDevice VulkanInitializeHelper::CreateDevice(VkPhysicalDevice gpu, uint32 queue
 	device_info.ppEnabledExtensionNames = exts.data();
 	device_info.enabledLayerCount = 0;
 	device_info.ppEnabledLayerNames = NULL;
-	device_info.pEnabledFeatures = NULL;
+	device_info.pEnabledFeatures = &features;
 
 	VkDevice device;
 	VkResult res = vkCreateDevice(gpu, &device_info, NULL, &device);

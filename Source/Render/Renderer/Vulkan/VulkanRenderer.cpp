@@ -9,6 +9,8 @@ VulkanRenderer::~VulkanRenderer(void)
 {
 }
 
+IMPL_MAKE_RENDERER(VulkanRenderer)
+
 bool VulkanRenderer::Init()
 {
 	glfw_window* window = (glfw_window*)sKernel->GetWindowHandle();
@@ -93,16 +95,7 @@ void VulkanRenderer::Commit()
 //
 RenderBuffer *VulkanRenderer::GenerateRenderBuffer(BufferType type)
 {
-	if (type == BufferType::UNIFORM_BUFFFER)
-	{
-		return new VulkanUniformBuffer(type, m_device);
-	}
-	else
-	{
-		return new VulkanRenderBuffer(type, m_device);
-	}
-
-	return nullptr;
+	return new VulkanRenderBuffer(type, m_device);;
 }
 
 RenderTexture* VulkanRenderer::CreateTexture(int32 width, int32 height, EPixelFormat fmt)
@@ -136,7 +129,13 @@ RenderTexture* VulkanRenderer::CreateTexture(int32 width, int32 height, EPixelFo
 
 RenderTexture* VulkanRenderer::LoadTexture(const char8* szPath)
 {
-	return nullptr;
+	VulkanRenderTexture* texture = new VulkanRenderTexture(m_device, m_cmdPool, m_queue);
+	if (!texture->LoadFromFile(szPath))
+	{
+		SAFE_DELETE(texture);
+		return nullptr;
+	}
+	return texture;
 }
 
 RenderTexture* VulkanRenderer::LoadTexture(const Image* image)

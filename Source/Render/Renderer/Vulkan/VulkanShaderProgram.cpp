@@ -26,32 +26,38 @@ VulkanShaderProgram::~VulkanShaderProgram()
 {
 }
 
-bool VulkanShaderProgram::SetLibraryWithPath(const char8 *libPath)
+bool VulkanShaderProgram::SetLibraryWithPath(const char8* libPath)
 {
-	string vertPath = string(libPath) + "/shaders.vert.spv";
-	string fragPath = string(libPath) + "/shaders.frag.spv";
+	unzFile lib_file = unzOpen64(libPath);
+	if (lib_file == NULL) return false;
 
+	unz_global_info64 global_info;
+	if (unzGetGlobalInfo64(lib_file, &global_info) == UNZ_OK)
 	{
-		File vertFile;
-		if (!vertFile.Open(vertPath.c_str()))
-			return false;
+		for (int i = 0; i < global_info.number_entry; i++)
+		{
+			unz_file_info64 file_info;
+			char file_name[MAX_PATH] = {0};
+			if(unzGetCurrentFileInfo64(lib_file, &file_info, file_name, sizeof(file_name), NULL, 0, NULL, 0) != UNZ_OK)
+			{
+				break;
+			}
 
-		uint32 vertFileSize = vertFile.GetSize();
-		vector<uint32> &vertSpvData = m_shaderDatas["shaders.vert"];
-		vertSpvData.resize(vertFileSize);
-		vertFile.Read(vertSpvData.data(), vertFileSize);
+			if(unzOpenCurrentFile(lib_file) != UNZ_OK) break;
+
+			Utils::Path path(file_name);
+			string shaderName = path.GetFileName();
+
+			vector<uint32> &spvData = m_shaderDatas[shaderName];
+			spvData.resize(file_info.uncompressed_size);
+			unzReadCurrentFile(lib_file, spvData.data(), file_info.uncompressed_size);
+
+			unzCloseCurrentFile(lib_file);
+			unzGoToNextFile(lib_file);
+		}
 	}
 
-	{
-		File fragFile;
-		if (!fragFile.Open(fragPath.c_str()))
-			return false;
-
-		uint32 fragFileSize = fragFile.GetSize();
-		vector<uint32> &fragSpvData = m_shaderDatas["shaders.frag"];
-		fragSpvData.resize(fragFileSize);
-		fragFile.Read(fragSpvData.data(), fragFileSize);
-	}
+	unzClose(lib_file);
 
 	return true;
 }
