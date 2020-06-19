@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -11,7 +11,7 @@ namespace Pharos
 			virtual ~RenderSprite(void);
 
 		private:
-			RenderTechnique*		m_renderTech;
+			//RenderTechnique*		m_renderTech;
 
 		public:
 			virtual void RenderRect(Color4 color, const Rect2Di& drawRect);

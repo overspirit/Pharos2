@@ -58,7 +58,7 @@ namespace Pharos
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
 
-			virtual void PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType = EDT_TRIANGLELIST);
+			//virtual void PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType = EDT_TRIANGLELIST);
 
 			virtual RenderFont* GenerateRenderFont(const char8* fontFilePath);
 			virtual RenderImage* GenerateRenderImage(const char8* imageFilePath);

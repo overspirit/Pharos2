@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 OctreeScene::OctreeScene(void)
@@ -96,9 +96,9 @@ void OctreeScene::Update(float32 fElapsed)
 	const Matrix4& viewMat = m_camera->GetViewMatrix();
 	const Matrix4& projMat = m_camera->GetProjMatrix();
 
-	sRenderMgr->SetGlobalRenderEyePostion(cameraPos);
-	sRenderMgr->SetGlobalRenderViewMatrix(viewMat);
-	sRenderMgr->SetGlobalRenderProjMatrix(projMat);
+	//sRenderMgr->SetGlobalRenderEyePostion(cameraPos);
+	//sRenderMgr->SetGlobalRenderViewMatrix(viewMat);
+	//sRenderMgr->SetGlobalRenderProjMatrix(projMat);
 
 	const Frustum& frustum = m_camera->GetViewFrustum();
 	m_pTreeRoot->FrustumCulling(frustum);

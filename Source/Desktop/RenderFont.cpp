@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 #define FONT_VERT_BUFFER_SIZE		(128 * 6)
@@ -15,29 +15,29 @@ RenderFont::RenderFont(void)
 	m_charShadowColor = 0xFF000000;
 	m_charShadowOffset = Size2Di(0, 0);
 
-	m_fontTech = nullptr;
-	m_fontTextureVar = nullptr;
-	m_fontDistanceVar = nullptr;
-	m_fontOffsetVar = nullptr;
-	m_fontColorVar = nullptr;
-	m_outlineScaleVar = nullptr;
-	m_outlineColorVar = nullptr;
-
-	m_fontShadowTech = nullptr;
-	m_fontShadowTextureVar = nullptr;
-	m_fontShadowDistanceVar = nullptr;
-	m_fontShadowOffsetVar = nullptr;
-	m_fontShadowColorVar = nullptr;
-	m_shadowOutlineScaleVar = nullptr;
-	m_shadowOutlineColorVar = nullptr;
+//	m_fontTech = nullptr;
+//	m_fontTextureVar = nullptr;
+//	m_fontDistanceVar = nullptr;
+//	m_fontOffsetVar = nullptr;
+//	m_fontColorVar = nullptr;
+//	m_outlineScaleVar = nullptr;
+//	m_outlineColorVar = nullptr;
+//
+//	m_fontShadowTech = nullptr;
+//	m_fontShadowTextureVar = nullptr;
+//	m_fontShadowDistanceVar = nullptr;
+//	m_fontShadowOffsetVar = nullptr;
+//	m_fontShadowColorVar = nullptr;
+//	m_shadowOutlineScaleVar = nullptr;
+//	m_shadowOutlineColorVar = nullptr;
 
 	m_vertBuffer.resize(FONT_VERT_BUFFER_SIZE);
 }
 
 RenderFont::~RenderFont(void)
 {
-	SAFE_DELETE(m_fontTech);
-	SAFE_DELETE(m_fontShadowTech);
+//	SAFE_DELETE(m_fontTech);
+//	SAFE_DELETE(m_fontShadowTech);
 }
 
 bool RenderFont::LoadFont(const char8* fontFilePath)
@@ -46,44 +46,44 @@ bool RenderFont::LoadFont(const char8* fontFilePath)
 	m_fontInfoIndex = sFontTexMgr->AttendFont(m_font);
 	m_fontTex = sFontTexMgr->GetFontTexture(m_fontInfoIndex);
 	
-	m_fontTech = sRenderMgr->GenerateRenderTechnique("Font");
-    if(m_fontTech == nullptr) return false;
-    
-	m_fontTextureVar = m_fontTech->GetVariable("g_tex");
-	m_fontDistanceVar = m_fontTech->GetVariable("g_font_distance");
-	m_fontOffsetVar = m_fontTech->GetVariable("g_font_offset");
-	m_fontColorVar = m_fontTech->GetVariable("g_char_color");
-	m_outlineScaleVar = m_fontTech->GetVariable("g_outline_scale");
-	m_outlineColorVar = m_fontTech->GetVariable("g_outline_color");
-	
-	m_fontShadowTech = sRenderMgr->GenerateRenderTechnique("Font");
-	m_fontShadowTextureVar = m_fontShadowTech->GetVariable("g_tex");
-	m_fontShadowDistanceVar = m_fontShadowTech->GetVariable("g_font_distance");
-	m_fontShadowOffsetVar = m_fontShadowTech->GetVariable("g_font_offset");
-	m_fontShadowColorVar = m_fontShadowTech->GetVariable("g_char_color");
-	m_shadowOutlineScaleVar = m_fontShadowTech->GetVariable("g_outline_scale");
-	m_shadowOutlineColorVar = m_fontShadowTech->GetVariable("g_outline_color");
-
-	Color4f charColor = m_charColor;
-	Color4f outlineColor = m_charOutlineColor;
-	Color4f shadowColor = m_charShadowColor;
-	float32 fontDisBase = sFontTexMgr->GetFontDisBase(m_fontInfoIndex);
-	float32 fontDisScale = sFontTexMgr->GetFontDisScale(m_fontInfoIndex);
-	Vector2Df shadowOffset = sRenderMgr->GetSizeFromWindowSize(m_charShadowOffset.width, m_charShadowOffset.height);
-
-	m_fontTextureVar->SetValue(m_fontTex);
-	m_fontDistanceVar->SetValue(Vector4Df(fontDisBase, fontDisScale, 0, 0));
-	m_fontOffsetVar->SetValue(Vector4Df(0, 0, 0, 0));
-	m_fontColorVar->SetValue(charColor);
-	m_outlineScaleVar->SetValue(Vector4Df(m_charOutlineScale, 0, 0, 0));	
-	m_outlineColorVar->SetValue(outlineColor);
-
-	m_fontShadowTextureVar->SetValue(m_fontTex);
-	m_fontShadowDistanceVar->SetValue(Vector4Df(fontDisBase, fontDisScale, 0, 0));
-	m_fontShadowOffsetVar->SetValue(Vector4Df(shadowOffset.x, shadowOffset.y, 0, 0));	
-	m_fontShadowColorVar->SetValue(shadowColor);
-	m_shadowOutlineScaleVar->SetValue(Vector4Df(0, 0, 0, 0));
-	m_shadowOutlineColorVar->SetValue(shadowColor);
+//	m_fontTech = sRenderMgr->GenerateRenderTechnique("Font");
+//    if(m_fontTech == nullptr) return false;
+//
+//	m_fontTextureVar = m_fontTech->GetVariable("g_tex");
+//	m_fontDistanceVar = m_fontTech->GetVariable("g_font_distance");
+//	m_fontOffsetVar = m_fontTech->GetVariable("g_font_offset");
+//	m_fontColorVar = m_fontTech->GetVariable("g_char_color");
+//	m_outlineScaleVar = m_fontTech->GetVariable("g_outline_scale");
+//	m_outlineColorVar = m_fontTech->GetVariable("g_outline_color");
+//
+//	m_fontShadowTech = sRenderMgr->GenerateRenderTechnique("Font");
+//	m_fontShadowTextureVar = m_fontShadowTech->GetVariable("g_tex");
+//	m_fontShadowDistanceVar = m_fontShadowTech->GetVariable("g_font_distance");
+//	m_fontShadowOffsetVar = m_fontShadowTech->GetVariable("g_font_offset");
+//	m_fontShadowColorVar = m_fontShadowTech->GetVariable("g_char_color");
+//	m_shadowOutlineScaleVar = m_fontShadowTech->GetVariable("g_outline_scale");
+//	m_shadowOutlineColorVar = m_fontShadowTech->GetVariable("g_outline_color");
+//
+//	Color4f charColor = m_charColor;
+//	Color4f outlineColor = m_charOutlineColor;
+//	Color4f shadowColor = m_charShadowColor;
+//	float32 fontDisBase = sFontTexMgr->GetFontDisBase(m_fontInfoIndex);
+//	float32 fontDisScale = sFontTexMgr->GetFontDisScale(m_fontInfoIndex);
+//	Vector2Df shadowOffset = sRenderMgr->GetSizeFromWindowSize(m_charShadowOffset.width, m_charShadowOffset.height);
+//
+//	m_fontTextureVar->SetValue(m_fontTex);
+//	m_fontDistanceVar->SetValue(Vector4Df(fontDisBase, fontDisScale, 0, 0));
+//	m_fontOffsetVar->SetValue(Vector4Df(0, 0, 0, 0));
+//	m_fontColorVar->SetValue(charColor);
+//	m_outlineScaleVar->SetValue(Vector4Df(m_charOutlineScale, 0, 0, 0));
+//	m_outlineColorVar->SetValue(outlineColor);
+//
+//	m_fontShadowTextureVar->SetValue(m_fontTex);
+//	m_fontShadowDistanceVar->SetValue(Vector4Df(fontDisBase, fontDisScale, 0, 0));
+//	m_fontShadowOffsetVar->SetValue(Vector4Df(shadowOffset.x, shadowOffset.y, 0, 0));
+//	m_fontShadowColorVar->SetValue(shadowColor);
+//	m_shadowOutlineScaleVar->SetValue(Vector4Df(0, 0, 0, 0));
+//	m_shadowOutlineColorVar->SetValue(shadowColor);
 	
 	return true;
 }
@@ -95,16 +95,16 @@ void RenderFont::RenderText(const char8* text, int32 textLen, int32 x, int32 y)
 	float32 fontBaseValue = sFontTexMgr->GetFontDisBase(m_fontInfoIndex);
 	float32 fontScaleValue = sFontTexMgr->GetFontDisScale(m_fontInfoIndex);
 
-	if (COLOR_A(m_charShadowColor) != 0x00 && m_charShadowOffset.width != 0 && m_charShadowOffset.height != 0)
-	{
-		m_fontShadowDistanceVar->SetValue(Vector4Df(fontBaseValue, fontScaleValue, 0, 0));
-
-		sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], vertNum, m_fontShadowTech);
-	}
-
-	m_fontDistanceVar->SetValue(Vector4Df(fontBaseValue, fontScaleValue, 0, 0));
-
-	sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], vertNum, m_fontTech);
+//	if (COLOR_A(m_charShadowColor) != 0x00 && m_charShadowOffset.width != 0 && m_charShadowOffset.height != 0)
+//	{
+//		m_fontShadowDistanceVar->SetValue(Vector4Df(fontBaseValue, fontScaleValue, 0, 0));
+//
+//		sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], vertNum, m_fontShadowTech);
+//	}
+//
+//	m_fontDistanceVar->SetValue(Vector4Df(fontBaseValue, fontScaleValue, 0, 0));
+//
+//	sDesktopMgr->PushRenderPatch(&m_vertBuffer[0], vertNum, m_fontTech);
 }
 
 uint32 RenderFont::FillTextVertBuffer(const char8* text, int32 textLen, int32 x, int32 y)
@@ -170,36 +170,36 @@ void RenderFont::SetFontCharColor(Color4 charColor)
 {
 	m_charColor = charColor;
 
-	m_fontColorVar->SetValue(Color4f(m_charColor));
+//	m_fontColorVar->SetValue(Color4f(m_charColor));
 }
 
 void RenderFont::SetOutlineScale(float32 charOutlineScale)
 {
 	m_charOutlineScale = charOutlineScale;
 
-	m_outlineScaleVar->SetValue(Vector4Df(m_charOutlineScale, 0, 0, 0));
+//	m_outlineScaleVar->SetValue(Vector4Df(m_charOutlineScale, 0, 0, 0));
 }
 
 void RenderFont::SetOutlineColor(Color4 charOuterColor)
 {
 	m_charOutlineColor = charOuterColor;
 
-	m_outlineColorVar->SetValue(Color4f(m_charOutlineColor));
+//	m_outlineColorVar->SetValue(Color4f(m_charOutlineColor));
 }
 
 void RenderFont::SetShadowColor(Color4 charShadowColor)
 {
 	m_charShadowColor = charShadowColor;
 
-	m_fontShadowColorVar->SetValue(Color4f(m_charShadowColor));
-	m_shadowOutlineColorVar->SetValue(Color4f(m_charShadowColor));
+//	m_fontShadowColorVar->SetValue(Color4f(m_charShadowColor));
+//	m_shadowOutlineColorVar->SetValue(Color4f(m_charShadowColor));
 }
 
 void RenderFont::SetShadowOffset(int32 offsetX, int32 offsetY)
 {
 	m_charShadowOffset.width = offsetX;
 	m_charShadowOffset.height = offsetY;
-
-	Vector2Df shadowOffset = sRenderMgr->GetSizeFromWindowSize(m_charShadowOffset.width, m_charShadowOffset.height);
-	m_fontShadowOffsetVar->SetValue(Vector4Df(shadowOffset.x, shadowOffset.y, 0, 0));
+//
+//	Vector2Df shadowOffset = sRenderMgr->GetSizeFromWindowSize(m_charShadowOffset.width, m_charShadowOffset.height);
+//	m_fontShadowOffsetVar->SetValue(Vector4Df(shadowOffset.x, shadowOffset.y, 0, 0));
 }

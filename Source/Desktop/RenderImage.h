@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -14,12 +14,12 @@ namespace Pharos
 			Image*		m_image;
 
 			RenderTexture*		m_imageTex;
-
-			RenderTechnique*	m_imageTech;
-			RenderVariable*		m_imageTexVar;
-
-			RenderTechnique*	m_grayImageTech;
-			RenderVariable*		m_grayImageTexVar;
+//
+//			RenderTechnique*	m_imageTech;
+//			RenderVariable*		m_imageTexVar;
+//
+//			RenderTechnique*	m_grayImageTech;
+//			RenderVariable*		m_grayImageTexVar;
 
 		public:
 			virtual bool LoadImage(const char8* imageFilePath);

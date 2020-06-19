@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 WorldFrame::WorldFrame(void)
@@ -54,8 +54,8 @@ void WorldFrame::Render(float32 fElapsed)
 
 	char8 buf[255];
 
-	const char8* adapterName = sRenderMgr->GetAdapterName();
-	uint32 memorySize = sRenderMgr->GetAdapterMemorySize();
+	const char8* adapterName = sRenderer->GetAdapterName();
+	uint32 memorySize = sRenderer->GetAdapterMemorySize();
 	sprintf(buf, "%s %dMB", adapterName, memorySize);
 	m_renderFont->RenderText(buf, -1, 10, 32);
 

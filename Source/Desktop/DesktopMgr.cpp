@@ -187,16 +187,16 @@ RenderImage* DesktopMgr::GenerateRenderImage(const char8* imageFilePath)
 	return nullptr;
 }
 
-void DesktopMgr::PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType)
-{
-	m_layoutBuffer.Insert(m_vertCount * sizeof(DecalColorVertex), vertData, vertNum * sizeof(DecalColorVertex));
-
-	//    uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(m_renderLayout, tech);
-	//    m_renderBlock->SetBlockPatchDrawRange(patchIndex, m_vertCount, vertNum);
-	//    m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
-
-	m_vertCount += vertNum;
-}
+//void DesktopMgr::PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType)
+//{
+//	m_layoutBuffer.Insert(m_vertCount * sizeof(DecalColorVertex), vertData, vertNum * sizeof(DecalColorVertex));
+//
+//	//    uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(m_renderLayout, tech);
+//	//    m_renderBlock->SetBlockPatchDrawRange(patchIndex, m_vertCount, vertNum);
+//	//    m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
+//
+//	m_vertCount += vertNum;
+//}
 
 bool DesktopMgr::onMouseEvent(const MouseEvent& e)
 {

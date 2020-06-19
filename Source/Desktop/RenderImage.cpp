@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 RenderImage::RenderImage(void)
@@ -7,18 +7,18 @@ RenderImage::RenderImage(void)
 
 	m_imageTex = nullptr;
 
-	m_imageTech = nullptr;
-	m_imageTexVar = nullptr;
-
-	m_grayImageTech = nullptr;
-	m_grayImageTexVar = nullptr;
+//	m_imageTech = nullptr;
+//	m_imageTexVar = nullptr;
+//
+//	m_grayImageTech = nullptr;
+//	m_grayImageTexVar = nullptr;
 }
 
 RenderImage::~RenderImage(void)
 {
-	SAFE_DELETE(m_imageTex);
-	SAFE_DELETE(m_imageTech);
-	SAFE_DELETE(m_grayImageTech);
+//	SAFE_DELETE(m_imageTex);
+//	SAFE_DELETE(m_imageTech);
+//	SAFE_DELETE(m_grayImageTech);
 }
 
 bool RenderImage::LoadImage(const char8* imageFilePath)
@@ -30,15 +30,15 @@ bool RenderImage::LoadImage(const char8* imageFilePath)
 	m_imageTex = renderer->LoadTexture(m_image);
 	if (m_imageTex == nullptr) return false;
 
-	m_imageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
-    if(m_imageTech == nullptr) return false;
-    
-	m_imageTexVar = m_imageTech->GetVariable("g_tex");
-	m_imageTexVar->SetValue(m_imageTex);
-
-	m_grayImageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DGray");
-	m_grayImageTexVar = m_grayImageTech->GetVariable("g_tex");
-	m_grayImageTexVar->SetValue(m_imageTex);
+//	m_imageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
+//    if(m_imageTech == nullptr) return false;
+//
+//	m_imageTexVar = m_imageTech->GetVariable("g_tex");
+//	m_imageTexVar->SetValue(m_imageTex);
+//
+//	m_grayImageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DGray");
+//	m_grayImageTexVar = m_grayImageTech->GetVariable("g_tex");
+//	m_grayImageTexVar->SetValue(m_imageTex);
 
 	return true;
 }
@@ -67,7 +67,7 @@ void RenderImage::RenderImageRect(const Rect2Di& imageRect, Color4 imageColor, c
 		{ Vector3Df(leftTop.x,		leftTop.y,		0),		imageColor,		Vector2Df(texLeft, texTop) },
 	};
 
-	sDesktopMgr->PushRenderPatch(vt, 6, m_imageTech);
+//	sDesktopMgr->PushRenderPatch(vt, 6, m_imageTech);
 }
 
 void RenderImage::RenderGrayImageRect(const Rect2Di& imageRect, const Rect2Di& drawRect)
@@ -94,5 +94,5 @@ void RenderImage::RenderGrayImageRect(const Rect2Di& imageRect, const Rect2Di& d
 		{ Vector3Df(leftTop.x,		leftTop.y,		0),		0xFFFFFFFF,		Vector2Df(texLeft, texTop) },
 	};
 
-	sDesktopMgr->PushRenderPatch(vt, 6, m_grayImageTech);
+//	sDesktopMgr->PushRenderPatch(vt, 6, m_grayImageTech);
 }

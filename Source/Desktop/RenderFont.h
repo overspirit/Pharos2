@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -22,21 +22,21 @@ namespace Pharos
 			Color4		m_charShadowColor;
 			Size2Di		m_charShadowOffset;
 
-			RenderTechnique*	m_fontTech;
-			RenderVariable*		m_fontTextureVar;
-			RenderVariable*		m_fontDistanceVar;
-			RenderVariable*		m_fontOffsetVar;
-			RenderVariable*		m_fontColorVar;
-			RenderVariable*		m_outlineScaleVar;			
-			RenderVariable*		m_outlineColorVar;
-
-			RenderTechnique*	m_fontShadowTech;
-			RenderVariable*		m_fontShadowTextureVar;
-			RenderVariable*		m_fontShadowDistanceVar;
-			RenderVariable*		m_fontShadowOffsetVar;
-			RenderVariable*		m_fontShadowColorVar;
-			RenderVariable*		m_shadowOutlineScaleVar;			
-			RenderVariable*		m_shadowOutlineColorVar;
+//			RenderTechnique*	m_fontTech;
+//			RenderVariable*		m_fontTextureVar;
+//			RenderVariable*		m_fontDistanceVar;
+//			RenderVariable*		m_fontOffsetVar;
+//			RenderVariable*		m_fontColorVar;
+//			RenderVariable*		m_outlineScaleVar;			
+//			RenderVariable*		m_outlineColorVar;
+//
+//			RenderTechnique*	m_fontShadowTech;
+//			RenderVariable*		m_fontShadowTextureVar;
+//			RenderVariable*		m_fontShadowDistanceVar;
+//			RenderVariable*		m_fontShadowOffsetVar;
+//			RenderVariable*		m_fontShadowColorVar;
+//			RenderVariable*		m_shadowOutlineScaleVar;			
+//			RenderVariable*		m_shadowOutlineColorVar;
 
 			vector<DecalColorVertex>		m_vertBuffer;
 
