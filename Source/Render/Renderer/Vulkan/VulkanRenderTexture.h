@@ -7,19 +7,31 @@ namespace Pharos
 		class VulkanRenderTexture : public RenderTexture
 		{
 		public:
-			VulkanRenderTexture();
+			VulkanRenderTexture(VkDevice device, VkCommandPool cmdPool, VkQueue queue);
 			virtual ~VulkanRenderTexture();
 
-		protected:
+		private:
+			VkDevice		m_device;
+			VkCommandPool	m_cmdPool;
+			VkQueue			m_queue;			
+        
+			VkDescriptorImageInfo		m_imageInfo;
+			VkImage						m_image;
+            VkDeviceMemory				m_deviceMemory;
+            uint32_t 					m_mipLevels;
 
-		public:
+		private:
+			virtual VkBuffer CreateStagingBuffer(const void* imageData, uint32 imageSize);
+			virtual bool CopyStagingImage(VkBuffer staging_buffer, const vector<VkBufferImageCopy>& buffer_copy_regions);
+
+        public:
 			virtual bool Create(int32 width, int32 height, EPixelFormat fmt);
-
-
-		public:
 			virtual bool LoadFromFile(const char8* szPath);
 			virtual bool LoadFromImage(const Image* pImage);
 
+			VkDescriptorImageInfo& GetVulkanImageInfo() { return m_imageInfo; }
+
+		public:
 			virtual bool CopyFromData(const void* pImageData, uint32 nDataSize);
 			virtual bool CopyRectFromData(const void* pData, uint32 nDataSize, const Rect2Di& rt);
 			virtual bool CopyFromTexture(RenderTexture* srcTex);
@@ -30,8 +42,6 @@ namespace Pharos
 			virtual uint32 GetWidth() const { return m_width; }
 			virtual uint32 GetHeight() const { return m_height; }
 			virtual EPixelFormat GetFormat() const { return m_fmt; }
-
-			virtual void ApplyDevice(uint32 slot);
 		};
 	}
 }

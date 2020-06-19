@@ -13,21 +13,20 @@ namespace Pharos
 		protected:
 			VkDevice			m_device;
 
-			VkBuffer			m_buffer;
+			VkDescriptorBufferInfo		m_bufferInfo;
+
 			VkDeviceMemory		m_memory;
 
 			uint32				m_reqSize;
 
 		public:
-			VkBuffer GetBuffer() { return m_buffer; }
+			VkDescriptorBufferInfo& GetVulkanBufferInfo() { return m_bufferInfo; }
 
 		public:
 			virtual bool Allocate(uint32 bufSize, MemoryBuffer* buf = nullptr);
 
 			virtual void CopyData(const MemoryBuffer& data, uint32 offset = 0);
 			virtual void CopyData(const void* data, uint32 len, uint32 offset = 0);
-
-			virtual void Apply(VkCommandBuffer cmdBuf, uint32 slot);
 		};
 	}
 }

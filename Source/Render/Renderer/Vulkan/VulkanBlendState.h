@@ -15,7 +15,8 @@ namespace Pharos
 			VkPipelineColorBlendStateCreateInfo		m_blendState;
 
 		public:
-			VkPipelineColorBlendStateCreateInfo GetStateCreateInfo() { return m_blendState; }			
+			VkPipelineColorBlendStateCreateInfo GetStateCreateInfo() { return m_blendState; }	
+			VkPipelineColorBlendAttachmentState* GetAttachmentState() { return m_attaState; }
 
 		public:
 			virtual bool CreateState(const BlendStateDesc& desc);

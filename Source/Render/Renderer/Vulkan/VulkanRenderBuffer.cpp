@@ -11,8 +11,6 @@ VulkanRenderBuffer::~VulkanRenderBuffer()
 {
 }
 
-
-
 bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
 {
     static VkBufferUsageFlagBits flags[BUFFER_TYPE_NUM];
@@ -29,11 +27,13 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
     buf_info.pQueueFamilyIndices = NULL;
     buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
     buf_info.flags = 0;
-    VkResult res = vkCreateBuffer(m_device, &buf_info, NULL, &m_buffer);
+
+    VkBuffer buffer;
+    VkResult res = vkCreateBuffer(m_device, &buf_info, NULL, &buffer);
     assert(res == VK_SUCCESS);
 
     VkMemoryRequirements mem_reqs;
-    vkGetBufferMemoryRequirements(m_device, m_buffer, &mem_reqs);
+    vkGetBufferMemoryRequirements(m_device, buffer, &mem_reqs);
     VkFlags requirementsMask = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 
     VkMemoryAllocateInfo alloc_info = {};
@@ -57,11 +57,15 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
         vkUnmapMemory(m_device, m_memory);
     }
 
-    res = vkBindBufferMemory(m_device, m_buffer, m_memory, 0);
+    res = vkBindBufferMemory(m_device, buffer, m_memory, 0);
     assert(res == VK_SUCCESS);  
 
     m_size = bufSize;
     m_reqSize = mem_reqs.size;
+
+    m_bufferInfo.buffer = buffer;
+    m_bufferInfo.offset = 0;
+    m_bufferInfo.range = bufSize;
 
 	return true;
 }
@@ -82,10 +86,4 @@ void VulkanRenderBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 
         vkUnmapMemory(m_device, m_memory);
     }
-}
-
-void VulkanRenderBuffer::Apply(VkCommandBuffer cmdBuf, uint32 slot)
-{
-    const VkDeviceSize offsets[1] = {0};
-    vkCmdBindVertexBuffers(cmdBuf, slot, 1, &m_buffer, offsets);
 }

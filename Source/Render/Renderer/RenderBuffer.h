@@ -23,6 +23,7 @@ namespace Pharos
 
 		public:
 			virtual BufferType GetBufferType() { return m_type; }
+			virtual uint32 GetBufferSize() { return m_size; }
 
 			virtual bool Allocate(uint32 bufSize, MemoryBuffer* buf = nullptr) = 0;
 
