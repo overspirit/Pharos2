@@ -170,6 +170,9 @@ using namespace std;
 
 using namespace rapidxml;
 
+#include <unzip.h>
+#include <zip.h>
+
 //仅在windows下使用gflags库解析命令参数
 ////////////////////////////////////////////////////////////////////////
 #if defined(_WINDOWS_PLATFORM_)

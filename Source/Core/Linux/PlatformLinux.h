@@ -15,6 +15,10 @@ namespace Pharos
 		private:
 			glfw_window*		m_window;
 
+			Point2Di			m_mousePos;
+
+			Timer				m_timer;
+
 		public:
 			virtual bool Init();			
 			virtual void Destroy();
@@ -24,7 +28,7 @@ namespace Pharos
 			virtual uint32 GetWindowsHandle() { return 0; }
 
 			virtual void onKeyboardEvent(const KeyEvent& keyEvent);
-			virtual void onMouseEvent(const MouseEvent& mouseEvent);
+			virtual void onMouseEvent(int32 mouse, int action, int32 posX, int32 posY);
 			virtual void onWindowChangeSize(int32 width, int32 height);
 		};
 	}

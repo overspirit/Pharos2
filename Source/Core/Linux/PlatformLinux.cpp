@@ -35,6 +35,8 @@ bool PlatformLinux::Init()
 
 	if (!sKernel->Init(m_window)) return false;
 
+	m_timer.Reset();
+
 	return true;
 }
 
@@ -47,8 +49,28 @@ void PlatformLinux::onKeyboardEvent(const KeyEvent& keyEvent)
 {
 }
 
-void PlatformLinux::onMouseEvent(const MouseEvent& mouseEvent)
+void PlatformLinux::onMouseEvent(int32 mouse, int action, int32 posX, int32 posY)
 {
+	static CODE_STATE codes[2];
+	codes[GLFW_PRESS] = STATE_DOWN;
+	codes[GLFW_RELEASE] = STATE_UP;
+
+	MouseEvent event;
+	event.button = (mouse != -1) ? (MOUSE_CODE)mouse : MOUSE_NUM;
+	event.state = (mouse == -1) ? STATE_KEEP : codes[action];
+	event.x = posX;
+	event.y = posY;
+	event.ox = posX - m_mousePos.x;
+	event.oy = posY - m_mousePos.y;
+	event.wheel = 0;
+	event.shift = false;
+	event.ctrl = false;
+	event.alt = false;
+
+	m_mousePos.x = posX;
+	m_mousePos.y = posY;
+
+	sKernel->onMouseEvent(event);
 }
 
 void PlatformLinux::onWindowChangeSize(int32 width, int32 height)
@@ -60,7 +82,9 @@ int32 PlatformLinux::Run()
 {
 	while (!m_window->should_close())
 	{
-		sKernel->Run(0);
+		float32 fElapsed = m_timer.GetElapsedTime();
+		
+		sKernel->Run(fElapsed);
 
 		m_window->process_events();
 	}

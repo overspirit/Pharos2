@@ -57,6 +57,16 @@ VkSurfaceKHR glfw_window::create_surface(VkInstance instance)
 	return surface;
 }
 
+void glfw_window::on_mouse_event(int button, int action, int xpos, int ypos)
+{
+	printf("on_mouse_event x:%d y:%d button:%d action:%d\n", xpos, ypos, button, action);
+
+	int width = 0;
+	int height = 0;
+	glfwGetWindowSize(m_handle, &width, &height);
+	sPlatform->onMouseEvent(button, action, xpos, height - ypos);
+}
+
 void glfw_window::window_close_callback(GLFWwindow *window)
 {
 	glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -79,11 +89,20 @@ void glfw_window::key_callback(GLFWwindow *window, int key, int /*scancode*/, in
 
 void glfw_window::cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
-	printf("cursor_position_callback x:%f y:%f\n", xpos, ypos);
+	glfw_window* myWindow = (glfw_window*)glfwGetWindowUserPointer(window);
+
+	myWindow->on_mouse_event(-1, -1, (int32)xpos, (int32)ypos);
 }
 
 void glfw_window::mouse_button_callback(GLFWwindow *window, int button, int action, int /*mods*/)
 {
+	double xpos = 0;
+	double ypos = 0;
+	glfwGetCursorPos(window, &xpos, &ypos);	
+
+	glfw_window* myWindow = (glfw_window*)glfwGetWindowUserPointer(window);
+
+	myWindow->on_mouse_event(button, action, xpos, ypos);
 }
 
 void glfw_window::error_callback(int error, const char *description)

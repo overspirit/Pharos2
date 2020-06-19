@@ -26,32 +26,25 @@ set(CORE_FILES
 )
 
 set(RENDER_FILES
-        Render/Animation.cpp
-        Render/Material.cpp
-        Render/Mesh.cpp
-        Render/Model.cpp
-        Render/PostProcess/HDRPostProcess.cpp
-        Render/PostProcess/ImageStatPostProcess.cpp
-        Render/PostProcess/LensEffectsPostProcess.cpp
-        Render/PostProcess/PostProcess.cpp
-        Render/PostProcess/ToneMappingPostProcess.cpp
-        Render/RenderBlock.cpp
-        Render/RenderObject.cpp
         Render/Renderer/Vulkan/VulkanInitializeHelper.cpp
         Render/Renderer/Vulkan/VulkanBlendState.cpp        
         Render/Renderer/Vulkan/VulkanDepthStencilState.cpp        
         Render/Renderer/Vulkan/VulkanRasterizerState.cpp
         Render/Renderer/Vulkan/VulkanRenderCommand.cpp        
         Render/Renderer/Vulkan/VulkanRenderBuffer.cpp
-        Render/Renderer/Vulkan/VulkanUniformBuffer.cpp
         Render/Renderer/Vulkan/VulkanRenderPipeline.cpp
         Render/Renderer/Vulkan/VulkanSamplerState.cpp
         Render/Renderer/Vulkan/VulkanRenderTarget.cpp
         Render/Renderer/Vulkan/VulkanRenderTexture.cpp
         Render/Renderer/Vulkan/VulkanShaderProgram.cpp
         Render/Renderer/Vulkan/VulkanRenderer.cpp
-        Render/RenderMgr.cpp
+        Render/Animation.cpp
+        Render/Material.cpp
+        Render/Mesh.cpp
+        Render/Model.cpp
         Render/Skeleton.cpp
+        Render/RenderObject.cpp
+        Render/RenderMgr.cpp        
 )
 
 set(DESKTOP_FILES

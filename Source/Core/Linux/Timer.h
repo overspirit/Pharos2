@@ -12,6 +12,13 @@ namespace Pharos
             virtual ~Timer(void);
             
         private:
+            bool        m_bTimerStopped;
+            uint64      m_nStopTime;
+            uint64      m_nLastElapsedTime;
+            uint64      m_nBaseTime;
+            
+        private:
+            uint64  GetCurrentTime();
                     
         public:
             virtual void	Reset();
