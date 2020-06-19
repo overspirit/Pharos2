@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -13,11 +13,11 @@ namespace Pharos
 		private:
 			string	m_techName;
 
-			RenderTechnique*		m_renderTech;
+			//RenderTechnique*		m_renderTech;
 
 			vector<RenderTexture*>		m_texList;
 
-			map<string, RenderVariable*>	m_variableList;
+			//map<string, RenderVariable*>	m_variableList;
 
 		public:
 			virtual bool SetRenderTechnique(const char8* techName);
@@ -29,7 +29,7 @@ namespace Pharos
 			virtual bool SetParameterValue(const char8* valueName, const Matrix4& vlaue);
 			virtual bool SetParameterValue(const char8* valueName, RenderTexture* texture);
 			
-			virtual RenderTechnique* GetMaterialTechnique() { return m_renderTech; }
+			//virtual RenderTechnique* GetMaterialTechnique() { return m_renderTech; }
 		};
 	}
 }

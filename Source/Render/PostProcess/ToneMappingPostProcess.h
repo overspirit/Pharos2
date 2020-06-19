@@ -11,7 +11,7 @@ namespace Pharos
 			virtual ~ToneMappingPostProcess();
 
 		private:
-			RenderTechnique*	m_toneMappingTech;
+			//RenderTechnique*	m_toneMappingTech;
 			//RenderFrameBuffer*	m_toneMappingTarget;
 			RenderTexture*		m_toneMappingTex;
 			

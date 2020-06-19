@@ -13,7 +13,10 @@ namespace Pharos
 		private:
 			id<MTLDevice>   m_device;
 			id<MTLBuffer>   m_buffer;
-
+			
+		public:
+			id<MTLBuffer> GetMetalBuffer() { return m_buffer; }
+			
 		public:
 			virtual bool Allocate(uint32 bufSize, MemoryBuffer* buf = nullptr);
 			

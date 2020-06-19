@@ -5,7 +5,7 @@ PostProcess::PostProcess()
 {
 	m_renderer = nullptr;
 
-	m_tech = nullptr;
+//	m_tech = nullptr;
 	//m_block = nullptr;
 
 //    m_frameBuf = nullptr;
@@ -13,7 +13,7 @@ PostProcess::PostProcess()
 
 PostProcess::~PostProcess()
 {
-	SAFE_DELETE(m_tech);
+//	SAFE_DELETE(m_tech);
 	//SAFE_DELETE(m_block);
 //    SAFE_DELETE(m_frameBuf);
 }
@@ -22,8 +22,8 @@ bool PostProcess::InitWithTech(const char8* techName)
 {
 	m_renderer = sRenderMgr->GetCurrentRenderer();
 
-	m_tech = sRenderMgr->GenerateRenderTechnique(techName);
-	if (m_tech == nullptr) return false;
+//	m_tech = sRenderMgr->GenerateRenderTechnique(techName);
+//	if (m_tech == nullptr) return false;
 
 //    RenderLayout* layout = sRenderMgr->GetQuadLayout();
 //

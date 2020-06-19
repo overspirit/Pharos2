@@ -23,13 +23,15 @@ void MetalRenderer::Destroy()
 bool MetalRenderer::Create(const DeviceConfig& cfg)
 {
 	m_device = MTLCreateSystemDefaultDevice();
+	
+	Color4f clearColor = cfg.backColor;
 
 	m_view = (__bridge id)sKernel->GetWindowHandle();
 	m_view.device = m_device;
 	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
 	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
 	m_view.sampleCount = 1;
-	m_view.clearColor = MTLClearColorMake(0.5, 0.5, 0.5, 1.0);
+	m_view.clearColor = MTLClearColorMake(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	m_view.preferredFramesPerSecond = 60;
 
 	m_commandQueue = [m_device newCommandQueue];

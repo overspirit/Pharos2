@@ -13,7 +13,7 @@ namespace Pharos
 		protected:
 			Renderer*					m_renderer;
 
-			RenderTechnique*			m_tech;
+			//RenderTechnique*			m_tech;
 			//RenderBlock*				m_block;
 
 			vector<RenderTexture*>		m_inputPins;

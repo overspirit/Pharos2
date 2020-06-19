@@ -20,6 +20,11 @@ namespace Pharos
 		private:
 
 		public:
+			virtual void SetPipeline(RenderPipeline* pipeline);
+			virtual void SetVertexData(const uint8* data, uint32 dataSize);
+			virtual void SetIndexData(const uint8* data, uint32 dataSize);
+			virtual void SetTexture(uint32 slot, RenderTexture* tex);
+			
 			virtual void Draw();
 		};
 	}

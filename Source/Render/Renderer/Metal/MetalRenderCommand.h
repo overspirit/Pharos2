@@ -26,6 +26,9 @@ namespace Pharos
 			
 			id <MTLRenderCommandEncoder>    m_renderEncoder;
 			
+			id<MTLBuffer>   	m_indexBuffer;
+			MTLIndexType		m_indexBufType;
+			
 			string			m_debugLabel;
 			
 		public:
@@ -37,10 +40,13 @@ namespace Pharos
 			virtual void SetFragmentBuffer(uint32 slot, RenderBuffer* buffer);
 			virtual void SetVertexTexture(uint32 slot, RenderTexture* tex);
 			virtual void SetFragmentTexture(uint32 slot, RenderTexture* tex);
+			
+			virtual void SetIndexBuffer(RenderBuffer* indexBuffer, IndexElementType indexType);
 
 			virtual void SetPipeline(RenderPipeline* pipeline);
-
-			virtual void DrawImmediate(DrawType type, uint32 start, uint32 count);
+			
+			virtual void DrawPrimitives(DrawType type, uint32 start, uint32 count);
+			virtual void DrawIndexedPrimitives(DrawType type, uint32 indexCount, uint32 indexOffset);
 
 			virtual void EndCommand();
 		};

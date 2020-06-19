@@ -8,6 +8,7 @@ namespace Pharos
         {
             int32				width;
             int32				height;
+			Color4				backColor;
             EMultisampleType	sampleType;
             bool				sync;
             bool				fullScreen;

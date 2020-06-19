@@ -63,6 +63,23 @@ void MetalRenderCommand::SetFragmentTexture(uint32 slot, RenderTexture* tex)
 	}
 }
 
+void MetalRenderCommand::SetIndexBuffer(RenderBuffer* indexBuffer, IndexElementType indexType)
+{
+	const static MTLIndexType metalIndexType[] =
+	{
+		MTLIndexTypeUInt32,
+		MTLIndexTypeUInt16,
+	};
+	
+	m_indexBufType = metalIndexType[indexType];
+	
+	MetalRenderBuffer* metalBuf = static_cast<MetalRenderBuffer*>(indexBuffer);
+	if (metalBuf != nullptr)
+	{
+		m_indexBuffer = metalBuf->GetMetalBuffer();
+	}
+}
+
 void MetalRenderCommand::SetPipeline(RenderPipeline* pipeline)
 {
 	MetalRenderPipeline* metalPipeline = static_cast<MetalRenderPipeline*>(pipeline);
@@ -82,7 +99,7 @@ void MetalRenderCommand::SetPipeline(RenderPipeline* pipeline)
 	}
 }
 
-void MetalRenderCommand::DrawImmediate(DrawType type, uint32 start, uint32 count)
+void MetalRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 count)
 {
 	CHECK_ENUM(0, EDT_POINTLIST);
 	CHECK_ENUM(1, EDT_LINELIST);
@@ -102,6 +119,26 @@ void MetalRenderCommand::DrawImmediate(DrawType type, uint32 start, uint32 count
 	[m_renderEncoder drawPrimitives : prim[type] vertexStart : start vertexCount : count];
 }
 
+void MetalRenderCommand::DrawIndexedPrimitives(DrawType type, uint32 indexCount, uint32 indexOffset)
+{
+	CHECK_ENUM(0, EDT_POINTLIST);
+	CHECK_ENUM(1, EDT_LINELIST);
+	CHECK_ENUM(2, EDT_LINESTRIP);
+	CHECK_ENUM(3, EDT_TRIANGLELIST);
+	CHECK_ENUM(4, EDT_TRIANGLESTRIP);
+	
+	const static MTLPrimitiveType prim[] =
+	{
+		MTLPrimitiveTypePoint,
+		MTLPrimitiveTypeLine,
+		MTLPrimitiveTypeLineStrip,
+		MTLPrimitiveTypeTriangle,
+		MTLPrimitiveTypeTriangleStrip,
+	};
+	
+	[m_renderEncoder drawIndexedPrimitives:prim[type] indexCount:indexCount indexType:m_indexBufType indexBuffer:m_indexBuffer indexBufferOffset:indexOffset];
+}
+	 
 void MetalRenderCommand::EndCommand()
 {
 	[m_renderEncoder popDebugGroup];

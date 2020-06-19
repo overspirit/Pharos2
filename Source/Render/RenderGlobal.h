@@ -15,11 +15,6 @@
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"
 
-#include "Effect/RenderTechInfo.h"
-#include "Effect/RenderEffectLoader.h"
-#include "Effect/RenderVariable.h"
-#include "Effect/RenderTechnique.h"
-
 
 //Windows
 //////////////////////////////////////////////////////////////////////////
@@ -65,10 +60,6 @@
 #include "Renderer/Metal/MetalRenderPipeline.h"
 #include "Renderer/Metal/MetalRenderCommand.h"
 #include "Renderer/Metal/MetalRenderer.h"
-
-#include "Effect/Metal/MetalRenderTechInfo.h"
-#include "Effect/Metal/MetalEffectLoader.h"
-#include "Effect/Metal/MetalRenderTechnique.h"
 
 #endif
 
@@ -161,6 +152,7 @@
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()
+#define sRenderer (sRenderMgr->GetCurrentRenderer())
 
 Pharos::Render::Renderer* MakeRenderer();
 #define IMPL_MAKE_RENDERER(renderer) Pharos::Render::Renderer* MakeRenderer(){return new renderer();}

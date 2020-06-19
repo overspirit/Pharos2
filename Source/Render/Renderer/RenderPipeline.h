@@ -23,14 +23,8 @@ namespace Pharos
             VET_UNORM16,
             VET_UNORM8,
         };
-        
-        enum IndexElementType
-        {
-            IET_UINT32,
-            IET_UINT16,
-        };
-        
-        enum VertAttrLocation
+		
+		enum VertAttrLocation
         {
             VAL_POSITION = 0,
             VAL_COLOR,
