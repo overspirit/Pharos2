@@ -30,7 +30,7 @@ namespace Pharos
 			VkDebugUtilsMessengerEXT	m_debugMsger;
 
 		private:
-			VkInstance CreateInstance();
+			VkInstance CreateInstance(const char* sourface_extension);
 			VkPhysicalDevice EnumPhysicalDevice(VkInstance inst);
 			uint32 GetGraphicsQueueFamilyIndex(VkPhysicalDevice gpu, VkSurfaceKHR surface);
 			VkFormat GetPhysicalDeviceSurfaceFormat(VkPhysicalDevice gpu, VkSurfaceKHR surface);
@@ -45,7 +45,7 @@ namespace Pharos
 				void* user_data);
 
 		public:
-			bool Initialize(glfw_window* window);
+			bool Initialize(MyWindow* window);
 			void Destroy();
 
 			VkDevice GetVulkanDevice() { return m_device; }

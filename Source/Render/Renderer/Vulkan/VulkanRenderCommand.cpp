@@ -4,8 +4,8 @@
 VulkanRenderCommand::VulkanRenderCommand(VkDevice device, VkCommandBuffer cmdBuf, VulkanRenderTarget* renderTarget)
 {
     m_device = device;
-	m_cmdBuf = cmdBuf;
-	m_renderTarget = renderTarget;
+    m_cmdBuf = cmdBuf;
+    m_renderTarget = renderTarget;
 
     m_pipelineLayout = VK_NULL_HANDLE;
 
@@ -50,7 +50,7 @@ void VulkanRenderCommand::BeginCommand()
     }
 
     VkRenderPassBeginInfo beginPassInfo = m_renderTarget->GetRenderPassBeginInfo();
-    
+
     VkCommandBufferBeginInfo cmd_buf_info = {};
     cmd_buf_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     cmd_buf_info.pNext = NULL;
@@ -60,8 +60,8 @@ void VulkanRenderCommand::BeginCommand()
     VkResult res = vkBeginCommandBuffer(m_cmdBuf, &cmd_buf_info);
     assert(res == VK_SUCCESS);
 
-	
-	vkCmdBeginRenderPass(m_cmdBuf, &beginPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+    vkCmdBeginRenderPass(m_cmdBuf, &beginPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void VulkanRenderCommand::SetDebugLabel(const char8* label)
@@ -81,7 +81,7 @@ void VulkanRenderCommand::SetVertexBuffer(uint32 slot, RenderBuffer *buffer)
     switch(buffType)
     {
         case UNIFORM_BUFFFER:
-        {        
+        {
             VkDescriptorSetLayoutBinding layoutBindings = {};
             layoutBindings.binding = slot;
             layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -163,7 +163,7 @@ void VulkanRenderCommand::SetViewport(const Rect2Di& viewRect, float32 minDepth,
     m_viewport.minDepth = minDepth;
     m_viewport.maxDepth = maxDepth;
     m_viewport.x = (float)viewRect.left;
-    m_viewport.y = (float)viewRect.top;   
+    m_viewport.y = (float)viewRect.top;
 }
 
 void VulkanRenderCommand::SetScissorRect(const Rect2Di& scissorRect)
@@ -177,19 +177,19 @@ void VulkanRenderCommand::SetScissorRect(const Rect2Di& scissorRect)
 void VulkanRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 count)
 {
     CHECK_ENUM(0, EDT_POINTLIST);
-	CHECK_ENUM(1, EDT_LINELIST);
-	CHECK_ENUM(2, EDT_LINESTRIP);
-	CHECK_ENUM(3, EDT_TRIANGLELIST);
-	CHECK_ENUM(4, EDT_TRIANGLESTRIP);
+    CHECK_ENUM(1, EDT_LINELIST);
+    CHECK_ENUM(2, EDT_LINESTRIP);
+    CHECK_ENUM(3, EDT_TRIANGLELIST);
+    CHECK_ENUM(4, EDT_TRIANGLESTRIP);
 
-	const static VkPrimitiveTopology prim[] =
-	{
-		VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
-		VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
-		VK_PRIMITIVE_TOPOLOGY_LINE_STRIP,
-		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
-		VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP,
-	};
+    const static VkPrimitiveTopology prim[] =
+    {
+        VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
+        VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
+        VK_PRIMITIVE_TOPOLOGY_LINE_STRIP,
+        VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+        VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP,
+    };
 
     if (m_pipelineLayout == VK_NULL_HANDLE) //todo: 或者binding发生变化
     {
@@ -234,7 +234,7 @@ void VulkanRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 cou
     }
 
     //建立pipeline
-    VkRenderPass renderPass = m_renderTarget->GetCurrRenderPass();    
+    VkRenderPass renderPass = m_renderTarget->GetCurrRenderPass();
     VkPipeline vulkanPipeline = m_currentPipeline->GetVulkanPipeline(prim[type], m_pipelineLayout, renderPass);
 
     vkCmdBindPipeline(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, vulkanPipeline);
@@ -260,7 +260,7 @@ void VulkanRenderCommand::DrawIndexedPrimitives(DrawType type, uint32 indexCount
 
 void VulkanRenderCommand::EndCommand()
 {
-	vkCmdEndRenderPass(m_cmdBuf);
+    vkCmdEndRenderPass(m_cmdBuf);
     VkResult res = vkEndCommandBuffer(m_cmdBuf);
-	assert(res == VK_SUCCESS);
+    assert(res == VK_SUCCESS);
 }

@@ -178,10 +178,10 @@ VkRenderPassBeginInfo VulkanRenderTarget::GetRenderPassBeginInfo()
     VkResult res = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_semaphore, VK_NULL_HANDLE, &m_currFrameIndex);
     assert(res == VK_SUCCESS);
 
-    m_clearValues[0].color.float32[0] = 0.5f;
-    m_clearValues[0].color.float32[1] = 0.5f;
-    m_clearValues[0].color.float32[2] = 0.5f;
-    m_clearValues[0].color.float32[3] = 0.5f;
+    m_clearValues[0].color.float32[0] = 1.0f;
+    m_clearValues[0].color.float32[1] = 1.0f;
+    m_clearValues[0].color.float32[2] = 0.0f;
+    m_clearValues[0].color.float32[3] = 1.0f;
     m_clearValues[1].depthStencil.depth = 1.0f;
     m_clearValues[1].depthStencil.stencil = 0;
 
@@ -213,7 +213,7 @@ void VulkanRenderTarget::PresentQueue(VkQueue queue)
     presentInfo.pResults = NULL;
 
     VkResult res = vkQueuePresentKHR(queue, &presentInfo);
-    assert(res == VK_SUCCESS);
+    assert((res == VK_SUCCESS) || (res == VK_SUBOPTIMAL_KHR)); //VK_SUBOPTIMAL_KHR 可能是横纵向反了。。
 }
 
 void VulkanRenderTarget::SetClear(Color4 color, float32 depth, uint32 stencil)

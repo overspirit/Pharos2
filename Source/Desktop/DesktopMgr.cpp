@@ -263,7 +263,7 @@ void DesktopMgr::onViewDestroy()
 
 void DesktopMgr::Update(float32 fElapsed)
 {
-	if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
+	//if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
 }
 
 void DesktopMgr::Render(float32 fElapsed)

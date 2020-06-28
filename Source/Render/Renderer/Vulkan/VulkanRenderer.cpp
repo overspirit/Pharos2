@@ -13,7 +13,7 @@ IMPL_MAKE_RENDERER(VulkanRenderer)
 
 bool VulkanRenderer::Init()
 {
-	glfw_window* window = (glfw_window*)sKernel->GetWindowHandle();
+	MyWindow* window = (MyWindow*)sKernel->GetWindowHandle();
 
 	if(!sInitHelper->Initialize(window))
 	{

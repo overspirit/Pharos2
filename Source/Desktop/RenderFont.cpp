@@ -42,9 +42,9 @@ RenderFont::~RenderFont(void)
 
 bool RenderFont::LoadFont(const char8* fontFilePath)
 {
-	m_font = sResMgr->GenerateFont(fontFilePath);
-	m_fontInfoIndex = sFontTexMgr->AttendFont(m_font);
-	m_fontTex = sFontTexMgr->GetFontTexture(m_fontInfoIndex);
+	//m_font = sResMgr->GenerateFont(fontFilePath);
+	//m_fontInfoIndex = sFontTexMgr->AttendFont(m_font);
+	//m_fontTex = sFontTexMgr->GetFontTexture(m_fontInfoIndex);
 	
 //	m_fontTech = sRenderMgr->GenerateRenderTechnique("Font");
 //    if(m_fontTech == nullptr) return false;

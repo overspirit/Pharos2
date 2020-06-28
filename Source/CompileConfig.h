@@ -20,12 +20,12 @@
 ////#  error "Only IOS 7.1 and later are supported."
 //#endif
 
-#if defined(__ANDROID__)
-#define _ANDROID_PLATFORM_
+#if defined(__linux) && !defined(__ANDROID__)
+#define _LINUX_PLATFORM_
 #endif
 
-#if defined(__linux)
-#define _LINUX_PLATFORM_
+#if defined(__ANDROID__)
+#define _ANDROID_PLATFORM_
 #endif
 
 #if !defined(REALINLINE)

@@ -15,14 +15,14 @@ namespace Pharos
 
 			VkCommandBuffer			m_cmdBuf;
 
-			VulkanRenderTarget*		m_renderTarget;	
+			VulkanRenderTarget*		m_renderTarget;
 
 			VulkanRenderPipeline*	m_currentPipeline;
 			// VulkanUniformBuffer*	m_currentBuffer;
 			// VulkanRenderTexture*	m_currentTexture;
 
 			vector<VkDescriptorSetLayoutBinding>	m_layoutBindings;
-        	vector<VkWriteDescriptorSet>			m_writeDescSets;
+			vector<VkWriteDescriptorSet>			m_writeDescSets;
 
 			VkDescriptorPool		m_descPool;
 			VkDescriptorSetLayout	m_descSetLayout;
@@ -31,22 +31,22 @@ namespace Pharos
 			VkPipelineLayout		m_pipelineLayout;
 
 			VkViewport				m_viewport;
-    		VkRect2D				m_scissor;
+			VkRect2D				m_scissor;
 
-		public:		
+		public:
 
-		public:			
+		public:
 			virtual void SetDebugLabel(const char8* label);
-			
+
 			virtual void BeginCommand();
-			
+
 			virtual void SetVertexBuffer(uint32 slot, RenderBuffer* buffer);
 			virtual void SetFragmentBuffer(uint32 slot, RenderBuffer* buffer);
 			virtual void SetFragmentTexture(uint32 slot, RenderTexture* tex);
 			virtual void SetIndexBuffer(RenderBuffer* indexBuffer, IndexElementType indexType);	
 
 			virtual void SetViewport(const Rect2Di& viewRect, float32 minDepth, float32 maxDepth);
-            virtual void SetScissorRect(const Rect2Di& scissorRect);
+			virtual void SetScissorRect(const Rect2Di& scissorRect);
 
 			virtual void SetPipeline(RenderPipeline* pipeline);
 

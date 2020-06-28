@@ -73,14 +73,13 @@ const char* GetMainBundleDirectory();
 #  define LOGV(...)  ((void)0)
 #endif
 
-#include "Android/TimerAndroid.h"
-#include "Android/FileAndroid.h"
-#include "Android/AppDelegate.h"
-//#include "Android/EngineAndroid.h"
-#include "Android/AndroidGlue.h"
+#include "Android/Timer.h"
+#include "Android/AndroidWindow.h"
+#include "Android/PlatformAndroid.h"
 
-//#define sKernel EngineAndroid::Inst()
-#define sGLUE AndroidGlue::Inst()
+#define sPlatform PlatformAndroid::Inst()
+
+#define MyWindow AndroidWindow
 
 #endif
 //////////////////////////////////////////////////////////////////////////
@@ -95,7 +94,8 @@ const char* GetMainBundleDirectory();
 #include "Linux/PlatformLinux.h"
 
 #define sPlatform PlatformLinux::Inst()
-#define sWindow glfw_window::Inst()
+
+#define MyWindow glfw_window:
 
 #endif
 //////////////////////////////////////////////////////////////////////////

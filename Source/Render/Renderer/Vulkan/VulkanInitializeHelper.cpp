@@ -22,9 +22,11 @@ VulkanInitializeHelper::~VulkanInitializeHelper(void)
 {
 }
 
-bool VulkanInitializeHelper::Initialize(glfw_window* window)
+bool VulkanInitializeHelper::Initialize(MyWindow* window)
 {
-	m_inst = CreateInstance();
+	const char* sourface_extension = window->get_surface_extension();
+
+	m_inst = CreateInstance(sourface_extension);
 	if (m_inst == VK_NULL_HANDLE) return false;
 
 	m_gpu = EnumPhysicalDevice(m_inst);
@@ -68,7 +70,7 @@ VkBool32 VulkanInitializeHelper::VulkanDebugCallback(
 	return VK_FALSE;
 }
 
-VkInstance VulkanInitializeHelper::CreateInstance()
+VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension)
 {
 	VkApplicationInfo app_info = {};
 	app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -81,9 +83,9 @@ VkInstance VulkanInitializeHelper::CreateInstance()
 	
 	//注意这里，Vulkan 是 基于各种扩展的。。。
 	std::vector<const char*> exts;
-	exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+	//exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 	exts.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
-	exts.push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
+	exts.push_back(sourface_extension);
 
 	const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
 
@@ -94,12 +96,16 @@ VkInstance VulkanInitializeHelper::CreateInstance()
 	inst_info.pApplicationInfo = &app_info;
 	inst_info.enabledExtensionCount = exts.size();
 	inst_info.ppEnabledExtensionNames = exts.data();
-	inst_info.enabledLayerCount = 1;
-	inst_info.ppEnabledLayerNames = validationLayers.data();
+//	inst_info.enabledLayerCount = 1;
+//	inst_info.ppEnabledLayerNames = validationLayers.data();
+	inst_info.enabledLayerCount = 0;
+	inst_info.ppEnabledLayerNames = nullptr;
 
 	VkInstance inst;
 	VkResult res = vkCreateInstance(&inst_info, NULL, &inst);
 	if (res != VK_SUCCESS) return VK_NULL_HANDLE;
+
+    return inst;
 
 	m_logFile.Create("log.txt", false);
 
@@ -113,7 +119,7 @@ VkInstance VulkanInitializeHelper::CreateInstance()
         VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    debugUtilsInfo.pfnUserCallback = VulkanDebugCallback;
+    debugUtilsInfo.pfnUserCallback = (PFN_vkDebugUtilsMessengerCallbackEXT)VulkanDebugCallback;
 	debugUtilsInfo.pUserData = &m_logFile;
 	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(inst, "vkCreateDebugUtilsMessengerEXT");
 	res = func(inst, &debugUtilsInfo, nullptr, &m_debugMsger);
@@ -175,7 +181,7 @@ VkFormat VulkanInitializeHelper::GetPhysicalDeviceSurfaceFormat(VkPhysicalDevice
 
 	for(auto surformat : surfFormats)
 	{
-		if(surformat.format == VK_FORMAT_B8G8R8A8_SRGB)
+		if(surformat.format == VK_FORMAT_R8G8B8A8_SRGB)
 		{
 			return surformat.format;
 		}
@@ -225,8 +231,33 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
     VkResult res = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gpu, surface, &surfCapabilities);
     assert(res == VK_SUCCESS);
 
-	if (!(surfCapabilities.currentTransform & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)) return VK_NULL_HANDLE;
-	if (!(surfCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)) return VK_NULL_HANDLE;
+	VkSurfaceTransformFlagBitsKHR pre_transform;
+	if (surfCapabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR)
+	{
+		pre_transform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+	}
+	else
+	{
+		pre_transform = surfCapabilities.currentTransform;
+	}
+
+	VkCompositeAlphaFlagBitsKHR composite = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	if (surfCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
+	{
+		composite = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	}
+	else if (surfCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR)
+	{
+		composite = VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
+	}
+	else if (surfCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
+	{
+		composite = VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR;
+	}
+	else if (surfCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
+	{
+		composite = VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR;
+	}
 
 	VkExtent2D swapchainExtent = surfCapabilities.currentExtent;
 	m_surfaceWidth = swapchainExtent.width;
@@ -240,8 +271,8 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
     swapchain_ci.imageFormat = surfaceFormat;
     swapchain_ci.imageExtent.width = swapchainExtent.width;
     swapchain_ci.imageExtent.height = swapchainExtent.height;
-    swapchain_ci.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
-    swapchain_ci.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+    swapchain_ci.preTransform = pre_transform;
+    swapchain_ci.compositeAlpha = composite;
     swapchain_ci.imageArrayLayers = 1;
     swapchain_ci.presentMode = VK_PRESENT_MODE_FIFO_KHR;
     swapchain_ci.oldSwapchain = VK_NULL_HANDLE;
