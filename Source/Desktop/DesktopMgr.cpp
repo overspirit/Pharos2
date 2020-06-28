@@ -263,7 +263,7 @@ void DesktopMgr::onViewDestroy()
 
 void DesktopMgr::Update(float32 fElapsed)
 {
-	if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
+	//if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
 }
 
 void DesktopMgr::Render(float32 fElapsed)
@@ -275,7 +275,7 @@ void DesktopMgr::Render(float32 fElapsed)
 
 	//g_pDevice->SetFrameBuffer(defFrameBuf);
 
-	m_worldFrame->Render(fElapsed);
+	//m_worldFrame->Render(fElapsed);
 
 	//m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
 

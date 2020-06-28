@@ -90,32 +90,9 @@
 //////////////////////////////////////////////////////////////////////////
 
 
-//Android
+//Linux or Android
 //////////////////////////////////////////////////////////////////////////
-#if defined(_ANDROID_PLATFORM_)
-
-#include "Renderer/OpenGL/OpenGLUtils.h"
-#include "Renderer/OpenGL/OpenGLBlendState.h"
-#include "Renderer/OpenGL/OpenGLDepthStencilState.h"
-#include "Renderer/OpenGL/OpenGLRasterizerState.h"
-#include "Renderer/OpenGL/OpenGLSampleState.h"
-#include "Renderer/OpenGL/OpenGLTexture.h"
-#include "Renderer/OpenGL/OpenGLFrameBuf.h"
-#include "Renderer/OpenGL/OpenGLUniformBuf.h"
-#include "Renderer/OpenGL/OpenGLRenderPass.h"
-#include "Renderer/OpenGL/OpenGLRenderTechnique.h"
-#include "Renderer/OpenGL/OpenGLRenderLayout.h"
-#include "Renderer/OpenGL/OpenGLRenderBlock.h"
-#include "Renderer/OpenGL/OpenGLEffectLoader.h"
-#include "Renderer/OpenGL/OpenGLRenderer.h"
-#include "Renderer/OpenGL/OGLAndroidRenderer.h"
-
-#endif
-//////////////////////////////////////////////////////////////////////////
-
-//Linux
-//////////////////////////////////////////////////////////////////////////
-#if defined(_LINUX_PLATFORM_)
+#if defined(_LINUX_PLATFORM_) || defined(_ANDROID_PLATFORM_)
 
 #include "Renderer/Vulkan/VulkanUtils.h"
 #include "Renderer/Vulkan/VulkanInitializeHelper.h"

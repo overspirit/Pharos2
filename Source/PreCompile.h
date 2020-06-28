@@ -116,12 +116,18 @@ using namespace std;
 #include <unistd.h>
 #include <sys/resource.h>
 
+#include <time.h>
+
+#include <cstring>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cassert>
+
 #include <poll.h>
 #include <pthread.h>
 #include <sched.h>
 
-#include <EGL/egl.h>
-#include <GLES3/gl3.h>
+#include <android_native_app_glue.h>
 
 #include <android/sensor.h>
 #include <android/log.h>
@@ -130,6 +136,9 @@ using namespace std;
 #include <android/native_activity.h>
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
+
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan_android.h>
 
 #endif
 ////////////////////////////////////////////////////////////////////////

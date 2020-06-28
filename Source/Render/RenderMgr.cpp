@@ -51,6 +51,12 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	m_renderParam = param;
 	//m_clearColor = param.backColor;
 
+    m_defaultTarget = m_renderer->GetDefaultRenderTarget();
+
+    m_defaultCommand = m_renderer->GenerateRenderCommand(m_defaultTarget);
+    m_defaultCommand->SetDebugLabel("default render");
+
+	return true;
 	
 	//quad vertex buffer
 	///////////////////////////////////////////////////////////////////////////////////
