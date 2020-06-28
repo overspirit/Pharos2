@@ -275,7 +275,7 @@ void DesktopMgr::Render(float32 fElapsed)
 
 	//g_pDevice->SetFrameBuffer(defFrameBuf);
 
-	m_worldFrame->Render(fElapsed);
+	//m_worldFrame->Render(fElapsed);
 
 	//m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
 

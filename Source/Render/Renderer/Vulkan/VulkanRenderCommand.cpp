@@ -146,6 +146,11 @@ void VulkanRenderCommand::SetFragmentTexture(uint32 slot, RenderTexture *tex)
     m_writeDescSets.push_back(writeDescSet);
 }
 
+void VulkanRenderCommand::SetIndexBuffer(RenderBuffer* indexBuffer, IndexElementType indexType)
+{
+
+}
+
 void VulkanRenderCommand::SetPipeline(RenderPipeline *pipeline)
 {
     m_currentPipeline = static_cast<VulkanRenderPipeline*>(pipeline);
@@ -169,7 +174,7 @@ void VulkanRenderCommand::SetScissorRect(const Rect2Di& scissorRect)
     m_scissor.offset.y = scissorRect.top;
 }
 
-void VulkanRenderCommand::DrawImmediate(DrawType type, uint32 start, uint32 count)
+void VulkanRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 count)
 {
     CHECK_ENUM(0, EDT_POINTLIST);
 	CHECK_ENUM(1, EDT_LINELIST);
@@ -246,6 +251,11 @@ void VulkanRenderCommand::DrawImmediate(DrawType type, uint32 start, uint32 coun
 
     m_layoutBindings.clear();
     m_writeDescSets.clear();
+}
+
+void VulkanRenderCommand::DrawIndexedPrimitives(DrawType type, uint32 indexCount, uint32 indexOffset)
+{
+    
 }
 
 void VulkanRenderCommand::EndCommand()
