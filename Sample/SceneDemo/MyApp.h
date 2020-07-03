@@ -9,38 +9,21 @@ public:
 private:
 	struct SceneMatrix
 	{
-		Matrix4 proj;
 		Matrix4 view;
-	};
-
-	struct Vertex
-	{
-		//        Vertex(const Vector3Df& pos, const Vector2Df& tex)
-		//        {
-		//            this->pos = pos;
-		//            this->tex = tex;
-		//        }
-		Vector3Df	pos;
-		Color4  	color;
+		Matrix4 proj;	
+		Color4f	color;	
 	};
 
 private:
-	Renderer*				m_renderer;
-
-	RenderBuffer*           m_vertBuf;
-	RenderPipeline*         m_pipeline;
-	RenderCommand*          m_renderCommand;
-	RenderTexture*          m_texture;
-
 	OctreeScene*            m_scene;
 	SceneCamera*            m_camera;
-
+	Model*					m_model;
+	
 	SceneMatrix             m_sceneMat;
-	RenderBuffer*           m_uniformBuf;
-
+	
 	bool            m_bLeftDown;
 	bool            m_bRightDown;
-
+	
 public:
 	virtual bool Init();
 	virtual void Destroy();

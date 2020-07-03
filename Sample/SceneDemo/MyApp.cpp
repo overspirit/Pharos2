@@ -3,7 +3,7 @@
 
 MyApp::MyApp()
 {
-	m_renderer = nullptr;
+	
 }
 
 MyApp::~MyApp()
@@ -15,75 +15,36 @@ IMPL_CREATE_APPLICATION(MyApp)
 bool MyApp::Init()
 {
 	Size2Di wndSize = sKernel->GetWindowSize();
-
-	m_renderer = MakeRenderer();
-
-	DeviceConfig cfg;
-	m_renderer->Create(cfg);
-
-	//layout
-	//////////////////////////////////////////////////////////////////
-	Vertex vertData[] =
-	{
-		{ Vector3Df(-0.5f,  0.5f, 0), 0xFFFF0000},// Vector2Df(0, 0) },
-		{ Vector3Df(0.5f, 0.5f, 0), 0xFF00FF00},//, Vector2Df(1.0f, 0) },
-		{ Vector3Df(0.5f, -0.5f, 0), 0xFF00FFFF},//, Vector2Df(1.0f, 1.0f) },
-
-		{ Vector3Df(0.5f, -0.5f, 0), 0xFF00FFFF},//, 0xFFFF0000},//, Vector2Df(1.0f, 1.0f) },
-		{ Vector3Df(-0.5f, -0.5f, 0), 0xFF0000FF},//, Vector2Df(0, 1.0f) },
-		{ Vector3Df(-0.5f, 0.5f, 0), 0xFFFF0000},//, Vector2Df(0, 0) },
-	};
-
-	MemoryBuffer vertDataBuf;
-	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
-
-	m_vertBuf = m_renderer->GenerateRenderBuffer(sizeof(vertData), &vertDataBuf);
-	//////////////////////////////////////////////////////////////////
-
-	//render pipeline
-	//////////////////////////////////////////////////////////////////
-	VertLayoutDesc desc[] =
-	{
-		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
-		{ VET_UNORM8, 4, VAL_COLOR, 12, 0 },
-	};
-
-	m_pipeline = m_renderer->GenerateRenderPipeline();
-	m_pipeline->SetInputLayoutDesc(desc, 2);
-	//////////////////////////////////////////////////////////////////
-
-	//////////////////////////////////////////////////////////////////
-	//texture
-	m_texture = m_renderer->LoadTexture("drang.jpeg");
-	//m_texture = m_renderer->LoadTexture("Prev.png");
-	//////////////////////////////////////////////////////////////////
-
-
-	//////////////////////////////////////////////////////////////////
-	//uniform buffer
-	//m_renderer->BindLayout(m_layout);
-	//m_renderer->Bind
-	//////////////////////////////////////////////////////////////////
-
-
-	//////////////////////////////////////////////////////////////////
-	//render command
-	m_renderCommand = m_renderer->GenerateRenderCommand();
-	//////////////////////////////////////////////////////////////////   
-
+	
+	RenderParam param;
+	param.width = wndSize.width;
+	param.height = wndSize.height;
+	param.backColor = 0xFFFFFFFF;
+	param.sampleType = EMT_None;
+	param.sync = false;
+	param.fullScreen = false;
+	param.hdrEnabled = true;
+	param.gammaEnabled = true;
+	sRenderMgr->StartUp(param);
+	
 	//Scene
 	//////////////////////////////////////////////////////////////////////////
 	m_scene = sSceneMgr->CreateScene();
 	sSceneMgr->SetCurrScene(m_scene);
 	m_scene->SetSceneGridShow(true);
-
+	
 	m_camera = m_scene->GetSceneCamera();
-	m_camera->BuildViewMatrix(Vector3Df(0, 0, -5.0f), Vector3Df(0, 0, 0));
+	m_camera->BuildViewMatrix(Vector3Df(0, 20.0f, -50.0f), Vector3Df(0, 1.0f, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 	//////////////////////////////////////////////////////////////////////////
-
-	m_uniformBuf = m_renderer->GenerateRenderBuffer(sizeof(SceneMatrix));
-
+	
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Car/car.sceneml");
+	sceneImporter->ImportScene(m_scene);
+	SAFE_DELETE(sceneImporter);
+	
+	SceneNode* sceneNode = m_scene->GetSceneNode(0);
+	m_model = sceneNode->GetModel(0);
+	
 	return true;
 }
 
@@ -140,21 +101,11 @@ void MyApp::onControlValueChange(const char8* name, int32 v1, float32 v2)
 
 void MyApp::Update(float32 fElapsed)
 {
-	m_sceneMat.proj = m_camera->GetProjMatrix();
-	m_sceneMat.view = m_camera->GetViewMatrix();
+	// m_sceneMat.view = m_camera->GetViewMatrix();
+	// m_sceneMat.proj = m_camera->GetProjMatrix();
+	// m_sceneMat.color = Color4f(0.7f, 0.7, 0.3f, 1.0f);
 
-	m_uniformBuf->CopyData(&m_sceneMat, sizeof(SceneMatrix));
-
-	m_renderCommand->SetVertexBuffer(2, m_uniformBuf);
-
-	m_renderCommand->SetPipeline(m_pipeline);
-
-	m_renderCommand->SetVertexBuffer(0, m_vertBuf);
-
-	m_renderCommand->SetFragmentTexture(0, m_texture);
-
-	m_renderCommand->DrawImmediate(EDT_TRIANGLELIST, 0, 6);
-	m_renderCommand->Present();
+	//m_model->SetUniformBuffer(&m_sceneMat, sizeof(m_sceneMat));
 }
 
 void MyApp::onRender(float32 elapsed)
