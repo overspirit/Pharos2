@@ -64,6 +64,8 @@ namespace Pharos
             virtual void SetBlendState(RenderBlendState* state) = 0;
             virtual void SetRasterizerState(RenderRasterizerState* state) = 0;
 			virtual void SetDepthStencilState(RenderDepthStencilState* state) = 0;
+
+            virtual void SetDrawType(DrawType drawType) = 0;
         };
     }
 }

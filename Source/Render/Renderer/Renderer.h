@@ -49,6 +49,7 @@ namespace Pharos
 			virtual RenderBlendState* CreateBlendState(const BlendStateDesc& desc) = 0;
 			virtual RenderRasterizerState* CreateRasterizerState(const RasterizerStateDesc& desc) = 0;
 			virtual RenderDepthStencilState* CreateDepthStencilState(const DepthStencilStateDesc& desc) = 0;
+			virtual RenderResourceSet* GenerateRenderResuourceSet() = 0;
             virtual RenderPipeline* GenerateRenderPipeline() = 0;
             
             virtual RenderCommand* GenerateRenderCommand(RenderTarget* renderTarget) = 0;
