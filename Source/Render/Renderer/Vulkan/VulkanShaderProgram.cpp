@@ -28,7 +28,10 @@ VulkanShaderProgram::~VulkanShaderProgram()
 
 bool VulkanShaderProgram::SetLibraryWithPath(const char8* libPath)
 {
-	unzFile lib_file = unzOpen64(libPath);
+	string fullLibPath = sResMgr->FindResourcePath(libPath);
+	if (fullLibPath.empty()) return false;
+
+	unzFile lib_file = unzOpen64(fullLibPath.c_str());
 	if (lib_file == NULL) return false;
 
 	unz_global_info64 global_info;

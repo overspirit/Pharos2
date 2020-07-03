@@ -4,24 +4,28 @@ namespace Pharos
 {
 	namespace Render
 	{
-		class VulkanRenderTarget : public RenderTarget
+		class VulkanDefaultTarget : public VulkanRenderTarget
 		{
 		public:
-			VulkanRenderTarget(VkDevice device);
-			virtual ~VulkanRenderTarget(void);
+			VulkanDefaultTarget(VkDevice device, VkSemaphore semaphore);
+			virtual ~VulkanDefaultTarget(void);
 
-		protected:
-			VkDevice			m_device;
-			
-			VkRenderPass		m_renderPass;
-			VkClearValue		m_clearValues[2];
+		private:
+			VkSemaphore			m_semaphore;
+			VkSwapchainKHR		m_swapchain;			
 
-		protected:
-			VkRenderPass CreateRenderPass(VkDevice device, VkFormat colorFormat, VkFormat depthStencilFormat = VK_FORMAT_MAX_ENUM);
-			VkImageView CreateSurfaceImageViews(VkDevice device, VkFormat format, VkImage image, VkImageAspectFlags flag);
+			vector<VkImage>		m_swapchainImages;
+			vector<VkImageView>	m_swapchainImageViews;
+
+			vector<VkFramebuffer>	m_frameBufList;			
+			uint32					m_currFrameIndex;
+
+		private:
+			VkImage CreateDepthImage(int width, int height, VkFormat depth_format);
 
 		public:
-			VkRenderPass GetCurrRenderPass() { return m_renderPass; }
+			bool CreateDefaultTarget(VkSwapchainKHR swapchain, int32 width, int32 height, VkFormat colorFormat, VkFormat depthFormat);
+			void PresentQueue(VkQueue queue);
 
 			virtual VkRenderPassBeginInfo GetRenderPassBeginInfo();
 

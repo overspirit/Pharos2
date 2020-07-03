@@ -16,11 +16,16 @@ namespace Pharos
 			VkDescriptorBufferInfo		m_bufferInfo;
 
 			VkDeviceMemory		m_memory;
+			//uint8*				m_mapPtr;
 
 			uint32				m_reqSize;
 
+			bool	m_isUpdated;
+
 		public:
 			VkDescriptorBufferInfo& GetVulkanBufferInfo() { return m_bufferInfo; }
+			bool IsUpdated() { return m_isUpdated; }
+			void SetUpdated(bool updated) { m_isUpdated = updated;}
 
 		public:
 			virtual bool Allocate(uint32 bufSize, MemoryBuffer* buf = nullptr);

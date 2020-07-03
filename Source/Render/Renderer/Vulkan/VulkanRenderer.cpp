@@ -28,7 +28,8 @@ bool VulkanRenderer::Init()
 	VkSwapchainKHR swapchain = sInitHelper->GetSwapchain();
 	int32 surfaceWidth = sInitHelper->GetWindowSurfaceWidth();
 	int32 surfaceHeight = sInitHelper->GetWindowSurfaceHeight();
-	VkFormat surfaceFormat = sInitHelper->GetWindowSurfaceFormat();
+	VkFormat surfaceColorFormat = sInitHelper->GetWindowSurfaceColorFormat();
+	VkFormat surfaceDepthFormat = sInitHelper->GetWindowSurfaceDepthFormat();
 
 	m_cmdPool = CreateCommandPool(m_device, queueFamilyIndex);
 	if(m_cmdPool == VK_NULL_HANDLE) return false;
@@ -36,11 +37,14 @@ bool VulkanRenderer::Init()
 	m_cmdBuf = CreateCommandBuffer(m_device, m_cmdPool);
 	if(m_cmdBuf == VK_NULL_HANDLE) return false;
 
+	m_descPool = CreateDescriptorPool(m_device);
+	if (m_descPool == VK_NULL_HANDLE) return false;
+
 	m_semaphore = CreateSemaphore(m_device);
 	if(m_semaphore == VK_NULL_HANDLE) return false;
 
-	m_defaultTarget = new VulkanRenderTarget(m_device);
-	m_defaultTarget->CreateDefaultFrameBuffer(swapchain, m_semaphore, surfaceWidth, surfaceHeight, surfaceFormat);
+	m_defaultTarget = new VulkanDefaultTarget(m_device, m_semaphore);
+	m_defaultTarget->CreateDefaultTarget(swapchain, surfaceWidth, surfaceHeight, surfaceColorFormat, surfaceDepthFormat);
 
 	return true;
 }
@@ -190,6 +194,34 @@ RenderCommand* VulkanRenderer::GenerateRenderCommand(RenderTarget* renderTarget)
 RenderPipeline* VulkanRenderer::GenerateRenderPipeline()
 {
 	return new VulkanRenderPipeline(m_device);
+}
+
+RenderResourceSet* VulkanRenderer::GenerateRenderResuourceSet()
+{
+	return new VulkanDesciptorSet(m_device, m_descPool);
+}
+
+VkDescriptorPool VulkanRenderer::CreateDescriptorPool(VkDevice device)
+{
+    VkDescriptorPoolSize type_count[2];
+    type_count[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    type_count[0].descriptorCount = 1000;
+    type_count[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    type_count[1].descriptorCount = 1000;
+
+    VkDescriptorPoolCreateInfo descriptor_pool = {};
+    descriptor_pool.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    descriptor_pool.pNext = NULL;
+    descriptor_pool.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+    descriptor_pool.maxSets = 1000;
+    descriptor_pool.poolSizeCount = 2;
+    descriptor_pool.pPoolSizes = type_count;
+
+	VkDescriptorPool descPool;
+    VkResult res = vkCreateDescriptorPool(device, &descriptor_pool, NULL, &descPool);
+    if (res != VK_SUCCESS) return VK_NULL_HANDLE;
+
+	return descPool;
 }
 
 VkCommandPool VulkanRenderer::CreateCommandPool(VkDevice device, uint32 queueFamilyIndex)

@@ -8,6 +8,8 @@ VulkanRenderTexture::VulkanRenderTexture(VkDevice device, VkCommandPool cmdPool,
     m_queue = queue;
 
     m_mipLevels = 1;
+
+	m_isUpdated = false;
 }
 
 VulkanRenderTexture::~VulkanRenderTexture()

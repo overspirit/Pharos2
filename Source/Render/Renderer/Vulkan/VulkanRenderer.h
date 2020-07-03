@@ -15,15 +15,17 @@ namespace Pharos
 
 			VkCommandPool		m_cmdPool;
 			VkCommandBuffer		m_cmdBuf;
+			VkDescriptorPool	m_descPool;
 
 			VkQueue				m_queue;
 			VkSemaphore			m_semaphore;
 
-			VulkanRenderTarget*		m_defaultTarget;
+			VulkanDefaultTarget*		m_defaultTarget;
 
-		private:
+		private:			
 			VkCommandPool CreateCommandPool(VkDevice device, uint32 queueFamilyIndex);
 			VkCommandBuffer CreateCommandBuffer(VkDevice device, VkCommandPool cmdPool);
+			VkDescriptorPool CreateDescriptorPool(VkDevice device);
 			VkSemaphore CreateSemaphore(VkDevice device);
 			VkFence CreateDrawFence(VkDevice device);
 
@@ -50,6 +52,7 @@ namespace Pharos
 			virtual RenderRasterizerState* CreateRasterizerState(const RasterizerStateDesc& desc);
 			virtual RenderDepthStencilState* CreateDepthStencilState(const DepthStencilStateDesc& desc);
             virtual RenderPipeline* GenerateRenderPipeline();
+			virtual RenderResourceSet* GenerateRenderResuourceSet();
             
             virtual RenderCommand* GenerateRenderCommand(RenderTarget* renderTarget);
 		};

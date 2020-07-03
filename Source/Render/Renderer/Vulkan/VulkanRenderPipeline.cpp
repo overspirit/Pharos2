@@ -11,7 +11,7 @@ VulkanRenderPipeline::VulkanRenderPipeline(VkDevice device)
     m_rasterState.pNext = NULL;
     m_rasterState.flags = 0;
     m_rasterState.polygonMode = VK_POLYGON_MODE_FILL;
-    m_rasterState.cullMode = VK_CULL_MODE_BACK_BIT;
+    m_rasterState.cullMode = VK_CULL_MODE_BACK_BIT;//VK_CULL_MODE_FRONT_BIT;
     m_rasterState.frontFace = VK_FRONT_FACE_CLOCKWISE;
     m_rasterState.depthClampEnable = VK_FALSE;
     m_rasterState.rasterizerDiscardEnable = VK_FALSE;
@@ -61,6 +61,8 @@ VulkanRenderPipeline::VulkanRenderPipeline(VkDevice device)
     m_depthStencilState.maxDepthBounds = 0;
     m_depthStencilState.stencilTestEnable = VK_FALSE;
     m_depthStencilState.front = m_depthStencilState.back;
+
+	m_drawType = EDT_TRIANGLELIST;
 }
 
 VulkanRenderPipeline::~VulkanRenderPipeline()
@@ -83,6 +85,8 @@ bool VulkanRenderPipeline::SetInputLayoutDesc(const VertLayoutDesc* desc, uint32
         bindStride[desc[i].layoutIndex] += GetVertElementSize(desc[i].elementType, desc[i].elementNum);
     }
 
+	m_vertexBindings.clear();
+	
     for (auto& iter : bindStride)
     {    
         VkVertexInputBindingDescription vertexBinding;
@@ -111,81 +115,6 @@ bool VulkanRenderPipeline::SetProgramShader(RenderProgram* program)
 	m_shaderStages = vulkanProgram->GetShaderStage();
 
 	return true;
-}
-
-VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkPrimitiveTopology prim, VkPipelineLayout pipelineLayout, VkRenderPass renderPass)
-{
-	if (m_pipeline != VK_NULL_HANDLE) //todo: 信息发生变化要重新建立 
-	{
-		return m_pipeline;
-	}
-
-    VkDynamicState dynamicStateEnables[2];
-	dynamicStateEnables[0] = VK_DYNAMIC_STATE_VIEWPORT;
-	dynamicStateEnables[1] = VK_DYNAMIC_STATE_SCISSOR;
-
-    VkPipelineDynamicStateCreateInfo dynamicState = {};    
-    dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-    dynamicState.pNext = NULL;
-    dynamicState.pDynamicStates = dynamicStateEnables;
-    dynamicState.dynamicStateCount = 2;
-
-	
-    VkPipelineViewportStateCreateInfo vp = {};
-    vp.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-    vp.pNext = NULL;
-    vp.flags = 0;
-    vp.viewportCount = 1;
-    vp.scissorCount = 1;
-    vp.pScissors = NULL;
-    vp.pViewports = NULL;
-
-
-    VkPipelineMultisampleStateCreateInfo ms;
-    ms.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-    ms.pNext = NULL;
-    ms.flags = 0;
-    ms.pSampleMask = NULL;
-    ms.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-    ms.sampleShadingEnable = VK_FALSE;
-    ms.alphaToCoverageEnable = VK_FALSE;
-    ms.alphaToOneEnable = VK_FALSE;
-    ms.minSampleShading = 0.0;
-
-
-	VkPipelineInputAssemblyStateCreateInfo ia;
-    ia.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-    ia.pNext = NULL;
-    ia.flags = 0;
-    ia.primitiveRestartEnable = VK_FALSE;
-    ia.topology = prim;
-
-
-    VkGraphicsPipelineCreateInfo pipeline;
-    pipeline.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-    pipeline.pNext = NULL;
-    pipeline.layout = pipelineLayout;
-    pipeline.basePipelineHandle = VK_NULL_HANDLE;
-    pipeline.basePipelineIndex = 0;
-    pipeline.flags = 0;
-    pipeline.pVertexInputState = &m_vertInputState;
-    pipeline.pInputAssemblyState = &ia;
-    pipeline.pRasterizationState = &m_rasterState;
-    pipeline.pColorBlendState = &m_blendState;
-    pipeline.pTessellationState = NULL;
-    pipeline.pMultisampleState = &ms;
-    pipeline.pDynamicState = &dynamicState;
-    pipeline.pViewportState = &vp;
-    pipeline.pDepthStencilState = &m_depthStencilState;
-    pipeline.pStages = m_shaderStages;
-    pipeline.stageCount = 2;
-    pipeline.renderPass = renderPass;
-    pipeline.subpass = 0;
-
-    VkResult res = vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipeline, NULL, &m_pipeline);
-    assert(res == VK_SUCCESS);
-
-	return m_pipeline;	
 }
 
 void VulkanRenderPipeline::SetBlendState(RenderBlendState* state)
@@ -225,6 +154,111 @@ void VulkanRenderPipeline::SetDepthStencilState(RenderDepthStencilState* state)
 
 	m_depthStencilState = depthStencilState->GetStateCreateInfo();
 }
+
+
+VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSetLayout, VkRenderPass renderPass)
+{
+	if (m_pipeline != VK_NULL_HANDLE) //todo: 信息发生变化要重新建立 
+	{
+		return m_pipeline;	
+	}
+
+    VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
+    pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pPipelineLayoutCreateInfo.pNext = NULL;
+    pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+    pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+    pPipelineLayoutCreateInfo.setLayoutCount = 1;
+    pPipelineLayoutCreateInfo.pSetLayouts = &descSetLayout;
+
+    VkResult res = vkCreatePipelineLayout(m_device, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
+    assert(res == VK_SUCCESS);
+
+
+    VkDynamicState dynamicStateEnables[2];
+    dynamicStateEnables[0] = VK_DYNAMIC_STATE_VIEWPORT;
+    dynamicStateEnables[1] = VK_DYNAMIC_STATE_SCISSOR;
+
+    VkPipelineDynamicStateCreateInfo dynamicState = {};
+    dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamicState.pNext = NULL;
+    dynamicState.pDynamicStates = dynamicStateEnables;
+    dynamicState.dynamicStateCount = 2;
+
+
+    VkPipelineViewportStateCreateInfo vp = {};
+    vp.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    vp.pNext = NULL;
+    vp.flags = 0;
+    vp.viewportCount = 1;
+    vp.scissorCount = 1;
+    vp.pScissors = NULL;
+    vp.pViewports = NULL;
+
+
+    VkPipelineMultisampleStateCreateInfo ms;
+    ms.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    ms.pNext = NULL;
+    ms.flags = 0;
+    ms.pSampleMask = NULL;
+    ms.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+    ms.sampleShadingEnable = VK_FALSE;
+    ms.alphaToCoverageEnable = VK_FALSE;
+    ms.alphaToOneEnable = VK_FALSE;
+    ms.minSampleShading = 0.0;
+
+
+
+    CHECK_ENUM(0, EDT_POINTLIST);
+    CHECK_ENUM(1, EDT_LINELIST);
+    CHECK_ENUM(2, EDT_LINESTRIP);
+    CHECK_ENUM(3, EDT_TRIANGLELIST);
+    CHECK_ENUM(4, EDT_TRIANGLESTRIP);
+
+    const static VkPrimitiveTopology prim[] =
+    {
+        VK_PRIMITIVE_TOPOLOGY_POINT_LIST,
+        VK_PRIMITIVE_TOPOLOGY_LINE_LIST,
+        VK_PRIMITIVE_TOPOLOGY_LINE_STRIP,
+        VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST,
+        VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP,
+    };
+
+    VkPipelineInputAssemblyStateCreateInfo ia;
+    ia.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    ia.pNext = NULL;
+    ia.flags = 0;
+    ia.primitiveRestartEnable = VK_FALSE;
+    ia.topology = prim[m_drawType];
+
+
+    VkGraphicsPipelineCreateInfo pipeline;
+    pipeline.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    pipeline.pNext = NULL;
+    pipeline.layout = m_pipelineLayout;
+    pipeline.basePipelineHandle = VK_NULL_HANDLE;
+    pipeline.basePipelineIndex = 0;
+    pipeline.flags = 0;
+    pipeline.pVertexInputState = &m_vertInputState;
+    pipeline.pInputAssemblyState = &ia;
+    pipeline.pRasterizationState = &m_rasterState;
+    pipeline.pColorBlendState = &m_blendState;
+    pipeline.pTessellationState = NULL;
+    pipeline.pMultisampleState = &ms;
+    pipeline.pDynamicState = &dynamicState;
+    pipeline.pViewportState = &vp;
+    pipeline.pDepthStencilState = &m_depthStencilState;
+    pipeline.pStages = m_shaderStages;
+    pipeline.stageCount = 2;
+    pipeline.renderPass = renderPass;
+    pipeline.subpass = 0;
+
+    res = vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipeline, NULL, &m_pipeline);
+    assert(res == VK_SUCCESS);
+
+	return m_pipeline;
+}
+
 
 VkFormat VulkanRenderPipeline::GetVulkanFormat(VertElementType elementType, uint32 elementNum)
 {

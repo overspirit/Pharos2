@@ -20,6 +20,8 @@ namespace Pharos
             VkDeviceMemory				m_deviceMemory;
             uint32_t 					m_mipLevels;
 
+			bool	m_isUpdated;
+
 		private:
 			virtual VkBuffer CreateStagingBuffer(const void* imageData, uint32 imageSize);
 			virtual bool CopyStagingImage(VkBuffer staging_buffer, const vector<VkBufferImageCopy>& buffer_copy_regions);
@@ -30,6 +32,8 @@ namespace Pharos
 			virtual bool LoadFromImage(const Image* pImage);
 
 			VkDescriptorImageInfo& GetVulkanImageInfo() { return m_imageInfo; }
+			bool IsUpdated() { return m_isUpdated; }
+			void SetUpdated(bool updated) { m_isUpdated = updated;}
 
 		public:
 			virtual bool CopyFromData(const void* pImageData, uint32 nDataSize);

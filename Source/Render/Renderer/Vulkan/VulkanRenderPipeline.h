@@ -24,14 +24,18 @@ namespace Pharos
 			VkPipelineColorBlendStateCreateInfo				m_blendState;	
 			VkPipelineDepthStencilStateCreateInfo			m_depthStencilState;
 
-			VkPipeline		m_pipeline;
+			VkPipeline			m_pipeline;
+			VkPipelineLayout	m_pipelineLayout;
+
+			DrawType		m_drawType;
 
 		private:
 			VkFormat GetVulkanFormat(VertElementType elementType, uint32 elementNum);
-			uint32 GetVertElementSize(VertElementType elementType, uint32 elementNum);
+			uint32 GetVertElementSize(VertElementType elementType, uint32 elementNum);	
 
 		public:
-			VkPipeline GetVulkanPipeline(VkPrimitiveTopology prim, VkPipelineLayout pipelineLayout, VkRenderPass renderPass);
+			VkPipeline GetVulkanPipeline(VkDescriptorSetLayout descSetLayout, VkRenderPass renderPass);
+			VkPipelineLayout GetVulkanPipelineLayout() { return m_pipelineLayout; }
 
 		public:
 			virtual bool SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum);
@@ -41,6 +45,8 @@ namespace Pharos
 			virtual void SetBlendState(RenderBlendState* state);
 			virtual void SetRasterizerState(RenderRasterizerState* state);
 			virtual void SetDepthStencilState(RenderDepthStencilState* state);
+
+			virtual void SetDrawType(DrawType drawType) { m_drawType = drawType; }		
 		};
 	}
 }

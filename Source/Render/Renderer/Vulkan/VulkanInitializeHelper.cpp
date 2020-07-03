@@ -9,7 +9,9 @@ VulkanInitializeHelper::VulkanInitializeHelper(void)
 
 	m_swapchain = VK_NULL_HANDLE;
 
-	m_surfaceFormat = VK_FORMAT_MAX_ENUM;
+	m_colorFormat = VK_FORMAT_MAX_ENUM;
+	m_depthFormat = VK_FORMAT_MAX_ENUM;
+
 	m_surface = VK_NULL_HANDLE;
 	m_surfaceWidth = 0;
 	m_surfaceHeight = 0;
@@ -38,16 +40,19 @@ bool VulkanInitializeHelper::Initialize(MyWindow* window)
 	m_queueFamilyIndex = GetGraphicsQueueFamilyIndex(m_gpu, m_surface);
 	if(m_queueFamilyIndex == 0xFFFFFFFF) return false;
 
-	m_surfaceFormat = GetPhysicalDeviceSurfaceFormat(m_gpu, m_surface);
-	if(m_surfaceFormat == VK_FORMAT_MAX_ENUM) return false;
+	m_colorFormat = GetPhysicalDeviceSurfaceColorFormat(m_gpu, m_surface);
+	if(m_colorFormat == VK_FORMAT_MAX_ENUM) return false;
 	
+	m_depthFormat = GetPhysicalDeviceSurfaceDepthFormat(m_gpu);
+	if(m_depthFormat == VK_FORMAT_MAX_ENUM) return false;
+
 	m_device = CreateDevice(m_gpu, m_queueFamilyIndex);
 	if(m_device == VK_NULL_HANDLE) return false;
 
 	vkGetDeviceQueue(m_device, m_queueFamilyIndex, 0, &m_queue);
 	if(m_queue == VK_NULL_HANDLE) return false;
 
-	m_swapchain = CreateSwapchain(m_gpu, m_device, m_surface, m_surfaceFormat);
+	m_swapchain = CreateSwapchain(m_gpu, m_device, m_surface, m_colorFormat);
 	if(m_swapchain == VK_NULL_HANDLE) return false;
 
 	return true;
@@ -83,7 +88,7 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 	
 	//注意这里，Vulkan 是 基于各种扩展的。。。
 	std::vector<const char*> exts;
-	//exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+	exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 	exts.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
 	exts.push_back(sourface_extension);
 
@@ -96,16 +101,12 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 	inst_info.pApplicationInfo = &app_info;
 	inst_info.enabledExtensionCount = exts.size();
 	inst_info.ppEnabledExtensionNames = exts.data();
-//	inst_info.enabledLayerCount = 1;
-//	inst_info.ppEnabledLayerNames = validationLayers.data();
-	inst_info.enabledLayerCount = 0;
-	inst_info.ppEnabledLayerNames = nullptr;
+	inst_info.enabledLayerCount = 1;
+	inst_info.ppEnabledLayerNames = validationLayers.data();
 
 	VkInstance inst;
 	VkResult res = vkCreateInstance(&inst_info, NULL, &inst);
 	if (res != VK_SUCCESS) return VK_NULL_HANDLE;
-
-    return inst;
 
 	m_logFile.Create("log.txt", false);
 
@@ -168,7 +169,7 @@ uint32 VulkanInitializeHelper::GetGraphicsQueueFamilyIndex(VkPhysicalDevice gpu,
 	return 0xFFFFFFFF;
 }
 
-VkFormat VulkanInitializeHelper::GetPhysicalDeviceSurfaceFormat(VkPhysicalDevice gpu, VkSurfaceKHR surface)
+VkFormat VulkanInitializeHelper::GetPhysicalDeviceSurfaceColorFormat(VkPhysicalDevice gpu, VkSurfaceKHR surface)
 {
 	uint32_t formatCount = 0;
 	VkResult res = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surface, &formatCount, NULL);
@@ -179,15 +180,66 @@ VkFormat VulkanInitializeHelper::GetPhysicalDeviceSurfaceFormat(VkPhysicalDevice
     res = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surface, &formatCount, surfFormats.data());
 	if(res != VK_SUCCESS) return VK_FORMAT_MAX_ENUM;
 
+	VkFormat pendingFormat[] =
+	{
+		VK_FORMAT_R8G8B8A8_UNORM,
+		VK_FORMAT_B8G8R8A8_UNORM,
+		VK_FORMAT_R8G8B8A8_SRGB,
+		VK_FORMAT_B8G8R8A8_SRGB
+	};
+
 	for(auto surformat : surfFormats)
 	{
-		if(surformat.format == VK_FORMAT_R8G8B8A8_SRGB)
+		for (auto format : pendingFormat)
 		{
-			return surformat.format;
+			if(surformat.format == format)
+			{
+				return surformat.format;
+			}
 		}
 	}
 
 	return VK_FORMAT_MAX_ENUM;
+}
+
+VkFormat VulkanInitializeHelper::GetPhysicalDeviceSurfaceDepthFormat(VkPhysicalDevice gpu)
+{
+	VkFormat pendingFormat[] = 
+	{
+		VK_FORMAT_D24_UNORM_S8_UINT,
+		VK_FORMAT_D32_SFLOAT_S8_UINT,
+		VK_FORMAT_D16_UNORM_S8_UINT
+	};    
+
+	for (VkFormat format : pendingFormat)
+	{
+		VkFormatProperties props;	
+		vkGetPhysicalDeviceFormatProperties(m_gpu, format, &props);
+
+		if ((props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) ||
+			(props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT))
+		{
+			return format;
+		}
+	}
+
+	return VK_FORMAT_MAX_ENUM;
+}
+
+VkImageTiling VulkanInitializeHelper::GetDepthImageTiling(VkFormat depthFormat)
+{
+	VkFormatProperties props;
+	vkGetPhysicalDeviceFormatProperties(m_gpu, depthFormat, &props);
+    if (props.linearTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+	{
+		return VK_IMAGE_TILING_LINEAR;
+	}  
+	else if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+	{
+        return VK_IMAGE_TILING_OPTIMAL;
+    }
+
+	return VK_IMAGE_TILING_MAX_ENUM;
 }
 
 VkDevice VulkanInitializeHelper::CreateDevice(VkPhysicalDevice gpu, uint32 queueFamilyIndex)

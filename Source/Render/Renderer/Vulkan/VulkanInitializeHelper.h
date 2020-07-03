@@ -14,7 +14,9 @@ namespace Pharos
 			VkInstance			m_inst;
 			VkPhysicalDevice	m_gpu;
 
-			VkFormat			m_surfaceFormat;
+			VkFormat			m_colorFormat;
+			VkFormat			m_depthFormat;
+
 			VkSurfaceKHR		m_surface;
 			int32				m_surfaceWidth;
 			int32				m_surfaceHeight;
@@ -33,7 +35,8 @@ namespace Pharos
 			VkInstance CreateInstance(const char* sourface_extension);
 			VkPhysicalDevice EnumPhysicalDevice(VkInstance inst);
 			uint32 GetGraphicsQueueFamilyIndex(VkPhysicalDevice gpu, VkSurfaceKHR surface);
-			VkFormat GetPhysicalDeviceSurfaceFormat(VkPhysicalDevice gpu, VkSurfaceKHR surface);
+			VkFormat GetPhysicalDeviceSurfaceColorFormat(VkPhysicalDevice gpu, VkSurfaceKHR surface);
+			VkFormat GetPhysicalDeviceSurfaceDepthFormat(VkPhysicalDevice gpu);
 			VkDevice CreateDevice(VkPhysicalDevice gpu, uint32 queueFamilyIndex);
 			VkSwapchainKHR CreateSwapchain(VkPhysicalDevice gpu, VkDevice device, VkSurfaceKHR surface, VkFormat surfaceFormat);
 
@@ -55,7 +58,9 @@ namespace Pharos
 			VkSwapchainKHR GetSwapchain() { return m_swapchain; }
 			int32 GetWindowSurfaceWidth() { return m_surfaceWidth; }
 			int32 GetWindowSurfaceHeight() { return m_surfaceHeight; }
-			VkFormat GetWindowSurfaceFormat() { return m_surfaceFormat; }
+			VkFormat GetWindowSurfaceColorFormat() { return m_colorFormat; }
+			VkFormat GetWindowSurfaceDepthFormat() { return m_depthFormat; }
+			VkImageTiling GetDepthImageTiling(VkFormat depthFormat);
 
 			uint32 GetMemoryTypeIndex(uint32 typeBits, VkFlags requirementsMask);
 		};
