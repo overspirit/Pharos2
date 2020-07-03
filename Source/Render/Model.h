@@ -11,10 +11,18 @@ namespace Pharos
 			virtual ~Model();
 
 		private:
+			struct SubModel
+			{
+				Mesh* 		mesh;
+
+				vector<Material*>	materialList;
+			};
+
+		private:
 			Matrix4							m_offset;
 			Matrix4							m_world;
 
-			vector<Mesh*>					m_meshGroupList;
+			vector<SubModel>				m_subModelList;			
 			vector<BoneInfo>				m_boneInfoList;
 			vector<SkelAnimation>			m_animList;
 			map<string, uint32>				m_animSlotMap;
@@ -25,16 +33,18 @@ namespace Pharos
 			float32						m_playSpeed;		//动画播放速度
 			uint32						m_currAnimFrame;	//当前播放动画的播放帧索引
 			
-			//RenderBlock*				m_renderBlock;
 			vector<Matrix4>				m_animBoneTrans;
 
 		private:
 			void CalcSkelAnimMatrix(const SkelAnimation* anim, uint32 currFrameIndex, uint32 nextFrameIndex, float32 lerp);
 
 		public:
-			virtual void AddMesh(Mesh* mesh);
-			virtual uint32 GetMeshNum() { return (uint32)m_meshGroupList.size(); }
-			virtual Mesh* GetMesh(uint32 index) { return index < (uint32)m_meshGroupList.size() ? m_meshGroupList[index] : nullptr; }
+			virtual uint32 AddSubModelMesh(Mesh* mesh);
+			virtual void SetSubModelMaterial(uint32 index, Material* material);
+			virtual uint32 GetSubModelNum() { return (uint32)m_subModelList.size(); }
+			virtual Mesh* GetSubModelMesh(uint32 index) { return m_subModelList[index].mesh; }
+			virtual uint32 GetSubModelMaterialNum(uint32 index) { return m_subModelList[index].materialList.size(); }
+			virtual Material* GetSubModelMaterial(uint32 subIndex, uint32 materIndex) { return m_subModelList[subIndex].materialList[materIndex]; }
 
 			virtual void SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose);
 			virtual SkelAnimation& AddSkelAnimation(const char8* name);
@@ -59,7 +69,7 @@ namespace Pharos
 
 			virtual void UpdateAnimation(float32 elapsed);
 
-			virtual void Draw();
+			virtual void Prepare(RenderObject* renderObj);
 		};
 	}
 }

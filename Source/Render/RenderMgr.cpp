@@ -8,6 +8,11 @@ RenderMgr::RenderMgr()
 
 	m_renderer = nullptr;
 	
+	m_defaultTarget = nullptr;
+	m_defaultCommand = nullptr;
+	
+	m_quadVertBuf = nullptr;
+
 	//m_blockCount = 0;
 
 	//m_renderCallback = nullptr;
@@ -50,16 +55,42 @@ bool RenderMgr::StartUp(const RenderParam& param)
 
 	m_renderParam = param;
 	//m_clearColor = param.backColor;
-
-    m_defaultTarget = m_renderer->GetDefaultRenderTarget();
-
-    m_defaultCommand = m_renderer->GenerateRenderCommand(m_defaultTarget);
-    m_defaultCommand->SetDebugLabel("default render");
-
-	return true;
 	
 	//quad vertex buffer
+	InitQuadBuffer();
+
+	//Load Effect file
+	sMaterialMgr->LoadEffectFile("Shader/Sprite3D.fxml");
+	sMaterialMgr->LoadEffectFile("Shader/Skeletal.fxml");	
+	
+	//
 	///////////////////////////////////////////////////////////////////////////////////
+	VertLayoutDesc desc[] =
+	{
+		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
+		{ VET_FLOAT32, 2, VAL_TEXCOORD0, 12, 0 },
+	};
+	
+	//RenderPipeline* pipeline = m_renderer->GenerateRenderPipeline();
+	//pipeline->SetInputLayoutDesc(desc, 2);
+	//pipeline->SetProgramShader(defaultProgram);
+	///////////////////////////////////////////////////////////////////////////////////
+	
+	m_defaultTarget = m_renderer->GetDefaultRenderTarget();	
+	m_defaultCommand = m_renderer->GenerateRenderCommand(m_defaultTarget);
+	m_defaultCommand->SetDebugLabel("default render");
+		
+//	m_finalTarget = m_renderer->CreateRenderTarget(1280, 720);
+//	m_finalTexture = m_finalTarget->GenerateColorAttach(0, EPF_RGBA8_UNORM);
+//
+//	m_finalCommand = m_renderer->GenerateRenderCommand(m_finalTarget);
+//	m_finalCommand->SetDebugLabel("final render");	
+	
+	return true;
+}
+
+void RenderMgr::InitQuadBuffer()
+{
 	DecalVertex vertData[] =
 	{
 		{ Vector3Df(-1.0f,  1.0f, 0), Vector2Df(0, 0) },
@@ -75,77 +106,27 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	vertDataBuf.CopyFrom(vertData, sizeof(vertData));
 	m_quadVertBuf = m_renderer->GenerateRenderBuffer(VERTEX_BUFFER);
 	m_quadVertBuf->Allocate(sizeof(vertData), &vertDataBuf);
-	///////////////////////////////////////////////////////////////////////////////////
-
-	
-	//render program
-	///////////////////////////////////////////////////////////////////////////////////
-	RenderProgram* defaultProgram = m_renderer->GenerateRenderProgram();
-	defaultProgram->SetLibraryWithPath("default.lib");
-	defaultProgram->CompileVertexFunctionWithName("vertexShader");		//todo: 把入口名的参数移到pipeline
-	defaultProgram->CompileFragmentFunctionWithName("fragmentShader");
-	
-	m_programList["default.lib"] = defaultProgram;
-	///////////////////////////////////////////////////////////////////////////////////
-	
-	
-	//
-	///////////////////////////////////////////////////////////////////////////////////
-	VertLayoutDesc desc[] =
-	{
-		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
-		{ VET_FLOAT32, 2, VAL_TEXCOORD0, 12, 0 },
-	};
-	
-	RenderPipeline* pipeline = m_renderer->GenerateRenderPipeline();
-	pipeline->SetInputLayoutDesc(desc, 2);
-	pipeline->SetProgramShader(defaultProgram);
-	
-	m_pipelineList["default"] = pipeline;
-	///////////////////////////////////////////////////////////////////////////////////
-	
-	m_defaultTarget = m_renderer->GetDefaultRenderTarget();
-	
-	m_defaultCommand = m_renderer->GenerateRenderCommand(m_defaultTarget);
-	m_defaultCommand->SetDebugLabel("default render");
-	
-	RenderObject* copyObj = GenerateRenderObject();
-	//copyObj->
-	m_renderObjList.push_back(copyObj);
-	
-//	m_finalTarget = m_renderer->CreateRenderTarget(1280, 720);
-//	m_finalTexture = m_finalTarget->GenerateColorAttach(0, EPF_RGBA8_UNORM);
-//
-//	m_finalCommand = m_renderer->GenerateRenderCommand(m_finalTarget);
-//	m_finalCommand->SetDebugLabel("final render");
-	
-	
-	//	this->LoadEffectFile("Shader/Sprite3D.fxml");
-	
-	return true;
 }
 
 void RenderMgr::DoRender(RenderObject* obj)
 {
 	if (obj == nullptr) return;
 	
+	obj->Apply();
+
 	m_renderObjList.push_back(obj);
-}
-
-RenderPipeline* RenderMgr::LoadEffectFile(const char8* szPath)
-{
-
-	return nullptr;
 }
 
 RenderObject* RenderMgr::GenerateRenderObject()
 {
-	return new RenderObject();
-}
+	RenderObject* renderObj = new RenderObject(m_defaultCommand);
+	if (!renderObj->Init())
+	{
+		SAFE_DELETE(renderObj);
+		return nullptr;
+	}
 
-RenderObject* RenderMgr::GetRenderObject(const char8* name)
-{
-	return nullptr;
+	return renderObj;
 }
 
 void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil)
@@ -197,7 +178,7 @@ void RenderMgr::Update(float32 fElapsed)
 }
 
 void RenderMgr::Render(float32 fElapsed)
-{
+{	
 	//m_finalCommand->BeginCommand();
 	
 	/*
@@ -212,8 +193,29 @@ void RenderMgr::Render(float32 fElapsed)
 	
 	//m_finalTexture = xxx;
 	
+	// for(RenderObject* obj : m_renderObjList)
+	// {
+	// 	obj->PreDraw();
+	// }
+
 	m_defaultCommand->BeginCommand();
-	
+
+	int32 width = m_defaultTarget->GetWidth();
+    int32 height = m_defaultTarget->GetHeight();
+
+	Rect2Di viewRect;
+	viewRect.left = 0;
+	viewRect.top = 0;
+	viewRect.right = width;
+	viewRect.bottom = height;
+	m_defaultCommand->SetViewport(viewRect, 0, 1.0f);
+
+	Rect2Di scissorRect;
+	scissorRect.left = 0;
+	scissorRect.top = 0;
+	scissorRect.right = width;
+	scissorRect.bottom = height;	
+	m_defaultCommand->SetScissorRect(scissorRect);	
 	
 	for(RenderObject* obj : m_renderObjList)
 	{
@@ -229,6 +231,8 @@ void RenderMgr::Render(float32 fElapsed)
 	
 	m_renderer->Commit();
 
+	m_renderObjList.clear();
+
 	m_renderCount++;
 	if (m_timer.GetTime() >= 1.0f)
 	{
@@ -239,5 +243,7 @@ void RenderMgr::Render(float32 fElapsed)
 		//char8 buf[32];
 		//sprintf(buf, "FPS:%d\n", m_fps);
 		//OutputDebugStringA(buf);
+
+		printf("FPS:%d\n", m_fps);
 	}
 }

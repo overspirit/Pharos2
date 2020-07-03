@@ -8,31 +8,40 @@ Model::Model()
 	m_stopAnim = true;
 	m_playSpeed = 1.0f;
 	m_currAnimFrame = 0;
-
-	//m_renderBlock = nullptr;
 }
 
 Model::~Model()
 {
-	for (uint32 i = 0; i < m_meshGroupList.size(); i++)
+	for (uint32 i = 0; i < m_subModelList.size(); i++)
 	{
-		SAFE_DELETE(m_meshGroupList[i]);
-	}
+		SAFE_DELETE(m_subModelList[i].mesh);
 
-	//SAFE_DELETE(m_renderBlock);
+		for (auto* material : m_subModelList[i].materialList)
+		{
+			SAFE_DELETE(material);
+		}
+	}
 }
 
-void Model::AddMesh(Mesh* mesh)
+uint32 Model::AddSubModelMesh(Mesh* mesh)
 {
-//	if (m_renderBlock == nullptr)
-//	{
-//		m_renderBlock = sRenderMgr->GenerateRenderBlock();
-//	}
+	uint32 index = m_subModelList.size();
 
-	if (mesh != nullptr)
+	m_subModelList.resize(index + 1);
+
+	m_subModelList[index].mesh = mesh;
+
+	return index;
+}
+
+void Model::SetSubModelMaterial(uint32 index, Material* material)
+{
+	if (index >= m_subModelList.size())
 	{
-		m_meshGroupList.push_back(mesh);
+		m_subModelList.resize(index + 1);
 	}
+
+	m_subModelList[index].materialList.push_back(material);
 }
 
 void Model::SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose)
@@ -210,33 +219,40 @@ void Model::TransformWorld(const Matrix4& world)
 	m_world = world * m_offset;
 }
 
-void Model::Draw()
+void Model::Prepare(RenderObject* renderObj)
 {
-//	if (m_renderBlock == nullptr)
-//	{
-//		assert(false);
-//		return;
-//	}
-//
-//	m_renderBlock->SetBlockDataWorldMatrix(m_world);
-//
-//	if (m_animBoneTrans.size() > 0)
-//	{
-//		m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
-//	}
+	if (m_animBoneTrans.size() > 0)
+	{
+		//m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
+	}
 
-	//    for (uint32 i = 0; i < m_meshGroupList.size(); i++)
-	//    {
-	//        Material* material = m_meshGroupList[i]->GetAttachMaterial();
-	//        if(material == nullptr) continue;
-	//
-	//        RenderLayout* layout = m_meshGroupList[i]->GetRenderLayout();
-	//        DrawType drawType = m_meshGroupList[i]->GetDrawType();
-	//        RenderTechnique* tech = material->GetMaterialTechnique();
-	//
-	//        uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(layout, tech);
-	//        m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
-	//    }
+	for (uint32 i = 0; i < m_subModelList.size(); i++)
+	{
+		SubModel& subModel = m_subModelList[i];
+		Mesh* mesh = subModel.mesh;
+		
+		RenderBuffer* vertBuffer = mesh->GetMeshVertexBuffer();
+		vector<VertLayoutDesc> vertDesc = mesh->GetMeshVertexDesc();
 
-	//sRenderMgr->DoRender(m_renderBlock);
+		RenderBuffer* indexBuffer = mesh->GetMeshIndexBuffer();
+		DrawType drawType = mesh->GetDrawType();
+
+		vector<Material*> materialList = subModel.materialList;
+
+		for (Material* material : materialList)
+		{
+			RenderPipeline* pipeline = material->GetRenderPipeline();
+			pipeline->SetInputLayoutDesc(vertDesc.data(), vertDesc.size());
+
+//#error("Model")
+			RenderTexture* texture = material->GetTexture("");
+
+			uint32 blockIndex = renderObj->AddRenderBlock(vertBuffer, pipeline);
+
+			renderObj->SetBlockDrawType(blockIndex, drawType);
+
+			renderObj->SetBlockIndexBuffer(blockIndex, indexBuffer);
+			renderObj->SetBlockTexture(blockIndex, 1, texture);
+		}
+	}
 }

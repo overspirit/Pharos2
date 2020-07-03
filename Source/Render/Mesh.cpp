@@ -2,38 +2,29 @@
 #include "Pharos.h"
 
 Mesh::Mesh()
-{
-	m_material = nullptr;
-
-	//m_renderLayout = nullptr;
+{	
+	m_vertBuf = nullptr;
+	m_indexBuf = nullptr;
 
 	m_drawType = EDT_TRIANGLELIST;
 }
 
 Mesh::~Mesh()
 {
-	//SAFE_DELETE(m_renderLayout);
-
-	SAFE_DELETE(m_material);
+	SAFE_DELETE(m_vertBuf);
+	SAFE_DELETE(m_indexBuf);
 }
 
-void Mesh::SetMeshData(MemoryBuffer* vertexData, const vector<VertLayoutDesc>& vertDesc, MemoryBuffer* indexData)
+void Mesh::SetMeshVertexData(MemoryBuffer* vertexData, const vector<VertLayoutDesc>& vertDesc)
 {
-	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
+	m_vertBuf = sRenderer->GenerateRenderBuffer(VERTEX_BUFFER);
+	m_vertBuf->Allocate(vertexData->GetLength(), vertexData);
 
-	uint32 vertSize = vertexData->GetLength();
-	//m_renderLayout = renderer->GenerateRenderLayout(vertSize, vertexData);
-
-	//m_renderLayout->SetInputLayoutDesc(&*vertDesc.begin(), (uint32)vertDesc.size());
-
-//    if (indexData != nullptr)
-//    {
-//        uint32 indexSize = indexData->GetLength();
-//        m_renderLayout->CreateIndexBuffer(indexSize / sizeof(uint32), indexData);
-//    }
+	m_vertDesc = vertDesc;
 }
 
-void Mesh::SetAttachMaterial(Material* material)
+void Mesh::SetMeshIndexData(MemoryBuffer* indexData)
 {
-	m_material = material;
+	m_indexBuf = sRenderer->GenerateRenderBuffer(INDICES_BUFFER);
+	m_indexBuf->Allocate(indexData->GetLength(), indexData);
 }

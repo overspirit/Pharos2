@@ -11,6 +11,8 @@ namespace Pharos
 			virtual ~RenderMgr();
 
 		private:
+
+		private:
 			Timer				m_timer;
 			uint32				m_fps;
 			uint32				m_renderCount;
@@ -33,6 +35,9 @@ namespace Pharos
 			//使用blockCount主要是为了优化，防止blockList反复变换大小
 			vector<RenderObject*>		m_renderObjList;
 			//uint32						m_blockCount;
+
+		private:
+			void InitQuadBuffer();
 			
 		public:
 			virtual bool Init();
@@ -48,10 +53,7 @@ namespace Pharos
 			virtual Vector2Df GetPosFromWindowPos(int32 x, int32 y);
 			virtual Vector2Df GetSizeFromWindowSize(int32 width, int32 height);
 
-			virtual RenderPipeline* LoadEffectFile(const char8* szPath);
-			//virtual RenderTechnique* GenerateRenderTechnique(const char8* tech);
 			virtual RenderObject* GenerateRenderObject();
-			virtual RenderObject* GetRenderObject(const char8* name);
 			
 			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
 

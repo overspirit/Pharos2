@@ -10,6 +10,7 @@
 #include "Renderer/RenderTexture.h"
 #include "Renderer/RenderTarget.h"
 #include "Renderer/RenderBuffer.h"
+#include "Renderer/RenderResourceSet.h"
 #include "Renderer/RenderProgram.h"
 #include "Renderer/RenderPipeline.h"
 #include "Renderer/RenderCommand.h"
@@ -102,7 +103,9 @@
 #include "Renderer/Vulkan/VulkanSamplerState.h"
 #include "Renderer/Vulkan/VulkanRenderTexture.h"
 #include "Renderer/Vulkan/VulkanRenderTarget.h"
+#include "Renderer/Vulkan/VulkanDefaultTarget.h"
 #include "Renderer/Vulkan/VulkanRenderBuffer.h"
+#include "Renderer/Vulkan/VulkanDescriptorSet.h"
 #include "Renderer/Vulkan/VulkanShaderProgram.h"
 #include "Renderer/Vulkan/VulkanRenderPipeline.h"
 #include "Renderer/Vulkan/VulkanRenderCommand.h"
@@ -128,9 +131,11 @@
 // #include "PostProcess/HDRPostProcess.h"
 
 #include "IRenderCallback.h"
+#include "MaterialMgr.h"
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()
+#define sMaterialMgr MaterialMgr::Inst()
 #define sRenderer (sRenderMgr->GetCurrentRenderer())
 
 Pharos::Render::Renderer* MakeRenderer();
