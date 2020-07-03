@@ -49,7 +49,7 @@ void PlatformLinux::onKeyboardEvent(const KeyEvent& keyEvent)
 {
 }
 
-void PlatformLinux::onMouseEvent(int32 mouse, int action, int32 posX, int32 posY)
+void PlatformLinux::onMouseEvent(int32 mouse, int action, int32 posX, int32 posY, int32 wheel)
 {
 	static CODE_STATE codes[2];
 	codes[GLFW_PRESS] = STATE_DOWN;
@@ -62,7 +62,7 @@ void PlatformLinux::onMouseEvent(int32 mouse, int action, int32 posX, int32 posY
 	event.y = posY;
 	event.ox = posX - m_mousePos.x;
 	event.oy = posY - m_mousePos.y;
-	event.wheel = 0;
+	event.wheel = wheel * 120;
 	event.shift = false;
 	event.ctrl = false;
 	event.alt = false;

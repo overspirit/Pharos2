@@ -35,8 +35,10 @@ set(RENDER_FILES
         Render/Renderer/Vulkan/VulkanRenderPipeline.cpp
         Render/Renderer/Vulkan/VulkanSamplerState.cpp
         Render/Renderer/Vulkan/VulkanRenderTarget.cpp
+        Render/Renderer/Vulkan/VulkanDefaultTarget.cpp
         Render/Renderer/Vulkan/VulkanRenderTexture.cpp
         Render/Renderer/Vulkan/VulkanShaderProgram.cpp
+        Render/Renderer/Vulkan/VulkanDescriptorSet.cpp
         Render/Renderer/Vulkan/VulkanRenderer.cpp
         Render/Animation.cpp
         Render/Material.cpp
@@ -44,6 +46,7 @@ set(RENDER_FILES
         Render/Model.cpp
         Render/Skeleton.cpp
         Render/RenderObject.cpp
+        Render/MaterialMgr.cpp  
         Render/RenderMgr.cpp        
 )
 

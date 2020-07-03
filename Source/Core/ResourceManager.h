@@ -22,9 +22,6 @@ namespace Pharos
 
 			string			m_currWorkPath;
 
-		private:
-			string FindResourcePath(const char8* path);
-
 		public:
 			virtual bool Init();			
 			virtual void Destroy();
@@ -35,6 +32,8 @@ namespace Pharos
 			XmlDocument* GenerateXmlDocument(const char8* path);
 
 			ResBase* GenerateResource(ResType resType);
+
+			string FindResourcePath(const char8* path);
 		};
 	}
 }

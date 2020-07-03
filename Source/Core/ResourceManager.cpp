@@ -101,7 +101,7 @@ string ResourceManager::FindResourcePath(const char8* path)
 		}
 	}
 
-	return path;
+	return "";
 }
 
 Font* ResourceManager::GenerateFont(const char8* path)

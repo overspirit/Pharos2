@@ -36,6 +36,7 @@ bool glfw_window::create_window(const char8* title, uint32 width, uint32 height)
 	glfwSetKeyCallback(m_handle, key_callback);
 	glfwSetCursorPosCallback(m_handle, cursor_position_callback);
 	glfwSetMouseButtonCallback(m_handle, mouse_button_callback);
+	glfwSetScrollCallback(m_handle, mouse_scroll_callback);
 
 	glfwSetInputMode(m_handle, GLFW_STICKY_KEYS, 1);
 	glfwSetInputMode(m_handle, GLFW_STICKY_MOUSE_BUTTONS, 1);
@@ -57,14 +58,19 @@ VkSurfaceKHR glfw_window::create_surface(VkInstance instance)
 	return surface;
 }
 
-void glfw_window::on_mouse_event(int button, int action, int xpos, int ypos)
+const char* glfw_window::get_surface_extension()
 {
-	printf("on_mouse_event x:%d y:%d button:%d action:%d\n", xpos, ypos, button, action);
+	return VK_KHR_XCB_SURFACE_EXTENSION_NAME;
+}
 
-	int width = 0;
-	int height = 0;
-	glfwGetWindowSize(m_handle, &width, &height);
-	sPlatform->onMouseEvent(button, action, xpos, height - ypos);
+void glfw_window::on_mouse_event(int button, int action, int xpos, int ypos, int wheel)
+{
+	//printf("on_mouse_event x:%d y:%d button:%d action:%d\n", xpos, ypos, button, action);
+
+	//int width = 0;
+	//int height = 0;
+	//glfwGetWindowSize(m_handle, &width, &height);
+	sPlatform->onMouseEvent(button, action, xpos, ypos, wheel);
 }
 
 void glfw_window::window_close_callback(GLFWwindow *window)
@@ -91,7 +97,7 @@ void glfw_window::cursor_position_callback(GLFWwindow *window, double xpos, doub
 {
 	glfw_window* myWindow = (glfw_window*)glfwGetWindowUserPointer(window);
 
-	myWindow->on_mouse_event(-1, -1, (int32)xpos, (int32)ypos);
+	myWindow->on_mouse_event(-1, -1, (int32)xpos, (int32)ypos, 0);
 }
 
 void glfw_window::mouse_button_callback(GLFWwindow *window, int button, int action, int /*mods*/)
@@ -102,7 +108,18 @@ void glfw_window::mouse_button_callback(GLFWwindow *window, int button, int acti
 
 	glfw_window* myWindow = (glfw_window*)glfwGetWindowUserPointer(window);
 
-	myWindow->on_mouse_event(button, action, xpos, ypos);
+	myWindow->on_mouse_event(button, action, xpos, ypos, 0);
+}
+
+void glfw_window::mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	double xpos = 0;
+	double ypos = 0;
+	glfwGetCursorPos(window, &xpos, &ypos);	
+
+	glfw_window* myWindow = (glfw_window*)glfwGetWindowUserPointer(window);
+
+	myWindow->on_mouse_event(-1, -1, (int32)xpos, (int32)ypos, yoffset);
 }
 
 void glfw_window::error_callback(int error, const char *description)

@@ -28,7 +28,7 @@ namespace Pharos
 			virtual uint32 GetWindowsHandle() { return 0; }
 
 			virtual void onKeyboardEvent(const KeyEvent& keyEvent);
-			virtual void onMouseEvent(int32 mouse, int action, int32 posX, int32 posY);
+			virtual void onMouseEvent(int32 mouse, int action, int32 posX, int32 posY, int32 wheel);
 			virtual void onWindowChangeSize(int32 width, int32 height);
 		};
 	}

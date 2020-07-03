@@ -95,7 +95,7 @@ const char* GetMainBundleDirectory();
 
 #define sPlatform PlatformLinux::Inst()
 
-#define MyWindow glfw_window:
+#define MyWindow glfw_window
 
 #endif
 //////////////////////////////////////////////////////////////////////////
