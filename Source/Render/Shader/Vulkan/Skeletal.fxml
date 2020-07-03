@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<effect>
+  <library file="Shader/Skeletal.lib"/>
+
+  <variable type="texture" name="g_tex" bind="0"/>
+
+  <constant type="struct" name="cbPerScene" bind="0">
+    <member type="matrix4" name="g_view"/>
+    <member type="matrix4" name="g_proj"/>
+  </constant>
+
+  <constant type="struct" name="cbPerObject" bind="1">
+    <member type="matrix4" name="g_world"/>
+    <member type="matrix4" name="g_boneMatrix" array_size="255"/>
+  </constant>
+
+  <technique name="Skeletal">
+    <param name="cull_mode" value="none"/>
+    <!--<param name="fill_mode" value="wireframe"/>-->
+
+    <param name="vertex_shader" value="SkeletalVS"/>
+    <param name="pixel_shader" value="SkeletalPS"/>
+  </technique>
+
+</effect>
