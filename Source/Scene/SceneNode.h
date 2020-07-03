@@ -30,6 +30,7 @@ namespace Pharos
 			vector<SceneNode*>		m_childList;
 
 			vector<Model*>		m_modelList;
+			RenderObject*		m_renderObj;
 
 		public:
 			virtual void SetTreeOwner(TreeNode* pOwner) { m_pOwner = pOwner; }
@@ -46,6 +47,8 @@ namespace Pharos
 
 			virtual void SetLocalTransform(const Matrix4& mat);
 			virtual void SetLocalPosition(const Vector3Df& pos);
+
+			virtual void SetRenderTransform(const Matrix4& view, const Matrix4& proj);
 
 			virtual const Matrix4& GetLocalTransform();
 			virtual const Matrix4& GetGlobalTransform();

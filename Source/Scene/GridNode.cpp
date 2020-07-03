@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-#define GRID_SIZE 10
+#define GRID_SIZE 100
 #define SMALL_GRID_SIZE 1
 #define SMALL_GRID_SLICE 5
 #define GRID_BOARD_COLOR 0xFF5B5B5B
@@ -47,16 +47,22 @@ bool GridNode::BuildGridData()
 
 	Material* gridMaterial = new Material();
 	gridMaterial->SetRenderTechnique("Sprite3DColor");
+	gridMaterial->SetTexture("", nullptr);
+	RenderTexture* texture = sRenderer->LoadTexture("test.png");
+	gridMaterial->SetTexture("", texture);
+	
 
 	Mesh* gridMesh = new Mesh();
-	gridMesh->SetAttachMaterial(gridMaterial);
-	gridMesh->SetMeshData(&vertexData, vertDesc);
+	gridMesh->SetMeshVertexData(&vertexData, vertDesc);
 	gridMesh->SetDrawType(Render::EDT_LINELIST);
 
 	Model* gridModel = new Model();
-	gridModel->AddMesh(gridMesh);
+	uint32 subModelIndex = gridModel->AddSubModelMesh(gridMesh);
+	gridModel->SetSubModelMaterial(subModelIndex, gridMaterial);
 
 	m_modelList.push_back(gridModel);
+
+	m_renderObj = sRenderMgr->GenerateRenderObject();
 
 	return true;
 }

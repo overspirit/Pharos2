@@ -108,11 +108,15 @@ void OctreeScene::Update(float32 fElapsed)
 	for (auto node : m_nodeList)
 	{
 		if (node != nullptr)
+		{
+			node->SetRenderTransform(viewMat, projMat);
 			node->Update(fElapsed);
+		}
 	}
 
 	if (m_showGrid)
 	{
+		m_gridNode->SetRenderTransform(viewMat, projMat);
 		m_gridNode->Update(fElapsed);
 	}
 

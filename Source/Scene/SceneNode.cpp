@@ -12,6 +12,8 @@ SceneNode::SceneNode()
 	m_boundingRadius = 0;
 
 	m_parent = nullptr;
+
+	m_renderObj = nullptr;
 }
 
 SceneNode::~SceneNode()
@@ -20,6 +22,8 @@ SceneNode::~SceneNode()
 	{
 		SAFE_DELETE(model);
 	}
+
+	SAFE_DELETE(m_renderObj);
 }
 
 void SceneNode::InitNode(const char8* name, SceneNode* parent)
@@ -27,11 +31,19 @@ void SceneNode::InitNode(const char8* name, SceneNode* parent)
 	m_name = name;
 
 	m_parent = parent;
+
+	m_renderObj = sRenderMgr->GenerateRenderObject();
 }
 
 void SceneNode::SetLocalTransform(const Matrix4& mat)
 {
 	m_localTransform = mat;
+}
+
+void SceneNode::SetRenderTransform(const Matrix4& view, const Matrix4& proj)
+{
+	m_renderObj->SetParameterValue("g_view", view);
+	m_renderObj->SetParameterValue("g_proj", proj);
 }
 
 void SceneNode::SetLocalPosition(const Vector3Df& pos)
@@ -92,7 +104,7 @@ void SceneNode::PlayAnim(const char8* animName)
 }
 
 void SceneNode::Update(float32 fElapsed)
-{
+{	
 	if (m_parent != nullptr)
 	{
 		m_globalTransform = m_localTransform * m_parent->GetGlobalTransform();
@@ -110,8 +122,10 @@ void SceneNode::Update(float32 fElapsed)
 
 		model->TransformWorld(m_globalTransform);
 
-		model->Draw();
+		model->Prepare(m_renderObj);
 	}
+
+	sRenderMgr->DoRender(m_renderObj);
 
 
 	for (uint32 i = 0; i < m_childList.size(); i++)

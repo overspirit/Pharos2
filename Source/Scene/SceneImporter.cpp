@@ -59,13 +59,13 @@ Model* SceneImporter::CreateModel(const ModelData& modelData)
 		Mesh* mesh = this->CreateMesh(meshData);
 		if (mesh != nullptr)
 		{
-			model->AddMesh(mesh);
-		}
+			uint32 subModelIndex = model->AddSubModelMesh(mesh);
 
-		for (const string& materialName : meshInfo.materialList)
-		{
-			Material* material = this->CreateMaterial(m_materialDataList[materialName]);
-			if (material != nullptr) mesh->SetAttachMaterial(material);
+			for (const string& materialName : meshInfo.materialList)
+			{
+				Material* material = this->CreateMaterial(m_materialDataList[materialName]);
+				if (material != nullptr) model->SetSubModelMaterial(subModelIndex, material);
+			}
 		}
  	}
 
@@ -97,7 +97,8 @@ Mesh* SceneImporter::CreateMesh(const MeshData& meshData)
 {
 	Mesh* mesh = new Mesh();
 	
-	mesh->SetMeshData((MemoryBuffer*)&meshData.vertexData, meshData.vertDesc, (MemoryBuffer*)&meshData.indexData);
+	mesh->SetMeshVertexData((MemoryBuffer*)&meshData.vertexData, meshData.vertDesc);
+	mesh->SetMeshIndexData((MemoryBuffer*)&meshData.indexData);
 	mesh->SetDrawType(meshData.drawType);
 	
 	return mesh;
@@ -107,9 +108,7 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 {
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
 
-	Material* material = new Material();
-	
-	material->SetRenderTechnique(materialData.techName.c_str());
+	Material* material = sMaterialMgr->GenerateMaterial(materialData.techName.c_str());
 	
 	for (auto texIter : materialData.samplerDataList)
 	{
@@ -117,58 +116,58 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 		const SamplerData& sampleData = texIter.second;
 		string texPath = sampleData.texPath;
 		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
-		if (!material->SetParameterValue(texName.c_str(), tex))
+		if (!material->SetTexture(texName.c_str(), tex))
 		{
 			SAFE_DELETE(tex);
 		}
 	}
 
-	for (auto varIter : materialData.varList)
-	{
-		string varName = varIter.first;
-		string varValue = varIter.second;
+	// for (auto varIter : materialData.varList)
+	// {
+	// 	string varName = varIter.first;
+	// 	string varValue = varIter.second;
 
-		PropType type = GetStringPropType(varValue.c_str());
+	// 	PropType type = GetStringPropType(varValue.c_str());
 
-		switch (type)
-		{
-			case Core::EPT_STRING:
-			{
+	// 	switch (type)
+	// 	{
+	// 		case Core::EPT_STRING:
+	// 		{
 
-			}
-			break;
-			case Core::EPT_NUMBER:
-			{
-				float32 value = strtof(varIter.second.c_str(), nullptr);
-				material->SetParameterValue(varName.c_str(), value);
-			}
-			break;
-			case Core::EPT_VECTOR2:
-			{
-				Vector2Df value = ParseVector2(varIter.second.c_str());
-				material->SetParameterValue(varName.c_str(), value);
-			}
-			break;
-			case Core::EPT_VECTOR3:
-			{
-				Vector3Df value = ParseVector3(varIter.second.c_str());
-				material->SetParameterValue(varName.c_str(), value);
-			}
-			break;
-			case Core::EPT_VECTOR4:
-			{
-				Vector4Df value = ParseVector4(varIter.second.c_str());
-				material->SetParameterValue(varName.c_str(), value);
-			}
-			break;
-			case Core::EPT_MATRIX:
-			{
-				Matrix4 value = ParseMatrix4(varIter.second.c_str());
-				material->SetParameterValue(varName.c_str(), value);
-			}
-			break;
-		}
-	}
+	// 		}
+	// 		break;
+	// 		case Core::EPT_NUMBER:
+	// 		{
+	// 			float32 value = strtof(varIter.second.c_str(), nullptr);
+	// 			material->SetParameterValue(varName.c_str(), value);
+	// 		}
+	// 		break;
+	// 		case Core::EPT_VECTOR2:
+	// 		{
+	// 			Vector2Df value = ParseVector2(varIter.second.c_str());
+	// 			material->SetParameterValue(varName.c_str(), value);
+	// 		}
+	// 		break;
+	// 		case Core::EPT_VECTOR3:
+	// 		{
+	// 			Vector3Df value = ParseVector3(varIter.second.c_str());
+	// 			material->SetParameterValue(varName.c_str(), value);
+	// 		}
+	// 		break;
+	// 		case Core::EPT_VECTOR4:
+	// 		{
+	// 			Vector4Df value = ParseVector4(varIter.second.c_str());
+	// 			material->SetParameterValue(varName.c_str(), value);
+	// 		}
+	// 		break;
+	// 		case Core::EPT_MATRIX:
+	// 		{
+	// 			Matrix4 value = ParseMatrix4(varIter.second.c_str());
+	// 			material->SetParameterValue(varName.c_str(), value);
+	// 		}
+	// 		break;
+	// 	}
+	// }
 
 	return material;
 }
