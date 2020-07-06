@@ -31875,7 +31875,7 @@
   </models_chunk>
 
   <nodes_chunk>
-    <node name="CarNode" transform="2.200 0.000 0.000 0.000 0.000 1.000 0.000 0.000 0.000 0.000 1.000 0.000 0.000 0.000 0.000 1.000" bounding_radius="0.000000">
+    <node name="CarNode" transform="1.000 0.000 0.000 0.000 0.000 1.000 0.000 0.000 0.000 0.000 1.000 0.000 0.000 0.000 0.000 1.000" bounding_radius="0.000000">
       <item type="model" id="Car"/>
     </node>
   </nodes_chunk>
