@@ -64,7 +64,7 @@ Model* SceneImporter::CreateModel(const ModelData& modelData)
 			for (const string& materialName : meshInfo.materialList)
 			{
 				Material* material = this->CreateMaterial(m_materialDataList[materialName]);
-				if (material != nullptr) model->SetSubModelMaterial(subModelIndex, material);
+				if (material != nullptr) model->AddSubModelMaterial(subModelIndex, material);
 			}
 		}
  	}
@@ -97,8 +97,8 @@ Mesh* SceneImporter::CreateMesh(const MeshData& meshData)
 {
 	Mesh* mesh = new Mesh();
 	
-	mesh->SetMeshVertexData((MemoryBuffer*)&meshData.vertexData, meshData.vertDesc);
-	mesh->SetMeshIndexData((MemoryBuffer*)&meshData.indexData);
+	mesh->SetMeshVertexData((MemoryBuffer*)&meshData.vertexData, meshData.vertCount, meshData.vertDesc);
+	mesh->SetMeshIndexData((MemoryBuffer*)&meshData.indexData, meshData.faceCount);
 	mesh->SetDrawType(meshData.drawType);
 	
 	return mesh;
@@ -116,10 +116,7 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 		const SamplerData& sampleData = texIter.second;
 		string texPath = sampleData.texPath;
 		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
-		if (!material->SetTexture(texName.c_str(), tex))
-		{
-			SAFE_DELETE(tex);
-		}
+		material->SetColorTextureParamValue(tex);
 	}
 
 	// for (auto varIter : materialData.varList)

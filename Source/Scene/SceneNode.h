@@ -47,9 +47,7 @@ namespace Pharos
 
 			virtual void SetLocalTransform(const Matrix4& mat);
 			virtual void SetLocalPosition(const Vector3Df& pos);
-
-			virtual void SetRenderTransform(const Matrix4& view, const Matrix4& proj);
-
+			
 			virtual const Matrix4& GetLocalTransform();
 			virtual const Matrix4& GetGlobalTransform();
 			virtual const Vector3Df& GetLocalPosition();

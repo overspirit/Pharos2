@@ -216,6 +216,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 		//////////////////////////////////////////////////////////////////////////
 		XmlNode* pVertListNode = meshNode->GetFirstNode("vertices_chunk");
 		uint32 vertNum = pVertListNode->GetChildNum();
+		meshData.vertCount = vertNum;
 
 		for (uint32 j = 0; j < vertNum; j++)
 		{
@@ -312,6 +313,7 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 		XmlNode* pTriListNode = meshNode->GetFirstNode("triangles_chunk");
 
 		uint32 triNum = pTriListNode->GetChildNum();
+		meshData.faceCount = triNum;
 
 		uint32 indexNum = triNum * 3;
 

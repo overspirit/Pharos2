@@ -42,7 +42,9 @@ namespace Pharos
 				MemoryBuffer					vertexData;
 				vector<VertLayoutDesc>			vertDesc;
 				MemoryBuffer					indexData;
-				DrawType						drawType;								
+				DrawType						drawType;
+				uint32							vertCount;
+				uint32							faceCount;								
 			};
 
 			struct SkeletonData

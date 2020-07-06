@@ -45,20 +45,16 @@ bool GridNode::BuildGridData()
 		vertexData.Insert((i * 4 + 3) * sizeof(Vertex), &vt4, sizeof(Vertex));
 	}
 
-	Material* gridMaterial = new Material();
-	gridMaterial->SetRenderTechnique("Sprite3DColor");
-	gridMaterial->SetTexture("", nullptr);
-	RenderTexture* texture = sRenderer->LoadTexture("test.png");
-	gridMaterial->SetTexture("", texture);
+	Material* gridMaterial = sMaterialMgr->GenerateMaterial("Sprite3DColor");
 	
 
 	Mesh* gridMesh = new Mesh();
-	gridMesh->SetMeshVertexData(&vertexData, vertDesc);
+	gridMesh->SetMeshVertexData(&vertexData, gridNum * 4, vertDesc);
 	gridMesh->SetDrawType(Render::EDT_LINELIST);
 
 	Model* gridModel = new Model();
 	uint32 subModelIndex = gridModel->AddSubModelMesh(gridMesh);
-	gridModel->SetSubModelMaterial(subModelIndex, gridMaterial);
+	gridModel->AddSubModelMaterial(subModelIndex, gridMaterial);
 
 	m_modelList.push_back(gridModel);
 

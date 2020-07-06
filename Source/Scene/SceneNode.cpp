@@ -40,12 +40,6 @@ void SceneNode::SetLocalTransform(const Matrix4& mat)
 	m_localTransform = mat;
 }
 
-void SceneNode::SetRenderTransform(const Matrix4& view, const Matrix4& proj)
-{
-	m_renderObj->SetParameterValue("g_view", view);
-	m_renderObj->SetParameterValue("g_proj", proj);
-}
-
 void SceneNode::SetLocalPosition(const Vector3Df& pos)
 {
 	m_localTransform.SetTranslation(pos);

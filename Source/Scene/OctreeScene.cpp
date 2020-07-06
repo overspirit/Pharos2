@@ -100,6 +100,22 @@ void OctreeScene::Update(float32 fElapsed)
 	//sRenderMgr->SetGlobalRenderViewMatrix(viewMat);
 	//sRenderMgr->SetGlobalRenderProjMatrix(projMat);
 
+	for (int i = 0; i < sMaterialMgr->GetMaterialNum(); i++)
+	{
+		Material* material = sMaterialMgr->GetMaterial(i);
+
+		material->SetViewParamValue(viewMat);
+		material->SetProjParamValue(projMat);
+
+		Vector3Df lightDir = Vector3Df(1.0f, -1.0f, 1.0f);
+		lightDir.Normalize();
+		material->SetLightDirectionParamValue(lightDir);
+		material->SetEnvironmentColorParamValue(0xFF4F4F4F);
+		material->SetLightColorParamValue(0xFFFFFFFF);
+
+		material->UpdateParamValue();
+	}
+
 	const Frustum& frustum = m_camera->GetViewFrustum();
 	m_pTreeRoot->FrustumCulling(frustum);
 
@@ -109,14 +125,12 @@ void OctreeScene::Update(float32 fElapsed)
 	{
 		if (node != nullptr)
 		{
-			node->SetRenderTransform(viewMat, projMat);
 			node->Update(fElapsed);
 		}
 	}
 
 	if (m_showGrid)
 	{
-		m_gridNode->SetRenderTransform(viewMat, projMat);
 		m_gridNode->Update(fElapsed);
 	}
 
