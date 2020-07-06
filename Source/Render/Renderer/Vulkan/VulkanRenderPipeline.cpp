@@ -158,6 +158,11 @@ void VulkanRenderPipeline::SetDepthStencilState(RenderDepthStencilState* state)
 
 VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSetLayout, VkRenderPass renderPass)
 {
+	if (descSetLayout == VK_NULL_HANDLE || renderPass == VK_NULL_HANDLE)
+	{
+		return VK_NULL_HANDLE;
+	}
+	
 	if (m_pipeline != VK_NULL_HANDLE) //todo: 信息发生变化要重新建立 
 	{
 		return m_pipeline;	

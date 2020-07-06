@@ -92,6 +92,8 @@ void VulkanRenderCommand::SetPipeline(RenderResourceSet* resSet, RenderPipeline*
     VkPipeline pl = vulkanPipeline->GetVulkanPipeline(descLayout, renderPass);
     VkPipelineLayout pipelineLayout = vulkanPipeline->GetVulkanPipelineLayout();
 
+    if (pl == VK_NULL_HANDLE) return;
+
     vkCmdBindPipeline(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, pl);    
     
     if (descSet != NULL)

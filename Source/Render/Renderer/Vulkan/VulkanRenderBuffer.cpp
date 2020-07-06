@@ -4,7 +4,7 @@
 VulkanRenderBuffer::VulkanRenderBuffer(BufferType type, VkDevice device)
 {
     m_type = type;
-	m_device = device;
+    m_device = device;
 
     //m_mapPtr = nullptr;
 
@@ -19,8 +19,8 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
 {
     static VkBufferUsageFlagBits flags[BUFFER_TYPE_NUM];
     flags[UNIFORM_BUFFFER] = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-	flags[VERTEX_BUFFER] = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-	flags[INDICES_BUFFER] = VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+    flags[VERTEX_BUFFER] = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+    flags[INDICES_BUFFER] = VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
 
     VkBufferCreateInfo buf_info = {};
     buf_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -58,18 +58,18 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
 
     if (buf != nullptr)
     {
-        uint8_t *pData = NULL;
-        res = vkMapMemory(m_device, m_memory, 0, mem_reqs.size, 0, (void **)&pData);
+        uint8_t* pData = NULL;
+        res = vkMapMemory(m_device, m_memory, 0, mem_reqs.size, 0, (void**)&pData);
         assert(res == VK_SUCCESS);
 
-        void *vertexData = buf->GetPointer();
+        void* vertexData = buf->GetPointer();
         memcpy(pData, vertexData, bufSize);
 
         vkUnmapMemory(m_device, m_memory);
     }
 
     res = vkBindBufferMemory(m_device, buffer, m_memory, 0);
-    assert(res == VK_SUCCESS);  
+    assert(res == VK_SUCCESS);
 
     m_size = bufSize;
     m_reqSize = mem_reqs.size;
@@ -78,19 +78,35 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
     m_bufferInfo.offset = 0;
     m_bufferInfo.range = bufSize;
 
-	return true;
+    return true;
 }
 
-void VulkanRenderBuffer::CopyData(const MemoryBuffer& data, uint32 offset)
+void VulkanRenderBuffer::CopyData(const MemoryBuffer& dataBuf, uint32 offset)
 {
+    uint8_t* pData = NULL;
+    VkResult res = vkMapMemory(m_device, m_memory, 0, m_reqSize, 0, (void**)&pData);
+    assert(res == VK_SUCCESS);
+
+    const void* data = dataBuf.GetPointer();
+    uint32 len = dataBuf.GetLength();
+    memcpy(pData, data, len);
+
+    VkMappedMemoryRange range[1] = {};
+    range[0].sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+    range[0].memory = m_memory;
+    range[0].size = m_reqSize;
+    res = vkFlushMappedMemoryRanges(m_device, 1, range);
+    assert(res == VK_SUCCESS);
+
+    vkUnmapMemory(m_device, m_memory);
 }
 
 void VulkanRenderBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 {
     if (data != nullptr)
     {
-        uint8_t *pData = NULL;
-        VkResult res = vkMapMemory(m_device, m_memory, 0, m_reqSize, 0, (void **)&pData);
+        uint8_t* pData = NULL;
+        VkResult res = vkMapMemory(m_device, m_memory, 0, m_reqSize, 0, (void**)&pData);
         assert(res == VK_SUCCESS);
 
         memcpy(pData, data, len);
