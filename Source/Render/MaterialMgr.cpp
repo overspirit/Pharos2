@@ -129,7 +129,35 @@ bool MaterialMgr::LoadEffectFile(const char8* szPath)
 
 Material* MaterialMgr::GenerateMaterial(const char8* tech)
 {
+	if (m_techList.find(tech) == m_techList.end()) return nullptr;
+	
+	TechniqueInfo& techInfo = m_techList[tech];	
+
 	Material* material = new Material();
+	material->SetShaderProgram(techInfo.renderProgram);
+
+	for (UniformInfo& uniformInfo : techInfo.uniformInfos)
+	{
+		const char8* uniformName = uniformInfo.name.c_str();
+		uint32 uniformSize = uniformInfo.size;
+		uint32 uniformSlot = uniformInfo.slot;
+		uint32 uniformIndex = material->AddUniformaVariable(uniformName, uniformSize, uniformSlot);
+
+		for (MemberInfo& memberInfo : uniformInfo.memberList)
+		{
+			material->SetUniformMember(uniformIndex, memberInfo.name.c_str(), memberInfo.size);
+		}
+	}
+
+	for (VariableInfo& varInfo : techInfo.variableInfos)
+	{
+		if (varInfo.type == string("texture"))
+		{
+			material->SetTextureVariable(varInfo.name.c_str(), varInfo.slot);
+		}
+	}	
+
+	m_materialList.push_back(material);
 
 	return material;
 }
@@ -141,4 +169,6 @@ uint32 MaterialMgr::GetTypeSize(const char8* type)
     else if (strcmp(type, "float3") == 0) return sizeof(Vector3Df);
 	else if (strcmp(type, "float") == 0) return sizeof(Vector2Df);
 	else if (strcmp(type, "float") == 0) return sizeof(float32);
+
+	return 0;
 }

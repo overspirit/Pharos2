@@ -45,12 +45,18 @@ namespace Pharos
 		private:
 			map<string, TechniqueInfo>		m_techList;
 
+			vector<Material*>	m_materialList;
+
 		private:
 			uint32 GetTypeSize(const char8* type);
 			
 		public:
 			virtual bool LoadEffectFile(const char8* szPath);
+
 			virtual Material* GenerateMaterial(const char8* tech);
+			
+			virtual uint32 GetMaterialNum() { return m_materialList.size(); }
+			virtual Material* GetMaterial(uint32 index) { return m_materialList[index]; }
 		};
 	}
 }

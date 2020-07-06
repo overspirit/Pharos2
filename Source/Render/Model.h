@@ -40,11 +40,9 @@ namespace Pharos
 
 		public:
 			virtual uint32 AddSubModelMesh(Mesh* mesh);
-			virtual void SetSubModelMaterial(uint32 index, Material* material);
+			virtual void AddSubModelMaterial(uint32 index, Material* material);
 			virtual uint32 GetSubModelNum() { return (uint32)m_subModelList.size(); }
 			virtual Mesh* GetSubModelMesh(uint32 index) { return m_subModelList[index].mesh; }
-			virtual uint32 GetSubModelMaterialNum(uint32 index) { return m_subModelList[index].materialList.size(); }
-			virtual Material* GetSubModelMaterial(uint32 subIndex, uint32 materIndex) { return m_subModelList[subIndex].materialList[materIndex]; }
 
 			virtual void SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose);
 			virtual SkelAnimation& AddSkelAnimation(const char8* name);

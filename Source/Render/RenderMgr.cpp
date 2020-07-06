@@ -112,21 +112,12 @@ void RenderMgr::DoRender(RenderObject* obj)
 {
 	if (obj == nullptr) return;
 	
-	obj->Apply();
-
 	m_renderObjList.push_back(obj);
 }
 
 RenderObject* RenderMgr::GenerateRenderObject()
 {
-	RenderObject* renderObj = new RenderObject(m_defaultCommand);
-	if (!renderObj->Init())
-	{
-		SAFE_DELETE(renderObj);
-		return nullptr;
-	}
-
-	return renderObj;
+	return new RenderObject(m_defaultCommand);
 }
 
 void RenderMgr::SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil)

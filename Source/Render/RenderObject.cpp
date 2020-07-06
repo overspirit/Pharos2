@@ -12,40 +12,12 @@ RenderObject::RenderObject(RenderCommand* renderCmd)
 
 RenderObject::~RenderObject()
 {
-    for(auto uniformBuf : m_uniformBufs)
-    {
-        SAFE_DELETE(uniformBuf);
-    }	
-}
 
-bool RenderObject::Init()
-{
-    RenderBuffer* uniformBuf = sRenderer->GenerateRenderBuffer(UNIFORM_BUFFFER);
-    uniformBuf->Allocate(sizeof(SceneMat));
-
-    m_uniformBufs.push_back(uniformBuf);
-
-    return true;
-}
-
-bool RenderObject::SetParameterValue(const char8* valueName, const Matrix4& value)
-{
-    if(strcmp(valueName, "g_view") == 0)
-    {
-        m_sceneMat.view = value;
-    }
-    else if(strcmp(valueName, "g_proj") == 0)
-    {
-        m_sceneMat.proj = value;
-    }
-
-    return true;
 }
 
 uint32 RenderObject::AddRenderBlock(RenderBuffer* vertBuf, RenderPipeline* pipeline)
 {
     uint32 blockIndex = m_blockList.size();
-
     m_blockList.resize(blockIndex + 1);
 
     RenderBlock& block = m_blockList[blockIndex];
@@ -55,74 +27,50 @@ uint32 RenderObject::AddRenderBlock(RenderBuffer* vertBuf, RenderPipeline* pipel
     return blockIndex;
 }
 
+void RenderObject::SetBlockDrawInfo(uint32 blockIndex, DrawType drawType, uint32 itemCount)
+{
+    m_blockList.resize(blockIndex + 1);
+
+    RenderBlock& block = m_blockList[blockIndex];
+    block.drawType = drawType;
+    block.itemCount = itemCount;
+}
+
 void RenderObject::SetBlockIndexBuffer(uint32 blockIndex, RenderBuffer* indexBuffer)
 {
+    m_blockList.resize(blockIndex + 1);
+
     RenderBlock& block = m_blockList[blockIndex];
     block.indexBuf = indexBuffer;
 }
 
-void RenderObject::SetBlockTexture(uint32 blockIndex, uint32 slot, RenderTexture* tex)
+void RenderObject::SetBlockResourceSet(uint32 blockIndex, RenderResourceSet* resSet)
 {
+    m_blockList.resize(blockIndex + 1);
+
    RenderBlock& block = m_blockList[blockIndex];
-
-   if (slot >= block.texList.size())
-   {
-       block.texList.resize(slot + 1);
-   }
-
-   block.texList[slot] = tex;
-}
-
-void RenderObject::Apply()
-{
-    if (m_blockList.size() >= m_resSetList.size())
-    {
-        m_resSetList.resize(m_blockList.size());
-        for (uint32 i = 0; i < m_resSetList.size(); i++)
-        {
-            if(m_resSetList[i] == nullptr)
-            {
-                m_resSetList[i] = sRenderer->GenerateRenderResuourceSet();
-            }
-
-            RenderResourceSet* resSet = m_resSetList[i];
-
-            resSet->SetVertexUniformBuffer(0, m_uniformBufs[0]);
-            resSet->SetFragmentTexture(1, m_blockList[i].texList[1]);
-
-            resSet->ApplyResourceSet();
-        }
-    }
+   block.resSet = resSet;
 }
 
 void RenderObject::Draw()
-{
-    m_uniformBufs[0]->CopyData(&m_sceneMat, sizeof(SceneMat));
-    
-    for (int i = 0; i < m_blockList.size(); i++)
+{    
+    for (RenderBlock& renderBlock : m_blockList)
     {
-        auto& block = m_blockList[i];
+        renderBlock.pipeline->SetDrawType(renderBlock.drawType);
 
-        block.pipeline->SetDrawType(block.drawType);
+        m_renderCmd->SetPipeline(renderBlock.resSet, renderBlock.pipeline);
 
-        m_renderCmd->SetPipeline(m_resSetList[i], block.pipeline);
+        m_renderCmd->SetVertexBuffer(renderBlock.vertBuf);	    
 
-        m_renderCmd->SetVertexBuffer(block.vertBuf);
-
-	    m_renderCmd->SetIndexBuffer(block.indexBuf, IET_UINT32);
-
-        if (block.indexBuf != nullptr)
-        {
-            uint32 indexBufSize = block.indexBuf->GetBufferSize();            
+        if (renderBlock.indexBuf != nullptr)
+        {            
+            m_renderCmd->SetIndexBuffer(renderBlock.indexBuf, IET_UINT32);
             
-            m_renderCmd->DrawIndexedPrimitives(EDT_TRIANGLELIST, 0, indexBufSize / sizeof(uint32));
+            m_renderCmd->DrawIndexedPrimitives(EDT_TRIANGLELIST, 0, renderBlock.itemCount);
         }
         else
         {
-            block.vertBuf->GetBufferSize();
-
-//#error("test")
-            m_renderCmd->DrawPrimitives(EDT_TRIANGLELIST, 0, 2004);
+            m_renderCmd->DrawPrimitives(EDT_TRIANGLELIST, 0, renderBlock.itemCount);
         }        
     }
 

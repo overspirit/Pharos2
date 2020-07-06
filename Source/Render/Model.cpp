@@ -34,7 +34,7 @@ uint32 Model::AddSubModelMesh(Mesh* mesh)
 	return index;
 }
 
-void Model::SetSubModelMaterial(uint32 index, Material* material)
+void Model::AddSubModelMaterial(uint32 index, Material* material)
 {
 	if (index >= m_subModelList.size())
 	{
@@ -236,23 +236,33 @@ void Model::Prepare(RenderObject* renderObj)
 
 		RenderBuffer* indexBuffer = mesh->GetMeshIndexBuffer();
 		DrawType drawType = mesh->GetDrawType();
+		uint32 vertNum = mesh->GetVertNum();
+		uint32 faceNum = mesh->GetFaceNum();
 
-		vector<Material*> materialList = subModel.materialList;
+		vector<Material*>& materialList = subModel.materialList;
 
 		for (Material* material : materialList)
 		{
+			material->SetWorldParamValue(m_world);
+
 			RenderPipeline* pipeline = material->GetRenderPipeline();
 			pipeline->SetInputLayoutDesc(vertDesc.data(), vertDesc.size());
 
-//#error("Model")
-			RenderTexture* texture = material->GetTexture("");
+			RenderResourceSet* resSet = material->GetRenderResourceSet();
 
 			uint32 blockIndex = renderObj->AddRenderBlock(vertBuffer, pipeline);
+			renderObj->SetBlockResourceSet(blockIndex, resSet);
 
-			renderObj->SetBlockDrawType(blockIndex, drawType);
+			if (indexBuffer == nullptr)	
+			{
+				renderObj->SetBlockDrawInfo(blockIndex, drawType, vertNum);
+			}
+			else
+			{
+				renderObj->SetBlockIndexBuffer(blockIndex, indexBuffer);
 
-			renderObj->SetBlockIndexBuffer(blockIndex, indexBuffer);
-			renderObj->SetBlockTexture(blockIndex, 1, texture);
+				renderObj->SetBlockDrawInfo(blockIndex, drawType, faceNum * 3);				
+			}			
 		}
 	}
 }
