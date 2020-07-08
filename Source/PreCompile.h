@@ -127,8 +127,6 @@ using namespace std;
 #include <pthread.h>
 #include <sched.h>
 
-#include <android_native_app_glue.h>
-
 #include <android/sensor.h>
 #include <android/log.h>
 #include <android/configuration.h>

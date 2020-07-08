@@ -73,6 +73,8 @@ const char* GetMainBundleDirectory();
 #  define LOGV(...)  ((void)0)
 #endif
 
+#include "Android/android_native_app_glue.h"
+#include "Android/File.h"
 #include "Android/Timer.h"
 #include "Android/AndroidWindow.h"
 #include "Android/PlatformAndroid.h"
@@ -89,6 +91,7 @@ const char* GetMainBundleDirectory();
 //////////////////////////////////////////////////////////////////////////
 #if defined(_LINUX_PLATFORM_)
 
+#include "Linux/File.h"
 #include "Linux/Timer.h"
 #include "Linux/glfw_window.h"
 #include "Linux/PlatformLinux.h"
@@ -100,8 +103,6 @@ const char* GetMainBundleDirectory();
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-
-#include "File.h"
 
 #include "MemoryBuffer.h"
 

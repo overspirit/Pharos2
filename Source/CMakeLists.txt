@@ -8,7 +8,6 @@ include_directories(Source)
 message("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(CORE_FILES
-        Core/File.cpp
         Core/Font.cpp
         Core/Image.cpp
         Core/Kernel.cpp
@@ -19,11 +18,27 @@ set(CORE_FILES
         Core/XmlAttribute.cpp
         Core/XmlDocument.cpp
         Core/XmlNode.cpp
-        Core/Linux/glfw_window.cpp
-        Core/Linux/PlatformLinux.cpp
-        Core/Linux/main.cpp
-        Core/Linux/Timer.cpp
 )
+
+if (ANDROID)
+    list(APPEND CORE_FILES
+            Core/Android/android_native_app_glue.c
+            Core/Android/AndroidWindow.cpp
+            Core/Android/PlatformAndroid.cpp
+            Core/Android/File.cpp
+            Core/Android/Timer.cpp
+            Core/Android/main.cpp
+            )
+else()
+    list(APPEND CORE_FILES
+            Core/Linux/glfw_window.cpp
+            Core/Linux/PlatformLinux.cpp
+            Core/Linux/File.cpp
+            Core/Linux/Timer.cpp
+            Core/Linux/main.cpp
+            )
+endif()
+
 
 set(RENDER_FILES
         Render/Renderer/Vulkan/VulkanInitializeHelper.cpp
@@ -81,5 +96,13 @@ set(SCENE_FILES
 add_library(${PROJECT_NAME} STATIC ${CORE_FILES} ${RENDER_FILES} ${DESKTOP_FILES} ${SCENE_FILES})
 
 target_link_libraries(${PROJECT_NAME} vulkan)
-target_link_libraries(${PROJECT_NAME} xcb)
+
 target_link_libraries(${PROJECT_NAME} ${EXTERNAL_LIBS})
+
+if (ANDROID)
+    find_library( log-lib log )
+    target_link_libraries( ${PROJECT_NAME} ${log-lib} )
+    target_link_libraries(${PROJECT_NAME} android.so)
+else()
+    target_link_libraries(${PROJECT_NAME} xcb)
+endif()

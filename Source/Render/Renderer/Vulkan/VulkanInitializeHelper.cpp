@@ -88,11 +88,15 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 	
 	//注意这里，Vulkan 是 基于各种扩展的。。。
 	std::vector<const char*> exts;
-	exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 	exts.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
 	exts.push_back(sourface_extension);
 
-	const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
+	const std::vector<const char*> validationLayers;
+
+#if defined(_LINUX_PLATFORM_)
+	exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+	validationLayers.push_back("VK_LAYER_KHRONOS_validation");
+#endif
 
 	VkInstanceCreateInfo inst_info = {};
 	inst_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -101,13 +105,14 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 	inst_info.pApplicationInfo = &app_info;
 	inst_info.enabledExtensionCount = exts.size();
 	inst_info.ppEnabledExtensionNames = exts.data();
-	inst_info.enabledLayerCount = 1;
+	inst_info.enabledLayerCount = validationLayers.size();
 	inst_info.ppEnabledLayerNames = validationLayers.data();
 
 	VkInstance inst;
 	VkResult res = vkCreateInstance(&inst_info, NULL, &inst);
 	if (res != VK_SUCCESS) return VK_NULL_HANDLE;
 
+#if defined(_LINUX_PLATFORM_)
 	m_logFile.Create("log.txt", false);
 
 	VkDebugUtilsMessengerCreateInfoEXT debugUtilsInfo = {};
@@ -128,6 +133,7 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 	{
 		return VK_NULL_HANDLE;
 	}
+#endif
 
 	return inst;
 }
