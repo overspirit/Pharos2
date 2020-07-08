@@ -10,10 +10,10 @@ message("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 set(CORE_FILES
         Core/Font.cpp
         Core/Image.cpp
+        Core/Package.cpp
         Core/Kernel.cpp
         Core/MemoryBuffer.cpp
         Core/Properties.cpp
-        Core/ResBase.cpp
         Core/ResourceManager.cpp
         Core/XmlAttribute.cpp
         Core/XmlDocument.cpp

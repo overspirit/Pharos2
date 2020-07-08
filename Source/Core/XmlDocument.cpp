@@ -32,12 +32,23 @@ bool XmlDocument::CreateRootNode(const char8* name)
 	return true;
 }
 
-bool XmlDocument::Open(const char8* path)
+bool XmlDocument::Open(File* file)
 {
 	if (m_first_node != nullptr) return false;
 
-	m_resFile = new File();
-	if (!m_resFile->Open(path)) return false;
+	if (m_loaded) return true;
+
+	uint32 dwFileSize = file->GetSize();
+
+	char8* str = this->allocate_string(nullptr, dwFileSize + 1);
+	str[dwFileSize] = 0;
+	file->Read(str, dwFileSize);
+	
+	this->parse<parse_flag>(str);
+
+	m_strFilePath = file->GetPath();
+
+	m_loaded = true;
 
 	return true;
 }
@@ -63,46 +74,6 @@ bool XmlDocument::Save(const char8* path)
 
 	return true;
 }
-
-bool XmlDocument::Load()
-{
-	if (m_loaded) return true;
-
-	uint32 dwFileSize = m_resFile->GetSize();
-
-	char8* str = this->allocate_string(nullptr, dwFileSize + 1);
-	str[dwFileSize] = 0;
-	m_resFile->Read(str, dwFileSize);
-	
-	this->parse<parse_flag>(str);
-
-	m_strFilePath = m_resFile->GetPath();
-
-	m_loaded = true;
-
-	return true;
-}
-
-// bool XmlDocument::LoadXml(const char8* szXmlStr)
-// {
-// 	if (m_first_node != nullptr) return false;
-// 
-// 	uint32 len = (uint32)Utils::strlen_utf8(szXmlStr);
-// 	char8* buf = this->allocate_string(nullptr, len + 1);
-// 	buf[len] = 0;
-// 	strcpy(buf, szXmlStr);
-// 
-// 	try
-// 	{
-// 		this->parse<parse_flag>(buf);
-// 	}
-// 	catch (Utils::Exception&)
-// 	{
-// 		return false;
-// 	}
-// 
-// 	return true;
-// }
 
 XmlNode* XmlDocument::GetRootNode()
 {

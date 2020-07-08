@@ -8,8 +8,7 @@ File::File(void)
 
 File::~File(void)
 {
-	if (m_fileHandel != nullptr)
-		fclose(m_fileHandel);
+	Close();
 }
 
 bool File::Create(const char8* path, bool truncate)
@@ -121,4 +120,13 @@ uint32 File::GetSize()
     Seek(currPos, EFST_BEGIN);
     
     return fileSize;
+}
+
+void File::Close()
+{
+	if (m_fileHandel != nullptr)
+	{
+		fclose(m_fileHandel);
+		m_fileHandel = nullptr;
+	}
 }

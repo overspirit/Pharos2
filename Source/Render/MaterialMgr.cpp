@@ -14,7 +14,7 @@ MaterialMgr::~MaterialMgr()
 bool MaterialMgr::LoadEffectFile(const char8* szPath)
 {
 	XmlDocument* effectFile = sResMgr->GenerateXmlDocument(szPath);
-	effectFile->Load();
+	if (effectFile == nullptr) return false;	
 
 	XmlNode* rootNode = effectFile->GetRootNode();
 	XmlNode* libraryNode = rootNode->GetFirstNode("library");

@@ -87,7 +87,7 @@ void DesktopMgr::SetDesktopSize(int32 width, int32 height)
 bool DesktopMgr::LoadUILayoutFile(const char8* szFile)
 {
 	XmlDocument* doc = sResMgr->GenerateXmlDocument(szFile);
-	if (!doc->Load()) return false;
+	if (doc == nullptr) return false;
 
 	XmlNode* pRoot = doc->GetRootNode();
 	if (pRoot == nullptr) return false;

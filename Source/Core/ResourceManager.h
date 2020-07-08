@@ -22,6 +22,9 @@ namespace Pharos
 
 			string			m_currWorkPath;
 
+		private:			
+			ResBase* FindResource(const char8* path, ResType type);
+
 		public:
 			virtual bool Init();			
 			virtual void Destroy();
@@ -30,10 +33,11 @@ namespace Pharos
 			Font* GenerateFont(const char8* path);
 			Image* GenerateImage(const char8* path);
 			XmlDocument* GenerateXmlDocument(const char8* path);
+			Package* GeneratePackage(const char8* path);
 
-			ResBase* GenerateResource(ResType resType);
+			ResBase* GenerateResource(ResType resType, File* file = nullptr);
 
-			string FindResourcePath(const char8* path);
+			File* CreateResourceFile(const char8* path);
 		};
 	}
 }

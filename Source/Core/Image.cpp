@@ -25,57 +25,13 @@ bool Image::CreateImage(int32 width, int32 height)
 	return true;
 }
 
-bool Image::Open(const char8* path)
+bool Image::Open(File* file)
 {
-	m_resFile = new File;
-	if (!m_resFile->Open(path)) return false;
-	if (!LoadImageFile()) return false;
-
-    return true;
-}
-
-bool Image::Save(const char8* path)
-{
-	string savePath;
-	
-	if (path != nullptr)
-	{
-		savePath = path;
-	}
-	else if (m_resFile != nullptr)
-	{
-		savePath = m_resFile->GetPath();
-	}
-	else
-	{
-		assert(false);
-	}
-	
-	char16 buf[255];
-	Utils::utf8_to_unicode(savePath.c_str(), -1, buf, 255);
-
-	wcscat(buf, L".bmp");
-
-	//???没有通过file接口保存，需要指定回调
-	return (FreeImage_SaveU(FIF_BMP, m_dib, buf) == TRUE);
-}
-
-bool Image::LoadImageFile()
-{
-//    FreeImageIO io;
-//    io.read_proc = FI_Read;
-//    io.write_proc = FI_Write;
-//    io.seek_proc = FI_Seek;
-//    io.tell_proc = FI_Tell;
-//    
-//    FreeImage_GetFileTypeFromHandle(&io, (void*)0x12345678);
-    
-    //FreeImage_LoadFromHandle()
-    uint32 fileSize = m_resFile->GetSize();
+    uint32 fileSize = file->GetSize();
     
 	MemoryBuffer memBuf(fileSize);
     char8* data = (char8*)memBuf.GetPointer();
-	m_resFile->Read(data, fileSize);
+	file->Read(data, fileSize);
     
     FIMEMORY* fiMem = FreeImage_OpenMemory((BYTE*)data, fileSize);
     
@@ -89,7 +45,7 @@ bool Image::LoadImageFile()
         {
             FreeImage_FlipVertical(m_dib);
             
-            m_strFilePath = m_resFile->GetPath();
+            m_strFilePath = file->GetPath();
             
             FreeImage_CloseMemory(fiMem);
             
@@ -98,8 +54,19 @@ bool Image::LoadImageFile()
     }
     
     FreeImage_CloseMemory(fiMem);
-    
-    return false;
+
+    return true;
+}
+
+bool Image::Save(const char8* path)
+{	
+	char16 buf[255];
+	Utils::utf8_to_unicode(path, -1, buf, 255);
+
+	wcscat(buf, L".bmp");
+
+	//???没有通过file接口保存，需要指定回调
+	return (FreeImage_SaveU(FIF_BMP, m_dib, buf) == TRUE);
 }
 
 uint32 Image::GetWidth() const

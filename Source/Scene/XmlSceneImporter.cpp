@@ -14,7 +14,7 @@ XmlSceneImporter::~XmlSceneImporter(void)
 bool XmlSceneImporter::LoadSceneFile(const char8* file)
 {
 	XmlDocument* doc = sResMgr->GenerateXmlDocument(file);
-	if (!doc->Load()) return false;
+	if (doc == nullptr) return false;
 
 	XmlNode* rootNode = doc->GetRootNode();
 	ReadMaterialChunk(rootNode);
