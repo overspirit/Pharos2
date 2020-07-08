@@ -13,7 +13,8 @@ namespace Pharos
 		private:
 			VkDevice	m_device;
 
-			map<string, vector<uint32>>		m_shaderDatas;
+			Package*	m_libPackage;
+
 
 			VkShaderModule		m_vertShader;
 			VkShaderModule		m_fragShader;

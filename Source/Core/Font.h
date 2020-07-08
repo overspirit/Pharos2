@@ -84,8 +84,7 @@ namespace Pharos
 			void LoadDisChar(char16 ch);
 
 		public:
-			virtual bool Open(const char8* path);
-			virtual bool Save(const char8* path);
+			virtual bool Open(File* file);
 
 			virtual float32* GetDisCharData(char16 ch);
 			virtual const tagCharInfo& GetDisCharInfo(char16 ch);

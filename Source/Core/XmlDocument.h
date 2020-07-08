@@ -21,12 +21,11 @@ namespace Pharos
 			virtual xml_attribute<char8>* allocate_attribute(const char8* name = 0, const char8* value = 0, size_t name_size = 0, size_t value_size = 0);
 
 		public:
-            virtual bool CreateRootNode(const char8* name);
-			virtual bool Open(const char8* path);
-			virtual bool Save(const char8* path);
+			virtual bool Open(File* file);
 
-			virtual bool Load();
-			//virtual bool LoadXml(const char8* szXmlStr);
+		public:
+            virtual bool CreateRootNode(const char8* name);			
+			virtual bool Save(const char8* path);
 
 			virtual XmlNode* GetRootNode();
 		};

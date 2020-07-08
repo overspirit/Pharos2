@@ -112,6 +112,7 @@ const char* GetMainBundleDirectory();
 #include "Font.h"
 #include "Image.h"
 #include "Properties.h"
+#include "Package.h"
 #include "ResourceManager.h"
 
 #include "IApplication.h"

@@ -16,11 +16,11 @@ namespace Pharos
 			FIBITMAP*		m_dib;
 
 		public:
-			virtual bool CreateImage(int32 width, int32 height);
-			virtual bool Open(const char8* path);
-			virtual bool Save(const char8* path);
+			virtual bool Open(File* file);
 
-			virtual bool LoadImageFile();
+		public:
+			virtual bool CreateImage(int32 width, int32 height);			
+			virtual bool Save(const char8* path);
 
 			virtual uint32 GetWidth() const;
 			virtual uint32 GetHeight() const;

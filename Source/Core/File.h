@@ -35,6 +35,7 @@ namespace Pharos
 			virtual bool	IsEndOfFile();
 			virtual uint32	GetSize();
 			virtual void	Flush();
+			virtual void	Close();
 			virtual const char8* GetPath() { return m_filePath.c_str(); }
 		};
 	}

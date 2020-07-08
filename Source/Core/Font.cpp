@@ -29,19 +29,16 @@ Font::~Font()
 	SAFE_DELETE(m_filter);
 }
 
-bool Font::Open(const char8* szFile)
+bool Font::Open(File* file)
 {
-	m_resFile = new File();
-	if (!m_resFile->Open(szFile)) return false;
-
-	uint32 font_file_size = m_resFile->GetSize();
+	uint32 font_file_size = file->GetSize();
 	m_fontData.Alloc(font_file_size);
-	m_resFile->Read(m_fontData.GetPointer(), font_file_size);
+	file->Read(m_fontData.GetPointer(), font_file_size);
 
 	int32 ret = FT_New_Memory_Face(m_fontLib, (const FT_Byte*)m_fontData.GetPointer(), font_file_size, 0, &m_face);
 	if (ret != 0) return false;
 
-	m_strFilePath = m_resFile->GetPath();
+	m_strFilePath = file->GetPath();
 
 	m_char_index.resize(65536);
 	memset(&m_char_index[0], 0xFF, sizeof(uint16) * m_char_index.size());
@@ -57,14 +54,6 @@ bool Font::Open(const char8* szFile)
 	FT_Select_Charmap(m_face, FT_ENCODING_UNICODE);
 
 	return true;
-}
-
-bool Font::Save(const char8* path)
-{
-	//font 不能被保存，只能被读取
-	//...
-
-	return false;
 }
 
 float32* Font::GetDisCharData(char16 ch)

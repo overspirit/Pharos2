@@ -11,10 +11,10 @@ set(CORE_FILES
         Core/File.cpp
         Core/Font.cpp
         Core/Image.cpp
+        Core/Package.cpp
         Core/Kernel.cpp
         Core/MemoryBuffer.cpp
         Core/Properties.cpp
-        Core/ResBase.cpp
         Core/ResourceManager.cpp
         Core/XmlAttribute.cpp
         Core/XmlDocument.cpp
