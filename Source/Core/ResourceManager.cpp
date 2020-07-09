@@ -46,36 +46,28 @@ File* ResourceManager::CreateResourceFile(const char8* path)
 {
 	File* file = new File();	
 
-	Utils::Path pendingPath(path);
-	string pendingDir = pendingPath.GetPathDirectory();
-
-	if (pendingDir.empty())
+	string fullPath = m_currWorkPath + path;
+	if (file->Open(fullPath.c_str()))
 	{
-		string fullPath = m_currWorkPath + path;
-		if (file->Open(fullPath.c_str()))
-		{
-			return file;
-		}
+		return file;
 	}
-	else
-	{
-		string homePath = sKernel->GetHomeDirectoryPath();
-		string fullPath = homePath + path;
-		if (file->Open(fullPath.c_str()))
-		{
-			Utils::Path tmp_path(fullPath.c_str());
-			m_currWorkPath = tmp_path.GetFullPath();
-			return file;
-		}
 
-		string bundlePath = sKernel->GetBundleDirectoryPath();
-		fullPath = bundlePath + path;
-		if (file->Open(fullPath.c_str()))
-		{
-			Utils::Path tmp_path(fullPath.c_str());
-			m_currWorkPath = tmp_path.GetFullPath();
-			return file;
-		}
+	string homePath = sKernel->GetHomeDirectoryPath();
+	fullPath = homePath + path;
+	if (file->Open(fullPath.c_str()))
+	{
+		Utils::Path tmp_path(fullPath.c_str());
+		m_currWorkPath = tmp_path.GetFullPath();
+		return file;
+	}
+
+	string bundlePath = sKernel->GetBundleDirectoryPath();
+	fullPath = bundlePath + path;
+	if (file->Open(fullPath.c_str()))
+	{
+		Utils::Path tmp_path(fullPath.c_str());
+		m_currWorkPath = tmp_path.GetFullPath();
+		return file;
 	}
 
 	SAFE_DELETE(file);

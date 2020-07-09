@@ -62,11 +62,17 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 {
 	if (event.button == MOUSE_LEFT)
 	{
-		m_bLeftDown = (event.state == STATE_DOWN) ? true : false;
+		if (event.state != STATE_KEEP)
+		{
+			m_bLeftDown = (event.state == STATE_DOWN) ? true : false;
+		}
 	}
 	else if (event.button == MOUSE_RIGHT)
 	{
-		m_bRightDown = (event.state == STATE_DOWN) ? true : false;
+		if (event.state != STATE_KEEP)
+		{
+			m_bRightDown = (event.state == STATE_DOWN) ? true : false;
+		}
 	}
 	else
 	{

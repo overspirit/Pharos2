@@ -56,6 +56,9 @@ bool VulkanDefaultTarget::CreateDefaultTarget(VkSwapchainKHR swapchain, int32 wi
 
         m_swapchainImageViews.push_back(colorImageView);
         m_frameBufList.push_back(frameBuffer);
+
+        VkFence fence = CreateDrawFence(m_device);
+        m_swapchainFence.push_back(fence);
     }
 
     m_swapchainImages.push_back(depthImage);
@@ -116,6 +119,20 @@ VkImage VulkanDefaultTarget::CreateDepthImage(int width, int height, VkFormat de
     return depthImage;
 }
 
+VkFence VulkanDefaultTarget::CreateDrawFence(VkDevice device)
+{
+    VkFenceCreateInfo fenceInfo;
+    fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+    fenceInfo.pNext = NULL;
+    fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+    VkFence fence;
+    VkResult res = vkCreateFence(device, &fenceInfo, NULL, &fence);
+    if(res != VK_SUCCESS) return VK_NULL_HANDLE;
+
+    return fence;
+}
+
 VkRenderPassBeginInfo VulkanDefaultTarget::GetRenderPassBeginInfo()
 {
     VkResult res = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_semaphore, VK_NULL_HANDLE, &m_currFrameIndex);
@@ -155,7 +172,18 @@ void VulkanDefaultTarget::PresentQueue(VkQueue queue)
     presentInfo.waitSemaphoreCount = 0;
     presentInfo.pResults = NULL;
 
-    VkResult res = vkQueuePresentKHR(queue, &presentInfo);
+    VkFence waitFence = m_swapchainFence[m_currFrameIndex];
+
+    VkResult res = VK_NOT_READY;
+    do
+    {
+        res = vkGetFenceStatus(m_device, waitFence);
+    } while (res != VK_SUCCESS);
+
+    res = vkWaitForFences(m_device, 1, &waitFence, VK_TRUE, UINT64_MAX);
+    vkResetFences(m_device, 1, &waitFence);
+
+    res = vkQueuePresentKHR(queue, &presentInfo);
     assert((res == VK_SUCCESS) || (res == VK_SUBOPTIMAL_KHR)); //VK_SUBOPTIMAL_KHR 可能是横纵向反了。。
 }
 

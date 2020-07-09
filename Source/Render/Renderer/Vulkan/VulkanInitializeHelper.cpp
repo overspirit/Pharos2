@@ -332,7 +332,7 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
     swapchain_ci.preTransform = pre_transform;
     swapchain_ci.compositeAlpha = composite;
     swapchain_ci.imageArrayLayers = 1;
-    swapchain_ci.presentMode = VK_PRESENT_MODE_FIFO_KHR;
+    swapchain_ci.presentMode = VK_PRESENT_MODE_MAILBOX_KHR;//VK_PRESENT_MODE_FIFO_KHR;  //垂直同步
     swapchain_ci.oldSwapchain = VK_NULL_HANDLE;
     swapchain_ci.clipped = true;
     swapchain_ci.imageColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;

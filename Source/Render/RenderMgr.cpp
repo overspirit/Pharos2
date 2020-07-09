@@ -205,9 +205,9 @@ void RenderMgr::Render(float32 fElapsed)
 	scissorRect.left = 0;
 	scissorRect.top = 0;
 	scissorRect.right = width;
-	scissorRect.bottom = height;	
-	m_defaultCommand->SetScissorRect(scissorRect);	
-	
+	scissorRect.bottom = height;
+	m_defaultCommand->SetScissorRect(scissorRect);
+
 	for(RenderObject* obj : m_renderObjList)
 	{
 		obj->Draw();
@@ -236,5 +236,7 @@ void RenderMgr::Render(float32 fElapsed)
 		//OutputDebugStringA(buf);
 
 		printf("FPS:%d\n", m_fps);
+
+		LOGV("FPS:%d\n", m_fps);
 	}
 }

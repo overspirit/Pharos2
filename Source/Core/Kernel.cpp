@@ -13,9 +13,11 @@ Kernel::~Kernel()
 
 }
 
-bool Kernel::Init(const void* hWnd)
+bool Kernel::Init(const void* hWnd, int32 wndWidth, int32 wndHeight)
 {
 	m_hWnd = hWnd;
+	m_wndSize.width = wndWidth;
+	m_wndSize.height = wndHeight;
 
     if (!sResMgr->Init()) return false;
 

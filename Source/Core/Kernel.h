@@ -23,7 +23,7 @@ namespace Pharos
 			IApplication*		m_pApp;
 
 		public:
-			virtual bool Init(const void* hWnd);			
+			virtual bool Init(const void* hWnd, int32 wndWidth, int32 wndHeight);
 			virtual void Destroy();
 			virtual bool StartUp();
 			virtual void Run(float32 fElapsed);

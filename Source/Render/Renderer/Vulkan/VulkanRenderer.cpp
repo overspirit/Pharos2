@@ -61,7 +61,7 @@ bool VulkanRenderer::Create(const DeviceConfig& cfg)
 
 void VulkanRenderer::Commit()
 {
-	VkFence drawFence = CreateDrawFence(m_device);
+    VkFence drawFence = m_defaultTarget->GetCurrentFence();
 
 	const VkCommandBuffer cmd_bufs[] = {m_cmdBuf};
     VkPipelineStageFlags pipe_stage_flags = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
@@ -80,15 +80,9 @@ void VulkanRenderer::Commit()
     VkResult res = vkQueueSubmit(m_queue, 1, submit_info, drawFence);
     assert(res == VK_SUCCESS);
 
-	do
-	{
-		res = vkWaitForFences(m_device, 1, &drawFence, VK_TRUE, 100000000);
-	} while (res == VK_TIMEOUT);
-	assert(res == VK_SUCCESS);
-
 	m_defaultTarget->PresentQueue(m_queue);
 
-	vkDestroyFence(m_device, drawFence, NULL);
+	//vkDestroyFence(m_device, drawFence, NULL);
 }
 
 //

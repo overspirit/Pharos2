@@ -75,14 +75,8 @@ MemoryBuffer* Package::GetPackageFileBuffer(const char8* packagePath)
 
 voidpf Package::OpenPackage(voidpf opaque, const void* filename, int mode)
 {
-	File* file = (File*)opaque;
-
-	if(!file->Open((const char8*)filename))
-	{
-		return nullptr;
-	}
-
-	return file;
+	//file 已经打开了，不需要重复打开...
+	return opaque;
 }
 
 uLong Package::ReadPackage(voidpf opaque, voidpf stream, void* buf, uLong size)
