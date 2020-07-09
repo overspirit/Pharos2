@@ -33,7 +33,7 @@ bool PlatformLinux::Init()
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());
 
-	if (!sKernel->Init(m_window)) return false;
+	if (!sKernel->Init(m_window, wndWidth, wndHeight)) return false;
 
 	m_timer.Reset();
 

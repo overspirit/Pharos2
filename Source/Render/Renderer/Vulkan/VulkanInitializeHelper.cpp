@@ -91,7 +91,7 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 	exts.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
 	exts.push_back(sourface_extension);
 
-	const std::vector<const char*> validationLayers;
+	std::vector<const char*> validationLayers;
 
 #if defined(_LINUX_PLATFORM_)
 	exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -332,7 +332,7 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
     swapchain_ci.preTransform = pre_transform;
     swapchain_ci.compositeAlpha = composite;
     swapchain_ci.imageArrayLayers = 1;
-    swapchain_ci.presentMode = VK_PRESENT_MODE_MAILBOX_KHR;//VK_PRESENT_MODE_FIFO_KHR;  //垂直同步
+    swapchain_ci.presentMode = VK_PRESENT_MODE_FIFO_KHR;  //垂直同步
     swapchain_ci.oldSwapchain = VK_NULL_HANDLE;
     swapchain_ci.clipped = true;
     swapchain_ci.imageColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
