@@ -3,11 +3,12 @@
 
 MyApp::MyApp()
 {
-	
+	m_mapNode = nullptr;
 }
 
 MyApp::~MyApp()
 {
+	SAFE_DELETE(m_mapNode);
 }
 
 IMPL_CREATE_APPLICATION(MyApp)
@@ -31,10 +32,10 @@ bool MyApp::Init()
 	//////////////////////////////////////////////////////////////////////////
 	m_scene = sSceneMgr->CreateScene();
 	sSceneMgr->SetCurrScene(m_scene);
-	m_scene->SetSceneGridShow(true);
+	m_scene->SetSceneGridShow(false);
 	
 	m_camera = m_scene->GetSceneCamera();
-	m_camera->BuildViewMatrix(Vector3Df(0, 20.0f, -50.0f), Vector3Df(0, 1.0f, 0));
+	m_camera->BuildViewMatrix(Vector3Df(-40.0f, 45.0f, 20.0f), Vector3Df(0, 1.0f, 0));
 	m_camera->BuildProjMatrix((float32)PI / 4, wndSize.width, wndSize.height, 1.0f, 1000.0f);
 	//////////////////////////////////////////////////////////////////////////
 	
@@ -44,6 +45,24 @@ bool MyApp::Init()
 	
 	SceneNode* sceneNode = m_scene->GetSceneNode(0);
 	m_model = sceneNode->GetModel(0);
+	
+	m_mapNode = new MapNode();
+	m_mapNode->LoadMap("Map/subregion.json");
+	Vector3Df firstPos = m_mapNode->GetSubRegion(0);
+
+	Matrix4 rotation;
+	rotation.SetRotationDegrees(Vector3Df(0, -90.0f, 0));
+
+	Matrix4 translatin;
+	translatin.SetTranslation(firstPos);
+
+	Matrix4 carTran = rotation * translatin;
+	sceneNode->SetLocalTransform(carTran);
+
+	m_camera->SetLookAtPt(firstPos);
+
+	
+	m_scene->AddSceneNode(m_mapNode);
 	
 	return true;
 }

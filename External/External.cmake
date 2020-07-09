@@ -6,6 +6,7 @@ set(EXTERNAL_DIR ${PROJECT_SOURCE_DIR}/External)
 
 #message(STATUS "EXTERNAL_DIR: ${EXTERNAL_DIR}")
 
+
 set(EXTERNAL_LIST)
 #list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/glslang)
 list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/zlib-1.2.11)
@@ -13,6 +14,7 @@ list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/libpng-1.6.29)
 list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/libjpeg-9b)
 list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/freetype-2.8)
 list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/FreeImage-3.17.0)
+
 
 set(EXTERNAL_LIBS)
 #list(APPEND EXTERNAL_LIBS glslang)
@@ -32,9 +34,12 @@ include_directories(${EXTERNAL_DIR}/libjpeg-9b/Source)
 include_directories(${EXTERNAL_DIR}/freetype-2.8/Include)
 include_directories(${EXTERNAL_DIR}/FreeImage-3.17.0/Include)
 include_directories(${EXTERNAL_DIR}/rapidXml)
+include_directories(${EXTERNAL_DIR}/rapidjson)
+
 
 if(!ANDROID)
     list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/glfw)
     list(APPEND EXTERNAL_LIBS glfw)
     include_directories(${EXTERNAL_DIR}/glfw/include)
 endif()
+

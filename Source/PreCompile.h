@@ -174,8 +174,11 @@ using namespace std;
 //  #include <dlmalloc.h>
 //  
 #include <rapidxml.hpp>
-
 using namespace rapidxml;
+
+#include <document.h>
+#include <prettywriter.h>
+#include <stringbuffer.h>
 
 #include <unzip.h>
 #include <zip.h>

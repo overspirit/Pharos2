@@ -20,6 +20,8 @@ private:
 	Model*					m_model;
 	
 	SceneMatrix             m_sceneMat;
+
+	MapNode*		m_mapNode;
 	
 	bool            m_bLeftDown;
 	bool            m_bRightDown;
