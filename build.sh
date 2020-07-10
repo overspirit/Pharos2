@@ -5,8 +5,11 @@ echo "project dir: ${PROJECT_DIR}"
 DATA_DIR=${PROJECT_DIR}/Data
 echo "data dir: ${DATA_DIR}"
 
-SHADER_RESOURCE_DIR=${PROJECT_DIR}/Source/Render/Shader/Vulkan
-echo "shader resource dir: ${SHADER_RESOURCE_DIR}"
+SHADER_DIR=${PROJECT_DIR}/Source/Render/Shader
+#echo "shader resource dir: ${SHADER_DIR}"
+
+VULKAN_SHADER_DIR=${SHADER_DIR}/Vulkan
+#echo "vulkan shader resource dir: ${VULKAN_SHADER_DIR}"
 
 function clean() {
     echo "clean build dir..."
@@ -30,17 +33,19 @@ function main() {
 
     echo "build_all"
 
-    #glslangValidator ${SHADER_RESOURCE_DIR}/shaders.vert -V -o ${SHADER_RESOURCE_DIR}/vertexShader.spv
-    #glslangValidator ${SHADER_RESOURCE_DIR}/shaders.frag -V -o ${SHADER_RESOURCE_DIR}/fragmentShader.spv
-    #zip ${DATA_DIR}/Shader/default.lib ${SHADER_RESOURCE_DIR}/vertexShader.spv ${SHADER_RESOURCE_DIR}/fragmentShader.spv
-    #rm ${SHADER_RESOURCE_DIR}/vertexShader.spv
-    #rm ${SHADER_RESOURCE_DIR}/fragmentShader.spv
-
-    ${SHADER_RESOURCE_DIR}/compile.sh ${DATA_DIR}/Shader
+    ${SHADER_DIR}/copy.sh ${DATA_DIR}/Shader
     if [ $? -eq 0 ];then
-        echo "build success!!!"
+        echo "copy success!!!"
     else 
-        echo "build fail!!!"
+        echo "copy fail!!!"
+        return 1
+    fi
+
+    ${VULKAN_SHADER_DIR}/compile.sh ${DATA_DIR}/Shader
+    if [ $? -eq 0 ];then
+        echo "compile success!!!"
+    else 
+        echo "compile fail!!!"
         return 1
     fi
 

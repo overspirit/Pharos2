@@ -33,8 +33,8 @@ namespace Pharos
 
 			virtual void SetPipeline(RenderResourceSet* resSet, RenderPipeline* pipeline);
 
-			virtual void DrawPrimitives(DrawType type, uint32 start, uint32 count);
-			virtual void DrawIndexedPrimitives(DrawType type, uint32 start, uint32 count);
+			virtual void DrawPrimitives(uint32 start, uint32 count);
+			virtual void DrawIndexedPrimitives(uint32 start, uint32 count);
 
             virtual void EndCommand();
 		};

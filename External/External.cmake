@@ -37,7 +37,7 @@ include_directories(${EXTERNAL_DIR}/rapidXml)
 include_directories(${EXTERNAL_DIR}/rapidjson)
 
 
-if(!ANDROID)
+if (NOT ANDROID)
     list(APPEND EXTERNAL_LIST ${EXTERNAL_DIR}/glfw)
     list(APPEND EXTERNAL_LIBS glfw)
     include_directories(${EXTERNAL_DIR}/glfw/include)

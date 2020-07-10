@@ -11,7 +11,7 @@ VulkanDepthStencilState::~VulkanDepthStencilState(void)
 
 bool VulkanDepthStencilState::CreateState(const DepthStencilStateDesc& desc)
 {    
-    m_depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	m_depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     m_depthStencilState.pNext = NULL;
     m_depthStencilState.flags = 0;
     m_depthStencilState.depthTestEnable = VK_TRUE;

@@ -177,7 +177,14 @@ RenderRasterizerState* VulkanRenderer::CreateRasterizerState(const RasterizerSta
 
 RenderDepthStencilState* VulkanRenderer::CreateDepthStencilState(const DepthStencilStateDesc& desc)
 {
-	return nullptr;
+	VulkanDepthStencilState* state = new VulkanDepthStencilState();
+	if (!state->CreateState(desc))
+	{
+		SAFE_DELETE(state);
+		return nullptr;
+	}
+
+	return state;
 }
 
 RenderCommand* VulkanRenderer::GenerateRenderCommand(RenderTarget* renderTarget)

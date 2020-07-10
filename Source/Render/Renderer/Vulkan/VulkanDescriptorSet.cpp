@@ -101,7 +101,7 @@ void VulkanDesciptorSet::SetFragmentTexture(uint32 slot, RenderTexture* tex)
     m_writeDescSets[slot] = writeDescSet;
 }
 
-bool VulkanDesciptorSet::ApplyResourceSet()
+bool VulkanDesciptorSet::UpdateSet()
 {
     if (m_descSetLayout == VK_NULL_HANDLE) //todo: 或者binding发生变化
     {

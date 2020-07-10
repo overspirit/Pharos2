@@ -25,7 +25,6 @@ function compileSprite3D() {
         ${COMPILE_DIR}/Sprite3DTexturePS.spv
 
     rm ${COMPILE_DIR}/*.spv
-    cp ${COMPILE_DIR}/Sprite3D.fxml $1
 
     echo "compile Sprite3D success!!!"
 }
@@ -43,7 +42,6 @@ function compileSkeletal() {
         ${COMPILE_DIR}/SkeletalPS.spv
 
     rm ${COMPILE_DIR}/*.spv
-    cp ${COMPILE_DIR}/Skeletal.fxml $1
 
     echo "compile Skeletal success!!!"
 }
@@ -51,8 +49,8 @@ function compileSkeletal() {
 function main() {
     output_dir=$1
 
-    echo "compile_all"    
-    echo "shader resource dir: ${COMPILE_DIR}"
+    echo "compile all shader..."    
+    echo "vulkan shader resource dir: ${COMPILE_DIR}"
     echo "output dir: ${output_dir}"
 
     compileSprite3D ${output_dir}

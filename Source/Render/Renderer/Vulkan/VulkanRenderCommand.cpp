@@ -124,12 +124,12 @@ void VulkanRenderCommand::SetScissorRect(const Rect2Di& scissorRect)
     vkCmdSetScissor(m_cmdBuf, 0, 1, &scissor);
 }
 
-void VulkanRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 count)
+void VulkanRenderCommand::DrawPrimitives(uint32 start, uint32 count)
 {
     vkCmdDraw(m_cmdBuf, count, 1, start, 0);
 }
 
-void VulkanRenderCommand::DrawIndexedPrimitives(DrawType type, uint32 start, uint32 count)
+void VulkanRenderCommand::DrawIndexedPrimitives(uint32 start, uint32 count)
 {    
     vkCmdDrawIndexed(m_cmdBuf, count, 1, start, 0, 0);
 }
