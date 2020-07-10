@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "EventDefine.h"
 
@@ -29,6 +29,7 @@
 //////////////////////////////////////////////////////////////////////////
 #if defined(_MACOS_PLATFORM_)
 
+#include "macOS/File.h"
 #include "macOS/Timer.h"
 
 #ifdef __OBJC__

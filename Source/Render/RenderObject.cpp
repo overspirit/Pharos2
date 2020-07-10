@@ -66,11 +66,11 @@ void RenderObject::Draw()
         {            
             m_renderCmd->SetIndexBuffer(renderBlock.indexBuf, IET_UINT32);
             
-            m_renderCmd->DrawIndexedPrimitives(EDT_TRIANGLELIST, 0, renderBlock.itemCount);
+            m_renderCmd->DrawIndexedPrimitives(0, renderBlock.itemCount);
         }
         else
         {
-            m_renderCmd->DrawPrimitives(EDT_TRIANGLELIST, 0, renderBlock.itemCount);
+            m_renderCmd->DrawPrimitives(0, renderBlock.itemCount);
         }        
     }
 

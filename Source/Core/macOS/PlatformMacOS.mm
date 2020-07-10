@@ -47,7 +47,7 @@ bool PlatformMacOS::Init()
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());
 
-	if (!sKernel->Init((__bridge void*)m_view)) return false;
+	if (!sKernel->Init((__bridge void*)m_view, wnd_width, wnd_height)) return false;
 
 	return true;
 }

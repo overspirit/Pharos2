@@ -55,6 +55,7 @@
 #include "Renderer/Metal/MetalRasterizerState.h"
 #include "Renderer/Metal/MetalRenderTexture.h"
 #include "Renderer/Metal/MetalRenderBuffer.h"
+#include "Renderer/Metal/MetalResourceSet.h"
 #include "Renderer/Metal/MetalRenderTarget.h"
 #include "Renderer/Metal/MetalViewRenderTarget.h"
 #include "Renderer/Metal/MetalShaderProgram.h"

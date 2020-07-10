@@ -20,7 +20,8 @@ namespace Pharos
 
 		private:
 			string	m_techName;
-
+			
+			RenderDepthStencilState*	m_depthState;
 			RenderPipeline*		m_renderPipeline;
 			RenderResourceSet*	m_renderSet;
 
