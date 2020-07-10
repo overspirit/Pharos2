@@ -6,6 +6,8 @@ namespace Pharos
 {
 	namespace Render
 	{
+		
+	
 		//MTLPixelFormat转换成EPixelFormat
 		inline EPixelFormat MetalFormat2PixelFormat(MTLPixelFormat fmt)
 		{

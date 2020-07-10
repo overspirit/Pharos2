@@ -4,10 +4,12 @@ namespace Pharos
 {
 	namespace Render
 	{
+		const static uint32 VERTEX_BUFFER_BEGIN_SLOT = 8;
+	
 		class MetalRenderBuffer : public RenderBuffer
 		{
 		public:
-			MetalRenderBuffer(id<MTLDevice> device);
+			MetalRenderBuffer(BufferType type, id<MTLDevice> device);
 			virtual ~MetalRenderBuffer();
 
 		private:
@@ -23,8 +25,8 @@ namespace Pharos
 			virtual void CopyData(const MemoryBuffer& data, uint32 offset = 0);
 			virtual void CopyData(const void* data, uint32 len, uint32 offset = 0);
 
-			virtual void ApplyVertexBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder);
-			virtual void ApplyFragmentBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder);
+			virtual void ApplyVertexUniformBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder);
+			virtual void ApplyFragmentUniformBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder);
 		};
 	}
 }

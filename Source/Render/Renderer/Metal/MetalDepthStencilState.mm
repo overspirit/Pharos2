@@ -1,8 +1,9 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-MetalDepthStencilState::MetalDepthStencilState()
+MetalDepthStencilState::MetalDepthStencilState(id<MTLDevice> device)
 {
+	m_device = device;
 }
 
 MetalDepthStencilState::~MetalDepthStencilState(void)
@@ -11,10 +12,11 @@ MetalDepthStencilState::~MetalDepthStencilState(void)
 
 bool MetalDepthStencilState::CreateState(const DepthStencilStateDesc& desc)
 {
-	//    MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
-	//    depthStateDesc.depthCompareFunction = MTLCompareFunctionLess;
-	//    depthStateDesc.depthWriteEnabled = YES;
-	//    _depthState = [_device newDepthStencilStateWithDescriptor:depthStateDesc];
+	MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
+	depthStateDesc.depthCompareFunction = MTLCompareFunctionLess;
+	depthStateDesc.depthWriteEnabled = YES;
+	
+	m_depthState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];
 	
 	return true;
 }
@@ -24,6 +26,7 @@ RenderDepthStencilState* MetalDepthStencilState::Clone()
 	return NULL;
 }
 
-void MetalDepthStencilState::ApplyDevice()
+void MetalDepthStencilState::ApplyDevice(id <MTLRenderCommandEncoder> renderEncoder)
 {
+	[renderEncoder setDepthStencilState:m_depthState];
 }

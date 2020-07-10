@@ -24,10 +24,12 @@ namespace Pharos
 			IMetalCommandFactory*		m_cmdFactory;
 			MetalRenderTarget*			m_renderTarget;
 			
-			id <MTLRenderCommandEncoder>    m_renderEncoder;
+			id <MTLRenderCommandEncoder>    m_renderEncoder;			
 			
 			id<MTLBuffer>   	m_indexBuffer;
 			MTLIndexType		m_indexBufType;
+			
+			DrawType		m_currDrawType;
 			
 			string			m_debugLabel;
 			
@@ -36,17 +38,16 @@ namespace Pharos
 			
 			virtual void SetDebugLabel(const char8* label) { m_debugLabel = label; }
 			
-			virtual void SetVertexBuffer(uint32 slot, RenderBuffer* buffer);
-			virtual void SetFragmentBuffer(uint32 slot, RenderBuffer* buffer);
-			virtual void SetVertexTexture(uint32 slot, RenderTexture* tex);
-			virtual void SetFragmentTexture(uint32 slot, RenderTexture* tex);
-			
+			virtual void SetVertexBuffer(RenderBuffer* buffer);
 			virtual void SetIndexBuffer(RenderBuffer* indexBuffer, IndexElementType indexType);
+            
+			virtual void SetViewport(const Rect2Di& viewRect, float32 minDepth, float32 maxDepth);
+			virtual void SetScissorRect(const Rect2Di& scissorRect);
 
-			virtual void SetPipeline(RenderPipeline* pipeline);
-			
-			virtual void DrawPrimitives(DrawType type, uint32 start, uint32 count);
-			virtual void DrawIndexedPrimitives(DrawType type, uint32 indexCount, uint32 indexOffset);
+			virtual void SetPipeline(RenderResourceSet* resSet, RenderPipeline* pipeline);
+            
+			virtual void DrawPrimitives(uint32 start, uint32 count);
+			virtual void DrawIndexedPrimitives(uint32 start, uint32 count);
 
 			virtual void EndCommand();
 		};

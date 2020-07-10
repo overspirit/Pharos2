@@ -23,43 +23,22 @@ void MetalRenderCommand::BeginCommand()
 	
 	m_renderEncoder.label = @"MyRenderEncoder";
 	[m_renderEncoder pushDebugGroup : [NSString stringWithUTF8String:m_debugLabel.c_str()] ];
-	[m_renderEncoder setFrontFacingWinding : MTLWindingClockwise];
-	[m_renderEncoder setCullMode : MTLCullModeBack];
+	[m_renderEncoder setFrontFacingWinding : MTLWindingCounterClockwise];
+	[m_renderEncoder setCullMode : MTLCullModeFront];
 }
 
-void MetalRenderCommand::SetVertexBuffer(uint32 slot, RenderBuffer* buffer)
+void MetalRenderCommand::SetVertexBuffer(RenderBuffer* buffer)
 {
+	if (buffer->GetBufferType() != VERTEX_BUFFER) return;
+	
 	MetalRenderBuffer* metalBuf = static_cast<MetalRenderBuffer*>(buffer);
 	if (metalBuf != nullptr)
 	{
-		metalBuf->ApplyVertexBuffer(slot, m_renderEncoder);
-	}
-}
-
-void MetalRenderCommand::SetFragmentBuffer(uint32 slot, RenderBuffer* buffer)
-{
-	MetalRenderBuffer* metalBuf = static_cast<MetalRenderBuffer*>(buffer);
-	if (metalBuf != nullptr)
-	{
-		metalBuf->ApplyFragmentBuffer(slot, m_renderEncoder);
-	}
-}
-
-void MetalRenderCommand::SetVertexTexture(uint32 slot, RenderTexture* tex)
-{
-	MetalRenderTexture* metalTex = static_cast<MetalRenderTexture*>(tex);
-	if (metalTex != nullptr)
-	{
-		metalTex->ApplyVertexTexture(slot, m_renderEncoder);
-	}
-}
-
-void MetalRenderCommand::SetFragmentTexture(uint32 slot, RenderTexture* tex)
-{
-	MetalRenderTexture* metalTex = static_cast<MetalRenderTexture*>(tex);
-	if (metalTex != nullptr)
-	{
-		metalTex->ApplyFragmentTexture(slot, m_renderEncoder);
+		//metalBuf->ApplyVertexBuffer(VERTEX_BUFFER_BEGIN_SLOT, m_renderEncoder);
+		
+		id<MTLBuffer> vertexBuffer = metalBuf->GetMetalBuffer();
+		
+		[m_renderEncoder setVertexBuffer:vertexBuffer offset:0 atIndex:VERTEX_BUFFER_BEGIN_SLOT];
 	}
 }
 
@@ -80,8 +59,24 @@ void MetalRenderCommand::SetIndexBuffer(RenderBuffer* indexBuffer, IndexElementT
 	}
 }
 
-void MetalRenderCommand::SetPipeline(RenderPipeline* pipeline)
+void MetalRenderCommand::SetViewport(const Rect2Di& viewRect, float32 minDepth, float32 maxDepth)
 {
+	
+}
+
+void MetalRenderCommand::SetScissorRect(const Rect2Di& scissorRect)
+{
+	
+}
+
+void MetalRenderCommand::SetPipeline(RenderResourceSet* resSet, RenderPipeline* pipeline)
+{
+	MetalResourceSet* metalResSet = static_cast<MetalResourceSet*>(resSet);
+	if (metalResSet != nullptr)
+	{
+		metalResSet->ApplyResourceSet(m_renderEncoder);
+	}
+	
 	MetalRenderPipeline* metalPipeline = static_cast<MetalRenderPipeline*>(pipeline);
 	if (metalPipeline != nullptr)
 	{
@@ -96,10 +91,12 @@ void MetalRenderCommand::SetPipeline(RenderPipeline* pipeline)
 		
 		metalPipeline->SetTargetFormat(colorFmt, depthFmt, stencilFmt);
 		metalPipeline->ApplyToEncoder(m_renderEncoder);
+		
+		m_currDrawType = metalPipeline->GetDrawType();
 	}
 }
 
-void MetalRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 count)
+void MetalRenderCommand::DrawPrimitives(uint32 start, uint32 count)
 {
 	CHECK_ENUM(0, EDT_POINTLIST);
 	CHECK_ENUM(1, EDT_LINELIST);
@@ -116,10 +113,10 @@ void MetalRenderCommand::DrawPrimitives(DrawType type, uint32 start, uint32 coun
 		MTLPrimitiveTypeTriangleStrip,
 	};
 	
-	[m_renderEncoder drawPrimitives : prim[type] vertexStart : start vertexCount : count];
+	[m_renderEncoder drawPrimitives : prim[m_currDrawType] vertexStart : start vertexCount : count];
 }
 
-void MetalRenderCommand::DrawIndexedPrimitives(DrawType type, uint32 indexCount, uint32 indexOffset)
+void MetalRenderCommand::DrawIndexedPrimitives(uint32 start, uint32 count)
 {
 	CHECK_ENUM(0, EDT_POINTLIST);
 	CHECK_ENUM(1, EDT_LINELIST);
@@ -136,7 +133,7 @@ void MetalRenderCommand::DrawIndexedPrimitives(DrawType type, uint32 indexCount,
 		MTLPrimitiveTypeTriangleStrip,
 	};
 	
-	[m_renderEncoder drawIndexedPrimitives:prim[type] indexCount:indexCount indexType:m_indexBufType indexBuffer:m_indexBuffer indexBufferOffset:indexOffset];
+	[m_renderEncoder drawIndexedPrimitives:prim[m_currDrawType] indexCount:count indexType:m_indexBufType indexBuffer:m_indexBuffer indexBufferOffset:start];
 }
 	 
 void MetalRenderCommand::EndCommand()

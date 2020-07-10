@@ -15,6 +15,10 @@ namespace Pharos
 			
 			id<MTLRenderPipelineState>		m_pipelineState;
 			MTLRenderPipelineDescriptor*	m_stateDescriptor;
+			
+			MetalDepthStencilState*			m_depthState;
+			
+			DrawType		m_drawType;
 		
 		private:
 			MTLVertexFormat GetMetalFormat(VertElementType elementType, uint32 elementNum);
@@ -28,6 +32,9 @@ namespace Pharos
 			virtual void SetBlendState(RenderBlendState* state);
 			virtual void SetRasterizerState(RenderRasterizerState* state);
 			virtual void SetDepthStencilState(RenderDepthStencilState* state);
+			
+			virtual void SetDrawType(DrawType drawType) { m_drawType = drawType; }
+			virtual DrawType GetDrawType() { return m_drawType; }
 			
 			virtual void SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat depthFmt, EPixelFormat stencilFmt);
 			

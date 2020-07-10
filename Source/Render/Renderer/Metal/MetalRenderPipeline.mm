@@ -5,6 +5,8 @@ MetalRenderPipeline::MetalRenderPipeline(id<MTLDevice> device)
 {
 	m_device = device;
 	m_stateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+	
+	m_depthState = nullptr;
 }
 
 MetalRenderPipeline::~MetalRenderPipeline()
@@ -26,7 +28,7 @@ bool MetalRenderPipeline::SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 
 		uint32 elementSize = GetVertElementSize(desc[i].elementType, desc[i].elementNum);
 		uint32 elementLocation = desc[i].elementLocation;
 		uint32 elementOffset = desc[i].elementOffset;
-		uint32 layoutIndex = desc[i].layoutIndex;
+		uint32 layoutIndex = desc[i].layoutIndex + VERTEX_BUFFER_BEGIN_SLOT;
 
 		mtlVertexDescriptor.attributes[elementLocation].format = vertFormat;
 		mtlVertexDescriptor.attributes[elementLocation].offset = elementOffset;
@@ -100,13 +102,18 @@ void MetalRenderPipeline::SetRasterizerState(RenderRasterizerState* state)
 
 void MetalRenderPipeline::SetDepthStencilState(RenderDepthStencilState* state)
 {
-
+	m_depthState = static_cast<MetalDepthStencilState*>(state);
 }
 
 void MetalRenderPipeline::ApplyToEncoder(id<MTLRenderCommandEncoder> encoder)
 {
 	if(m_pipelineState == nullptr)
 	{
+		if (m_depthState != nullptr)
+		{
+			m_depthState->ApplyDevice(encoder);
+		}
+		
 		NSError* error = nil;
 		m_pipelineState = [m_device newRenderPipelineStateWithDescriptor: m_stateDescriptor error: &error];
 		if (!m_pipelineState)

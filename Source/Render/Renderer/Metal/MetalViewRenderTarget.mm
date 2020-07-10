@@ -15,7 +15,9 @@ MetalViewRenderTarget::~MetalViewRenderTarget(void)
 MTLRenderPassDescriptor* MetalViewRenderTarget::GetMetalPassDescriptor()
 {
 	m_passDesc = m_view.currentRenderPassDescriptor;
-	
+	m_view.clearColor = MTLClearColorMake(0.5f, 0.5f, 0.5f, 1.0f);
+	id <MTLTexture> depthTexture = m_view.depthStencilTexture;
+	MTLRenderPassDepthAttachmentDescriptor* depthAttachDesc = m_passDesc.depthAttachment;
 	return m_passDesc;	
 }
 

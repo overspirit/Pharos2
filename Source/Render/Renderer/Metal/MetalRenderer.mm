@@ -66,7 +66,7 @@ id<MTLCommandBuffer> MetalRenderer::MakeMetalCommandBuffer()
 
 RenderBuffer* MetalRenderer::GenerateRenderBuffer(BufferType type)
 {
-	return new MetalRenderBuffer(m_device);
+	return new MetalRenderBuffer(type, m_device);
 }
 
 RenderTexture* MetalRenderer::CreateTexture(int32 width, int32 height, EPixelFormat fmt)
@@ -157,7 +157,7 @@ RenderRasterizerState* MetalRenderer::CreateRasterizerState(const RasterizerStat
 
 RenderDepthStencilState* MetalRenderer::CreateDepthStencilState(const DepthStencilStateDesc& desc)
 {
-	MetalDepthStencilState* state = new MetalDepthStencilState();
+	MetalDepthStencilState* state = new MetalDepthStencilState(m_device);
 	if (!state->CreateState(desc))
 	{
 		SAFE_DELETE(state);
@@ -171,6 +171,11 @@ RenderCommand* MetalRenderer::GenerateRenderCommand(RenderTarget* renderTarget)
 	MetalRenderCommand* command = new MetalRenderCommand(this, static_cast<MetalRenderTarget*>(renderTarget));
 	
 	return command;
+}
+
+RenderResourceSet* MetalRenderer::GenerateRenderResuourceSet()
+{
+	return new MetalResourceSet(m_device);
 }
 
 RenderPipeline* MetalRenderer::GenerateRenderPipeline()

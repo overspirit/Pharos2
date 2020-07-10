@@ -1,8 +1,9 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-MetalRenderBuffer::MetalRenderBuffer(id<MTLDevice> device)
+MetalRenderBuffer::MetalRenderBuffer(BufferType type, id<MTLDevice> device)
 {
+	m_type = type;
 	m_device = device;
 }
 
@@ -44,12 +45,13 @@ void MetalRenderBuffer::CopyData(const void* data, uint32 len, uint32 offset)
 	memcpy((uint8*)m_buffer.contents + offset, data, len);
 }
 
-void MetalRenderBuffer::ApplyVertexBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder)
+void MetalRenderBuffer::ApplyVertexUniformBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder)
 {
 	[encoder setVertexBuffer:m_buffer offset:0 atIndex:slot];
 }
 
-void MetalRenderBuffer::ApplyFragmentBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder)
+void MetalRenderBuffer::ApplyFragmentUniformBuffer(uint32 slot, id<MTLRenderCommandEncoder> encoder)
 {
 	[encoder setFragmentBuffer:m_buffer offset:0 atIndex:slot];
 }
+
