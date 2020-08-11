@@ -46,6 +46,6 @@ void Texture::Render(float32 fElapsed)
 	}
 	else
 	{
-		sRenderSpirite->RenderRect(m_imageColor, m_rect);
+		sRenderSpirite->DrawRect(m_imageColor, m_rect);
 	}
 }

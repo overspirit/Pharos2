@@ -26,8 +26,7 @@ bool RenderImage::LoadImage(const char8* imageFilePath)
 	m_image = sResMgr->GenerateImage(imageFilePath);
 	if (m_image == nullptr) return false;
 
-	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
-	m_imageTex = renderer->LoadTexture(m_image);
+	m_imageTex = sRenderer->LoadTexture(m_image);
 	if (m_imageTex == nullptr) return false;
 
 //	m_imageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
@@ -39,6 +38,10 @@ bool RenderImage::LoadImage(const char8* imageFilePath)
 //	m_grayImageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DGray");
 //	m_grayImageTexVar = m_grayImageTech->GetVariable("g_tex");
 //	m_grayImageTexVar->SetValue(m_imageTex);
+
+	m_resSet = sRenderer->GenerateRenderResuourceSet();
+	m_resSet->SetFragmentTexture(0, m_imageTex);
+	m_resSet->UpdateSet();
 
 	return true;
 }
@@ -67,7 +70,7 @@ void RenderImage::RenderImageRect(const Rect2Di& imageRect, Color4 imageColor, c
 		{ Vector3Df(leftTop.x,		leftTop.y,		0),		imageColor,		Vector2Df(texLeft, texTop) },
 	};
 
-//	sDesktopMgr->PushRenderPatch(vt, 6, m_imageTech);
+	sRenderSpirite->DrawTexture2D(vt, 6, m_resSet);
 }
 
 void RenderImage::RenderGrayImageRect(const Rect2Di& imageRect, const Rect2Di& drawRect)
@@ -93,6 +96,6 @@ void RenderImage::RenderGrayImageRect(const Rect2Di& imageRect, const Rect2Di& d
 		{ Vector3Df(leftTop.x,		rightBottom.y,	0),		0xFFFFFFFF,		Vector2Df(texLeft, texBottom) },
 		{ Vector3Df(leftTop.x,		leftTop.y,		0),		0xFFFFFFFF,		Vector2Df(texLeft, texTop) },
 	};
-
-//	sDesktopMgr->PushRenderPatch(vt, 6, m_grayImageTech);
+	
+	//sRenderSpirite->DrawTexture2D(vt, 6, m_grayImageTech);
 }

@@ -54,15 +54,15 @@ void WorldFrame::Render(float32 fElapsed)
 
 	char8 buf[255];
 
-	const char8* adapterName = sRenderer->GetAdapterName();
-	uint32 memorySize = sRenderer->GetAdapterMemorySize();
-	sprintf(buf, "%s %dMB", adapterName, memorySize);
-	m_renderFont->RenderText(buf, -1, 10, 32);
-
 	uint32 fps = sRenderMgr->GetFramesPerSecond();
 	sprintf(buf, "FPS:%d", fps);
 	m_renderFont->RenderText(buf, -1, 10, 5);
 	
+	const char8* adapterName = sRenderer->GetAdapterName();
+	uint32 memorySize = sRenderer->GetAdapterMemorySize();
+	sprintf(buf, "%s %dMB ", adapterName, memorySize);
+	m_renderFont->RenderText(buf, -1, 10, 32);
+
 	for (auto obj : m_childList)
 	{
 		obj->Render(fElapsed);

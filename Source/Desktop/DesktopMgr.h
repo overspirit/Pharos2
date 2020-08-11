@@ -16,12 +16,7 @@ namespace Pharos
 			vector<UIObject*>			m_controlList;
 
 			float32		m_fScaleX;
-			float32		m_fScaleY;
-
-			//RenderBlock*		m_renderBlock;
-			//RenderLayout*		m_renderLayout;
-			MemoryBuffer		m_layoutBuffer;
-			uint32				m_vertCount;
+			float32		m_fScaleY;	
 
 		public:
 			template<class T>
@@ -57,8 +52,6 @@ namespace Pharos
 
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
-
-			//virtual void PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType = EDT_TRIANGLELIST);
 
 			virtual RenderFont* GenerateRenderFont(const char8* fontFilePath);
 			virtual RenderImage* GenerateRenderImage(const char8* imageFilePath);

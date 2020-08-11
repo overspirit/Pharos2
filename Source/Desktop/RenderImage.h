@@ -21,6 +21,8 @@ namespace Pharos
 //			RenderTechnique*	m_grayImageTech;
 //			RenderVariable*		m_grayImageTexVar;
 
+			RenderResourceSet*		m_resSet;
+
 		public:
 			virtual bool LoadImage(const char8* imageFilePath);
 

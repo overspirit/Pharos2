@@ -19,6 +19,16 @@ FontTextureManager::~FontTextureManager(void)
 
 uint32 FontTextureManager::AttendFont(Font* font)
 {
+	for (uint32 i = 0; i < m_fontInfoList.size(); i++)
+	{
+		FontInfo& fontInfo = m_fontInfoList[i];
+
+		if (fontInfo.font == font)
+		{
+			return i;
+		}
+	}
+	
 	uint32 fontInfoSize = (uint32)m_fontInfoList.size();
 	m_fontInfoList.resize(fontInfoSize + 1);
 

@@ -10,16 +10,10 @@ IMPLEMENT_UI_CLASS(Progress)
 IMPLEMENT_UI_CLASS(Slider)
 IMPLEMENT_UI_CLASS(Texture)
 
-#define MAX_VERT_SIZE	(2048 * 6 * sizeof(DecalColorVertex))
-
 DesktopMgr::DesktopMgr()
 {
 	m_fScaleX = 1.0f;
 	m_fScaleY = 1.0f;
-
-	//m_renderBlock = nullptr;
-	//     m_renderLayout = nullptr;
-	m_vertCount = 0;
 
 	m_worldFrame = nullptr;
 }
@@ -34,19 +28,7 @@ bool DesktopMgr::Init()
 	m_worldFrame = new WorldFrame();
 	m_worldFrame->Init();
 
-	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
-	//m_renderBlock = sRenderMgr->GenerateRenderBlock();
-	//    m_renderLayout = renderer->GenerateRenderLayout(MAX_VERT_SIZE);
-
-	VertLayoutDesc desc[] =
-	{
-		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
-		{ VET_UNORM8, 4, VAL_COLOR, 12, 0 },
-		{ VET_FLOAT32, 2, VAL_TEXCOORD0, 16, 0 },
-	};
-	//m_renderLayout->SetInputLayoutDesc(desc, 3);
-
-	m_layoutBuffer.Alloc(MAX_VERT_SIZE);
+	sRenderSpirite->Init();
 
 	return true;
 }
@@ -68,9 +50,6 @@ void DesktopMgr::Destroy()
 	}
 
 	m_controlList.clear();
-
-	//SAFE_DELETE(m_renderBlock);
-	//    SAFE_DELETE(m_renderLayout);
 
 	sFontTexMgr->DestroyAll();
 }
@@ -187,17 +166,6 @@ RenderImage* DesktopMgr::GenerateRenderImage(const char8* imageFilePath)
 	return nullptr;
 }
 
-//void DesktopMgr::PushRenderPatch(const DecalColorVertex* vertData, uint32 vertNum, RenderTechnique* tech, DrawType drawType)
-//{
-//	m_layoutBuffer.Insert(m_vertCount * sizeof(DecalColorVertex), vertData, vertNum * sizeof(DecalColorVertex));
-//
-//	//    uint32 patchIndex = m_renderBlock->AddRenderBlockPatch(m_renderLayout, tech);
-//	//    m_renderBlock->SetBlockPatchDrawRange(patchIndex, m_vertCount, vertNum);
-//	//    m_renderBlock->SetBlockPatchDrawType(patchIndex, drawType);
-//
-//	m_vertCount += vertNum;
-//}
-
 bool DesktopMgr::onMouseEvent(const MouseEvent& e)
 {
 	if (m_worldFrame == nullptr) return false;
@@ -263,7 +231,7 @@ void DesktopMgr::onViewDestroy()
 
 void DesktopMgr::Update(float32 fElapsed)
 {
-	//if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
+	if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
 }
 
 void DesktopMgr::Render(float32 fElapsed)
@@ -275,11 +243,11 @@ void DesktopMgr::Render(float32 fElapsed)
 
 	//g_pDevice->SetFrameBuffer(defFrameBuf);
 
-	//m_worldFrame->Render(fElapsed);
+	m_worldFrame->Render(fElapsed);
 
 	//m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
 
 	//sRenderMgr->DoRender(m_renderBlock);
 
-	m_vertCount = 0;
+	sRenderSpirite->Render();
 }
