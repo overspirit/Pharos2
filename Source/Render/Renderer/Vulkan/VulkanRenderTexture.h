@@ -16,24 +16,34 @@ namespace Pharos
 			VkQueue			m_queue;			
         
 			VkDescriptorImageInfo		m_imageInfo;
-			VkImage						m_image;
-            VkDeviceMemory				m_deviceMemory;
-            uint32_t 					m_mipLevels;
 
-			bool	m_isUpdated;
+			uint32_t 						m_mipLevels;
+			vector<VkBufferImageCopy>		m_copyRegions;
+
+			VkImage						m_image;
+			VkImageView					m_imageView;
+			VkSampler					m_sampler;
+			
+			VkBuffer					m_stagingBuffer;
+			VkDeviceMemory				m_stagingMemory;
+			bool						m_isNeedUpdate;
+
+			VkDeviceMemory				m_deviceMemory;			
 
 		private:
-			virtual VkBuffer CreateStagingBuffer(const void* imageData, uint32 imageSize);
-			virtual bool CopyStagingImage(VkBuffer staging_buffer, const vector<VkBufferImageCopy>& buffer_copy_regions);
+			bool CreateVulkanStagingBuffer(uint32 imageSize);
+			bool CreateVulkanSampler();
+			bool CreateVulkanImage(); 		
 
-        public:
-			virtual bool Create(int32 width, int32 height, EPixelFormat fmt);
-			virtual bool LoadFromFile(const char8* szPath);
-			virtual bool LoadFromImage(const Image* pImage);
+		public:
+			bool FlushVulkanImage();
 
 			VkDescriptorImageInfo& GetVulkanImageInfo() { return m_imageInfo; }
-			bool IsUpdated() { return m_isUpdated; }
-			void SetUpdated(bool updated) { m_isUpdated = updated;}
+			
+		public:
+			virtual bool Create(int32 width, int32 height, EPixelFormat fmt);
+			virtual bool LoadFromFile(const char8* szPath);
+			virtual bool LoadFromImage(const Image* pImage);	
 
 		public:
 			virtual bool CopyFromData(const void* pImageData, uint32 nDataSize);

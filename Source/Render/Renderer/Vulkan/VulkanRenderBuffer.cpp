@@ -7,8 +7,6 @@ VulkanRenderBuffer::VulkanRenderBuffer(BufferType type, VkDevice device)
     m_device = device;
 
     //m_mapPtr = nullptr;
-
-    m_isUpdated = false;
 }
 
 VulkanRenderBuffer::~VulkanRenderBuffer()

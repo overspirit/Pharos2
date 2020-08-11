@@ -12,7 +12,7 @@ VulkanRenderPipeline::VulkanRenderPipeline(VkDevice device)
     m_rasterState.flags = 0;
     m_rasterState.polygonMode = VK_POLYGON_MODE_FILL;
     m_rasterState.cullMode = VK_CULL_MODE_BACK_BIT;//VK_CULL_MODE_FRONT_BIT;
-    m_rasterState.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    m_rasterState.frontFace = VK_FRONT_FACE_CLOCKWISE; //VK_FRONT_FACE_COUNTER_CLOCKWISE
     m_rasterState.depthClampEnable = VK_FALSE;
     m_rasterState.rasterizerDiscardEnable = VK_FALSE;
     m_rasterState.depthBiasEnable = VK_FALSE;
@@ -158,7 +158,7 @@ void VulkanRenderPipeline::SetDepthStencilState(RenderDepthStencilState* state)
 
 VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSetLayout, VkRenderPass renderPass)
 {
-	if (descSetLayout == VK_NULL_HANDLE || renderPass == VK_NULL_HANDLE)
+	if (renderPass == VK_NULL_HANDLE)
 	{
 		return VK_NULL_HANDLE;
 	}
@@ -173,8 +173,8 @@ VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSet
     pPipelineLayoutCreateInfo.pNext = NULL;
     pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
     pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-    pPipelineLayoutCreateInfo.setLayoutCount = 1;
-    pPipelineLayoutCreateInfo.pSetLayouts = &descSetLayout;
+    pPipelineLayoutCreateInfo.setLayoutCount = descSetLayout != NULL ? 1 : 0;
+    pPipelineLayoutCreateInfo.pSetLayouts = descSetLayout != NULL ? &descSetLayout : NULL;
 
     VkResult res = vkCreatePipelineLayout(m_device, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
     assert(res == VK_SUCCESS);

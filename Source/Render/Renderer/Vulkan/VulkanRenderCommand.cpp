@@ -84,10 +84,18 @@ void VulkanRenderCommand::SetIndexBuffer(RenderBuffer* indexBuffer, IndexElement
 void VulkanRenderCommand::SetPipeline(RenderResourceSet* resSet, RenderPipeline* pipeline)
 {
     VulkanRenderPipeline* vulkanPipeline = static_cast<VulkanRenderPipeline*>(pipeline);
-    VulkanDesciptorSet* vulkanDescSet = static_cast<VulkanDesciptorSet*>(resSet);    
+        
     VkRenderPass renderPass = m_renderTarget->GetCurrRenderPass();
-    VkDescriptorSetLayout descLayout = vulkanDescSet->GetVulkanDescriptorSetLayout();
-    VkDescriptorSet descSet = vulkanDescSet->GetVulkanDescriptorSet();
+
+    VkDescriptorSetLayout descLayout = NULL;
+    VkDescriptorSet descSet = NULL;
+
+    if (resSet != NULL)
+    {
+        VulkanDesciptorSet* vulkanDescSet = static_cast<VulkanDesciptorSet*>(resSet);
+        descLayout = vulkanDescSet->GetVulkanDescriptorSetLayout();
+        descSet = vulkanDescSet->GetVulkanDescriptorSet();
+    }
 
     VkPipeline pl = vulkanPipeline->GetVulkanPipeline(descLayout, renderPass);
     VkPipelineLayout pipelineLayout = vulkanPipeline->GetVulkanPipelineLayout();

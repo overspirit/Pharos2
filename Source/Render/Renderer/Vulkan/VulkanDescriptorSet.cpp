@@ -8,102 +8,199 @@ VulkanDesciptorSet::VulkanDesciptorSet(VkDevice device, VkDescriptorPool descPoo
     
     m_descSetLayout = VK_NULL_HANDLE;
     m_descSet = VK_NULL_HANDLE;
+
+    m_slotList.resize(16);
+    memset(m_slotList.data(), 0xFF, m_slotList.size());
 }
 
 VulkanDesciptorSet::~VulkanDesciptorSet()
 {
+    if (m_descSetLayout != VK_NULL_HANDLE)
+    {
+        vkDestroyDescriptorSetLayout(m_device, m_descSetLayout, NULL);
+        m_descSetLayout = VK_NULL_HANDLE;
+    }
+
+    if (m_descSet != VK_NULL_HANDLE)
+    {
+        vkFreeDescriptorSets(m_device, m_descPool, 1, &m_descSet);        
+        m_descSet = VK_NULL_HANDLE;
+    }
 }
 
-void VulkanDesciptorSet::SetVertexUniformBuffer(uint32 slot, RenderBuffer* buffer)
+bool VulkanDesciptorSet::SetVertexUniformBuffer(uint32 slot, RenderBuffer* buffer)
 {
+    if (slot >= 16)
+    {
+        return false;
+    }
+
+    if (m_descSetLayout != VK_NULL_HANDLE && m_descSet != VK_NULL_HANDLE)
+    {
+        return false;
+    }
+
     VulkanRenderBuffer* vulkanBuffer = static_cast<VulkanRenderBuffer*>(buffer);
 
     VkDescriptorBufferInfo& bufferInfo = vulkanBuffer->GetVulkanBufferInfo();
     BufferType buffType = buffer->GetBufferType();
 
-    if (buffType != UNIFORM_BUFFFER) return;
+    if (buffType != UNIFORM_BUFFFER) return false;
     
-    VkDescriptorSetLayoutBinding layoutBindings = {};
+    uint8 index = m_slotList[slot];
+    if (index == 0xFF)
+    {
+        uint32 bindingSize = m_layoutBindings.size();
+        m_slotList[slot] = bindingSize;
+        index = bindingSize;
+
+        m_layoutBindings.resize(index + 1);
+        m_writeDescSets.resize(index + 1);
+    } 
+
+    VkDescriptorSetLayoutBinding& layoutBindings = m_layoutBindings[index];
     layoutBindings.binding = slot;
     layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     layoutBindings.descriptorCount = 1;
     layoutBindings.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-    layoutBindings.pImmutableSamplers = NULL;
+    layoutBindings.pImmutableSamplers = NULL; 
 
-    if (slot >= m_layoutBindings.size())
-    {
-        m_layoutBindings.resize(slot + 1);
-    }
-    
-    m_layoutBindings[slot] = layoutBindings;
-
-
-    VkWriteDescriptorSet writeDescSet = {};
+    VkWriteDescriptorSet& writeDescSet = m_writeDescSets[index];
     writeDescSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
     writeDescSet.pNext = NULL;
     writeDescSet.dstSet = NULL; //建立时要填充此参数
+    writeDescSet.dstBinding = slot;
+    writeDescSet.dstArrayElement = 0;
     writeDescSet.descriptorCount = 1;
     writeDescSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    writeDescSet.pImageInfo = NULL;
     writeDescSet.pBufferInfo = &bufferInfo;
-    writeDescSet.dstArrayElement = 0;
-    writeDescSet.dstBinding = slot;
+    writeDescSet.pTexelBufferView = NULL;
 
-    if (slot >= m_writeDescSets.size())
+    return true;
+}
+
+bool VulkanDesciptorSet::SetFragmentUniformBuffer(uint32 slot, RenderBuffer* buffer)
+{
+    if (slot >= 16)
     {
-        m_writeDescSets.resize(slot + 1);
+        return false;
     }
 
-    m_writeDescSets[slot] = writeDescSet;
+    if (m_descSetLayout != VK_NULL_HANDLE && m_descSet != VK_NULL_HANDLE)
+    {
+        return false;
+    }
+
+    VulkanRenderBuffer* vulkanBuffer = static_cast<VulkanRenderBuffer*>(buffer);
+
+    VkDescriptorBufferInfo& bufferInfo = vulkanBuffer->GetVulkanBufferInfo();
+    BufferType buffType = buffer->GetBufferType();
+
+    if (buffType != UNIFORM_BUFFFER) return false;
+    
+    uint8 index = m_slotList[slot];
+    if (index == 0xFF)
+    {
+        uint32 bindingSize = m_layoutBindings.size();
+        m_slotList[slot] = bindingSize;
+        index = bindingSize;
+
+        m_layoutBindings.resize(index + 1);
+        m_writeDescSets.resize(index + 1);
+    } 
+
+    VkDescriptorSetLayoutBinding& layoutBindings = m_layoutBindings[index];
+    layoutBindings.binding = slot;
+    layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    layoutBindings.descriptorCount = 1;
+    layoutBindings.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+    layoutBindings.pImmutableSamplers = NULL; 
+
+    VkWriteDescriptorSet& writeDescSet = m_writeDescSets[index];
+    writeDescSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    writeDescSet.pNext = NULL;
+    writeDescSet.dstSet = NULL; //建立时要填充此参数
+    writeDescSet.dstBinding = slot;
+    writeDescSet.dstArrayElement = 0;
+    writeDescSet.descriptorCount = 1;
+    writeDescSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    writeDescSet.pImageInfo = NULL;
+    writeDescSet.pBufferInfo = &bufferInfo;
+    writeDescSet.pTexelBufferView = NULL;
+
+    return true;
 }
 
-void VulkanDesciptorSet::SetFragmentUniformBuffer(uint32 slot, RenderBuffer* buffer)
+bool VulkanDesciptorSet::SetVertexTexture(uint32 slot, RenderTexture* tex)
 {
+    if (slot >= 16)
+    {
+        return false;
+    }
 
+    if (m_descSetLayout != VK_NULL_HANDLE && m_descSet != VK_NULL_HANDLE)
+    {
+        return false;
+    }
+
+    return true;
 }
 
-void VulkanDesciptorSet::SetVertexTexture(uint32 slot, RenderTexture* tex)
+bool VulkanDesciptorSet::SetFragmentTexture(uint32 slot, RenderTexture* tex)
 {
-
-}
-
-void VulkanDesciptorSet::SetFragmentTexture(uint32 slot, RenderTexture* tex)
-{
+    if (slot >= 16)
+    {
+        return false;
+    }
+    
     VulkanRenderTexture* vulkanTexture = static_cast<VulkanRenderTexture*>(tex);
+    
+    vulkanTexture->FlushVulkanImage();
 
-    VkDescriptorSetLayoutBinding layoutBindings;
+    if (m_descSetLayout != VK_NULL_HANDLE && m_descSet != VK_NULL_HANDLE)
+    {
+        return false;
+    }
+    
+    VkDescriptorImageInfo& imageInfo = vulkanTexture->GetVulkanImageInfo();    
+
+    uint8 index = m_slotList[slot];
+    if (index == 0xFF)
+    {
+        uint32 bindingSize = m_layoutBindings.size();
+        m_slotList[slot] = bindingSize;
+        index = bindingSize;
+
+        m_layoutBindings.resize(index + 1);
+        m_writeDescSets.resize(index + 1);
+    } 
+
+    VkDescriptorSetLayoutBinding& layoutBindings = m_layoutBindings[index];
     layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     layoutBindings.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
     layoutBindings.binding = slot;
     layoutBindings.descriptorCount = 1;
-    layoutBindings.pImmutableSamplers = NULL;
+    layoutBindings.pImmutableSamplers = NULL;    
 
-    if (slot >= m_layoutBindings.size())
-    {
-        m_layoutBindings.resize(slot + 1);
-    }
-    
-    m_layoutBindings[slot] = layoutBindings;
-
-
-    VkWriteDescriptorSet writeDescSet = {};
+    VkWriteDescriptorSet& writeDescSet = m_writeDescSets[index];
     writeDescSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    writeDescSet.pNext = NULL;
     writeDescSet.dstSet = NULL; //要填充此参数
-    writeDescSet.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     writeDescSet.dstBinding = slot;
-    writeDescSet.pImageInfo = &vulkanTexture->GetVulkanImageInfo();
+    writeDescSet.dstArrayElement = 0;
     writeDescSet.descriptorCount = 1;
+    writeDescSet.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;    
+    writeDescSet.pImageInfo = &imageInfo;
+    writeDescSet.pBufferInfo = NULL;
+    writeDescSet.pTexelBufferView = NULL;    
 
-    if (slot >= m_writeDescSets.size())
-    {
-        m_writeDescSets.resize(slot + 1);
-    }
-
-    m_writeDescSets[slot] = writeDescSet;
+    return true;
 }
 
-bool VulkanDesciptorSet::UpdateSet()
+void VulkanDesciptorSet::UpdateSet()
 {
-    if (m_descSetLayout == VK_NULL_HANDLE) //todo: 或者binding发生变化
+    if (m_descSetLayout == VK_NULL_HANDLE)
     {
         VkDescriptorSetLayoutCreateInfo descriptor_layout = {};
         descriptor_layout.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -135,6 +232,4 @@ bool VulkanDesciptorSet::UpdateSet()
         
         vkUpdateDescriptorSets(m_device, m_writeDescSets.size(), m_writeDescSets.data(), 0, NULL);
     }
-
-    return true;
 }

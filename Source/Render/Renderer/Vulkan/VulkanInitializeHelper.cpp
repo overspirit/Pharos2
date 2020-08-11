@@ -75,6 +75,20 @@ VkBool32 VulkanInitializeHelper::VulkanDebugCallback(
 	return VK_FALSE;
 }
 
+VkBool32 vkDebugReportCallbackEXT(VkDebugReportFlagsEXT flags, 
+	VkDebugReportObjectTypeEXT objectType,
+	uint64_t object,
+	size_t location,
+	int32_t messageCode,
+	const char* pLayerPrefix,
+	const char* pMessage,
+	void* pUserData)
+{
+	printf("%s\n", pMessage);
+	
+	return VK_FALSE;
+}
+
 VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension)
 {
 	VkApplicationInfo app_info = {};
@@ -93,9 +107,23 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 
 	std::vector<const char*> validationLayers;
 
+	uint32_t instance_layer_count;
+	vkEnumerateInstanceLayerProperties(&instance_layer_count, nullptr);
+
+	std::vector<VkLayerProperties> supported_validation_layers(instance_layer_count);
+	vkEnumerateInstanceLayerProperties(&instance_layer_count, supported_validation_layers.data());
+
 #if defined(_LINUX_PLATFORM_)
-	exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+	exts.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+	//exts.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
 	validationLayers.push_back("VK_LAYER_KHRONOS_validation");
+	//validationLayers.push_back("VK_LAYER_LUNARG_vktrace");
+	//validationLayers.push_back("VK_LAYER_LUNARG_device_simulation");
+	// validationLayers.push_back("VK_LAYER_LUNARG_monitor");
+	//validationLayers.push_back("VK_LAYER_LUNARG_api_dump");
+	// validationLayers.push_back("VK_LAYER_LUNARG_screenshot");
+
 #endif
 
 	VkInstanceCreateInfo inst_info = {};
@@ -127,12 +155,35 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
         VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
     debugUtilsInfo.pfnUserCallback = (PFN_vkDebugUtilsMessengerCallbackEXT)VulkanDebugCallback;
 	debugUtilsInfo.pUserData = &m_logFile;
-	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(inst, "vkCreateDebugUtilsMessengerEXT");
-	res = func(inst, &debugUtilsInfo, nullptr, &m_debugMsger);
+	// auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(inst, "vkCreateDebugUtilsMessengerEXT");
+	// res = func(inst, &debugUtilsInfo, nullptr, &m_debugMsger);
+	// if (res != VK_SUCCESS)
+	// {
+	// 	return VK_NULL_HANDLE;
+	// }
+
+	//VkDebugReportCallbackEXT
+
+	VkDebugReportCallbackCreateInfoEXT createInfo;
+	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
+    createInfo.pNext = nullptr;
+    createInfo.flags = 
+		VK_DEBUG_REPORT_INFORMATION_BIT_EXT | 
+		VK_DEBUG_REPORT_WARNING_BIT_EXT | 
+		VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT |
+		VK_DEBUG_REPORT_ERROR_BIT_EXT | 
+		VK_DEBUG_REPORT_DEBUG_BIT_EXT;
+    createInfo.pfnCallback = vkDebugReportCallbackEXT;
+    createInfo.pUserData = nullptr;
+
+	VkDebugReportCallbackEXT callback;
+	auto func = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(inst, "vkCreateDebugReportCallbackEXT");
+	res = func(inst, &createInfo, nullptr, &callback);
 	if (res != VK_SUCCESS)
 	{
 		return VK_NULL_HANDLE;
 	}
+
 #endif
 
 	return inst;
@@ -332,7 +383,7 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
     swapchain_ci.preTransform = pre_transform;
     swapchain_ci.compositeAlpha = composite;
     swapchain_ci.imageArrayLayers = 1;
-    swapchain_ci.presentMode = VK_PRESENT_MODE_FIFO_KHR;  //垂直同步
+    swapchain_ci.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;//VK_PRESENT_MODE_FIFO_KHR;  //垂直同步
     swapchain_ci.oldSwapchain = VK_NULL_HANDLE;
     swapchain_ci.clipped = true;
     swapchain_ci.imageColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;

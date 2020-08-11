@@ -51,7 +51,7 @@ bool VulkanRenderer::Init()
 
 void VulkanRenderer::Destroy()
 {
-
+	sInitHelper->Destroy();
 }
 
 bool VulkanRenderer::Create(const DeviceConfig& cfg)
@@ -82,6 +82,8 @@ void VulkanRenderer::Commit()
 
 	m_defaultTarget->PresentQueue(m_queue);
 
+	//usleep(1);
+
 	//vkDestroyFence(m_device, drawFence, NULL);
 }
 
@@ -98,7 +100,13 @@ RenderBuffer *VulkanRenderer::GenerateRenderBuffer(BufferType type)
 
 RenderTexture* VulkanRenderer::CreateTexture(int32 width, int32 height, EPixelFormat fmt)
 {
-	return nullptr;
+	VulkanRenderTexture* texture = new VulkanRenderTexture(m_device, m_cmdPool, m_queue);
+	if (!texture->Create(width, height, fmt))
+	{
+		SAFE_DELETE(texture);
+		return nullptr;
+	}
+	return texture;
 }
 //
 //RenderTexture* VulkanRenderer::CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt)
@@ -138,7 +146,13 @@ RenderTexture* VulkanRenderer::LoadTexture(const char8* szPath)
 
 RenderTexture* VulkanRenderer::LoadTexture(const Image* image)
 {
-	return nullptr;
+	VulkanRenderTexture* texture = new VulkanRenderTexture(m_device, m_cmdPool, m_queue);
+	if (!texture->LoadFromImage(image))
+	{
+		SAFE_DELETE(texture);
+		return nullptr;
+	}
+	return texture;
 }
 
 RenderProgram* VulkanRenderer::GenerateRenderProgram()
@@ -162,17 +176,35 @@ RenderTarget* VulkanRenderer::CreateRenderTarget(int32 width, int32 height)
 
 RenderSamplerState* VulkanRenderer::CreateSampleState(const SamplerStateDesc& desc)
 {
-	return nullptr;
+	VulkanSamplerState* state = new VulkanSamplerState();
+	if (!state->CreateState(desc))
+	{
+		SAFE_DELETE(state);
+		return nullptr;
+	}
+	return state;
 }
 
 RenderBlendState* VulkanRenderer::CreateBlendState(const BlendStateDesc& desc)
 {
-	return nullptr;
+	VulkanBlendState* state = new VulkanBlendState();
+	if (!state->CreateState(desc))
+	{
+		SAFE_DELETE(state);
+		return nullptr;
+	}
+	return state;
 }
 
 RenderRasterizerState* VulkanRenderer::CreateRasterizerState(const RasterizerStateDesc& desc)
 {
-	return nullptr;
+	VulkanRasterizerState* state = new VulkanRasterizerState();
+	if (!state->CreateState(desc))
+	{
+		SAFE_DELETE(state);
+		return nullptr;
+	}
+	return state;
 }
 
 RenderDepthStencilState* VulkanRenderer::CreateDepthStencilState(const DepthStencilStateDesc& desc)
