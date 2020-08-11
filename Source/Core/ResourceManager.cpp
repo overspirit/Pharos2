@@ -44,11 +44,16 @@ void ResourceManager::Destroy()
 
 File* ResourceManager::CreateResourceFile(const char8* path)
 {
+	if (path == nullptr || path[0] == '\0') return nullptr;
+	
 	File* file = new File();	
 
 	string fullPath = m_currWorkPath + path;
 	if (file->Open(fullPath.c_str()))
 	{
+		Utils::Path tmp_path(fullPath.c_str());
+		m_currWorkPath = tmp_path.GetFullPath();
+
 		return file;
 	}
 
@@ -88,7 +93,7 @@ ResBase* ResourceManager::FindResource(const char8* path, ResType type)
 	return NULL;
 }
 
-ResBase* ResourceManager::GenerateResource(ResType resType, File* file)
+ResBase* ResourceManager::GenerateResource(ResType resType, const char8* resKey, File* file)
 {
 	ResBase* res = nullptr;
 
@@ -101,20 +106,24 @@ ResBase* ResourceManager::GenerateResource(ResType resType, File* file)
 		default: return nullptr;
 	}
 
-	if (file == nullptr)
+	if (resKey == nullptr)
 	{
 		m_pendingResList.push_back(res);
 	}
 	else
 	{
+		if (file == NULL)
+		{
+			return NULL;			
+		}
+
 		if (!res->Open(file))
 		{
 			SAFE_DELETE(res);
 			return nullptr;
 		}
 
-		const char8* path = file->GetPath();
-		m_storageResList[path] = res;
+		m_storageResList[resKey] = res;
 	}
 	
 
@@ -132,7 +141,7 @@ Font* ResourceManager::GenerateFont(const char8* path)
 	File* resFile = CreateResourceFile(path);
 	if (resFile == nullptr) return nullptr;
 	
-	res = GenerateResource(ERT_FONT, resFile);
+	res = GenerateResource(ERT_FONT, path, resFile);
 
 	SAFE_DELETE(resFile);
 
@@ -150,7 +159,7 @@ Image* ResourceManager::GenerateImage(const char8* path)
 	File* resFile = CreateResourceFile(path);
 	if (resFile == nullptr) return nullptr;
 
-	res = GenerateResource(ERT_IMAGE, resFile);
+	res = GenerateResource(ERT_IMAGE, path, resFile);
 
 	SAFE_DELETE(resFile);
 
@@ -168,7 +177,7 @@ XmlDocument* ResourceManager::GenerateXmlDocument(const char8* path)
 	File* resFile = CreateResourceFile(path);
 	if (resFile == nullptr) return nullptr;
 
-	res = GenerateResource(ERT_XML, resFile);
+	res = GenerateResource(ERT_XML, path, resFile);
 
 	SAFE_DELETE(resFile);
 
@@ -186,7 +195,7 @@ Package* ResourceManager::GeneratePackage(const char8* path)
 	File* resFile = CreateResourceFile(path);
 	if (resFile == nullptr) return nullptr;
 
-	res = GenerateResource(ERT_PACKAGE, resFile);
+	res = GenerateResource(ERT_PACKAGE, path, resFile);
 
 	SAFE_DELETE(resFile);
 

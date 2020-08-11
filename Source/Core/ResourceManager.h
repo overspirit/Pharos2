@@ -35,7 +35,7 @@ namespace Pharos
 			XmlDocument* GenerateXmlDocument(const char8* path);
 			Package* GeneratePackage(const char8* path);
 
-			ResBase* GenerateResource(ResType resType, File* file = nullptr);
+			ResBase* GenerateResource(ResType resType, const char8* resKey = NULL, File* file = nullptr);
 
 			File* CreateResourceFile(const char8* path);
 		};
