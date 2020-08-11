@@ -65,6 +65,7 @@ function main() {
     cd output
     mkdir Sample
     cp -r ../build/Sample/SceneDemo/SceneDemo ./Sample/
+    cp -r ../build/Sample/ModelViewer/ModelViewer ./Sample/
     cp -r ../Data/ ./
 }
 

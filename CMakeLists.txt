@@ -33,3 +33,4 @@ add_subdirectory(${ENGINE_DIR})
 #例子
 set(SAMPLE_DIR ${PROJECT_SOURCE_DIR}/Sample)
 add_subdirectory(${SAMPLE_DIR}/SceneDemo)
+add_subdirectory(${SAMPLE_DIR}/ModelViewer)
