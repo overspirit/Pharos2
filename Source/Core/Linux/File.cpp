@@ -44,6 +44,8 @@ bool File::Create(const char8* path, bool truncate)
 
 bool File::Open(const char8* path)
 {
+	if (path == nullptr || path[0] == '\0') return false;
+	
 	//如果该文件存在
 	if (access(path, 0) != 0) return false;
 

@@ -42,6 +42,8 @@ bool PlatformLinux::Init()
 
 void PlatformLinux::Destroy()
 {
+	sKernel->Destroy();
+	
 	SAFE_DELETE(m_window);
 }
 

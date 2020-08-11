@@ -100,6 +100,7 @@ void OctreeScene::Update(float32 fElapsed)
 	//sRenderMgr->SetGlobalRenderViewMatrix(viewMat);
 	//sRenderMgr->SetGlobalRenderProjMatrix(projMat);
 
+	//更新场景中所有材质,应该放到材质管理器里更新...
 	for (int i = 0; i < sMaterialMgr->GetMaterialNum(); i++)
 	{
 		Material* material = sMaterialMgr->GetMaterial(i);
@@ -111,7 +112,7 @@ void OctreeScene::Update(float32 fElapsed)
 		lightDir.Normalize();
 		material->SetLightDirectionParamValue(lightDir);
 		material->SetEnvironmentColorParamValue(0xFF4F4F4F);
-		material->SetLightColorParamValue(0xFFFFFFFF);
+		material->SetLightColorParamValue(0xFFFFFFFF);		
 
 		material->UpdateParamValue();
 	}
