@@ -221,11 +221,6 @@ void Model::TransformWorld(const Matrix4& world)
 
 void Model::Prepare(RenderObject* renderObj)
 {
-	if (m_animBoneTrans.size() > 0)
-	{
-		//m_renderBlock->SetBlockDataBoneMatrix(&*m_animBoneTrans.begin(), (uint32)m_animBoneTrans.size());
-	}
-
 	for (uint32 i = 0; i < m_subModelList.size(); i++)
 	{
 		SubModel& subModel = m_subModelList[i];
@@ -244,6 +239,11 @@ void Model::Prepare(RenderObject* renderObj)
 		for (Material* material : materialList)
 		{
 			material->SetWorldParamValue(m_world);
+			
+			if (m_animBoneTrans.size() > 0)
+			{
+				material->SetBoneParamValue(m_animBoneTrans.data(), (uint32)m_animBoneTrans.size());
+			}
 
 			RenderPipeline* pipeline = material->GetRenderPipeline();
 			pipeline->SetInputLayoutDesc(vertDesc.data(), vertDesc.size());

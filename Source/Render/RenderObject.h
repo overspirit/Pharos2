@@ -20,6 +20,7 @@ namespace Pharos
 
 				DrawType	drawType;
 				uint32		itemCount;
+				uint32		itemOffset;
 			};
 
 
@@ -30,7 +31,7 @@ namespace Pharos
 
 		public:
 			virtual uint32 AddRenderBlock(RenderBuffer* vertBuf, RenderPipeline* pipeline);
-			virtual void SetBlockDrawInfo(uint32 blockIndex, DrawType drawType, uint32 itemCount);
+			virtual void SetBlockDrawInfo(uint32 blockIndex, DrawType drawType, uint32 itemCount, uint32 itemOffset = 0);
 			virtual void SetBlockIndexBuffer(uint32 blockIndex, RenderBuffer* indexBuffer);
 			virtual void SetBlockResourceSet(uint32 blockIndex, RenderResourceSet* resSet);			
 			

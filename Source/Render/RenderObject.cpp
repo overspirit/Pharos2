@@ -27,13 +27,14 @@ uint32 RenderObject::AddRenderBlock(RenderBuffer* vertBuf, RenderPipeline* pipel
     return blockIndex;
 }
 
-void RenderObject::SetBlockDrawInfo(uint32 blockIndex, DrawType drawType, uint32 itemCount)
+void RenderObject::SetBlockDrawInfo(uint32 blockIndex, DrawType drawType, uint32 itemCount, uint32 itemOffset)
 {
     m_blockList.resize(blockIndex + 1);
 
     RenderBlock& block = m_blockList[blockIndex];
     block.drawType = drawType;
     block.itemCount = itemCount;
+    block.itemOffset = itemOffset;
 }
 
 void RenderObject::SetBlockIndexBuffer(uint32 blockIndex, RenderBuffer* indexBuffer)
@@ -66,11 +67,11 @@ void RenderObject::Draw()
         {            
             m_renderCmd->SetIndexBuffer(renderBlock.indexBuf, IET_UINT32);
             
-            m_renderCmd->DrawIndexedPrimitives(0, renderBlock.itemCount);
+            m_renderCmd->DrawIndexedPrimitives(renderBlock.itemOffset, renderBlock.itemCount);
         }
         else
         {
-            m_renderCmd->DrawPrimitives(0, renderBlock.itemCount);
+            m_renderCmd->DrawPrimitives(renderBlock.itemOffset, renderBlock.itemCount);
         }        
     }
 

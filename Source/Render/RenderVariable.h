@@ -40,9 +40,16 @@ namespace Pharos
 			template<class T>
 			void SetValue(const T& value)
 			{
-				uint32 dataSize = sizeof(value); 
+				uint32 dataSize = sizeof(T); 
 				const void* valueData = &value;				
 				m_dataBuf->Insert(m_dataOffset, valueData, dataSize);
+			}
+
+			template<class T>
+			void SetValue(const T* value, uint32 valueNum)
+			{
+				uint32 dataSize = sizeof(T) * valueNum; 
+				m_dataBuf->Insert(m_dataOffset, value, dataSize);
 			}
 
 			void SetValue(RenderTexture* tex)

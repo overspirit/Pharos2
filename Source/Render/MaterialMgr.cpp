@@ -65,6 +65,13 @@ bool MaterialMgr::LoadEffectFile(const char8* szPath)
 
 				uint32 typeSize = GetTypeSize(memberType);
 
+				XmlAttribute* memberArraySizeAttr = memberNode->GetAttribute("array_size");
+				if (memberArraySizeAttr != nullptr)
+				{
+					int32 arraySize = memberArraySizeAttr->GetIntValue();
+					typeSize = GetTypeSize(memberType) * arraySize;
+				}
+
 				MemberInfo memberInfo;
 				memberInfo.name = memberName;
 				memberInfo.size = typeSize;
@@ -134,7 +141,7 @@ Material* MaterialMgr::GenerateMaterial(const char8* tech)
 	TechniqueInfo& techInfo = m_techList[tech];	
 
 	Material* material = new Material();
-	material->SetShaderProgram(techInfo.renderProgram);
+	material->SetShaderProgram(techInfo.techName.c_str(), techInfo.renderProgram);
 
 	for (UniformInfo& uniformInfo : techInfo.uniformInfos)
 	{
@@ -156,6 +163,8 @@ Material* MaterialMgr::GenerateMaterial(const char8* tech)
 			material->SetTextureVariable(varInfo.name.c_str(), varInfo.slot);
 		}
 	}	
+
+	
 
 	m_materialList.push_back(material);
 

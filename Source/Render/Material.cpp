@@ -9,6 +9,7 @@ Material::Material()
     m_viewVar = nullptr;
     m_projVar = nullptr;
     m_worldVar = nullptr;
+    m_boneVar = nullptr;
     m_lightColorVar = nullptr;
     m_environColorVar = nullptr;
     m_lightDirVar = nullptr;
@@ -23,6 +24,7 @@ Material::~Material()
     SAFE_DELETE(m_viewVar);
     SAFE_DELETE(m_projVar);
     SAFE_DELETE(m_worldVar);
+    SAFE_DELETE(m_boneVar);
     SAFE_DELETE(m_lightColorVar);
     SAFE_DELETE(m_environColorVar);
     SAFE_DELETE(m_lightDirVar);
@@ -59,6 +61,14 @@ void Material::SetWorldParamValue(const Matrix4& worldMat)
     }
 }
 
+void Material::SetBoneParamValue(const Matrix4* boneMat, uint32 boneSize)
+{
+    if (m_boneVar != nullptr)
+    {
+        m_boneVar->SetValue(boneMat, boneSize);
+    }
+}
+
 void Material::SetLightDirectionParamValue(const Vector3Df& lightDir)
 {
     if (m_lightDirVar != nullptr)
@@ -83,15 +93,18 @@ void Material::SetLightColorParamValue(Color4 lightColor)
     }
 }
 
-void Material::SetColorTextureParamValue(RenderTexture* texture)
+void Material::SetTextureParamValue(const char8* valueName, RenderTexture* texture)
 {
-    if (m_colorTextureVar != nullptr)
+    if (strcmp(valueName, "g_tex") == 0)
     {
-        m_colorTextureVar->SetValue(texture);
+        if (m_colorTextureVar != nullptr)
+        {
+            m_colorTextureVar->SetValue(texture);
+        }
     }
 }
 
-void Material::SetShaderProgram(RenderProgram* renderProgram)
+void Material::SetShaderProgram(const char8* techName, RenderProgram* renderProgram)
 {
 	DepthStencilStateDesc desc;
 	m_depthState = sRenderer->CreateDepthStencilState(desc);
@@ -101,6 +114,8 @@ void Material::SetShaderProgram(RenderProgram* renderProgram)
 	m_renderPipeline->SetProgramShader(renderProgram);
 	
     m_renderSet = sRenderer->GenerateRenderResuourceSet();
+
+    m_techName = techName;
 }
 
 void Material::SetTextureVariable(const char8* name, uint32 slot)
@@ -160,6 +175,10 @@ void Material::SetUniformMember(uint32 varIndex, const char8* name, uint32 size)
     else if (strcmp(name, "g_world") == 0)
     {
         m_worldVar = new RenderVariable(uniformSet.memberBuf, uniformSet.useSize);
+    }
+    else if (strcmp(name, "g_boneMat") == 0)
+    {
+        m_boneVar = new RenderVariable(uniformSet.memberBuf, uniformSet.useSize);
     }
     else if (strcmp(name, "g_light_color") == 0)
     {

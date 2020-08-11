@@ -28,34 +28,6 @@ bool RenderMgr::Init()
 	m_renderer = MakeRenderer();
 	if (!m_renderer->Init()) return false;
 	
-	m_timer.Reset();
-
-	return true;
-}
-
-void RenderMgr::Destroy()
-{
-	m_renderer->Destroy();
-	SAFE_DELETE(m_renderer);
-}
-
-bool RenderMgr::StartUp(const RenderParam& param)
-{
-	DeviceConfig cfg;
-	cfg.width = param.width;
-	cfg.height = param.height;
-	cfg.backColor = param.backColor;
-	cfg.sampleType = param.sampleType;
-	cfg.sync = param.sync;
-	cfg.fullScreen = param.fullScreen;
-	//cfg.bufferFormat;
-	//cfg.depthFormat;
-	//cfg.refreshRate;    
-	if (!m_renderer->Create(cfg)) return false;
-
-	m_renderParam = param;
-	//m_clearColor = param.backColor;
-	
 	//quad vertex buffer
 	InitQuadBuffer();
 
@@ -85,6 +57,34 @@ bool RenderMgr::StartUp(const RenderParam& param)
 //
 //	m_finalCommand = m_renderer->GenerateRenderCommand(m_finalTarget);
 //	m_finalCommand->SetDebugLabel("final render");	
+
+	m_timer.Reset();
+
+	return true;
+}
+
+void RenderMgr::Destroy()
+{
+	m_renderer->Destroy();
+	SAFE_DELETE(m_renderer);
+}
+
+bool RenderMgr::StartUp(const RenderParam& param)
+{
+	DeviceConfig cfg;
+	cfg.width = param.width;
+	cfg.height = param.height;
+	cfg.backColor = param.backColor;
+	cfg.sampleType = param.sampleType;
+	cfg.sync = param.sync;
+	cfg.fullScreen = param.fullScreen;
+	//cfg.bufferFormat;
+	//cfg.depthFormat;
+	//cfg.refreshRate;    
+	if (!m_renderer->Create(cfg)) return false;
+
+	m_renderParam = param;
+	//m_clearColor = param.backColor;	
 	
 	return true;
 }
@@ -237,6 +237,6 @@ void RenderMgr::Render(float32 fElapsed)
 
 		printf("FPS:%d\n", m_fps);
 
-		LOGV("FPS:%d\n", m_fps);
+		//LOGV("FPS:%d\n", m_fps);
 	}
 }
