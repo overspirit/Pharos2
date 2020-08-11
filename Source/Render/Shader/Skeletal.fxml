@@ -2,17 +2,17 @@
 <effect>
   <library file="Shader/Skeletal.lib"/>
 
-  <variable type="texture" name="g_tex" bind="0"/>
+  <variable type="texture" name="g_tex" bind="4"/>
 
-  <constant type="struct" name="cbPerScene" bind="0">
+  <variable type="struct" name="cbPerScene" bind="0">
     <member type="matrix4" name="g_view"/>
     <member type="matrix4" name="g_proj"/>
-  </constant>
+  </variable>
 
-  <constant type="struct" name="cbPerObject" bind="1">
+  <variable type="struct" name="cbPerObject" bind="1">
     <member type="matrix4" name="g_world"/>
-    <member type="matrix4" name="g_boneMatrix" array_size="255"/>
-  </constant>
+    <member type="matrix4" name="g_boneMat" array_size="255"/>
+  </variable>
 
   <technique name="Skeletal">
     <param name="cull_mode" value="none"/>

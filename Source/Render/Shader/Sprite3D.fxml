@@ -2,7 +2,7 @@
 <effect>
   <library file="Shader/Sprite3D.lib"/>
 
-  <variable type="texture" name="g_tex" bind="0"/>
+  <variable type="texture" name="g_tex" bind="4"/>
 
   <variable type="struct" name="cbPerScene" bind="0">
     <member type="matrix4" name="g_view"/>

@@ -4,17 +4,26 @@
 #extension GL_ARB_shading_language_420pack : enable
 
 layout (std140, row_major, binding = 0)
-uniform bufferVals 
+uniform cbPerScene
 {
-    mat4 view;
-    mat4 proj;
-} myBufferVals;
+    mat4 g_view;
+    mat4 g_proj;
+} perScene;
 
 layout (std140, row_major, binding = 1)
-uniform boneVals 
+uniform cbPerModel
 {
-    mat4 boneMat[255];
-} myBoneVals;
+    mat4 g_world;
+    mat4 g_boneMat[255];
+} perModel;
+
+layout (std140, row_major, binding = 2)
+uniform cbSceneLight
+{
+    vec4 g_light_color;
+    vec4 g_environment_color;
+    vec3 g_light_direction;
+} sceneLight;
 
 layout (location = 0) in vec3 pos;
 layout (location = 2) in vec3 normal;
@@ -36,34 +45,33 @@ void main()
 
     uint iBone = bones.x;
     float fWeight = weights.x;
-    mat4 m = myBoneVals.boneMat[iBone];
-    mypos += fWeight * (inPos * m);
-    mynormal += fWeight * (normal * mat3(m));
-    mytangent += fWeight * (tangent * mat3(m));
+    mat4 m = perModel.g_boneMat[iBone];
+    mypos += (inPos * m * fWeight);
+    mynormal += (normal * mat3(m) * fWeight);
+    mytangent += (tangent * mat3(m) * fWeight);
 
     iBone = bones.y;
     fWeight = weights.y;
-    m = myBoneVals.boneMat[iBone];
-    mypos += fWeight * (inPos * m);
-    mynormal += fWeight * (normal * mat3(m));
-    mytangent += fWeight * (tangent * mat3(m));
+    m = perModel.g_boneMat[iBone];
+    mypos += (inPos * m * fWeight);
+    mynormal += (normal * mat3(m) * fWeight);
+    mytangent += (tangent * mat3(m) * fWeight);
 
     iBone = bones.z;
     fWeight = weights.z;
-    m = myBoneVals.boneMat[iBone];
-    mypos += fWeight * (inPos * m);
-    mynormal += fWeight * (normal * mat3(m));
-    mytangent += fWeight * (tangent * mat3(m));
+    m = perModel.g_boneMat[iBone];
+    mypos += (inPos * m * fWeight);
+    mynormal += (normal * mat3(m) * fWeight);
+    mytangent += (tangent * mat3(m) * fWeight);
 
     iBone = bones.w;
     fWeight = weights.w;
-    m = myBoneVals.boneMat[iBone];
-    mypos += fWeight * (inPos * m);
-    mynormal += fWeight * (normal * mat3(m));
-    mytangent += fWeight * (tangent * mat3(m));
+    m = perModel.g_boneMat[iBone];
+    mypos += (inPos * m * fWeight);
+    mynormal += (normal * mat3(m) * fWeight);
+    mytangent += (tangent * mat3(m) * fWeight);
       
-    mat4 mvp = myBufferVals.view * myBufferVals.proj;
-    gl_Position = mypos * mvp;//myBufferVals.mvp * pos;
+    gl_Position = mypos * (perModel.g_world * perScene.g_view * perScene.g_proj);
     gl_Position.y = -gl_Position.y;
 
     outNormal = normalize(mynormal);

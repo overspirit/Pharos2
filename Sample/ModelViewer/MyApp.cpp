@@ -248,7 +248,8 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 	char8 buf[MAX_PATH];
 	Utils::unicode_to_utf8((char16*)szFileName, -1, buf, MAX_PATH);
 
-	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter(buf);// "Model/Ifrit/Ifrit.sceneml");
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter(buf);*/
+	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Ifrit/Ifrit.sceneml");
 	sceneImporter->ImportScene(m_scene);
 	SAFE_DELETE(sceneImporter);
 
@@ -262,7 +263,7 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 	}
 
 	SetSliderFromAnimation();
-*/
+
 
 	return true;
 }

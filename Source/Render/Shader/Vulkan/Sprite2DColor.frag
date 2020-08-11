@@ -12,5 +12,5 @@ layout (location = 0) out vec4 oColor;
 
 void main() 
 {
-   oColor = textureLod(tex, texcoord, 0.0) * color;
+   oColor = color;
 }

@@ -38,11 +38,11 @@
         </Region>
 
         <PushStyle>
-          <Texture file="Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -50,7 +50,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="Pause.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Pause.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Button>
@@ -70,11 +70,11 @@
         </Region>
 
         <PushStyle>
-          <Texture file="Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -82,7 +82,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="Play.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Play.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Button>
@@ -103,11 +103,11 @@
         </Region>
 
         <PushStyle>
-          <Texture file="Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -115,7 +115,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="Stop.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Stop.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Button>-->
@@ -135,11 +135,11 @@
         </Region>
 
         <PushStyle>
-          <Texture file="Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -147,7 +147,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="Prev.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Prev.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Button>
@@ -165,11 +165,11 @@
         </Region>
 
         <PushStyle>
-          <Texture file="Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -177,7 +177,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="Next.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Next.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Button>
@@ -199,11 +199,11 @@
         </Region>
 
         <PushStyle>
-          <Texture file="Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -211,7 +211,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="Open.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Open.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Button>
@@ -236,21 +236,22 @@
 
 
         <BackDrop>
-          <Texture color="0xFF5E5E5E"/>
+          <!--<Texture color="0xFF5E5E5E"/>-->
+          <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
         </BackDrop>
 
         <Thumb>
 
           <BackStyle>
-            <Texture file="Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
           </BackStyle>
 
           <PushStyle>
-            <Texture file="ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
           </PushStyle>
 
           <HighlightStyle>
-            <Texture file="ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
           </HighlightStyle>
 
           <DisableStyle>
@@ -316,15 +317,15 @@
         <Thumb>
 
           <BackStyle>
-            <Texture file="Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
           </BackStyle>
 
           <PushStyle>
-            <Texture file="ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
           </PushStyle>
 
           <HighlightStyle>
-            <Texture file="ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
           </HighlightStyle>
 
           <DisableStyle>
@@ -338,7 +339,7 @@
         </Thumb>
 
         <BackDrop>
-          <Texture file="SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
         </BackDrop>
 
       </Slider>
@@ -362,7 +363,7 @@
         </Region>
 
         <Bar>
-          <Texture file="Box.bmp" left="467" top="43" right="503" bottom="58" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/Box.bmp" left="467" top="43" right="503" bottom="58" color="0xFFFFFFFF"/>
 
           <EdgeInsets left="10" top="10" right="10" bottom="10"/>
         </Bar>
@@ -391,15 +392,15 @@
         </Region>
 
         <CheckStyle>
-          <Texture file="LoopCheck.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/LoopCheck.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </CheckStyle>
 
         <PushStyle>
-          <Texture file="LoopPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/LoopPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </PushStyle>
 
         <HighlightStyle>
-          <Texture file="LoopHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/LoopHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </HighlightStyle>
 
         <DisableStyle>
@@ -407,7 +408,7 @@
         </DisableStyle>
 
         <BackDrop>
-          <Texture file="LoopBack.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+          <Texture file="Interface/ViewerPanel/LoopBack.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
         </BackDrop>
 
         <Frames>
