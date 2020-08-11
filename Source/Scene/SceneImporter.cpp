@@ -112,11 +112,11 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 	
 	for (auto texIter : materialData.samplerDataList)
 	{
-		string texName = texIter.first;		
+		string texName = texIter.first;
 		const SamplerData& sampleData = texIter.second;
 		string texPath = sampleData.texPath;
 		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
-		material->SetColorTextureParamValue(tex);
+		material->SetTextureParamValue(texName.c_str(), tex);
 	}
 
 	// for (auto varIter : materialData.varList)
