@@ -6,6 +6,8 @@ VulkanInitializeHelper::VulkanInitializeHelper(void)
 	m_inst = VK_NULL_HANDLE;
 	m_gpu = VK_NULL_HANDLE;
 	m_device = VK_NULL_HANDLE;
+	
+	m_gpuMemSize = 0;
 
 	m_swapchain = VK_NULL_HANDLE;
 
@@ -200,7 +202,26 @@ VkPhysicalDevice VulkanInitializeHelper::EnumPhysicalDevice(VkInstance inst)
 	res = vkEnumeratePhysicalDevices(inst, &gpu_count, gpuList.data());
 	if (res != VK_SUCCESS || gpu_count < 1) return VK_NULL_HANDLE;
 
-	return gpuList[0];
+	VkPhysicalDevice gpu = gpuList[0];
+
+	VkPhysicalDeviceProperties properties;
+	vkGetPhysicalDeviceProperties(gpu, &properties);
+
+	m_gpuName = properties.deviceName;
+
+	VkPhysicalDeviceMemoryProperties memoryProperties;
+	vkGetPhysicalDeviceMemoryProperties(gpu, &memoryProperties);
+
+	for (uint32 i = 0; i < memoryProperties.memoryHeapCount; i++)
+	{
+		if (memoryProperties.memoryHeaps[i].flags == VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+		{
+			m_gpuMemSize = (uint32)(memoryProperties.memoryHeaps[i].size / 1024 / 1024);
+			break;
+		}
+	}
+	
+	return gpu;
 }
 
 uint32 VulkanInitializeHelper::GetGraphicsQueueFamilyIndex(VkPhysicalDevice gpu, VkSurfaceKHR surface)

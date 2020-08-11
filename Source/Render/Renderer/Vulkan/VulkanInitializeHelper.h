@@ -14,6 +14,9 @@ namespace Pharos
 			VkInstance			m_inst;
 			VkPhysicalDevice	m_gpu;
 
+			string				m_gpuName;
+			uint32				m_gpuMemSize;
+
 			VkFormat			m_colorFormat;
 			VkFormat			m_depthFormat;
 
@@ -50,6 +53,9 @@ namespace Pharos
 		public:
 			bool Initialize(MyWindow* window);
 			void Destroy();
+
+			const char8* GetDefaultPhysicalDeviceName() { return m_gpuName.c_str(); }
+			uint32 GetDefaultPhysicalDeviceMemorySize() { return m_gpuMemSize; }
 
 			VkDevice GetVulkanDevice() { return m_device; }
 			VkQueue GetVulkanQueue() { return m_queue; }

@@ -37,8 +37,8 @@ namespace Pharos
 			virtual void Commit();
 			
 			virtual RenderTarget* GetDefaultRenderTarget() { return m_defaultTarget; }
-			virtual const char8* GetAdapterName() const { return ""; }
-			virtual uint32 GetAdapterMemorySize() const { return 0; }
+			virtual const char8* GetAdapterName() const;
+			virtual uint32 GetAdapterMemorySize() const;
             
 			virtual RenderBuffer* GenerateRenderBuffer(BufferType type);
 			virtual RenderTexture* CreateTexture(int32 width, int32 height, EPixelFormat fmt);

@@ -54,6 +54,16 @@ void VulkanRenderer::Destroy()
 	sInitHelper->Destroy();
 }
 
+const char8* VulkanRenderer::GetAdapterName() const
+{ 
+	return sInitHelper->GetDefaultPhysicalDeviceName();
+}
+
+uint32 VulkanRenderer::GetAdapterMemorySize() const
+{
+	 return sInitHelper->GetDefaultPhysicalDeviceMemorySize(); 
+}
+
 bool VulkanRenderer::Create(const DeviceConfig& cfg)
 {
 	return true;
