@@ -1,0 +1,2171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Scene>
+  <materials_chunk>
+      <material name="Paint" technique="Sprite3DNormal"/>
+  </materials_chunk>
+
+  <meshes_chunk>
+    <mesh name="Body">
+        <triangles_chunk>      
+            <triangle index="0 38 37"/>
+            <triangle index="0 37 36"/>
+            <triangle index="0 36 35"/>
+            <triangle index="0 35 34"/>
+            <triangle index="0 34 33"/>
+            <triangle index="0 33 32"/>
+            <triangle index="0 32 31"/>
+            <triangle index="0 31 30"/>
+            <triangle index="0 30 29"/>
+            <triangle index="0 29 28"/>
+            <triangle index="0 28 27"/>
+            <triangle index="0 27 26"/>
+            <triangle index="0 26 25"/>
+            <triangle index="0 25 24"/>
+            <triangle index="0 24 23"/>
+            <triangle index="0 23 22"/>
+            <triangle index="0 22 21"/>
+            <triangle index="0 21 20"/>
+            <triangle index="0 20 19"/>
+            <triangle index="0 19 18"/>
+            <triangle index="0 18 17"/>
+            <triangle index="0 17 16"/>
+            <triangle index="0 16 15"/>
+            <triangle index="0 15 14"/>
+            <triangle index="0 14 13"/>
+            <triangle index="0 13 12"/>
+            <triangle index="0 12 11"/>
+            <triangle index="0 11 10"/>
+            <triangle index="0 10 9"/>
+            <triangle index="0 9 8"/>
+            <triangle index="0 8 7"/>
+            <triangle index="0 7 6"/>
+            <triangle index="0 6 5"/>
+            <triangle index="0 5 4"/>
+            <triangle index="0 4 3"/>
+            <triangle index="0 3 2"/>
+            <triangle index="0 2 1"/>
+            <triangle index="234 235 236"/>
+            <triangle index="234 236 237"/>
+            <triangle index="234 237 238"/>
+            <triangle index="234 238 239"/>
+            <triangle index="234 239 240"/>
+            <triangle index="234 240 241"/>
+            <triangle index="234 241 242"/>
+            <triangle index="234 242 243"/>
+            <triangle index="234 243 244"/>
+            <triangle index="234 244 245"/>
+            <triangle index="234 245 246"/>
+            <triangle index="234 246 247"/>
+            <triangle index="234 247 248"/>
+            <triangle index="234 248 249"/>
+            <triangle index="234 249 250"/>
+            <triangle index="234 250 251"/>
+            <triangle index="234 251 252"/>
+            <triangle index="234 252 253"/>
+            <triangle index="234 253 254"/>
+            <triangle index="234 254 255"/>
+            <triangle index="234 255 256"/>
+            <triangle index="234 256 257"/>
+            <triangle index="234 257 258"/>
+            <triangle index="234 258 259"/>
+            <triangle index="234 259 260"/>
+            <triangle index="234 260 261"/>
+            <triangle index="234 261 262"/>
+            <triangle index="234 262 263"/>
+            <triangle index="234 263 264"/>
+            <triangle index="234 264 265"/>
+            <triangle index="234 265 266"/>
+            <triangle index="234 266 267"/>
+            <triangle index="234 267 268"/>
+            <triangle index="234 268 269"/>
+            <triangle index="234 269 270"/>
+            <triangle index="234 270 271"/>
+            <triangle index="234 271 272"/>
+            <triangle index="38 0 349"/>
+            <triangle index="38 349 350"/>
+            <triangle index="0 1 348"/>
+            <triangle index="0 348 349"/>
+            <triangle index="1 2 347"/>
+            <triangle index="1 347 348"/>
+            <triangle index="2 3 346"/>
+            <triangle index="2 346 347"/>
+            <triangle index="3 4 345"/>
+            <triangle index="3 345 346"/>
+            <triangle index="4 5 344"/>
+            <triangle index="4 344 345"/>
+            <triangle index="5 6 343"/>
+            <triangle index="5 343 344"/>
+            <triangle index="6 7 342"/>
+            <triangle index="6 342 343"/>
+            <triangle index="7 8 341"/>
+            <triangle index="7 341 342"/>
+            <triangle index="8 9 340"/>
+            <triangle index="8 340 341"/>
+            <triangle index="9 10 339"/>
+            <triangle index="9 339 340"/>
+            <triangle index="10 11 338"/>
+            <triangle index="10 338 339"/>
+            <triangle index="11 12 337"/>
+            <triangle index="11 337 338"/>
+            <triangle index="12 13 336"/>
+            <triangle index="12 336 337"/>
+            <triangle index="13 14 335"/>
+            <triangle index="13 335 336"/>
+            <triangle index="14 15 334"/>
+            <triangle index="14 334 335"/>
+            <triangle index="15 16 333"/>
+            <triangle index="15 333 334"/>
+            <triangle index="16 17 332"/>
+            <triangle index="16 332 333"/>
+            <triangle index="17 18 331"/>
+            <triangle index="17 331 332"/>
+            <triangle index="18 19 330"/>
+            <triangle index="18 330 331"/>
+            <triangle index="19 20 329"/>
+            <triangle index="19 329 330"/>
+            <triangle index="20 21 328"/>
+            <triangle index="20 328 329"/>
+            <triangle index="21 22 327"/>
+            <triangle index="21 327 328"/>
+            <triangle index="22 23 326"/>
+            <triangle index="22 326 327"/>
+            <triangle index="23 24 325"/>
+            <triangle index="23 325 326"/>
+            <triangle index="24 25 324"/>
+            <triangle index="24 324 325"/>
+            <triangle index="25 26 323"/>
+            <triangle index="25 323 324"/>
+            <triangle index="26 27 322"/>
+            <triangle index="26 322 323"/>
+            <triangle index="27 28 321"/>
+            <triangle index="27 321 322"/>
+            <triangle index="28 29 320"/>
+            <triangle index="28 320 321"/>
+            <triangle index="29 30 319"/>
+            <triangle index="29 319 320"/>
+            <triangle index="30 31 318"/>
+            <triangle index="30 318 319"/>
+            <triangle index="31 32 317"/>
+            <triangle index="31 317 318"/>
+            <triangle index="32 33 316"/>
+            <triangle index="32 316 317"/>
+            <triangle index="33 34 315"/>
+            <triangle index="33 315 316"/>
+            <triangle index="34 35 314"/>
+            <triangle index="34 314 315"/>
+            <triangle index="35 36 313"/>
+            <triangle index="35 313 314"/>
+            <triangle index="36 37 312"/>
+            <triangle index="36 312 313"/>
+            <triangle index="37 38 350"/>
+            <triangle index="37 350 312"/>
+            <triangle index="77 39 196"/>
+            <triangle index="77 196 197"/>
+            <triangle index="39 40 195"/>
+            <triangle index="39 195 196"/>
+            <triangle index="40 41 233"/>
+            <triangle index="40 233 195"/>
+            <triangle index="41 42 232"/>
+            <triangle index="41 232 233"/>
+            <triangle index="42 43 231"/>
+            <triangle index="42 231 232"/>
+            <triangle index="43 44 230"/>
+            <triangle index="43 230 231"/>
+            <triangle index="44 45 229"/>
+            <triangle index="44 229 230"/>
+            <triangle index="45 46 228"/>
+            <triangle index="45 228 229"/>
+            <triangle index="46 47 227"/>
+            <triangle index="46 227 228"/>
+            <triangle index="47 48 226"/>
+            <triangle index="47 226 227"/>
+            <triangle index="48 49 225"/>
+            <triangle index="48 225 226"/>
+            <triangle index="49 50 224"/>
+            <triangle index="49 224 225"/>
+            <triangle index="50 51 223"/>
+            <triangle index="50 223 224"/>
+            <triangle index="51 52 222"/>
+            <triangle index="51 222 223"/>
+            <triangle index="52 53 221"/>
+            <triangle index="52 221 222"/>
+            <triangle index="53 54 220"/>
+            <triangle index="53 220 221"/>
+            <triangle index="54 55 219"/>
+            <triangle index="54 219 220"/>
+            <triangle index="55 56 218"/>
+            <triangle index="55 218 219"/>
+            <triangle index="56 57 217"/>
+            <triangle index="56 217 218"/>
+            <triangle index="57 58 216"/>
+            <triangle index="57 216 217"/>
+            <triangle index="58 59 215"/>
+            <triangle index="58 215 216"/>
+            <triangle index="59 60 214"/>
+            <triangle index="59 214 215"/>
+            <triangle index="60 61 213"/>
+            <triangle index="60 213 214"/>
+            <triangle index="61 62 212"/>
+            <triangle index="61 212 213"/>
+            <triangle index="62 63 211"/>
+            <triangle index="62 211 212"/>
+            <triangle index="63 64 210"/>
+            <triangle index="63 210 211"/>
+            <triangle index="64 65 209"/>
+            <triangle index="64 209 210"/>
+            <triangle index="65 66 208"/>
+            <triangle index="65 208 209"/>
+            <triangle index="66 67 207"/>
+            <triangle index="66 207 208"/>
+            <triangle index="67 68 206"/>
+            <triangle index="67 206 207"/>
+            <triangle index="68 69 205"/>
+            <triangle index="68 205 206"/>
+            <triangle index="69 70 204"/>
+            <triangle index="69 204 205"/>
+            <triangle index="70 71 203"/>
+            <triangle index="70 203 204"/>
+            <triangle index="71 72 202"/>
+            <triangle index="71 202 203"/>
+            <triangle index="72 73 201"/>
+            <triangle index="72 201 202"/>
+            <triangle index="73 74 200"/>
+            <triangle index="73 200 201"/>
+            <triangle index="74 75 199"/>
+            <triangle index="74 199 200"/>
+            <triangle index="75 76 198"/>
+            <triangle index="75 198 199"/>
+            <triangle index="76 77 197"/>
+            <triangle index="76 197 198"/>
+            <triangle index="194 156 81"/>
+            <triangle index="194 81 80"/>
+            <triangle index="193 194 80"/>
+            <triangle index="193 80 79"/>
+            <triangle index="192 193 79"/>
+            <triangle index="192 79 78"/>
+            <triangle index="191 192 78"/>
+            <triangle index="191 78 116"/>
+            <triangle index="190 191 116"/>
+            <triangle index="190 116 115"/>
+            <triangle index="189 190 115"/>
+            <triangle index="189 115 114"/>
+            <triangle index="188 189 114"/>
+            <triangle index="188 114 113"/>
+            <triangle index="187 188 113"/>
+            <triangle index="187 113 112"/>
+            <triangle index="186 187 112"/>
+            <triangle index="186 112 111"/>
+            <triangle index="185 186 111"/>
+            <triangle index="185 111 110"/>
+            <triangle index="184 185 110"/>
+            <triangle index="184 110 109"/>
+            <triangle index="183 184 109"/>
+            <triangle index="183 109 108"/>
+            <triangle index="182 183 108"/>
+            <triangle index="182 108 107"/>
+            <triangle index="181 182 107"/>
+            <triangle index="181 107 106"/>
+            <triangle index="180 181 106"/>
+            <triangle index="180 106 105"/>
+            <triangle index="179 180 105"/>
+            <triangle index="179 105 104"/>
+            <triangle index="178 179 104"/>
+            <triangle index="178 104 103"/>
+            <triangle index="177 178 103"/>
+            <triangle index="177 103 102"/>
+            <triangle index="176 177 102"/>
+            <triangle index="176 102 101"/>
+            <triangle index="175 176 101"/>
+            <triangle index="175 101 100"/>
+            <triangle index="174 175 100"/>
+            <triangle index="174 100 99"/>
+            <triangle index="173 174 99"/>
+            <triangle index="173 99 98"/>
+            <triangle index="172 173 98"/>
+            <triangle index="172 98 97"/>
+            <triangle index="171 172 97"/>
+            <triangle index="171 97 96"/>
+            <triangle index="170 171 96"/>
+            <triangle index="170 96 95"/>
+            <triangle index="169 170 95"/>
+            <triangle index="169 95 94"/>
+            <triangle index="168 169 94"/>
+            <triangle index="168 94 93"/>
+            <triangle index="167 168 93"/>
+            <triangle index="167 93 92"/>
+            <triangle index="166 167 92"/>
+            <triangle index="166 92 91"/>
+            <triangle index="165 166 91"/>
+            <triangle index="165 91 90"/>
+            <triangle index="164 165 90"/>
+            <triangle index="164 90 89"/>
+            <triangle index="163 164 89"/>
+            <triangle index="163 89 88"/>
+            <triangle index="162 163 88"/>
+            <triangle index="162 88 87"/>
+            <triangle index="161 162 87"/>
+            <triangle index="161 87 86"/>
+            <triangle index="160 161 86"/>
+            <triangle index="160 86 85"/>
+            <triangle index="159 160 85"/>
+            <triangle index="159 85 84"/>
+            <triangle index="158 159 84"/>
+            <triangle index="158 84 83"/>
+            <triangle index="157 158 83"/>
+            <triangle index="157 83 82"/>
+            <triangle index="156 157 82"/>
+            <triangle index="156 82 81"/>
+            <triangle index="117 155 157"/>
+            <triangle index="117 157 156"/>
+            <triangle index="155 154 158"/>
+            <triangle index="155 158 157"/>
+            <triangle index="154 153 159"/>
+            <triangle index="154 159 158"/>
+            <triangle index="153 152 160"/>
+            <triangle index="153 160 159"/>
+            <triangle index="152 151 161"/>
+            <triangle index="152 161 160"/>
+            <triangle index="151 150 162"/>
+            <triangle index="151 162 161"/>
+            <triangle index="150 149 163"/>
+            <triangle index="150 163 162"/>
+            <triangle index="149 148 164"/>
+            <triangle index="149 164 163"/>
+            <triangle index="148 147 165"/>
+            <triangle index="148 165 164"/>
+            <triangle index="147 146 166"/>
+            <triangle index="147 166 165"/>
+            <triangle index="146 145 167"/>
+            <triangle index="146 167 166"/>
+            <triangle index="145 144 168"/>
+            <triangle index="145 168 167"/>
+            <triangle index="144 143 169"/>
+            <triangle index="144 169 168"/>
+            <triangle index="143 142 170"/>
+            <triangle index="143 170 169"/>
+            <triangle index="142 141 171"/>
+            <triangle index="142 171 170"/>
+            <triangle index="141 140 172"/>
+            <triangle index="141 172 171"/>
+            <triangle index="140 139 173"/>
+            <triangle index="140 173 172"/>
+            <triangle index="139 138 174"/>
+            <triangle index="139 174 173"/>
+            <triangle index="138 137 175"/>
+            <triangle index="138 175 174"/>
+            <triangle index="137 136 176"/>
+            <triangle index="137 176 175"/>
+            <triangle index="136 135 177"/>
+            <triangle index="136 177 176"/>
+            <triangle index="135 134 178"/>
+            <triangle index="135 178 177"/>
+            <triangle index="134 133 179"/>
+            <triangle index="134 179 178"/>
+            <triangle index="133 132 180"/>
+            <triangle index="133 180 179"/>
+            <triangle index="132 131 181"/>
+            <triangle index="132 181 180"/>
+            <triangle index="131 130 182"/>
+            <triangle index="131 182 181"/>
+            <triangle index="130 129 183"/>
+            <triangle index="130 183 182"/>
+            <triangle index="129 128 184"/>
+            <triangle index="129 184 183"/>
+            <triangle index="128 127 185"/>
+            <triangle index="128 185 184"/>
+            <triangle index="127 126 186"/>
+            <triangle index="127 186 185"/>
+            <triangle index="126 125 187"/>
+            <triangle index="126 187 186"/>
+            <triangle index="125 124 188"/>
+            <triangle index="125 188 187"/>
+            <triangle index="124 123 189"/>
+            <triangle index="124 189 188"/>
+            <triangle index="123 122 190"/>
+            <triangle index="123 190 189"/>
+            <triangle index="122 121 191"/>
+            <triangle index="122 191 190"/>
+            <triangle index="121 120 192"/>
+            <triangle index="121 192 191"/>
+            <triangle index="120 119 193"/>
+            <triangle index="120 193 192"/>
+            <triangle index="119 118 194"/>
+            <triangle index="119 194 193"/>
+            <triangle index="118 117 156"/>
+            <triangle index="118 156 194"/>
+            <triangle index="196 195 118"/>
+            <triangle index="196 118 119"/>
+            <triangle index="197 196 119"/>
+            <triangle index="197 119 120"/>
+            <triangle index="198 197 120"/>
+            <triangle index="198 120 121"/>
+            <triangle index="199 198 121"/>
+            <triangle index="199 121 122"/>
+            <triangle index="200 199 122"/>
+            <triangle index="200 122 123"/>
+            <triangle index="201 200 123"/>
+            <triangle index="201 123 124"/>
+            <triangle index="202 201 124"/>
+            <triangle index="202 124 125"/>
+            <triangle index="203 202 125"/>
+            <triangle index="203 125 126"/>
+            <triangle index="204 203 126"/>
+            <triangle index="204 126 127"/>
+            <triangle index="205 204 127"/>
+            <triangle index="205 127 128"/>
+            <triangle index="206 205 128"/>
+            <triangle index="206 128 129"/>
+            <triangle index="207 206 129"/>
+            <triangle index="207 129 130"/>
+            <triangle index="208 207 130"/>
+            <triangle index="208 130 131"/>
+            <triangle index="209 208 131"/>
+            <triangle index="209 131 132"/>
+            <triangle index="210 209 132"/>
+            <triangle index="210 132 133"/>
+            <triangle index="211 210 133"/>
+            <triangle index="211 133 134"/>
+            <triangle index="212 211 134"/>
+            <triangle index="212 134 135"/>
+            <triangle index="213 212 135"/>
+            <triangle index="213 135 136"/>
+            <triangle index="214 213 136"/>
+            <triangle index="214 136 137"/>
+            <triangle index="215 214 137"/>
+            <triangle index="215 137 138"/>
+            <triangle index="216 215 138"/>
+            <triangle index="216 138 139"/>
+            <triangle index="217 216 139"/>
+            <triangle index="217 139 140"/>
+            <triangle index="218 217 140"/>
+            <triangle index="218 140 141"/>
+            <triangle index="219 218 141"/>
+            <triangle index="219 141 142"/>
+            <triangle index="220 219 142"/>
+            <triangle index="220 142 143"/>
+            <triangle index="221 220 143"/>
+            <triangle index="221 143 144"/>
+            <triangle index="222 221 144"/>
+            <triangle index="222 144 145"/>
+            <triangle index="223 222 145"/>
+            <triangle index="223 145 146"/>
+            <triangle index="224 223 146"/>
+            <triangle index="224 146 147"/>
+            <triangle index="225 224 147"/>
+            <triangle index="225 147 148"/>
+            <triangle index="226 225 148"/>
+            <triangle index="226 148 149"/>
+            <triangle index="227 226 149"/>
+            <triangle index="227 149 150"/>
+            <triangle index="228 227 150"/>
+            <triangle index="228 150 151"/>
+            <triangle index="229 228 151"/>
+            <triangle index="229 151 152"/>
+            <triangle index="230 229 152"/>
+            <triangle index="230 152 153"/>
+            <triangle index="231 230 153"/>
+            <triangle index="231 153 154"/>
+            <triangle index="232 231 154"/>
+            <triangle index="232 154 155"/>
+            <triangle index="233 232 155"/>
+            <triangle index="233 155 117"/>
+            <triangle index="195 233 117"/>
+            <triangle index="195 117 118"/>
+            <triangle index="78 79 235"/>
+            <triangle index="78 235 234"/>
+            <triangle index="79 80 236"/>
+            <triangle index="79 236 235"/>
+            <triangle index="80 81 237"/>
+            <triangle index="80 237 236"/>
+            <triangle index="81 82 238"/>
+            <triangle index="81 238 237"/>
+            <triangle index="82 83 239"/>
+            <triangle index="82 239 238"/>
+            <triangle index="83 84 240"/>
+            <triangle index="83 240 239"/>
+            <triangle index="84 85 241"/>
+            <triangle index="84 241 240"/>
+            <triangle index="85 86 242"/>
+            <triangle index="85 242 241"/>
+            <triangle index="86 87 243"/>
+            <triangle index="86 243 242"/>
+            <triangle index="87 88 244"/>
+            <triangle index="87 244 243"/>
+            <triangle index="88 89 245"/>
+            <triangle index="88 245 244"/>
+            <triangle index="89 90 246"/>
+            <triangle index="89 246 245"/>
+            <triangle index="90 91 247"/>
+            <triangle index="90 247 246"/>
+            <triangle index="91 92 248"/>
+            <triangle index="91 248 247"/>
+            <triangle index="92 93 249"/>
+            <triangle index="92 249 248"/>
+            <triangle index="93 94 250"/>
+            <triangle index="93 250 249"/>
+            <triangle index="94 95 251"/>
+            <triangle index="94 251 250"/>
+            <triangle index="95 96 252"/>
+            <triangle index="95 252 251"/>
+            <triangle index="96 97 253"/>
+            <triangle index="96 253 252"/>
+            <triangle index="97 98 254"/>
+            <triangle index="97 254 253"/>
+            <triangle index="98 99 255"/>
+            <triangle index="98 255 254"/>
+            <triangle index="99 100 256"/>
+            <triangle index="99 256 255"/>
+            <triangle index="100 101 257"/>
+            <triangle index="100 257 256"/>
+            <triangle index="101 102 258"/>
+            <triangle index="101 258 257"/>
+            <triangle index="102 103 259"/>
+            <triangle index="102 259 258"/>
+            <triangle index="103 104 260"/>
+            <triangle index="103 260 259"/>
+            <triangle index="104 105 261"/>
+            <triangle index="104 261 260"/>
+            <triangle index="105 106 262"/>
+            <triangle index="105 262 261"/>
+            <triangle index="106 107 263"/>
+            <triangle index="106 263 262"/>
+            <triangle index="107 108 264"/>
+            <triangle index="107 264 263"/>
+            <triangle index="108 109 265"/>
+            <triangle index="108 265 264"/>
+            <triangle index="109 110 266"/>
+            <triangle index="109 266 265"/>
+            <triangle index="110 111 267"/>
+            <triangle index="110 267 266"/>
+            <triangle index="111 112 268"/>
+            <triangle index="111 268 267"/>
+            <triangle index="112 113 269"/>
+            <triangle index="112 269 268"/>
+            <triangle index="113 114 270"/>
+            <triangle index="113 270 269"/>
+            <triangle index="114 115 271"/>
+            <triangle index="114 271 270"/>
+            <triangle index="115 116 272"/>
+            <triangle index="115 272 271"/>
+            <triangle index="116 78 234"/>
+            <triangle index="116 234 272"/>
+            <triangle index="274 273 76"/>
+            <triangle index="274 76 75"/>
+            <triangle index="275 274 75"/>
+            <triangle index="275 75 74"/>
+            <triangle index="276 275 74"/>
+            <triangle index="276 74 73"/>
+            <triangle index="277 276 73"/>
+            <triangle index="277 73 72"/>
+            <triangle index="278 277 72"/>
+            <triangle index="278 72 71"/>
+            <triangle index="279 278 71"/>
+            <triangle index="279 71 70"/>
+            <triangle index="280 279 70"/>
+            <triangle index="280 70 69"/>
+            <triangle index="281 280 69"/>
+            <triangle index="281 69 68"/>
+            <triangle index="282 281 68"/>
+            <triangle index="282 68 67"/>
+            <triangle index="283 282 67"/>
+            <triangle index="283 67 66"/>
+            <triangle index="284 283 66"/>
+            <triangle index="284 66 65"/>
+            <triangle index="285 284 65"/>
+            <triangle index="285 65 64"/>
+            <triangle index="286 285 64"/>
+            <triangle index="286 64 63"/>
+            <triangle index="287 286 63"/>
+            <triangle index="287 63 62"/>
+            <triangle index="288 287 62"/>
+            <triangle index="288 62 61"/>
+            <triangle index="289 288 61"/>
+            <triangle index="289 61 60"/>
+            <triangle index="290 289 60"/>
+            <triangle index="290 60 59"/>
+            <triangle index="291 290 59"/>
+            <triangle index="291 59 58"/>
+            <triangle index="292 291 58"/>
+            <triangle index="292 58 57"/>
+            <triangle index="293 292 57"/>
+            <triangle index="293 57 56"/>
+            <triangle index="294 293 56"/>
+            <triangle index="294 56 55"/>
+            <triangle index="295 294 55"/>
+            <triangle index="295 55 54"/>
+            <triangle index="296 295 54"/>
+            <triangle index="296 54 53"/>
+            <triangle index="297 296 53"/>
+            <triangle index="297 53 52"/>
+            <triangle index="298 297 52"/>
+            <triangle index="298 52 51"/>
+            <triangle index="299 298 51"/>
+            <triangle index="299 51 50"/>
+            <triangle index="300 299 50"/>
+            <triangle index="300 50 49"/>
+            <triangle index="301 300 49"/>
+            <triangle index="301 49 48"/>
+            <triangle index="302 301 48"/>
+            <triangle index="302 48 47"/>
+            <triangle index="303 302 47"/>
+            <triangle index="303 47 46"/>
+            <triangle index="304 303 46"/>
+            <triangle index="304 46 45"/>
+            <triangle index="305 304 45"/>
+            <triangle index="305 45 44"/>
+            <triangle index="306 305 44"/>
+            <triangle index="306 44 43"/>
+            <triangle index="307 306 43"/>
+            <triangle index="307 43 42"/>
+            <triangle index="308 307 42"/>
+            <triangle index="308 42 41"/>
+            <triangle index="309 308 41"/>
+            <triangle index="309 41 40"/>
+            <triangle index="310 309 40"/>
+            <triangle index="310 40 39"/>
+            <triangle index="311 310 39"/>
+            <triangle index="311 39 77"/>
+            <triangle index="273 311 77"/>
+            <triangle index="273 77 76"/>
+            <triangle index="352 351 353"/>
+            <triangle index="352 353 354"/>
+            <triangle index="355 352 354"/>
+            <triangle index="355 354 356"/>
+            <triangle index="357 355 356"/>
+            <triangle index="357 356 358"/>
+            <triangle index="359 357 358"/>
+            <triangle index="359 358 360"/>
+            <triangle index="361 359 360"/>
+            <triangle index="361 360 362"/>
+            <triangle index="363 361 362"/>
+            <triangle index="363 362 364"/>
+            <triangle index="365 363 364"/>
+            <triangle index="365 364 366"/>
+            <triangle index="367 365 366"/>
+            <triangle index="367 366 368"/>
+            <triangle index="369 367 368"/>
+            <triangle index="369 368 370"/>
+            <triangle index="371 369 370"/>
+            <triangle index="371 370 372"/>
+            <triangle index="373 371 372"/>
+            <triangle index="373 372 374"/>
+            <triangle index="375 373 374"/>
+            <triangle index="375 374 376"/>
+            <triangle index="377 375 376"/>
+            <triangle index="377 376 378"/>
+            <triangle index="379 377 378"/>
+            <triangle index="379 378 380"/>
+            <triangle index="381 379 380"/>
+            <triangle index="381 380 382"/>
+            <triangle index="383 381 382"/>
+            <triangle index="383 382 384"/>
+            <triangle index="385 383 384"/>
+            <triangle index="385 384 386"/>
+            <triangle index="387 385 386"/>
+            <triangle index="387 386 388"/>
+            <triangle index="389 387 388"/>
+            <triangle index="389 388 390"/>
+            <triangle index="391 389 390"/>
+            <triangle index="391 390 392"/>
+            <triangle index="393 391 392"/>
+            <triangle index="393 392 394"/>
+            <triangle index="395 393 394"/>
+            <triangle index="395 394 396"/>
+            <triangle index="397 395 396"/>
+            <triangle index="397 396 398"/>
+            <triangle index="399 397 398"/>
+            <triangle index="399 398 400"/>
+            <triangle index="401 399 400"/>
+            <triangle index="401 400 402"/>
+            <triangle index="403 401 402"/>
+            <triangle index="403 402 404"/>
+            <triangle index="405 403 404"/>
+            <triangle index="405 404 406"/>
+            <triangle index="407 405 406"/>
+            <triangle index="407 406 408"/>
+            <triangle index="409 407 408"/>
+            <triangle index="409 408 410"/>
+            <triangle index="411 409 410"/>
+            <triangle index="411 410 412"/>
+            <triangle index="413 411 412"/>
+            <triangle index="413 412 414"/>
+            <triangle index="415 413 414"/>
+            <triangle index="415 414 416"/>
+            <triangle index="417 415 416"/>
+            <triangle index="417 416 418"/>
+            <triangle index="419 417 418"/>
+            <triangle index="419 418 420"/>
+            <triangle index="421 419 420"/>
+            <triangle index="421 420 422"/>
+            <triangle index="423 421 422"/>
+            <triangle index="423 422 424"/>
+            <triangle index="425 423 424"/>
+            <triangle index="425 424 426"/>
+            <triangle index="427 425 426"/>
+            <triangle index="427 426 428"/>
+            <triangle index="351 427 428"/>
+            <triangle index="351 428 353"/>
+            <triangle index="313 312 351"/>
+            <triangle index="313 351 352"/>
+            <triangle index="273 274 354"/>
+            <triangle index="273 354 353"/>
+            <triangle index="314 313 352"/>
+            <triangle index="314 352 355"/>
+            <triangle index="274 275 356"/>
+            <triangle index="274 356 354"/>
+            <triangle index="315 314 355"/>
+            <triangle index="315 355 357"/>
+            <triangle index="275 276 358"/>
+            <triangle index="275 358 356"/>
+            <triangle index="316 315 357"/>
+            <triangle index="316 357 359"/>
+            <triangle index="276 277 360"/>
+            <triangle index="276 360 358"/>
+            <triangle index="317 316 359"/>
+            <triangle index="317 359 361"/>
+            <triangle index="277 278 362"/>
+            <triangle index="277 362 360"/>
+            <triangle index="318 317 361"/>
+            <triangle index="318 361 363"/>
+            <triangle index="278 279 364"/>
+            <triangle index="278 364 362"/>
+            <triangle index="319 318 363"/>
+            <triangle index="319 363 365"/>
+            <triangle index="279 280 366"/>
+            <triangle index="279 366 364"/>
+            <triangle index="320 319 365"/>
+            <triangle index="320 365 367"/>
+            <triangle index="280 281 368"/>
+            <triangle index="280 368 366"/>
+            <triangle index="321 320 367"/>
+            <triangle index="321 367 369"/>
+            <triangle index="281 282 370"/>
+            <triangle index="281 370 368"/>
+            <triangle index="322 321 369"/>
+            <triangle index="322 369 371"/>
+            <triangle index="282 283 372"/>
+            <triangle index="282 372 370"/>
+            <triangle index="323 322 371"/>
+            <triangle index="323 371 373"/>
+            <triangle index="283 284 374"/>
+            <triangle index="283 374 372"/>
+            <triangle index="324 323 373"/>
+            <triangle index="324 373 375"/>
+            <triangle index="284 285 376"/>
+            <triangle index="284 376 374"/>
+            <triangle index="325 324 375"/>
+            <triangle index="325 375 377"/>
+            <triangle index="285 286 378"/>
+            <triangle index="285 378 376"/>
+            <triangle index="326 325 377"/>
+            <triangle index="326 377 379"/>
+            <triangle index="286 287 380"/>
+            <triangle index="286 380 378"/>
+            <triangle index="327 326 379"/>
+            <triangle index="327 379 381"/>
+            <triangle index="287 288 382"/>
+            <triangle index="287 382 380"/>
+            <triangle index="328 327 381"/>
+            <triangle index="328 381 383"/>
+            <triangle index="288 289 384"/>
+            <triangle index="288 384 382"/>
+            <triangle index="329 328 383"/>
+            <triangle index="329 383 385"/>
+            <triangle index="289 290 386"/>
+            <triangle index="289 386 384"/>
+            <triangle index="330 329 385"/>
+            <triangle index="330 385 387"/>
+            <triangle index="290 291 388"/>
+            <triangle index="290 388 386"/>
+            <triangle index="331 330 387"/>
+            <triangle index="331 387 389"/>
+            <triangle index="291 292 390"/>
+            <triangle index="291 390 388"/>
+            <triangle index="332 331 389"/>
+            <triangle index="332 389 391"/>
+            <triangle index="292 293 392"/>
+            <triangle index="292 392 390"/>
+            <triangle index="333 332 391"/>
+            <triangle index="333 391 393"/>
+            <triangle index="293 294 394"/>
+            <triangle index="293 394 392"/>
+            <triangle index="334 333 393"/>
+            <triangle index="334 393 395"/>
+            <triangle index="294 295 396"/>
+            <triangle index="294 396 394"/>
+            <triangle index="335 334 395"/>
+            <triangle index="335 395 397"/>
+            <triangle index="295 296 398"/>
+            <triangle index="295 398 396"/>
+            <triangle index="336 335 397"/>
+            <triangle index="336 397 399"/>
+            <triangle index="296 297 400"/>
+            <triangle index="296 400 398"/>
+            <triangle index="337 336 399"/>
+            <triangle index="337 399 401"/>
+            <triangle index="297 298 402"/>
+            <triangle index="297 402 400"/>
+            <triangle index="338 337 401"/>
+            <triangle index="338 401 403"/>
+            <triangle index="298 299 404"/>
+            <triangle index="298 404 402"/>
+            <triangle index="339 338 403"/>
+            <triangle index="339 403 405"/>
+            <triangle index="299 300 406"/>
+            <triangle index="299 406 404"/>
+            <triangle index="340 339 405"/>
+            <triangle index="340 405 407"/>
+            <triangle index="300 301 408"/>
+            <triangle index="300 408 406"/>
+            <triangle index="341 340 407"/>
+            <triangle index="341 407 409"/>
+            <triangle index="301 302 410"/>
+            <triangle index="301 410 408"/>
+            <triangle index="342 341 409"/>
+            <triangle index="342 409 411"/>
+            <triangle index="302 303 412"/>
+            <triangle index="302 412 410"/>
+            <triangle index="343 342 411"/>
+            <triangle index="343 411 413"/>
+            <triangle index="303 304 414"/>
+            <triangle index="303 414 412"/>
+            <triangle index="344 343 413"/>
+            <triangle index="344 413 415"/>
+            <triangle index="304 305 416"/>
+            <triangle index="304 416 414"/>
+            <triangle index="345 344 415"/>
+            <triangle index="345 415 417"/>
+            <triangle index="305 306 418"/>
+            <triangle index="305 418 416"/>
+            <triangle index="346 345 417"/>
+            <triangle index="346 417 419"/>
+            <triangle index="306 307 420"/>
+            <triangle index="306 420 418"/>
+            <triangle index="347 346 419"/>
+            <triangle index="347 419 421"/>
+            <triangle index="307 308 422"/>
+            <triangle index="307 422 420"/>
+            <triangle index="348 347 421"/>
+            <triangle index="348 421 423"/>
+            <triangle index="308 309 424"/>
+            <triangle index="308 424 422"/>
+            <triangle index="349 348 423"/>
+            <triangle index="349 423 425"/>
+            <triangle index="309 310 426"/>
+            <triangle index="309 426 424"/>
+            <triangle index="350 349 425"/>
+            <triangle index="350 425 427"/>
+            <triangle index="310 311 428"/>
+            <triangle index="310 428 426"/>
+            <triangle index="312 350 427"/>
+            <triangle index="312 427 351"/>
+            <triangle index="311 273 353"/>
+            <triangle index="311 353 428"/>
+        </triangles_chunk>
+        <vertices_chunk>
+            <vertex v="0.318413 0.000000 -0.051747">
+                <normal v="0.052624 -0.998568 -0.009610"/>
+            </vertex>
+            <vertex v="0.305989 0.000000 -0.102154">
+                <normal v="0.857166 0.415111 -0.304875"/>
+            </vertex>
+            <vertex v="0.285640 0.000000 -0.149915">
+                <normal v="0.808294 0.386053 -0.444550"/>
+            </vertex>
+            <vertex v="0.257893 0.000000 -0.193794">
+                <normal v="0.741815 0.335889 -0.580421"/>
+            </vertex>
+            <vertex v="0.223467 0.000000 -0.232653">
+                <normal v="0.654700 0.262659 -0.708786"/>
+            </vertex>
+            <vertex v="0.183253 0.000000 -0.265487">
+                <normal v="0.544318 0.165207 -0.822451"/>
+            </vertex>
+            <vertex v="0.138292 0.000000 -0.291445">
+                <normal v="0.410568 0.045153 -0.910712"/>
+            </vertex>
+            <vertex v="0.089750 0.000000 -0.309855">
+                <normal v="0.258348 -0.091167 -0.961741"/>
+            </vertex>
+            <vertex v="0.038884 0.000000 -0.320239">
+                <normal v="0.098371 -0.232630 -0.967578"/>
+            </vertex>
+            <vertex v="-0.012989 0.000000 -0.322329">
+                <normal v="-0.055594 -0.366496 -0.928757"/>
+            </vertex>
+            <vertex v="-0.064526 0.000000 -0.316072">
+                <normal v="-0.191844 -0.483048 -0.854319"/>
+            </vertex>
+            <vertex v="-0.114392 0.000000 -0.301628">
+                <normal v="-0.304182 -0.578073 -0.757169"/>
+            </vertex>
+            <vertex v="-0.161295 0.000000 -0.279372">
+                <normal v="-0.391811 -0.652086 -0.649052"/>
+            </vertex>
+            <vertex v="-0.204021 0.000000 -0.249880">
+                <normal v="-0.457174 -0.708082 -0.538156"/>
+            </vertex>
+            <vertex v="-0.241463 0.000000 -0.213917">
+                <normal v="-0.503849 -0.749660 -0.429123"/>
+            </vertex>
+            <vertex v="-0.272651 0.000000 -0.172414">
+                <normal v="-0.535285 -0.780039 -0.324051"/>
+            </vertex>
+            <vertex v="-0.296777 0.000000 -0.126445">
+                <normal v="-0.554304 -0.801747 -0.223494"/>
+            </vertex>
+            <vertex v="-0.313217 0.000000 -0.077201">
+                <normal v="-0.562993 -0.816620 -0.127168"/>
+            </vertex>
+            <vertex v="-0.321545 0.000000 -0.025958">
+                <normal v="-0.562760 -0.825904 -0.034395"/>
+            </vertex>
+            <vertex v="-0.321545 0.000000 0.025958">
+                <normal v="-0.554434 -0.830364 0.055664"/>
+            </vertex>
+            <vertex v="-0.313217 0.000000 0.077201">
+                <normal v="-0.538322 -0.830366 0.143880"/>
+            </vertex>
+            <vertex v="-0.296777 0.000000 0.126445">
+                <normal v="-0.514282 -0.825906 0.231070"/>
+            </vertex>
+            <vertex v="-0.272651 0.000000 0.172414">
+                <normal v="-0.481707 -0.816624 0.317936"/>
+            </vertex>
+            <vertex v="-0.241463 0.000000 0.213917">
+                <normal v="-0.439537 -0.801751 0.404972"/>
+            </vertex>
+            <vertex v="-0.204021 0.000000 0.249880">
+                <normal v="-0.386203 -0.780048 0.492314"/>
+            </vertex>
+            <vertex v="-0.161296 0.000000 0.279372">
+                <normal v="-0.319661 -0.749671 0.579491"/>
+            </vertex>
+            <vertex v="-0.114392 0.000000 0.301628">
+                <normal v="-0.237464 -0.708098 0.664988"/>
+            </vertex>
+            <vertex v="-0.064527 0.000000 0.316072">
+                <normal v="-0.137126 -0.652107 0.745622"/>
+            </vertex>
+            <vertex v="-0.012989 0.000000 0.322329">
+                <normal v="-0.016944 -0.578099 0.815790"/>
+            </vertex>
+            <vertex v="0.038884 0.000000 0.320239">
+                <normal v="0.122475 -0.483081 0.866967"/>
+            </vertex>
+            <vertex v="0.089750 0.000000 0.309855">
+                <normal v="0.276244 -0.366533 0.888450"/>
+            </vertex>
+            <vertex v="0.138292 0.000000 0.291445">
+                <normal v="0.433987 -0.232675 0.870355"/>
+            </vertex>
+            <vertex v="0.183253 0.000000 0.265487">
+                <normal v="0.581576 -0.091216 0.808362"/>
+            </vertex>
+            <vertex v="0.223467 0.000000 0.232653">
+                <normal v="0.705943 0.045109 0.706831"/>
+            </vertex>
+            <vertex v="0.257893 0.000000 0.193794">
+                <normal v="0.799871 0.165172 0.576996"/>
+            </vertex>
+            <vertex v="0.285640 0.000000 0.149915">
+                <normal v="0.862959 0.262630 0.431656"/>
+            </vertex>
+            <vertex v="0.305989 0.000000 0.102154">
+                <normal v="0.899084 0.335868 0.280787"/>
+            </vertex>
+            <vertex v="0.318414 0.000000 0.051747">
+                <normal v="0.913250 0.386040 0.130185"/>
+            </vertex>
+            <vertex v="0.322591 0.000000 -0.000000">
+                <normal v="0.909600 0.415105 -0.017752"/>
+            </vertex>
+            <vertex v="0.025145 0.633416 -0.004072">
+                <normal v="0.937864 0.329558 -0.108643"/>
+            </vertex>
+            <vertex v="0.024168 0.633416 -0.008038">
+                <normal v="0.908293 0.329555 -0.257675"/>
+            </vertex>
+            <vertex v="0.022566 0.633416 -0.011797">
+                <normal v="0.855198 0.329553 -0.400038"/>
+            </vertex>
+            <vertex v="0.020383 0.633416 -0.015250">
+                <normal v="0.779953 0.329551 -0.532042"/>
+            </vertex>
+            <vertex v="0.017674 0.633416 -0.018307">
+                <normal v="0.684518 0.329552 -0.650254"/>
+            </vertex>
+            <vertex v="0.014510 0.633416 -0.020891">
+                <normal v="0.571324 0.329548 -0.751656"/>
+            </vertex>
+            <vertex v="0.010972 0.633416 -0.022934">
+                <normal v="0.443366 0.329548 -0.833561"/>
+            </vertex>
+            <vertex v="0.007152 0.633416 -0.024382">
+                <normal v="0.303914 0.329547 -0.893887"/>
+            </vertex>
+            <vertex v="0.003149 0.633416 -0.025199">
+                <normal v="0.156583 0.329546 -0.931065"/>
+            </vertex>
+            <vertex v="-0.000933 0.633416 -0.025364">
+                <normal v="0.005216 0.329546 -0.944125"/>
+            </vertex>
+            <vertex v="-0.004988 0.633416 -0.024872">
+                <normal v="-0.146303 0.329546 -0.932735"/>
+            </vertex>
+            <vertex v="-0.008912 0.633416 -0.023735">
+                <normal v="-0.294052 0.329544 -0.897181"/>
+            </vertex>
+            <vertex v="-0.012603 0.633416 -0.021984">
+                <normal v="-0.434162 0.329543 -0.838394"/>
+            </vertex>
+            <vertex v="-0.015965 0.633416 -0.019663">
+                <normal v="-0.563005 0.329547 -0.757907"/>
+            </vertex>
+            <vertex v="-0.018911 0.633416 -0.016833">
+                <normal v="-0.677302 0.329545 -0.657771"/>
+            </vertex>
+            <vertex v="-0.021365 0.633416 -0.013567">
+                <normal v="-0.774044 0.329548 -0.540605"/>
+            </vertex>
+            <vertex v="-0.023264 0.633416 -0.009950">
+                <normal v="-0.850739 0.329547 -0.409440"/>
+            </vertex>
+            <vertex v="-0.024557 0.633416 -0.006075">
+                <normal v="-0.905400 0.329551 -0.267671"/>
+            </vertex>
+            <vertex v="-0.025213 0.633416 -0.002043">
+                <normal v="-0.936613 0.329550 -0.118966"/>
+            </vertex>
+            <vertex v="-0.025213 0.633416 0.002043">
+                <normal v="-0.943566 0.329556 0.032817"/>
+            </vertex>
+            <vertex v="-0.024557 0.633416 0.006075">
+                <normal v="-0.926083 0.329553 0.183751"/>
+            </vertex>
+            <vertex v="-0.023264 0.633416 0.009950">
+                <normal v="-0.884614 0.329556 0.329927"/>
+            </vertex>
+            <vertex v="-0.021365 0.633416 0.013567">
+                <normal v="-0.820234 0.329559 0.467553"/>
+            </vertex>
+            <vertex v="-0.018911 0.633416 0.016833">
+                <normal v="-0.734609 0.329559 0.593076"/>
+            </vertex>
+            <vertex v="-0.015965 0.633416 0.019663">
+                <normal v="-0.629963 0.329562 0.703232"/>
+            </vertex>
+            <vertex v="-0.012603 0.633416 0.021984">
+                <normal v="-0.509000 0.329563 0.795177"/>
+            </vertex>
+            <vertex v="-0.008912 0.633416 0.023735">
+                <normal v="-0.374855 0.329564 0.866528"/>
+            </vertex>
+            <vertex v="-0.004988 0.633416 0.024871">
+                <normal v="-0.230983 0.329565 0.915442"/>
+            </vertex>
+            <vertex v="-0.000933 0.633416 0.025364">
+                <normal v="-0.081155 0.329566 0.940638"/>
+            </vertex>
+            <vertex v="0.003149 0.633416 0.025199">
+                <normal v="0.070787 0.329566 0.941475"/>
+            </vertex>
+            <vertex v="0.007152 0.633416 0.024382">
+                <normal v="0.220893 0.329566 0.917928"/>
+            </vertex>
+            <vertex v="0.010972 0.633416 0.022934">
+                <normal v="0.365268 0.329565 0.870613"/>
+            </vertex>
+            <vertex v="0.014510 0.633416 0.020891">
+                <normal v="0.500204 0.329566 0.800738"/>
+            </vertex>
+            <vertex v="0.017674 0.633416 0.018307">
+                <normal v="0.622165 0.329565 0.710139"/>
+            </vertex>
+            <vertex v="0.020383 0.633416 0.015250">
+                <normal v="0.728027 0.329565 0.601135"/>
+            </vertex>
+            <vertex v="0.022567 0.633416 0.011797">
+                <normal v="0.815031 0.329562 0.476564"/>
+            </vertex>
+            <vertex v="0.024168 0.633416 0.008038">
+                <normal v="0.880921 0.329563 0.339656"/>
+            </vertex>
+            <vertex v="0.025145 0.633416 0.004072">
+                <normal v="0.923999 0.329561 0.193946"/>
+            </vertex>
+            <vertex v="0.025474 0.633416 -0.000000">
+                <normal v="0.943146 0.329558 0.043213"/>
+            </vertex>
+            <vertex v="0.029608 0.727999 -0.000000">
+                <normal v="0.628607 0.777501 0.018562"/>
+            </vertex>
+            <vertex v="0.029225 0.727999 -0.004736">
+                <normal v="0.623438 0.777507 -0.082511"/>
+            </vertex>
+            <vertex v="0.028088 0.727999 -0.009350">
+                <normal v="0.602109 0.777523 -0.181446"/>
+            </vertex>
+            <vertex v="0.026226 0.727999 -0.013721">
+                <normal v="0.565174 0.777555 -0.275657"/>
+            </vertex>
+            <vertex v="0.023686 0.727999 -0.017737">
+                <normal v="0.513593 0.777595 -0.362722"/>
+            </vertex>
+            <vertex v="0.020535 0.727999 -0.021293">
+                <normal v="0.448710 0.777647 -0.440368"/>
+            </vertex>
+            <vertex v="0.016855 0.727999 -0.024299">
+                <normal v="0.372225 0.777709 -0.506573"/>
+            </vertex>
+            <vertex v="0.012740 0.727999 -0.026675">
+                <normal v="0.286092 0.777778 -0.559655"/>
+            </vertex>
+            <vertex v="0.008297 0.727999 -0.028359">
+                <normal v="0.192574 0.777851 -0.598216"/>
+            </vertex>
+            <vertex v="0.003642 0.727999 -0.029310">
+                <normal v="0.094134 0.777933 -0.621257"/>
+            </vertex>
+            <vertex v="-0.001106 0.727999 -0.029501">
+                <normal v="-0.006751 0.778011 -0.628214"/>
+            </vertex>
+            <vertex v="-0.005823 0.727999 -0.028928">
+                <normal v="-0.107436 0.778091 -0.618896"/>
+            </vertex>
+            <vertex v="-0.010387 0.727999 -0.027606">
+                <normal v="-0.205277 0.778169 -0.593561"/>
+            </vertex>
+            <vertex v="-0.014680 0.727999 -0.025569">
+                <normal v="-0.297780 0.778242 -0.552871"/>
+            </vertex>
+            <vertex v="-0.018590 0.727999 -0.022870">
+                <normal v="-0.382569 0.778307 -0.497875"/>
+            </vertex>
+            <vertex v="-0.022017 0.727999 -0.019579">
+                <normal v="-0.457425 0.778368 -0.430007"/>
+            </vertex>
+            <vertex v="-0.024871 0.727999 -0.015780">
+                <normal v="-0.520436 0.778413 -0.351025"/>
+            </vertex>
+            <vertex v="-0.027079 0.727999 -0.011573">
+                <normal v="-0.569955 0.778456 -0.262978"/>
+            </vertex>
+            <vertex v="-0.028584 0.727999 -0.007066">
+                <normal v="-0.604731 0.778480 -0.168134"/>
+            </vertex>
+            <vertex v="-0.029346 0.727999 -0.002376">
+                <normal v="-0.623852 0.778495 -0.068952"/>
+            </vertex>
+            <vertex v="-0.029346 0.727999 0.002376">
+                <normal v="-0.626833 0.778496 0.032013"/>
+            </vertex>
+            <vertex v="-0.028584 0.727999 0.007066">
+                <normal v="-0.613593 0.778485 0.132156"/>
+            </vertex>
+            <vertex v="-0.027079 0.727999 0.011573">
+                <normal v="-0.584480 0.778459 0.228878"/>
+            </vertex>
+            <vertex v="-0.024871 0.727999 0.015780">
+                <normal v="-0.540234 0.778424 0.319693"/>
+            </vertex>
+            <vertex v="-0.022017 0.727999 0.019579">
+                <normal v="-0.481998 0.778378 0.402251"/>
+            </vertex>
+            <vertex v="-0.018590 0.727999 0.022870">
+                <normal v="-0.411280 0.778320 0.474413"/>
+            </vertex>
+            <vertex v="-0.014680 0.727999 0.025569">
+                <normal v="-0.329885 0.778254 0.534319"/>
+            </vertex>
+            <vertex v="-0.010387 0.727999 0.027606">
+                <normal v="-0.239945 0.778183 0.580394"/>
+            </vertex>
+            <vertex v="-0.005823 0.727999 0.028928">
+                <normal v="-0.143758 0.778106 0.611461"/>
+            </vertex>
+            <vertex v="-0.001106 0.727999 0.029501">
+                <normal v="-0.043799 0.778026 0.626704"/>
+            </vertex>
+            <vertex v="0.003642 0.727999 0.029309">
+                <normal v="0.057287 0.777945 0.625715"/>
+            </vertex>
+            <vertex v="0.008297 0.727999 0.028359">
+                <normal v="0.156931 0.777869 0.608517"/>
+            </vertex>
+            <vertex v="0.012740 0.727999 0.026674">
+                <normal v="0.252564 0.777795 0.575541"/>
+            </vertex>
+            <vertex v="0.016855 0.727999 0.024298">
+                <normal v="0.341659 0.777723 0.527652"/>
+            </vertex>
+            <vertex v="0.020535 0.727999 0.021293">
+                <normal v="0.421930 0.777659 0.466070"/>
+            </vertex>
+            <vertex v="0.023686 0.727999 0.017737">
+                <normal v="0.491283 0.777606 0.392390"/>
+            </vertex>
+            <vertex v="0.026226 0.727999 0.013721">
+                <normal v="0.547908 0.777564 0.308530"/>
+            </vertex>
+            <vertex v="0.028088 0.727999 0.009349">
+                <normal v="0.590349 0.777528 0.216655"/>
+            </vertex>
+            <vertex v="0.029225 0.727999 0.004736">
+                <normal v="0.617480 0.777508 0.119161"/>
+            </vertex>
+            <vertex v="0.050272 0.680283 -0.026365">
+                <normal v="0.885457 0.000007 -0.464722"/>
+            </vertex>
+            <vertex v="0.053851 0.680283 -0.017965">
+                <normal v="0.948537 0.000006 -0.316666"/>
+            </vertex>
+            <vertex v="0.056036 0.680283 -0.009100">
+                <normal v="0.987050 0.000000 -0.160414"/>
+            </vertex>
+            <vertex v="0.056770 0.680283 -0.000000">
+                <normal v="1.000000 0.000001 -0.000005"/>
+            </vertex>
+            <vertex v="0.056036 0.680283 0.009100">
+                <normal v="0.987051 -0.000002 0.160409"/>
+            </vertex>
+            <vertex v="0.053851 0.680283 0.017965">
+                <normal v="0.948536 -0.000007 0.316670"/>
+            </vertex>
+            <vertex v="0.050272 0.680283 0.026364">
+                <normal v="0.885455 -0.000003 0.464726"/>
+            </vertex>
+            <vertex v="0.045392 0.680283 0.034081">
+                <normal v="0.799444 -0.000010 0.600740"/>
+            </vertex>
+            <vertex v="0.039338 0.680283 0.040915">
+                <normal v="0.692724 -0.000010 0.721202"/>
+            </vertex>
+            <vertex v="0.032266 0.680283 0.046689">
+                <normal v="0.568066 -0.000012 0.822983"/>
+            </vertex>
+            <vertex v="0.024359 0.680283 0.051254">
+                <normal v="0.428698 -0.000014 0.903448"/>
+            </vertex>
+            <vertex v="0.015822 0.680283 0.054492">
+                <normal v="0.278205 -0.000014 0.960522"/>
+            </vertex>
+            <vertex v="0.006877 0.680283 0.056318">
+                <normal v="0.120531 -0.000016 0.992710"/>
+            </vertex>
+            <vertex v="-0.002246 0.680283 0.056685">
+                <normal v="-0.040259 -0.000013 0.999189"/>
+            </vertex>
+            <vertex v="-0.011309 0.680283 0.055585">
+                <normal v="-0.200015 -0.000015 0.979793"/>
+            </vertex>
+            <vertex v="-0.020079 0.680283 0.053045">
+                <normal v="-0.354614 -0.000013 0.935013"/>
+            </vertex>
+            <vertex v="-0.028327 0.680283 0.049131">
+                <normal v="-0.500009 -0.000009 0.866020"/>
+            </vertex>
+            <vertex v="-0.035841 0.680283 0.043944">
+                <normal v="-0.632436 -0.000014 0.774613"/>
+            </vertex>
+            <vertex v="-0.042425 0.680283 0.037620">
+                <normal v="-0.748505 -0.000010 0.663129"/>
+            </vertex>
+            <vertex v="-0.047910 0.680283 0.030321">
+                <normal v="-0.845196 -0.000007 0.534456"/>
+            </vertex>
+            <vertex v="-0.052153 0.680283 0.022236">
+                <normal v="-0.919982 -0.000007 0.391959"/>
+            </vertex>
+            <vertex v="-0.055044 0.680283 0.013577">
+                <normal v="-0.970941 0.000001 0.239318"/>
+            </vertex>
+            <vertex v="-0.056509 0.680283 0.004565">
+                <normal v="-0.996757 -0.000005 0.080465"/>
+            </vertex>
+            <vertex v="-0.056509 0.680283 -0.004565">
+                <normal v="-0.996757 0.000004 -0.080465"/>
+            </vertex>
+            <vertex v="-0.055044 0.680283 -0.013577">
+                <normal v="-0.970942 0.000001 -0.239315"/>
+            </vertex>
+            <vertex v="-0.052153 0.680283 -0.022237">
+                <normal v="-0.919981 0.000007 -0.391964"/>
+            </vertex>
+            <vertex v="-0.047910 0.680283 -0.030321">
+                <normal v="-0.845190 0.000005 -0.534467"/>
+            </vertex>
+            <vertex v="-0.042425 0.680283 -0.037620">
+                <normal v="-0.748504 0.000014 -0.663131"/>
+            </vertex>
+            <vertex v="-0.035841 0.680283 -0.043945">
+                <normal v="-0.632444 0.000009 -0.774606"/>
+            </vertex>
+            <vertex v="-0.028327 0.680283 -0.049131">
+                <normal v="-0.500007 0.000015 -0.866021"/>
+            </vertex>
+            <vertex v="-0.020079 0.680283 -0.053045">
+                <normal v="-0.354609 0.000012 -0.935015"/>
+            </vertex>
+            <vertex v="-0.011309 0.680283 -0.055585">
+                <normal v="-0.200020 0.000014 -0.979792"/>
+            </vertex>
+            <vertex v="-0.002246 0.680283 -0.056686">
+                <normal v="-0.040253 0.000017 -0.999189"/>
+            </vertex>
+            <vertex v="0.006877 0.680283 -0.056318">
+                <normal v="0.120543 0.000015 -0.992708"/>
+            </vertex>
+            <vertex v="0.015822 0.680283 -0.054492">
+                <normal v="0.278217 0.000014 -0.960518"/>
+            </vertex>
+            <vertex v="0.024359 0.680283 -0.051254">
+                <normal v="0.428688 0.000012 -0.903453"/>
+            </vertex>
+            <vertex v="0.032266 0.680283 -0.046689">
+                <normal v="0.568067 0.000012 -0.822983"/>
+            </vertex>
+            <vertex v="0.039338 0.680283 -0.040915">
+                <normal v="0.692725 0.000010 -0.721201"/>
+            </vertex>
+            <vertex v="0.045392 0.680283 -0.034081">
+                <normal v="0.799438 0.000008 -0.600749"/>
+            </vertex>
+            <vertex v="0.041108 0.707178 -0.021546">
+                <normal v="0.780769 0.481094 -0.398683"/>
+            </vertex>
+            <vertex v="0.037120 0.707178 -0.027852">
+                <normal v="0.706677 0.481143 -0.518757"/>
+            </vertex>
+            <vertex v="0.032172 0.707178 -0.033437">
+                <normal v="0.614291 0.481208 -0.625369"/>
+            </vertex>
+            <vertex v="0.026393 0.707178 -0.038156">
+                <normal v="0.506003 0.481281 -0.715772"/>
+            </vertex>
+            <vertex v="0.019931 0.707178 -0.041886">
+                <normal v="0.384597 0.481364 -0.787638"/>
+            </vertex>
+            <vertex v="0.012954 0.707178 -0.044532">
+                <normal v="0.253267 0.481456 -0.839080"/>
+            </vertex>
+            <vertex v="0.005644 0.707178 -0.046025">
+                <normal v="0.115386 0.481549 -0.868790"/>
+            </vertex>
+            <vertex v="-0.001811 0.707178 -0.046325">
+                <normal v="-0.025477 0.481646 -0.875996"/>
+            </vertex>
+            <vertex v="-0.009218 0.707178 -0.045426">
+                <normal v="-0.165649 0.481747 -0.860512"/>
+            </vertex>
+            <vertex v="-0.016385 0.707178 -0.043350">
+                <normal v="-0.301525 0.481840 -0.822747"/>
+            </vertex>
+            <vertex v="-0.023126 0.707178 -0.040151">
+                <normal v="-0.429584 0.481922 -0.763681"/>
+            </vertex>
+            <vertex v="-0.029266 0.707178 -0.035913">
+                <normal v="-0.546493 0.482001 -0.684851"/>
+            </vertex>
+            <vertex v="-0.034647 0.707178 -0.030744">
+                <normal v="-0.649243 0.482073 -0.588293"/>
+            </vertex>
+            <vertex v="-0.039130 0.707178 -0.024779">
+                <normal v="-0.735175 0.482133 -0.476514"/>
+            </vertex>
+            <vertex v="-0.042597 0.707178 -0.018173">
+                <normal v="-0.802073 0.482177 -0.352397"/>
+            </vertex>
+            <vertex v="-0.044960 0.707178 -0.011095">
+                <normal v="-0.848198 0.482207 -0.219170"/>
+            </vertex>
+            <vertex v="-0.046157 0.707178 -0.003731">
+                <normal v="-0.872363 0.482223 -0.080268"/>
+            </vertex>
+            <vertex v="-0.046157 0.707178 0.003731">
+                <normal v="-0.873943 0.482222 0.060706"/>
+            </vertex>
+            <vertex v="-0.044960 0.707178 0.011095">
+                <normal v="-0.852895 0.482208 0.200113"/>
+            </vertex>
+            <vertex v="-0.042597 0.707178 0.018172">
+                <normal v="-0.809767 0.482178 0.334338"/>
+            </vertex>
+            <vertex v="-0.039130 0.707178 0.024779">
+                <normal v="-0.745672 0.482133 0.459914"/>
+            </vertex>
+            <vertex v="-0.034647 0.707178 0.030744">
+                <normal v="-0.662261 0.482077 0.573596"/>
+            </vertex>
+            <vertex v="-0.029266 0.707178 0.035913">
+                <normal v="-0.561689 0.482005 0.672441"/>
+            </vertex>
+            <vertex v="-0.023126 0.707178 0.040151">
+                <normal v="-0.446575 0.481922 0.753871"/>
+            </vertex>
+            <vertex v="-0.016385 0.707178 0.043350">
+                <normal v="-0.319897 0.481840 0.815779"/>
+            </vertex>
+            <vertex v="-0.009218 0.707178 0.045426">
+                <normal v="-0.184882 0.481747 0.856585"/>
+            </vertex>
+            <vertex v="-0.001811 0.707178 0.046325">
+                <normal v="-0.045081 0.481650 0.875203"/>
+            </vertex>
+            <vertex v="0.005644 0.707178 0.046024">
+                <normal v="0.095875 0.481556 0.871156"/>
+            </vertex>
+            <vertex v="0.012954 0.707178 0.044532">
+                <normal v="0.234394 0.481460 0.844545"/>
+            </vertex>
+            <vertex v="0.019931 0.707178 0.041886">
+                <normal v="0.366859 0.481371 0.796050"/>
+            </vertex>
+            <vertex v="0.026393 0.707178 0.038156">
+                <normal v="0.489837 0.481284 0.726929"/>
+            </vertex>
+            <vertex v="0.032172 0.707178 0.033437">
+                <normal v="0.600122 0.481211 0.638975"/>
+            </vertex>
+            <vertex v="0.037120 0.707178 0.027852">
+                <normal v="0.694882 0.481145 0.534451"/>
+            </vertex>
+            <vertex v="0.041108 0.707178 0.021546">
+                <normal v="0.771640 0.481094 0.416076"/>
+            </vertex>
+            <vertex v="0.044032 0.707178 0.014681">
+                <normal v="0.828410 0.481057 0.286917"/>
+            </vertex>
+            <vertex v="0.045818 0.707178 0.007437">
+                <normal v="0.863719 0.481034 0.150318"/>
+            </vertex>
+            <vertex v="0.046418 0.707178 -0.000000">
+                <normal v="0.876652 0.481025 0.009816"/>
+            </vertex>
+            <vertex v="0.045818 0.707178 -0.007437">
+                <normal v="0.866870 0.481032 -0.130934"/>
+            </vertex>
+            <vertex v="0.044032 0.707178 -0.014682">
+                <normal v="0.834630 0.481054 -0.268289"/>
+            </vertex>
+            <vertex v="0.044032 0.653388 -0.014682">
+                <normal v="0.798890 -0.533268 -0.278208"/>
+            </vertex>
+            <vertex v="0.045818 0.653388 -0.007437">
+                <normal v="0.833186 -0.533246 -0.146458"/>
+            </vertex>
+            <vertex v="0.046418 0.653388 -0.000000">
+                <normal v="0.845895 -0.533238 -0.010912"/>
+            </vertex>
+            <vertex v="0.045818 0.653388 0.007437">
+                <normal v="0.836686 -0.533245 0.124924"/>
+            </vertex>
+            <vertex v="0.044032 0.653388 0.014681">
+                <normal v="0.805797 -0.533271 0.257515"/>
+            </vertex>
+            <vertex v="0.041108 0.653388 0.021546">
+                <normal v="0.754033 -0.533309 0.383427"/>
+            </vertex>
+            <vertex v="0.037120 0.653388 0.027852">
+                <normal v="0.682733 -0.533361 0.499402"/>
+            </vertex>
+            <vertex v="0.032172 0.653388 0.033437">
+                <normal v="0.593756 -0.533426 0.602420"/>
+            </vertex>
+            <vertex v="0.026393 0.653388 0.038156">
+                <normal v="0.489400 -0.533505 0.689826"/>
+            </vertex>
+            <vertex v="0.019931 0.653388 0.041886">
+                <normal v="0.372390 -0.533591 0.759346"/>
+            </vertex>
+            <vertex v="0.012954 0.653388 0.044532">
+                <normal v="0.245724 -0.533685 0.809197"/>
+            </vertex>
+            <vertex v="0.005644 0.653388 0.046024">
+                <normal v="0.112735 -0.533781 0.838074"/>
+            </vertex>
+            <vertex v="-0.001811 0.653388 0.046325">
+                <normal v="-0.023141 -0.533881 0.845243"/>
+            </vertex>
+            <vertex v="-0.009218 0.653388 0.045426">
+                <normal v="-0.158421 -0.533981 0.830522"/>
+            </vertex>
+            <vertex v="-0.016385 0.653388 0.043350">
+                <normal v="-0.289580 -0.534077 0.794295"/>
+            </vertex>
+            <vertex v="-0.023126 0.653388 0.040151">
+                <normal v="-0.413219 -0.534166 0.737507"/>
+            </vertex>
+            <vertex v="-0.029266 0.653388 0.035913">
+                <normal v="-0.526135 -0.534246 0.661637"/>
+            </vertex>
+            <vertex v="-0.034647 0.653388 0.030744">
+                <normal v="-0.625421 -0.534322 0.568638"/>
+            </vertex>
+            <vertex v="-0.039130 0.653388 0.024779">
+                <normal v="-0.708508 -0.534381 0.460927"/>
+            </vertex>
+            <vertex v="-0.042597 0.653388 0.018172">
+                <normal v="-0.773250 -0.534424 0.341285"/>
+            </vertex>
+            <vertex v="-0.044960 0.653388 0.011095">
+                <normal v="-0.817959 -0.534458 0.212833"/>
+            </vertex>
+            <vertex v="-0.046157 0.653388 0.003731">
+                <normal v="-0.841497 -0.534474 0.078864"/>
+            </vertex>
+            <vertex v="-0.046157 0.653388 -0.003731">
+                <normal v="-0.843251 -0.534474 -0.057141"/>
+            </vertex>
+            <vertex v="-0.044960 0.653388 -0.011095">
+                <normal v="-0.823175 -0.534458 -0.191671"/>
+            </vertex>
+            <vertex v="-0.042597 0.653388 -0.018173">
+                <normal v="-0.781786 -0.534427 -0.321245"/>
+            </vertex>
+            <vertex v="-0.039130 0.653388 -0.024779">
+                <normal v="-0.720159 -0.534381 -0.442503"/>
+            </vertex>
+            <vertex v="-0.034647 0.653388 -0.030744">
+                <normal v="-0.639871 -0.534321 -0.552327"/>
+            </vertex>
+            <vertex v="-0.029266 0.653388 -0.035913">
+                <normal v="-0.543019 -0.534249 -0.647849"/>
+            </vertex>
+            <vertex v="-0.023126 0.653388 -0.040151">
+                <normal v="-0.432105 -0.534168 -0.726601"/>
+            </vertex>
+            <vertex v="-0.016385 0.653388 -0.043350">
+                <normal v="-0.309960 -0.534075 -0.786568"/>
+            </vertex>
+            <vertex v="-0.009218 0.653388 -0.045426">
+                <normal v="-0.179783 -0.533981 -0.826161"/>
+            </vertex>
+            <vertex v="-0.001811 0.653388 -0.046325">
+                <normal v="-0.044934 -0.533884 -0.844363"/>
+            </vertex>
+            <vertex v="0.005644 0.653388 -0.046025">
+                <normal v="0.091103 -0.533782 -0.840701"/>
+            </vertex>
+            <vertex v="0.012954 0.653388 -0.044532">
+                <normal v="0.224794 -0.533684 -0.815260"/>
+            </vertex>
+            <vertex v="0.019931 0.653388 -0.041886">
+                <normal v="0.352680 -0.533591 -0.768699"/>
+            </vertex>
+            <vertex v="0.026393 0.653388 -0.038156">
+                <normal v="0.471452 -0.533506 -0.702214"/>
+            </vertex>
+            <vertex v="0.032172 0.653388 -0.033437">
+                <normal v="0.578027 -0.533428 -0.617527"/>
+            </vertex>
+            <vertex v="0.037120 0.653388 -0.027852">
+                <normal v="0.669627 -0.533362 -0.516840"/>
+            </vertex>
+            <vertex v="0.041108 0.653388 -0.021546">
+                <normal v="0.743893 -0.533311 -0.402744"/>
+            </vertex>
+            <vertex v="0.010364 0.732560 -0.000000">
+                <normal v="0.045040 0.998983 0.002146"/>
+            </vertex>
+            <vertex v="0.010231 0.732560 -0.001644">
+                <normal v="0.228754 0.973135 -0.026076"/>
+            </vertex>
+            <vertex v="0.009837 0.732560 -0.003246">
+                <normal v="0.219853 0.973565 -0.061936"/>
+            </vertex>
+            <vertex v="0.009190 0.732560 -0.004764">
+                <normal v="0.204413 0.974248 -0.095169"/>
+            </vertex>
+            <vertex v="0.008308 0.732560 -0.006158">
+                <normal v="0.183294 0.975138 -0.124538"/>
+            </vertex>
+            <vertex v="0.007215 0.732560 -0.007392">
+                <normal v="0.157567 0.976180 -0.149148"/>
+            </vertex>
+            <vertex v="0.005937 0.732560 -0.008436">
+                <normal v="0.128465 0.977318 -0.168365"/>
+            </vertex>
+            <vertex v="0.004508 0.732560 -0.009260">
+                <normal v="0.097192 0.978497 -0.181925"/>
+            </vertex>
+            <vertex v="0.002966 0.732560 -0.009845">
+                <normal v="0.064909 0.979671 -0.189819"/>
+            </vertex>
+            <vertex v="0.001350 0.732560 -0.010175">
+                <normal v="0.032694 0.980801 -0.192249"/>
+            </vertex>
+            <vertex v="-0.000299 0.732560 -0.010242">
+                <normal v="0.001401 0.981861 -0.189597"/>
+            </vertex>
+            <vertex v="-0.001936 0.732560 -0.010043">
+                <normal v="-0.028267 0.982831 -0.182332"/>
+            </vertex>
+            <vertex v="-0.003521 0.732560 -0.009584">
+                <normal v="-0.055700 0.983696 -0.170994"/>
+            </vertex>
+            <vertex v="-0.005011 0.732560 -0.008877">
+                <normal v="-0.080483 0.984453 -0.156126"/>
+            </vertex>
+            <vertex v="-0.006368 0.732560 -0.007940">
+                <normal v="-0.102308 0.985098 -0.138254"/>
+            </vertex>
+            <vertex v="-0.007558 0.732560 -0.006797">
+                <normal v="-0.120960 0.985631 -0.117899"/>
+            </vertex>
+            <vertex v="-0.008549 0.732560 -0.005478">
+                <normal v="-0.136273 0.986053 -0.095545"/>
+            </vertex>
+            <vertex v="-0.009316 0.732560 -0.004018">
+                <normal v="-0.148146 0.986368 -0.071633"/>
+            </vertex>
+            <vertex v="-0.009838 0.732560 -0.002453">
+                <normal v="-0.156519 0.986576 -0.046582"/>
+            </vertex>
+            <vertex v="-0.010103 0.732560 -0.000825">
+                <normal v="-0.161340 0.986680 -0.020792"/>
+            </vertex>
+            <vertex v="-0.010103 0.732560 0.000825">
+                <normal v="-0.162584 0.986680 0.005358"/>
+            </vertex>
+            <vertex v="-0.009838 0.732560 0.002453">
+                <normal v="-0.160233 0.986577 0.031489"/>
+            </vertex>
+            <vertex v="-0.009316 0.732560 0.004017">
+                <normal v="-0.154280 0.986369 0.057220"/>
+            </vertex>
+            <vertex v="-0.008549 0.732560 0.005478">
+                <normal v="-0.144730 0.986055 0.082150"/>
+            </vertex>
+            <vertex v="-0.007558 0.732560 0.006797">
+                <normal v="-0.131613 0.985633 0.105857"/>
+            </vertex>
+            <vertex v="-0.006368 0.732560 0.007940">
+                <normal v="-0.114985 0.985101 0.127887"/>
+            </vertex>
+            <vertex v="-0.005011 0.732560 0.008877">
+                <normal v="-0.094952 0.984456 0.147751"/>
+            </vertex>
+            <vertex v="-0.003521 0.732560 0.009584">
+                <normal v="-0.071694 0.983700 0.164906"/>
+            </vertex>
+            <vertex v="-0.001936 0.732560 0.010043">
+                <normal v="-0.045466 0.982835 0.178798"/>
+            </vertex>
+            <vertex v="-0.000299 0.732560 0.010242">
+                <normal v="-0.016636 0.981865 0.188848"/>
+            </vertex>
+            <vertex v="0.001350 0.732560 0.010175">
+                <normal v="0.014269 0.980806 0.194463"/>
+            </vertex>
+            <vertex v="0.002966 0.732560 0.009845">
+                <normal v="0.046569 0.979676 0.195107"/>
+            </vertex>
+            <vertex v="0.004508 0.732560 0.009260">
+                <normal v="0.079451 0.978502 0.190320"/>
+            </vertex>
+            <vertex v="0.005937 0.732560 0.008435">
+                <normal v="0.111861 0.977323 0.179798"/>
+            </vertex>
+            <vertex v="0.007215 0.732560 0.007392">
+                <normal v="0.142655 0.976185 0.163437"/>
+            </vertex>
+            <vertex v="0.008308 0.732560 0.006158">
+                <normal v="0.170606 0.975142 0.141392"/>
+            </vertex>
+            <vertex v="0.009190 0.732560 0.004763">
+                <normal v="0.194429 0.974251 0.114160"/>
+            </vertex>
+            <vertex v="0.009837 0.732560 0.003246">
+                <normal v="0.212959 0.973567 0.082554"/>
+            </vertex>
+            <vertex v="0.010231 0.732560 0.001644">
+                <normal v="0.225233 0.973136 0.047705"/>
+            </vertex>
+            <vertex v="0.096054 0.480265 0.015599">
+                <normal v="0.852249 0.505848 0.133376"/>
+            </vertex>
+            <vertex v="0.092309 0.480265 0.030794">
+                <normal v="0.819816 0.505851 0.268359"/>
+            </vertex>
+            <vertex v="0.086174 0.480265 0.045192">
+                <normal v="0.766149 0.505858 0.396388"/>
+            </vertex>
+            <vertex v="0.077810 0.480265 0.058419">
+                <normal v="0.692638 0.505867 0.514152"/>
+            </vertex>
+            <vertex v="0.067432 0.480265 0.070133">
+                <normal v="0.601187 0.505877 0.618598"/>
+            </vertex>
+            <vertex v="0.055310 0.480265 0.080031">
+                <normal v="0.494168 0.505888 0.707019"/>
+            </vertex>
+            <vertex v="0.041756 0.480265 0.087856">
+                <normal v="0.374353 0.505901 0.777125"/>
+            </vertex>
+            <vertex v="0.027123 0.480265 0.093405">
+                <normal v="0.244840 0.505915 0.827105"/>
+            </vertex>
+            <vertex v="0.011790 0.480265 0.096536">
+                <normal v="0.109002 0.505931 0.855659"/>
+            </vertex>
+            <vertex v="-0.003848 0.480265 0.097166">
+                <normal v="-0.029671 0.505947 0.862054"/>
+            </vertex>
+            <vertex v="-0.019384 0.480265 0.095280">
+                <normal v="-0.167565 0.505962 0.846123"/>
+            </vertex>
+            <vertex v="-0.034416 0.480265 0.090926">
+                <normal v="-0.301121 0.505977 0.808278"/>
+            </vertex>
+            <vertex v="-0.048555 0.480265 0.084217">
+                <normal v="-0.426877 0.505992 0.749499"/>
+            </vertex>
+            <vertex v="-0.061434 0.480265 0.075327">
+                <normal v="-0.541575 0.506004 0.671309"/>
+            </vertex>
+            <vertex v="-0.072721 0.480265 0.064485">
+                <normal v="-0.642239 0.506015 0.575741"/>
+            </vertex>
+            <vertex v="-0.082123 0.480265 0.051974">
+                <normal v="-0.726275 0.506025 0.465256"/>
+            </vertex>
+            <vertex v="-0.089396 0.480265 0.038117">
+                <normal v="-0.791498 0.506032 0.342728"/>
+            </vertex>
+            <vertex v="-0.094351 0.480265 0.023272">
+                <normal v="-0.836223 0.506037 0.211324"/>
+            </vertex>
+            <vertex v="-0.096862 0.480265 0.007825">
+                <normal v="-0.859292 0.506039 0.074447"/>
+            </vertex>
+            <vertex v="-0.096862 0.480265 -0.007825">
+                <normal v="-0.860106 0.506039 -0.064356"/>
+            </vertex>
+            <vertex v="-0.094351 0.480265 -0.023272">
+                <normal v="-0.838646 0.506037 -0.201495"/>
+            </vertex>
+            <vertex v="-0.089396 0.480265 -0.038117">
+                <normal v="-0.795466 0.506031 -0.333417"/>
+            </vertex>
+            <vertex v="-0.082123 0.480265 -0.051974">
+                <normal v="-0.731685 0.506024 -0.456702"/>
+            </vertex>
+            <vertex v="-0.072721 0.480265 -0.064485">
+                <normal v="-0.648956 0.506014 -0.568160"/>
+            </vertex>
+            <vertex v="-0.061434 0.480265 -0.075327">
+                <normal v="-0.549412 0.506004 -0.664911"/>
+            </vertex>
+            <vertex v="-0.048555 0.480265 -0.084217">
+                <normal v="-0.435644 0.505992 -0.744437"/>
+            </vertex>
+            <vertex v="-0.034416 0.480265 -0.090926">
+                <normal v="-0.310599 0.505977 -0.804683"/>
+            </vertex>
+            <vertex v="-0.019384 0.480265 -0.095280">
+                <normal v="-0.177489 0.505961 -0.844098"/>
+            </vertex>
+            <vertex v="-0.003848 0.480265 -0.097166">
+                <normal v="-0.039781 0.505947 -0.861647"/>
+            </vertex>
+            <vertex v="0.011790 0.480265 -0.096536">
+                <normal v="0.098947 0.505932 -0.856880"/>
+            </vertex>
+            <vertex v="0.027123 0.480265 -0.093406">
+                <normal v="0.235120 0.505917 -0.829919"/>
+            </vertex>
+            <vertex v="0.041756 0.480265 -0.087856">
+                <normal v="0.365215 0.505903 -0.781461"/>
+            </vertex>
+            <vertex v="0.055309 0.480265 -0.080031">
+                <normal v="0.485832 0.505888 -0.712772"/>
+            </vertex>
+            <vertex v="0.067432 0.480265 -0.070134">
+                <normal v="0.593889 0.505877 -0.625607"/>
+            </vertex>
+            <vertex v="0.077810 0.480265 -0.058419">
+                <normal v="0.686560 0.505866 -0.522240"/>
+            </vertex>
+            <vertex v="0.086174 0.480265 -0.045192">
+                <normal v="0.761443 0.505858 -0.405354"/>
+            </vertex>
+            <vertex v="0.092308 0.480265 -0.030794">
+                <normal v="0.816610 0.505851 -0.277961"/>
+            </vertex>
+            <vertex v="0.096054 0.480265 -0.015599">
+                <normal v="0.850625 0.505848 -0.143372"/>
+            </vertex>
+            <vertex v="0.097313 0.480265 -0.000000">
+                <normal v="0.862608 0.505847 -0.005066"/>
+            </vertex>
+            <vertex v="0.203022 0.249228 0.032989">
+                <normal v="0.904033 0.389011 0.177186"/>
+            </vertex>
+            <vertex v="0.195102 0.249228 0.065123">
+                <normal v="0.863901 0.389016 0.319908"/>
+            </vertex>
+            <vertex v="0.182129 0.249228 0.095570">
+                <normal v="0.801396 0.389023 0.454341"/>
+            </vertex>
+            <vertex v="0.164441 0.249228 0.123543">
+                <normal v="0.718132 0.389033 0.577009"/>
+            </vertex>
+            <vertex v="0.142494 0.249228 0.148315">
+                <normal v="0.616271 0.389045 0.684729"/>
+            </vertex>
+            <vertex v="0.116858 0.249228 0.169247">
+                <normal v="0.498446 0.389058 0.774716"/>
+            </vertex>
+            <vertex v="0.088196 0.249228 0.185795">
+                <normal v="0.367720 0.389074 0.844632"/>
+            </vertex>
+            <vertex v="0.057251 0.249228 0.197531">
+                <normal v="0.227467 0.389091 0.892674"/>
+            </vertex>
+            <vertex v="0.024824 0.249228 0.204151">
+                <normal v="0.081324 0.389109 0.917595"/>
+            </vertex>
+            <vertex v="-0.008245 0.249228 0.205483">
+                <normal v="-0.066919 0.389126 0.918751"/>
+            </vertex>
+            <vertex v="-0.041100 0.249228 0.201494">
+                <normal v="-0.213433 0.389142 0.896111"/>
+            </vertex>
+            <vertex v="-0.072889 0.249228 0.192286">
+                <normal v="-0.354409 0.389159 0.850264"/>
+            </vertex>
+            <vertex v="-0.102790 0.249228 0.178098">
+                <normal v="-0.486210 0.389175 0.782396"/>
+            </vertex>
+            <vertex v="-0.130027 0.249228 0.159298">
+                <normal v="-0.605415 0.389189 0.694266"/>
+            </vertex>
+            <vertex v="-0.153896 0.249228 0.136371">
+                <normal v="-0.708938 0.389201 0.588157"/>
+            </vertex>
+            <vertex v="-0.173778 0.249228 0.109913">
+                <normal v="-0.794101 0.389211 0.466817"/>
+            </vertex>
+            <vertex v="-0.189159 0.249228 0.080608">
+                <normal v="-0.858697 0.389219 0.333388"/>
+            </vertex>
+            <vertex v="-0.199639 0.249228 0.049215">
+                <normal v="-0.901055 0.389224 0.191324"/>
+            </vertex>
+            <vertex v="-0.204948 0.249228 0.016548">
+                <normal v="-0.920076 0.389226 0.044308"/>
+            </vertex>
+            <vertex v="-0.204948 0.249228 -0.016548">
+                <normal v="-0.915269 0.389226 -0.103855"/>
+            </vertex>
+            <vertex v="-0.199639 0.249228 -0.049215">
+                <normal v="-0.886758 0.389222 -0.249331"/>
+            </vertex>
+            <vertex v="-0.189159 0.249228 -0.080608">
+                <normal v="-0.835281 0.389216 -0.388350"/>
+            </vertex>
+            <vertex v="-0.173778 0.249228 -0.109913">
+                <normal v="-0.762173 0.389207 -0.517311"/>
+            </vertex>
+            <vertex v="-0.153896 0.249228 -0.136371">
+                <normal v="-0.669324 0.389196 -0.632876"/>
+            </vertex>
+            <vertex v="-0.130027 0.249228 -0.159298">
+                <normal v="-0.559140 0.389183 -0.732051"/>
+            </vertex>
+            <vertex v="-0.102790 0.249228 -0.178098">
+                <normal v="-0.434473 0.389169 -0.812269"/>
+            </vertex>
+            <vertex v="-0.072889 0.249228 -0.192286">
+                <normal v="-0.298549 0.389153 -0.871452"/>
+            </vertex>
+            <vertex v="-0.041100 0.249228 -0.201494">
+                <normal v="-0.154895 0.389136 -0.908064"/>
+            </vertex>
+            <vertex v="-0.008245 0.249228 -0.205483">
+                <normal v="-0.007227 0.389118 -0.921160"/>
+            </vertex>
+            <vertex v="0.024824 0.249228 -0.204151">
+                <normal v="0.140634 0.389101 -0.910397"/>
+            </vertex>
+            <vertex v="0.057251 0.249228 -0.197531">
+                <normal v="0.284855 0.389084 -0.876054"/>
+            </vertex>
+            <vertex v="0.088196 0.249228 -0.185795">
+                <normal v="0.421696 0.389067 -0.819023"/>
+            </vertex>
+            <vertex v="0.116858 0.249228 -0.169247">
+                <normal v="0.547620 0.389053 -0.740777"/>
+            </vertex>
+            <vertex v="0.142494 0.249228 -0.148315">
+                <normal v="0.659363 0.389039 -0.643342"/>
+            </vertex>
+            <vertex v="0.164441 0.249228 -0.123542">
+                <normal v="0.754026 0.389028 -0.529246"/>
+            </vertex>
+            <vertex v="0.182129 0.249228 -0.095570">
+                <normal v="0.829162 0.389019 -0.401441"/>
+            </vertex>
+            <vertex v="0.195102 0.249228 -0.065123">
+                <normal v="0.882823 0.389013 -0.263235"/>
+            </vertex>
+            <vertex v="0.203022 0.249228 -0.032989">
+                <normal v="0.913617 0.389010 -0.118216"/>
+            </vertex>
+            <vertex v="0.205685 0.249228 -0.000000">
+                <normal v="0.920749 0.389009 0.029872"/>
+            </vertex>
+            <vertex v="0.210300 0.264076 0.034171">
+                <normal v="0.919724 0.368116 0.136375"/>
+            </vertex>
+            <vertex v="0.202096 0.264076 0.067457">
+                <normal v="0.885936 0.368120 0.282142"/>
+            </vertex>
+            <vertex v="0.114626 0.469877 0.018617">
+                <normal v="0.870364 0.460586 0.174147"/>
+            </vertex>
+            <vertex v="0.110156 0.469878 0.036753">
+                <normal v="0.831158 0.460590 0.311502"/>
+            </vertex>
+            <vertex v="0.188658 0.264076 0.098997">
+                <normal v="0.829205 0.368127 0.420598"/>
+            </vertex>
+            <vertex v="0.102834 0.469878 0.053936">
+                <normal v="0.770424 0.460597 0.440792"/>
+            </vertex>
+            <vertex v="0.170335 0.264076 0.127972">
+                <normal v="0.750994 0.368136 0.548164"/>
+            </vertex>
+            <vertex v="0.092852 0.469878 0.069723">
+                <normal v="0.689735 0.460606 0.558666"/>
+            </vertex>
+            <vertex v="0.147602 0.264076 0.153633">
+                <normal v="0.653332 0.368148 0.661532"/>
+            </vertex>
+            <vertex v="0.080466 0.469878 0.083704">
+                <normal v="0.591181 0.460618 0.662070"/>
+            </vertex>
+            <vertex v="0.121046 0.264076 0.175314">
+                <normal v="0.538748 0.368162 0.757765"/>
+            </vertex>
+            <vertex v="0.065998 0.469878 0.095516">
+                <normal v="0.477314 0.460631 0.748325"/>
+            </vertex>
+            <vertex v="0.091356 0.264076 0.192455">
+                <normal v="0.410216 0.368177 0.834367"/>
+            </vertex>
+            <vertex v="0.049822 0.469879 0.104855">
+                <normal v="0.351097 0.460644 0.815192"/>
+            </vertex>
+            <vertex v="0.059302 0.264076 0.204612">
+                <normal v="0.271063 0.368195 0.889358"/>
+            </vertex>
+            <vertex v="0.032358 0.469879 0.111479">
+                <normal v="0.215784 0.460660 0.860947"/>
+            </vertex>
+            <vertex v="0.025712 0.264076 0.211469">
+                <normal v="0.124892 0.368211 0.921316"/>
+            </vertex>
+            <vertex v="0.014057 0.469879 0.115215">
+                <normal v="0.074888 0.460676 0.884403"/>
+            </vertex>
+            <vertex v="-0.008542 0.264076 0.212849">
+                <normal v="-0.024515 0.368229 0.929412"/>
+            </vertex>
+            <vertex v="-0.004606 0.469880 0.115967">
+                <normal v="-0.067953 0.460693 0.884954"/>
+            </vertex>
+            <vertex v="-0.042574 0.264077 0.208717">
+                <normal v="-0.173287 0.368247 0.913436"/>
+            </vertex>
+            <vertex v="-0.023148 0.469880 0.113716">
+                <normal v="-0.209030 0.460709 0.862585"/>
+            </vertex>
+            <vertex v="-0.075503 0.264077 0.199178">
+                <normal v="-0.317568 0.368264 0.873803"/>
+            </vertex>
+            <vertex v="-0.041089 0.469880 0.108520">
+                <normal v="-0.344687 0.460724 0.817878"/>
+            </vertex>
+            <vertex v="-0.106475 0.264077 0.184482">
+                <normal v="-0.453616 0.368280 0.811543"/>
+            </vertex>
+            <vertex v="-0.057963 0.469881 0.100513">
+                <normal v="-0.471414 0.460738 0.751990"/>
+            </vertex>
+            <vertex v="-0.134689 0.264077 0.165007">
+                <normal v="-0.577922 0.368295 0.728262"/>
+            </vertex>
+            <vertex v="-0.073335 0.469881 0.089902">
+                <normal v="-0.585939 0.460752 0.666621"/>
+            </vertex>
+            <vertex v="-0.159413 0.264077 0.141259">
+                <normal v="-0.687256 0.368308 0.626122"/>
+            </vertex>
+            <vertex v="-0.086806 0.469881 0.076963">
+                <normal v="-0.685278 0.460763 0.563997"/>
+            </vertex>
+            <vertex v="-0.180007 0.264077 0.113852">
+                <normal v="-0.778788 0.368319 0.507770"/>
+            </vertex>
+            <vertex v="-0.098027 0.469881 0.062031">
+                <normal v="-0.766872 0.460772 0.446762"/>
+            </vertex>
+            <vertex v="-0.195939 0.264077 0.083497">
+                <normal v="-0.850153 0.368328 0.376264"/>
+            </vertex>
+            <vertex v="-0.106707 0.469882 0.045492">
+                <normal v="-0.828604 0.460779 0.317960"/>
+            </vertex>
+            <vertex v="-0.206795 0.264077 0.050979">
+                <normal v="-0.899498 0.368333 0.235018"/>
+            </vertex>
+            <vertex v="-0.112622 0.469882 0.027776">
+                <normal v="-0.868876 0.460784 0.180924"/>
+            </vertex>
+            <vertex v="-0.212294 0.264077 0.017141">
+                <normal v="-0.925548 0.368336 0.087686"/>
+            </vertex>
+            <vertex v="-0.115619 0.469882 0.009339">
+                <normal v="-0.886645 0.460786 0.039204"/>
+            </vertex>
+            <vertex v="-0.212294 0.264077 -0.017141">
+                <normal v="-0.927629 0.368336 -0.061917"/>
+            </vertex>
+            <vertex v="-0.115619 0.469882 -0.009339">
+                <normal v="-0.881452 0.460785 -0.103533"/>
+            </vertex>
+            <vertex v="-0.206795 0.264077 -0.050979">
+                <normal v="-0.905685 0.368334 -0.209917"/>
+            </vertex>
+            <vertex v="-0.112622 0.469882 -0.027776">
+                <normal v="-0.853431 0.460782 -0.243589"/>
+            </vertex>
+            <vertex v="-0.195939 0.264077 -0.083497">
+                <normal v="-0.860285 0.368329 -0.352483"/>
+            </vertex>
+            <vertex v="-0.106707 0.469882 -0.045493">
+                <normal v="-0.803306 0.460777 -0.377338"/>
+            </vertex>
+            <vertex v="-0.180007 0.264077 -0.113852">
+                <normal v="-0.792605 0.368320 -0.485919"/>
+            </vertex>
+            <vertex v="-0.098027 0.469881 -0.062031">
+                <normal v="-0.732379 0.460769 -0.501312"/>
+            </vertex>
+            <vertex v="-0.159413 0.264077 -0.141259">
+                <normal v="-0.704398 0.368310 -0.606771"/>
+            </vertex>
+            <vertex v="-0.086806 0.469881 -0.076963">
+                <normal v="-0.642481 0.460759 -0.612307"/>
+            </vertex>
+            <vertex v="-0.134688 0.264077 -0.165007">
+                <normal v="-0.597944 0.368298 -0.711913"/>
+            </vertex>
+            <vertex v="-0.073335 0.469881 -0.089902">
+                <normal v="-0.535943 0.460746 -0.707445"/>
+            </vertex>
+            <vertex v="-0.106475 0.264077 -0.184481">
+                <normal v="-0.476007 0.368283 -0.798614"/>
+            </vertex>
+            <vertex v="-0.057964 0.469881 -0.100513">
+                <normal v="-0.415529 0.460732 -0.784259"/>
+            </vertex>
+            <vertex v="-0.075503 0.264077 -0.199178">
+                <normal v="-0.341744 0.368266 -0.864634"/>
+            </vertex>
+            <vertex v="-0.041089 0.469880 -0.108520">
+                <normal v="-0.284344 0.460718 -0.840766"/>
+            </vertex>
+            <vertex v="-0.042574 0.264077 -0.208717">
+                <normal v="-0.198618 0.368249 -0.908264"/>
+            </vertex>
+            <vertex v="-0.023148 0.469880 -0.113716">
+                <normal v="-0.145789 0.460702 -0.875499"/>
+            </vertex>
+            <vertex v="-0.008542 0.264076 -0.212849">
+                <normal v="-0.050348 0.368232 -0.928370"/>
+            </vertex>
+            <vertex v="-0.004606 0.469880 -0.115968">
+                <normal v="-0.003462 0.460686 -0.887557"/>
+            </vertex>
+            <vertex v="0.025712 0.264076 -0.211469">
+                <normal v="0.099223 0.368214 -0.924431"/>
+            </vertex>
+            <vertex v="0.014057 0.469879 -0.115215">
+                <normal v="0.138952 0.460669 -0.876628"/>
+            </vertex>
+            <vertex v="0.059302 0.264076 -0.204612">
+                <normal v="0.246227 0.368195 -0.896551"/>
+            </vertex>
+            <vertex v="0.032358 0.469879 -0.111479">
+                <normal v="0.277779 0.460653 -0.842993"/>
+            </vertex>
+            <vertex v="0.091357 0.264076 -0.192455">
+                <normal v="0.386863 0.368179 -0.845448"/>
+            </vertex>
+            <vertex v="0.049822 0.469879 -0.104856">
+                <normal v="0.409417 0.460639 -0.787521"/>
+            </vertex>
+            <vertex v="0.121046 0.264076 -0.175314">
+                <normal v="0.517475 0.368163 -0.772447"/>
+            </vertex>
+            <vertex v="0.065998 0.469878 -0.095516">
+                <normal v="0.530440 0.460625 -0.711658"/>
+            </vertex>
+            <vertex v="0.147601 0.264076 -0.153633">
+                <normal v="0.634685 0.368149 -0.679442"/>
+            </vertex>
+            <vertex v="0.080466 0.469878 -0.083704">
+                <normal v="0.637736 0.460612 -0.617356"/>
+            </vertex>
+            <vertex v="0.170335 0.264076 -0.127972">
+                <normal v="0.735463 0.368138 -0.568831"/>
+            </vertex>
+            <vertex v="0.092852 0.469878 -0.069723">
+                <normal v="0.728512 0.460602 -0.507066"/>
+            </vertex>
+            <vertex v="0.188658 0.264076 -0.098997">
+                <normal v="0.817188 0.368128 -0.443493"/>
+            </vertex>
+            <vertex v="0.102834 0.469878 -0.053936">
+                <normal v="0.800420 0.460594 -0.383642"/>
+            </vertex>
+            <vertex v="0.202096 0.264076 -0.067458">
+                <normal v="0.877750 0.368121 -0.306664"/>
+            </vertex>
+            <vertex v="0.110155 0.469878 -0.036753">
+                <normal v="0.851598 0.460588 -0.250279"/>
+            </vertex>
+            <vertex v="0.210300 0.264076 -0.034171">
+                <normal v="0.915577 0.368116 -0.161896"/>
+            </vertex>
+            <vertex v="0.114625 0.469877 -0.018617">
+                <normal v="0.880719 0.460584 -0.110439"/>
+            </vertex>
+            <vertex v="0.213059 0.264076 -0.000000">
+                <normal v="0.929690 0.368115 -0.012931"/>
+            </vertex>
+            <vertex v="0.116128 0.469877 -0.000000">
+                <normal v="0.887029 0.460584 0.032272"/>
+            </vertex>
+        </vertices_chunk>
+    </mesh>
+  </meshes_chunk>
+
+  <models_chunk>
+    <model name="Barrier">      
+      <item type="mesh" id="Body">
+        <item type="material" id="Paint"/>
+      </item>
+    </model>
+  </models_chunk>
+
+  <nodes_chunk>
+    <node name="BarrierNode" transform="1.000 0.000 0.000 0.000 0.000 1.000 0.000 0.000 0.000 0.000 1.000 0.000 0.000 0.000 0.000 1.000" bounding_radius="0.000000">
+      <item type="model" id="Barrier"/>
+    </node>
+  </nodes_chunk>
+
+</Scene>

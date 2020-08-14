@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Scene>
   <materials_chunk>
-      <material name="Paint" technique="Sprite3DNormal">
-          <sampler name="g_tex">
-            <texture path="Model/Car/car.png"/>
-          </sampler>
-          <sampler name="g_bump">
-            <texture path="Model/Car/car.png"/>
-          </sampler>
-      </material>
+      <material name="Paint" technique="Sprite3DNormal"/>
   </materials_chunk>
 
   <meshes_chunk>
