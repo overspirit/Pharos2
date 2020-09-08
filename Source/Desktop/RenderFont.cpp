@@ -11,6 +11,7 @@ RenderFont::RenderFont(void)
 
 	m_charColor = 0xFFFFFFFF;
 	m_charOutlineScale = 0.0f;
+    m_charWeight = -0.5f;
 	m_charOutlineColor = 0xFF000000;
 	m_charShadowColor = 0xFF000000;
 	m_charShadowOffset = Size2Di(0, 0);
@@ -43,7 +44,7 @@ void RenderFont::RenderText(const char8* text, int32 textLen, int32 x, int32 y)
 	uint32 vertNum = FillTextVertBuffer(text, textLen, x, y);
 	
 	float32 fontDisBase = sFontTexMgr->GetFontDisBase(m_fontInfoIndex);
-	float32 fontDisScale = sFontTexMgr->GetFontDisScale(m_fontInfoIndex);
+	float32 fontDisScale = sFontTexMgr->GetFontDisScale(m_fontInfoIndex) + m_charWeight;
 	Vector2Df shadowOffset = sRenderMgr->GetSizeFromWindowSize(m_charShadowOffset.width, m_charShadowOffset.height);
 
 	Color4f charColor = m_charColor;

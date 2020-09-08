@@ -154,10 +154,10 @@ RenderFont* DesktopMgr::GenerateRenderFont(const char8* fontFilePath)
 	return nullptr;
 }
 
-RenderImage* DesktopMgr::GenerateRenderImage(const char8* imageFilePath)
+RenderImage* DesktopMgr::GenerateRenderImage()
 {
 	RenderImage* renderImage = new RenderImage();
-	if (renderImage->LoadImage(imageFilePath))
+	if (renderImage->Init())
 	{
 		return renderImage;
 	}

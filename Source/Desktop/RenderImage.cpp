@@ -4,14 +4,11 @@
 RenderImage::RenderImage(void)
 {
 	m_image = nullptr;
+	m_color = 0xFFFFFFFF;
 
 	m_imageTex = nullptr;
-
-//	m_imageTech = nullptr;
-//	m_imageTexVar = nullptr;
-//
-//	m_grayImageTech = nullptr;
-//	m_grayImageTexVar = nullptr;
+	m_drawUniform = nullptr;
+	m_resSet = nullptr;
 }
 
 RenderImage::~RenderImage(void)
@@ -19,6 +16,17 @@ RenderImage::~RenderImage(void)
 //	SAFE_DELETE(m_imageTex);
 //	SAFE_DELETE(m_imageTech);
 //	SAFE_DELETE(m_grayImageTech);
+}
+
+bool RenderImage::Init()
+{
+	m_drawUniform = sRenderer->GenerateRenderBuffer(UNIFORM_BUFFFER);
+	m_drawUniform->Allocate(sizeof(DrawUniform));
+
+	m_resSet = sRenderer->GenerateRenderResuourceSet();
+	m_resSet->SetFragmentUniformBuffer(1, m_drawUniform);
+
+	return true;
 }
 
 bool RenderImage::LoadImage(const char8* imageFilePath)
@@ -29,72 +37,97 @@ bool RenderImage::LoadImage(const char8* imageFilePath)
 	m_imageTex = sRenderer->LoadTexture(m_image);
 	if (m_imageTex == nullptr) return false;
 
-//	m_imageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DImage");
-//    if(m_imageTech == nullptr) return false;
-//
-//	m_imageTexVar = m_imageTech->GetVariable("g_tex");
-//	m_imageTexVar->SetValue(m_imageTex);
-//
-//	m_grayImageTech = sRenderMgr->GenerateRenderTechnique("Sprite2DGray");
-//	m_grayImageTexVar = m_grayImageTech->GetVariable("g_tex");
-//	m_grayImageTexVar->SetValue(m_imageTex);
-
-	m_resSet = sRenderer->GenerateRenderResuourceSet();
 	m_resSet->SetFragmentTexture(0, m_imageTex);
-	m_resSet->UpdateSet();
 
 	return true;
 }
 
-void RenderImage::RenderImageRect(const Rect2Di& imageRect, Color4 imageColor, const Rect2Di& drawRect)
+void RenderImage::RenderRect(const Rect2Di& imageRect, const Rect2Di& drawRect, float32 round)
 {
-	//计算在屏幕的位置
-	Vector2Df leftTop = sRenderMgr->GetPosFromWindowPos(drawRect.left, drawRect.top);
-	Vector2Df rightBottom = sRenderMgr->GetPosFromWindowPos(drawRect.right, drawRect.bottom);
+    //计算在屏幕的位置
+    Vector2Df leftTop = sRenderMgr->GetPosFromWindowPos(drawRect.left, drawRect.top);
+    Vector2Df rightBottom = sRenderMgr->GetPosFromWindowPos(drawRect.right, drawRect.bottom);
 
-	uint32 imageWidth = m_imageTex->GetWidth();
-	uint32 imageHeight = m_imageTex->GetHeight();
-	float32 texLeft = (float32)imageRect.left / imageWidth;
-	float32 texTop = (float32)imageRect.top / imageHeight;
-	float32 texRight = (float32)imageRect.right / imageWidth;
-	float32 texBottom = (float32)imageRect.bottom / imageHeight;
+	DrawUniform uniform;
+	uniform.round = round;
+	uniform.scale = (float32)drawRect.GetWidth() / drawRect.GetHeight();
+	m_drawUniform->CopyData(&uniform, sizeof(DrawUniform));
+
+	m_resSet->UpdateSet();
+
+    float32 texLeft = 0;
+    float32 texTop = 0;
+    float32 texRight = 1.0f;
+    float32 texBottom = 1.0f;
+
+    if (m_imageTex != NULL)
+    {
+        uint32 imageWidth = m_imageTex->GetWidth();
+        uint32 imageHeight = m_imageTex->GetHeight();
+        texLeft = (float32) imageRect.left / imageWidth;
+        texTop = (float32) imageRect.top / imageHeight;
+        texRight = (float32) imageRect.right / imageWidth;
+        texBottom = (float32) imageRect.bottom / imageHeight;
+    }
 
 	//建立顶点数据
 	DecalColorVertex vt[] =
 	{
-		{ Vector3Df(leftTop.x,		leftTop.y,		0),		imageColor,		Vector2Df(texLeft, texTop) },
-		{ Vector3Df(rightBottom.x,	leftTop.y,		0),		imageColor,		Vector2Df(texRight, texTop) },
-		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		imageColor,		Vector2Df(texRight, texBottom) },
-		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		imageColor,		Vector2Df(texRight, texBottom) },
-		{ Vector3Df(leftTop.x,		rightBottom.y,	0),		imageColor,		Vector2Df(texLeft, texBottom) },
-		{ Vector3Df(leftTop.x,		leftTop.y,		0),		imageColor,		Vector2Df(texLeft, texTop) },
+		{ Vector3Df(leftTop.x,		leftTop.y,		0),		m_color,		Vector2Df(texLeft, texTop) },
+		{ Vector3Df(rightBottom.x,	leftTop.y,		0),		m_color,		Vector2Df(texRight, texTop) },
+		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		m_color,		Vector2Df(texRight, texBottom) },
+		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		m_color,		Vector2Df(texRight, texBottom) },
+		{ Vector3Df(leftTop.x,		rightBottom.y,	0),		m_color,		Vector2Df(texLeft, texBottom) },
+		{ Vector3Df(leftTop.x,		leftTop.y,		0),		m_color,		Vector2Df(texLeft, texTop) },
 	};
 
-	sRenderSpirite->DrawTexture2D(vt, 6, m_resSet);
+    if (m_imageTex == NULL)
+    {
+        sRenderSpirite->DrawColor2D(vt, 6, m_resSet);
+    }
+    else
+    {
+        sRenderSpirite->DrawTexture2D(vt, 6, m_resSet);
+    }
 }
 
-void RenderImage::RenderGrayImageRect(const Rect2Di& imageRect, const Rect2Di& drawRect)
+void RenderImage::RenderGrayRect(const Rect2Di& imageRect, const Rect2Di& drawRect, float32 round)
 {
-	//计算在屏幕的位置
-	Vector2Df leftTop = sRenderMgr->GetPosFromWindowPos(drawRect.left, drawRect.top);
-	Vector2Df rightBottom = sRenderMgr->GetPosFromWindowPos(drawRect.right, drawRect.bottom);
+    //计算在屏幕的位置
+    Vector2Df leftTop = sRenderMgr->GetPosFromWindowPos(drawRect.left, drawRect.top);
+    Vector2Df rightBottom = sRenderMgr->GetPosFromWindowPos(drawRect.right, drawRect.bottom);
 
-	uint32 imageWidth = m_imageTex->GetWidth();
-	uint32 imageHeight = m_imageTex->GetHeight();
-	float32 texLeft = (float32)imageRect.left / imageWidth;
-	float32 texTop = (float32)imageRect.top / imageHeight;
-	float32 texRight = (float32)imageRect.right / imageWidth;
-	float32 texBottom = (float32)imageRect.bottom / imageHeight;
+	DrawUniform uniform;
+	uniform.round = round;
+    uniform.scale = (rightBottom.x - leftTop.x) / (rightBottom.y - leftTop.y);
+	m_drawUniform->CopyData(&uniform, sizeof(DrawUniform));
+
+	m_resSet->UpdateSet();
+
+    float32 texLeft = 0;
+    float32 texTop = 0;
+    float32 texRight = 1.0f;
+    float32 texBottom = 1.0f;
+
+    if (m_imageTex != NULL)
+    {
+        uint32 imageWidth = m_imageTex->GetWidth();
+        uint32 imageHeight = m_imageTex->GetHeight();
+        texLeft = (float32) imageRect.left / imageWidth;
+        texTop = (float32) imageRect.top / imageHeight;
+        texRight = (float32) imageRect.right / imageWidth;
+        texBottom = (float32) imageRect.bottom / imageHeight;
+    }
 
 	//建立顶点数据
 	DecalColorVertex vt[] =
 	{
-		{ Vector3Df(leftTop.x,		leftTop.y,		0),		0xFFFFFFFF,		Vector2Df(texLeft, texTop) },
-		{ Vector3Df(rightBottom.x,	leftTop.y,		0),		0xFFFFFFFF,		Vector2Df(texRight, texTop) },
-		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		0xFFFFFFFF,		Vector2Df(texRight, texBottom) },
-		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		0xFFFFFFFF,		Vector2Df(texRight, texBottom) },
-		{ Vector3Df(leftTop.x,		rightBottom.y,	0),		0xFFFFFFFF,		Vector2Df(texLeft, texBottom) },
-		{ Vector3Df(leftTop.x,		leftTop.y,		0),		0xFFFFFFFF,		Vector2Df(texLeft, texTop) },
+		{ Vector3Df(leftTop.x,		leftTop.y,		0),		m_color,		Vector2Df(texLeft, texTop) },
+		{ Vector3Df(rightBottom.x,	leftTop.y,		0),		m_color,		Vector2Df(texRight, texTop) },
+		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		m_color,		Vector2Df(texRight, texBottom) },
+		{ Vector3Df(rightBottom.x,	rightBottom.y,	0),		m_color,		Vector2Df(texRight, texBottom) },
+		{ Vector3Df(leftTop.x,		rightBottom.y,	0),		m_color,		Vector2Df(texLeft, texBottom) },
+		{ Vector3Df(leftTop.x,		leftTop.y,		0),		m_color,		Vector2Df(texLeft, texTop) },
 	};
 	
 	//sRenderSpirite->DrawTexture2D(vt, 6, m_grayImageTech);

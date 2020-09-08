@@ -17,6 +17,7 @@ namespace Pharos
 
 			Color4				m_imageColor;
 			Rect2Di				m_imageRect;
+			float32 			m_round;
 
 		public:
 			virtual bool LoadFromXml(XmlNode* xmlNode);

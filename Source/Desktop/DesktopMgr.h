@@ -54,7 +54,7 @@ namespace Pharos
 			virtual void Render(float32 fElapsed);
 
 			virtual RenderFont* GenerateRenderFont(const char8* fontFilePath);
-			virtual RenderImage* GenerateRenderImage(const char8* imageFilePath);
+			virtual RenderImage* GenerateRenderImage();
 
 			virtual WorldFrame* GetWorldFrame() { return m_worldFrame; }
 			virtual UIObject* GetControl(const char8* szName);

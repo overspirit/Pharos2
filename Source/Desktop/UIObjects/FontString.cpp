@@ -20,11 +20,15 @@ bool FontString::LoadFromXml(XmlNode* xmlNode)
 	const char8* fontFile = GetAttributeStringValue(xmlNode, "font_file");
 	int32 fontWidth = GetAttributeIntValue(xmlNode, "font_width");
 	int32 fontHeight = GetAttributeIntValue(xmlNode, "font_height");
+	int32 fontWeight = GetAttributeIntValue(xmlNode, "font_weight");
+    Color4 fontColor = GetAttributeColorValue(xmlNode, "font_color");
 	m_showText = GetAttributeStringValue(xmlNode, "text");
 
 	m_renderFont = sDesktopMgr->GenerateRenderFont(fontFile);
     if(m_renderFont == nullptr) return false;    
 	m_renderFont->SetFontCharSize(fontWidth, fontHeight);
+	m_renderFont->SetFontCharColor(fontColor);
+	m_renderFont->SetFontWeight(fontWeight);
 
 	return true;
 }

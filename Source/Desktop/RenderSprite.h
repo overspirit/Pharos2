@@ -10,18 +10,24 @@ namespace Pharos
 			RenderSprite(void);
 			virtual ~RenderSprite(void);
 
-		private:			
+		private:
+			struct SpirteUniform
+			{
+				float round;
+			};
+
+		private:
 			RenderObject*		m_drawColorObj;
 			RenderObject*		m_drawTextureObj;
 			RenderObject*		m_drawFontObj;
 
 			RenderBlendState*	m_blendState;
 
-			RenderProgram*		m_spriteColorShader;	
+			RenderProgram*		m_spriteColorShader;
 			RenderPipeline*		m_spriteColorPipeline;
 
-			RenderProgram*		m_spriteTextureShader;	
-			RenderPipeline*		m_spriteTexturePipeline;			
+			RenderProgram*		m_spriteTextureShader;
+			RenderPipeline*		m_spriteTexturePipeline;
 
 			RenderProgram*		m_distanceFontShader;	
 			RenderPipeline*		m_distanceFontPipeline;
@@ -35,11 +41,8 @@ namespace Pharos
 			virtual void Destroy();
 
 			virtual void Render();
-
-			virtual void DrawRect(Color4 color, const Rect2Di& drawRect);
-			virtual void DrawWireFrame(Color4 color, const Rect2Di& drawRect);
 			
-			virtual void DrawColor2D(const DecalColorVertex* vertData, uint32 vertNum);
+			virtual void DrawColor2D(const DecalColorVertex* vertData, uint32 vertNum, RenderResourceSet* resSet);
 			virtual void DrawTexture2D(const DecalColorVertex* vertData, uint32 vertNum, RenderResourceSet* resSet);
 			virtual void DrawFont2D(const DecalColorVertex* vertData, uint32 vertNum, RenderResourceSet* resSet);
 		};

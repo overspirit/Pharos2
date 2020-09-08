@@ -6,6 +6,7 @@ Texture::Texture(void)
 	m_type = "Texture";
 
 	m_renderImage = nullptr;
+	m_round = 0;
 }
 
 Texture::~Texture(void)
@@ -20,13 +21,20 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 	string imageFile = GetAttributeStringValue(xmlNode, "file");
 	m_imageColor = GetAttributeColorValue(xmlNode, "color");
 	m_imageColor = COLOR_ARGB_TO_RGBA(m_imageColor);
+	m_round = GetAttributeFloatValue(xmlNode, "round");
 
-	m_renderImage = sDesktopMgr->GenerateRenderImage(imageFile.c_str());
+	m_renderImage = sDesktopMgr->GenerateRenderImage();
+	m_renderImage->SetImageColor(m_imageColor);
 
-	m_imageRect.left = GetAttributeIntValue(xmlNode, "left");
-	m_imageRect.top = GetAttributeIntValue(xmlNode, "top");
-	m_imageRect.right = GetAttributeIntValue(xmlNode, "right");
-	m_imageRect.bottom = GetAttributeIntValue(xmlNode, "bottom");
+	if (!imageFile.empty())
+	{
+		m_renderImage->LoadImage(imageFile.c_str());
+
+		m_imageRect.left = GetAttributeIntValue(xmlNode, "left");
+		m_imageRect.top = GetAttributeIntValue(xmlNode, "top");
+		m_imageRect.right = GetAttributeIntValue(xmlNode, "right");
+		m_imageRect.bottom = GetAttributeIntValue(xmlNode, "bottom");
+	}
 
 	return true;
 }
@@ -40,12 +48,5 @@ void Texture::Render(float32 fElapsed)
 {
 	UIObject::Render(fElapsed);
 
-	if (m_renderImage != nullptr)
-	{
-		m_renderImage->RenderImageRect(m_imageRect, m_imageColor, m_rect);
-	}
-	else
-	{
-		sRenderSpirite->DrawRect(m_imageColor, m_rect);
-	}
+	m_renderImage->RenderRect(m_imageRect, m_rect, m_round);
 }

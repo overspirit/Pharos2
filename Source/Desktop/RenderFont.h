@@ -27,6 +27,7 @@ namespace Pharos
 			
 			Size2Di		m_charSize;
 			Color4		m_charColor;
+			float32		m_charWeight;
 			float32		m_charOutlineScale;			
 			Color4		m_charOutlineColor;
 			Color4		m_charShadowColor;
@@ -50,6 +51,7 @@ namespace Pharos
 
 			void SetFontCharSize(int32 width, int32 height);
 			void SetFontCharColor(Color4 charColor);
+			void SetFontWeight(int32 weight) { m_charWeight = weight / 1000.0f - 0.5f; }
 			void SetOutlineScale(float32 charOutlineScale);
 			void SetOutlineColor(Color4 charOuterColor);			
 			void SetShadowColor(Color4 charShadowColor);
