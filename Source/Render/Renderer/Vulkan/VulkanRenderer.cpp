@@ -66,6 +66,8 @@ uint32 VulkanRenderer::GetAdapterMemorySize() const
 
 bool VulkanRenderer::Create(const DeviceConfig& cfg)
 {
+	m_defaultTarget->SetClear(cfg.backColor);
+
 	return true;
 }
 

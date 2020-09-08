@@ -4,6 +4,10 @@
 VulkanDefaultTarget::VulkanDefaultTarget(VkDevice device, VkSemaphore semaphore) : VulkanRenderTarget(device)
 {
 	m_semaphore = semaphore;
+
+    m_clearColor = Color4f(1.0f, 1.0f, 1.0f, 1.0f);
+    m_clearDepth = 1.0f;
+    m_clearStencil = 0;
 }
 
 VulkanDefaultTarget::~VulkanDefaultTarget(void)
@@ -138,12 +142,12 @@ VkRenderPassBeginInfo VulkanDefaultTarget::GetRenderPassBeginInfo()
     VkResult res = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_semaphore, VK_NULL_HANDLE, &m_currFrameIndex);
     assert(res == VK_SUCCESS);
 
-    m_clearValues[0].color.float32[0] = 0.5f;
-    m_clearValues[0].color.float32[1] = 0.5f;
-    m_clearValues[0].color.float32[2] = 0.5f;
-    m_clearValues[0].color.float32[3] = 1.0f;
-    m_clearValues[1].depthStencil.depth = 1.0f;
-    m_clearValues[1].depthStencil.stencil = 0;
+    m_clearValues[0].color.float32[0] = m_clearColor.r;
+    m_clearValues[0].color.float32[1] = m_clearColor.g;
+    m_clearValues[0].color.float32[2] = m_clearColor.b;
+    m_clearValues[0].color.float32[3] = m_clearColor.a;
+    m_clearValues[1].depthStencil.depth = m_clearDepth;
+    m_clearValues[1].depthStencil.stencil = m_clearStencil;
 
     VkRenderPassBeginInfo rp_begin;
     rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -172,7 +176,7 @@ void VulkanDefaultTarget::PresentQueue(VkQueue queue)
     presentInfo.waitSemaphoreCount = 0;
     presentInfo.pResults = NULL;
 
-    VkFence waitFence = m_swapchainFence[m_currFrameIndex];
+    VkFence waitFence = m_swapchainFence[0];
 
     VkResult res = VK_NOT_READY;
     do
@@ -189,6 +193,9 @@ void VulkanDefaultTarget::PresentQueue(VkQueue queue)
 
 void VulkanDefaultTarget::SetClear(Color4 color, float32 depth, uint32 stencil)
 {
+    m_clearColor = Color4f(color);
+    m_clearDepth = depth;
+    m_clearStencil = stencil;
 }
 
 RenderTexture *VulkanDefaultTarget::GenerateColorAttach(uint32 slot, EPixelFormat fmt)

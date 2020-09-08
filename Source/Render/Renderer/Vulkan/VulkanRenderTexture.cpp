@@ -70,7 +70,10 @@ bool VulkanRenderTexture::LoadFromImage(const Image* image)
 		return false;
 	}
 
-	if (!CreateVulkanStagingBuffer(imageSize))
+    VkMemoryRequirements mem_reqs;
+    vkGetImageMemoryRequirements(m_device, m_image, &mem_reqs);
+
+	if (!CreateVulkanStagingBuffer(mem_reqs.size))
 	{
 		return false;
 	}
@@ -118,7 +121,10 @@ bool VulkanRenderTexture::Create(int32 width, int32 height, EPixelFormat fmt)
 		return false;
 	}
 
-	if (!CreateVulkanStagingBuffer(m_width * m_height * m_eleSize))
+    VkMemoryRequirements mem_reqs;
+    vkGetImageMemoryRequirements(m_device, m_image, &mem_reqs);
+
+	if (!CreateVulkanStagingBuffer(mem_reqs.size))
 	{
 		return false;
 	}

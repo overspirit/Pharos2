@@ -29,7 +29,7 @@ bool MetalRenderer::Create(const DeviceConfig& cfg)
 	m_view = (__bridge id)sKernel->GetWindowHandle();
 	m_view.device = m_device;
 	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
-	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
 	m_view.sampleCount = 1;
 	m_view.clearColor = MTLClearColorMake(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	m_view.preferredFramesPerSecond = 60;

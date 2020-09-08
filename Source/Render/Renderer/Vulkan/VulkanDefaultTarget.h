@@ -21,6 +21,10 @@ namespace Pharos
 			vector<VkFramebuffer>	m_frameBufList;			
 			uint32					m_currFrameIndex;
 
+			Color4f			m_clearColor;
+			float32			m_clearDepth;
+			float32 		m_clearStencil;
+
 		private:
 			VkImage CreateDepthImage(int width, int height, VkFormat depth_format);
 			VkFence CreateDrawFence(VkDevice device);
@@ -28,7 +32,7 @@ namespace Pharos
 		public:
 			bool CreateDefaultTarget(VkSwapchainKHR swapchain, int32 width, int32 height, VkFormat colorFormat, VkFormat depthFormat);
 			void PresentQueue(VkQueue queue);
-			VkFence GetCurrentFence() { return m_swapchainFence[m_currFrameIndex]; }
+			VkFence GetCurrentFence() { return m_swapchainFence[0]; }
 
 			virtual VkRenderPassBeginInfo GetRenderPassBeginInfo();
 
