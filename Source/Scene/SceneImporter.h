@@ -70,7 +70,7 @@ namespace Pharos
 
 				vector<MeshInfo>	meshList;
 				vector<string>	skeletonList;
-				vector<string>	animList;			
+				vector<string>	animList;
 			};
 
 			struct SceneNodeData
@@ -99,7 +99,7 @@ namespace Pharos
 			map<string, SkelAnimation>	m_animDataList;
 			map<string, ModelData>		m_modelDataList;
 			vector<SceneNodeData>		m_nodeDataList;
-			
+
 		private:
 			Material* CreateMaterial(const MaterialData& materialData);
 			Mesh* CreateMesh(const MeshData& meshData);
@@ -119,6 +119,9 @@ namespace Pharos
 
 		public:
 			virtual bool ImportScene(OctreeScene* scene);
+
+			virtual Model* GenerateModel(const char* name);
+
 			virtual bool SaveTo(const char8* file);
 
 			virtual bool LoadSceneFile(const char8* file) = 0;

@@ -25,6 +25,11 @@ bool SceneImporter::ImportScene(OctreeScene* scene)
 	return true;
 }
 
+Model* SceneImporter::GenerateModel(const char* name)
+{
+    return this->CreateModel(m_modelDataList[name]);
+}
+
 SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 {
 	SceneNode* parentNode = sSceneMgr->GetSceneNode(data.parentName.c_str());
@@ -42,7 +47,7 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 
 	for (auto& modelId : data.modelIdList)
 	{
-		Model* model = this->CreateModel(m_modelDataList[modelId]);
+		Model* model = GenerateModel(modelId.c_str());
 		sceneNode->AddModel(model);
 	}
 
