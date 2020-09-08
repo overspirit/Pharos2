@@ -325,9 +325,9 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 
 			uint32 indices[3] = { 0, 0, 0 };	
 			ReadArray(pTriNode, "index", indices, 3);
-			uint32 temp = indices[1];
-			indices[1] = indices[2];
-			indices[2] = temp;
+			//uint32 temp = indices[1];
+			//indices[1] = indices[2];
+			//indices[2] = temp;
 			meshData.indexData.Insert(j * 3 * sizeof(uint32), indices, sizeof(indices));
 		}
 		//////////////////////////////////////////////////////////////////////////
