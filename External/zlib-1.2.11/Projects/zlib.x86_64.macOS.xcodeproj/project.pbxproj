@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7398C3424B740B70092BF6E /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = C7398C2C24B740B60092BF6E /* mztools.c */; };
+		C7398C3524B740B70092BF6E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = C7398C2D24B740B70092BF6E /* ioapi.c */; };
+		C7398C3624B740B70092BF6E /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = C7398C2E24B740B70092BF6E /* unzip.c */; };
+		C7398C3724B740B70092BF6E /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C2F24B740B70092BF6E /* zip.h */; };
+		C7398C3824B740B70092BF6E /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C3024B740B70092BF6E /* mztools.h */; };
+		C7398C3924B740B70092BF6E /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C3124B740B70092BF6E /* unzip.h */; };
+		C7398C3A24B740B70092BF6E /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C3224B740B70092BF6E /* ioapi.h */; };
+		C7398C3B24B740B70092BF6E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = C7398C3324B740B70092BF6E /* zip.c */; };
 		F90BE5D1243727BA0018A7F2 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = F90BE5B7243727B90018A7F2 /* deflate.c */; };
 		F90BE5D2243727BA0018A7F2 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = F90BE5B8243727B90018A7F2 /* crc32.c */; };
 		F90BE5D4243727BA0018A7F2 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = F90BE5BA243727B90018A7F2 /* compress.c */; };
@@ -31,6 +39,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C7398C2C24B740B60092BF6E /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = ../Source/mztools.c; sourceTree = "<group>"; };
+		C7398C2D24B740B70092BF6E /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = ../Source/ioapi.c; sourceTree = "<group>"; };
+		C7398C2E24B740B70092BF6E /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = ../Source/unzip.c; sourceTree = "<group>"; };
+		C7398C2F24B740B70092BF6E /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zip.h; path = ../Source/zip.h; sourceTree = "<group>"; };
+		C7398C3024B740B70092BF6E /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mztools.h; path = ../Source/mztools.h; sourceTree = "<group>"; };
+		C7398C3124B740B70092BF6E /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = ../Source/unzip.h; sourceTree = "<group>"; };
+		C7398C3224B740B70092BF6E /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = ../Source/ioapi.h; sourceTree = "<group>"; };
+		C7398C3324B740B70092BF6E /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = ../Source/zip.c; sourceTree = "<group>"; };
 		F90BE55F2435C2080018A7F2 /* libzlib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libzlib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F90BE5B7243727B90018A7F2 /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = deflate.c; path = ../Source/deflate.c; sourceTree = "<group>"; };
 		F90BE5B8243727B90018A7F2 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = ../Source/crc32.c; sourceTree = "<group>"; };
@@ -99,10 +115,18 @@
 				F90BE5BC243727B90018A7F2 /* inflate.h */,
 				F90BE5C9243727BA0018A7F2 /* inftrees.c */,
 				F90BE5C8243727BA0018A7F2 /* inftrees.h */,
+				C7398C2D24B740B70092BF6E /* ioapi.c */,
+				C7398C3224B740B70092BF6E /* ioapi.h */,
+				C7398C2C24B740B60092BF6E /* mztools.c */,
+				C7398C3024B740B70092BF6E /* mztools.h */,
 				F90BE5C5243727BA0018A7F2 /* trees.c */,
 				F90BE5C3243727B90018A7F2 /* trees.h */,
 				F90BE5C7243727BA0018A7F2 /* uncompr.c */,
+				C7398C2E24B740B70092BF6E /* unzip.c */,
+				C7398C3124B740B70092BF6E /* unzip.h */,
 				F90BE5CE243727BA0018A7F2 /* zconf.h */,
+				C7398C3324B740B70092BF6E /* zip.c */,
+				C7398C2F24B740B70092BF6E /* zip.h */,
 				F90BE5BF243727B90018A7F2 /* zlib.h */,
 				F90BE5CB243727BA0018A7F2 /* zutil.c */,
 				F90BE5CF243727BA0018A7F2 /* zutil.h */,
@@ -117,16 +141,20 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7398C3724B740B70092BF6E /* zip.h in Headers */,
 				F90BE5E2243727BA0018A7F2 /* inftrees.h in Headers */,
 				F90BE5DD243727BA0018A7F2 /* trees.h in Headers */,
 				F90BE5D8243727BA0018A7F2 /* inffast.h in Headers */,
 				F90BE5D6243727BA0018A7F2 /* inflate.h in Headers */,
 				F90BE5DE243727BA0018A7F2 /* inffixed.h in Headers */,
 				F90BE5DC243727BA0018A7F2 /* crc32.h in Headers */,
+				C7398C3A24B740B70092BF6E /* ioapi.h in Headers */,
 				F90BE5E7243727BA0018A7F2 /* deflate.h in Headers */,
 				F90BE5E9243727BA0018A7F2 /* zutil.h in Headers */,
 				F90BE5D9243727BA0018A7F2 /* zlib.h in Headers */,
 				F90BE5E8243727BA0018A7F2 /* zconf.h in Headers */,
+				C7398C3824B740B70092BF6E /* mztools.h in Headers */,
+				C7398C3924B740B70092BF6E /* unzip.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,11 +216,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F90BE5D2243727BA0018A7F2 /* crc32.c in Sources */,
+				C7398C3524B740B70092BF6E /* ioapi.c in Sources */,
 				F90BE5E5243727BA0018A7F2 /* zutil.c in Sources */,
+				C7398C3B24B740B70092BF6E /* zip.c in Sources */,
+				C7398C3424B740B70092BF6E /* mztools.c in Sources */,
 				F90BE5E3243727BA0018A7F2 /* inftrees.c in Sources */,
 				F90BE5E4243727BA0018A7F2 /* inflate.c in Sources */,
 				F90BE5D1243727BA0018A7F2 /* deflate.c in Sources */,
 				F90BE5E1243727BA0018A7F2 /* uncompr.c in Sources */,
+				C7398C3624B740B70092BF6E /* unzip.c in Sources */,
 				F90BE5E6243727BA0018A7F2 /* infback.c in Sources */,
 				F90BE5D4243727BA0018A7F2 /* compress.c in Sources */,
 				F90BE5E0243727BA0018A7F2 /* inffast.c in Sources */,

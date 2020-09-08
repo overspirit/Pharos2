@@ -46,6 +46,133 @@
       </Group>
       <Group
          location = "container:"
+         name = "rapidjson">
+         <Group
+            location = "container:"
+            name = "msinttypes">
+            <FileRef
+               location = "group:../External/rapidjson/msinttypes/inttypes.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/msinttypes/stdint.h">
+            </FileRef>
+         </Group>
+         <Group
+            location = "container:"
+            name = "internal">
+            <FileRef
+               location = "group:../External/rapidjson/internal/biginteger.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/clzll.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/diyfp.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/dtoa.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/ieee754.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/itoa.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/meta.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/pow10.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/regex.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/stack.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/strfunc.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/strtod.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/internal/swap.h">
+            </FileRef>
+         </Group>
+         <Group
+            location = "container:"
+            name = "error">
+            <FileRef
+               location = "group:../External/rapidjson/error/en.h">
+            </FileRef>
+            <FileRef
+               location = "group:../External/rapidjson/error/error.h">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:../External/rapidjson/allocators.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/cursorstreamwrapper.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/document.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/encodedstream.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/encodings.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/filereadstream.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/filewritestream.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/fwd.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/istreamwrapper.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/memorybuffer.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/memorystream.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/ostreamwrapper.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/pointer.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/prettywriter.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/rapidjson.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/reader.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/schema.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/stream.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/stringbuffer.h">
+         </FileRef>
+         <FileRef
+            location = "group:../External/rapidjson/writer.h">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
          name = "dlmalloc">
          <FileRef
             location = "group:../External/dlmalloc/dlmalloc.h">
@@ -76,4 +203,11 @@
    <FileRef
       location = "group:../Sample/SceneDemo/SceneDemo.xcodeproj">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "Tools">
+      <FileRef
+         location = "group:../Tools/FBX2SceneML/FBX2SceneML.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>
