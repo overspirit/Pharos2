@@ -54,7 +54,7 @@ void RenderObject::SetBlockResourceSet(uint32 blockIndex, RenderResourceSet* res
 }
 
 void RenderObject::Draw()
-{    
+{
     for (RenderBlock& renderBlock : m_blockList)
     {
         renderBlock.pipeline->SetDrawType(renderBlock.drawType);

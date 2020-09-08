@@ -3,6 +3,8 @@
 
 Model::Model()
 {
+	m_hidden = false;
+
 	m_currAnim = nullptr;
 	m_animPlayTime = 0;
 	m_stopAnim = true;
@@ -67,6 +69,8 @@ SkelAnimation& Model::AddSkelAnimation(const char8* name)
 //数据的顺序要和id对应
 void Model::UpdateAnimation(float32 elapsed)
 {
+	if (m_hidden) return;
+
 	if (m_currAnim != nullptr && !m_stopAnim)
 	{
 		uint32 frameNum = (uint32)m_currAnim->frameList.size();
@@ -221,6 +225,8 @@ void Model::TransformWorld(const Matrix4& world)
 
 void Model::Prepare(RenderObject* renderObj)
 {
+	if (m_hidden) return;
+
 	for (uint32 i = 0; i < m_subModelList.size(); i++)
 	{
 		SubModel& subModel = m_subModelList[i];

@@ -19,6 +19,8 @@ namespace Pharos
 			};
 
 		private:
+			bool 		m_hidden;
+
 			Matrix4							m_offset;
 			Matrix4							m_world;
 
@@ -39,6 +41,8 @@ namespace Pharos
 			void CalcSkelAnimMatrix(const SkelAnimation* anim, uint32 currFrameIndex, uint32 nextFrameIndex, float32 lerp);
 
 		public:
+			virtual void SetHidden(bool hidden) { m_hidden = hidden; }
+
 			virtual uint32 AddSubModelMesh(Mesh* mesh);
 			virtual void AddSubModelMaterial(uint32 index, Material* material);
 			virtual uint32 GetSubModelNum() { return (uint32)m_subModelList.size(); }
