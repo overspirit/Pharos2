@@ -64,7 +64,7 @@ function compileSprite2D() {
     echo "compiling Sprite2D lib..."
     echo "output lib: ${output_lib}"
 
-    echo "compile Sprite2D..."
+    echo "compile Sprite2D vert..."
     glslangValidator ${COMPILE_DIR}/Sprite2D.vert -V -o ${COMPILE_DIR}/Sprite2DVS.spv
     if [ $? -eq 0 ];then
         echo "compile success!!!"
@@ -73,20 +73,20 @@ function compileSprite2D() {
         return 1
     fi
 
-    echo "compile Sprite2DTexture..."
-    glslangValidator ${COMPILE_DIR}/Sprite2DTexture.frag -V -o ${COMPILE_DIR}/Sprite2DTexturePS.spv
+    echo "compile Sprite2DColor frag..."
+    glslangValidator ${COMPILE_DIR}/Sprite2DColor.frag -V -o ${COMPILE_DIR}/Sprite2DColorPS.spv
     if [ $? -eq 0 ];then
         echo "compile success!!!"
-    else 
+    else
         echo "compile fail!!!"
         return 1
     fi
 
-    echo "compile Sprite2DColor..."
-    glslangValidator ${COMPILE_DIR}/Sprite2DColor.frag -V -o ${COMPILE_DIR}/Sprite2DColorPS.spv
+    echo "compile Sprite2DTexture frag..."
+    glslangValidator ${COMPILE_DIR}/Sprite2DTexture.frag -V -o ${COMPILE_DIR}/Sprite2DTexturePS.spv
     if [ $? -eq 0 ];then
         echo "compile success!!!"
-    else 
+    else
         echo "compile fail!!!"
         return 1
     fi
@@ -94,7 +94,7 @@ function compileSprite2D() {
     zip -j ${output_lib} \
         ${COMPILE_DIR}/Sprite2DVS.spv \
         ${COMPILE_DIR}/Sprite2DColorPS.spv \
-        ${COMPILE_DIR}/Sprite2DTexturePS.spv
+        ${COMPILE_DIR}/Sprite2DTexturePS.spv \
 
     rm ${COMPILE_DIR}/*.spv
 
