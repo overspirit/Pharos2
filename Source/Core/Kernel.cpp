@@ -80,11 +80,11 @@ void Kernel::onWindowChangeSize(int32 width, int32 height)
 
 void Kernel::Run(float32 fElapsed)
 {
+    if (m_pApp != nullptr) m_pApp->Update(fElapsed);
+
     sSceneMgr->Update(fElapsed);
     sDesktopMgr->Update(fElapsed);
     sRenderMgr->Update(fElapsed);
-
-    if (m_pApp != nullptr) m_pApp->Update(fElapsed);
 
     sSceneMgr->Render(fElapsed);
     sDesktopMgr->Render(fElapsed);
