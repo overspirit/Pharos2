@@ -51,6 +51,7 @@ void DesktopMgr::Destroy()
 
 	m_controlList.clear();
 
+	sRenderSpirite->Destroy();
 	sFontTexMgr->DestroyAll();
 }
 

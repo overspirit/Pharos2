@@ -60,13 +60,13 @@ bool Image::Open(File* file)
 
 bool Image::Save(const char8* path)
 {	
-	char16 buf[255];
-	Utils::utf8_to_unicode(path, -1, buf, 255);
+	//char16 buf[255];
+	//Utils::utf8_to_unicode(path, -1, buf, 255);
 
-	wcscat(buf, L".bmp");
+	//wcscat(buf, L".bmp");
 
 	//???没有通过file接口保存，需要指定回调
-	return (FreeImage_SaveU(FIF_BMP, m_dib, buf) == TRUE);
+	return (FreeImage_Save(FIF_BMP, m_dib, path) == TRUE);
 }
 
 uint32 Image::GetWidth() const

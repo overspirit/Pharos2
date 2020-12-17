@@ -8,6 +8,8 @@ glfw_window::glfw_window()
 
 glfw_window::~glfw_window()
 {
+	glfwDestroyWindow(m_handle);
+	
 	glfwTerminate();
 }
 

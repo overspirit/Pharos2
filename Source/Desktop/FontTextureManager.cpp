@@ -64,7 +64,7 @@ void FontTextureManager::ResumeFontInfo(FontInfo& fontInfo)
 
 	if (fontInfo.fontTex == nullptr)
 	{
-		fontInfo.fontTex = renderer->CreateTexture(disCharSize * HORI_CHAR_NUM, disCharSize * VERT_CHAR_NUM, Render::EPF_A8_UNORM);
+		fontInfo.fontTex = renderer->CreateTexture2D(disCharSize * HORI_CHAR_NUM, disCharSize * VERT_CHAR_NUM, Render::EPF_A8_UNORM);
 	}
 	else
 	{
@@ -75,7 +75,7 @@ void FontTextureManager::ResumeFontInfo(FontInfo& fontInfo)
 		{
 			SAFE_DELETE(fontInfo.fontTex);
 
-			fontInfo.fontTex = renderer->CreateTexture(disCharSize * HORI_CHAR_NUM, disCharSize * VERT_CHAR_NUM, Render::EPF_A8_UNORM);
+			fontInfo.fontTex = renderer->CreateTexture2D(disCharSize * HORI_CHAR_NUM, disCharSize * VERT_CHAR_NUM, Render::EPF_A8_UNORM);
 		}
 	}
 
