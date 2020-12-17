@@ -7,6 +7,12 @@ Texture::Texture(void)
 
 	m_renderImage = nullptr;
 	m_round = 0;
+
+	//兜底。。没有纹理就按照1像素纹理处理
+	m_imageRect.left = 0;
+	m_imageRect.top = 0;
+	m_imageRect.right = 1;
+	m_imageRect.bottom = 1;
 }
 
 Texture::~Texture(void)

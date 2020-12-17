@@ -22,11 +22,15 @@ namespace Pharos
 			
 			IApplication*		m_pApp;
 
+			int32 			m_runFlag;
+
 		public:
 			virtual bool Init(const void* hWnd, int32 wndWidth, int32 wndHeight);
 			virtual void Destroy();
+
 			virtual bool StartUp();
-			virtual void Run(float32 fElapsed);
+			virtual void ShutingDown();
+			virtual int32 Run(float32 fElapsed);
 
 			virtual void SetEngineHomePath(const char8* path) { m_homePath = path; }
 			virtual void SetEngineBundlePath(const char8* path) { m_bundlePath = path; }

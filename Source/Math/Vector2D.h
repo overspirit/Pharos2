@@ -89,6 +89,12 @@ namespace Pharos
 				return x*other.x + y*other.y;
 			}
 
+			//! 计算和另一个向量的叉积,返回模长
+			float32 CrossProduct(const Vector2D& other) const
+			{
+				return x*other.y - other.x*y;
+			}
+
 			//计算两个点之间的距离
 			float32 GetDistanceFrom(const Vector2D& other) const
 			{

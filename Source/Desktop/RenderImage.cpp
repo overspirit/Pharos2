@@ -48,14 +48,15 @@ void RenderImage::RenderRect(const Rect2Di& imageRect, const Rect2Di& drawRect, 
     Vector2Df leftTop = sRenderMgr->GetPosFromWindowPos(drawRect.left, drawRect.top);
     Vector2Df rightBottom = sRenderMgr->GetPosFromWindowPos(drawRect.right, drawRect.bottom);
 
+    float drawWidth = (float32)drawRect.GetWidth();
+    float drawHeight = (float32)drawRect.GetHeight();
+
 	DrawUniform uniform;
 	uniform.round = round;
-	uniform.scale = (float32)drawRect.GetWidth() / drawRect.GetHeight();
+	uniform.scale = drawWidth / drawHeight;
 	m_drawUniform->CopyData(&uniform, sizeof(DrawUniform));
 
-	m_resSet->UpdateSet();
-
-    float32 texLeft = 0;
+	float32 texLeft = 0;
     float32 texTop = 0;
     float32 texRight = 1.0f;
     float32 texBottom = 1.0f;
@@ -69,6 +70,18 @@ void RenderImage::RenderRect(const Rect2Di& imageRect, const Rect2Di& drawRect, 
         texRight = (float32) imageRect.right / imageWidth;
         texBottom = (float32) imageRect.bottom / imageHeight;
     }
+    else {
+    	//现有RenderSprite对Color 和 Texture 进行了分类处理，以至于在同时有Color 和Texture的情况下，
+    	// Color 和 Texture 有互相遮蔽不了的问题(先画所有的Color,后画所有的Texture，Texture就覆盖了Color)，
+    	// 所以暂时都以ImageTex来渲染
+
+    	m_imageTex = sRenderer->CreateTexture(1, 1, EPF_RGBA8_UNORM);
+    	m_imageTex->CopyFromData(&m_color, sizeof(m_color));
+
+		m_resSet->SetFragmentTexture(0, m_imageTex);
+    }
+
+    m_resSet->UpdateSet();
 
 	//建立顶点数据
 	DecalColorVertex vt[] =
@@ -102,9 +115,7 @@ void RenderImage::RenderGrayRect(const Rect2Di& imageRect, const Rect2Di& drawRe
     uniform.scale = (rightBottom.x - leftTop.x) / (rightBottom.y - leftTop.y);
 	m_drawUniform->CopyData(&uniform, sizeof(DrawUniform));
 
-	m_resSet->UpdateSet();
-
-    float32 texLeft = 0;
+	float32 texLeft = 0;
     float32 texTop = 0;
     float32 texRight = 1.0f;
     float32 texBottom = 1.0f;
@@ -118,6 +129,18 @@ void RenderImage::RenderGrayRect(const Rect2Di& imageRect, const Rect2Di& drawRe
         texRight = (float32) imageRect.right / imageWidth;
         texBottom = (float32) imageRect.bottom / imageHeight;
     }
+    else {
+        //现有RenderSprite对Color 和 Texture 进行了分类处理，以至于在同时有Color 和Texture的情况下，
+        // Color 和 Texture 有互相遮蔽不了的问题(先画所有的Color,后画所有的Texture，Texture就覆盖了Color)，
+        // 所以暂时都以ImageTex来渲染
+
+        m_imageTex = sRenderer->CreateTexture(1, 1, EPF_RGBA8_UNORM);
+        m_imageTex->CopyFromData(&m_color, sizeof(m_color));
+
+        m_resSet->SetFragmentTexture(0, m_imageTex);
+    }
+
+    m_resSet->UpdateSet();
 
 	//建立顶点数据
 	DecalColorVertex vt[] =

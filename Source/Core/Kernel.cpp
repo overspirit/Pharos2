@@ -6,6 +6,8 @@ Kernel::Kernel()
 	m_hWnd = nullptr;
 	
 	m_pApp = nullptr;
+
+    m_runFlag = -1;
 }
 
 Kernel::~Kernel()
@@ -35,7 +37,14 @@ bool Kernel::StartUp()
 
 	if (!m_pApp->Init()) return false;
 
+    m_runFlag = 0;
+
 	return true;
+}
+
+void Kernel::ShutingDown()
+{
+    m_runFlag = -1;
 }
 
 void Kernel::Destroy()
@@ -78,7 +87,7 @@ void Kernel::onWindowChangeSize(int32 width, int32 height)
     if (m_pApp != nullptr) m_pApp->onWindowChangeSize(width, height);
 }
 
-void Kernel::Run(float32 fElapsed)
+int32 Kernel::Run(float32 fElapsed)
 {
     if (m_pApp != nullptr) m_pApp->Update(fElapsed);
 
@@ -89,4 +98,6 @@ void Kernel::Run(float32 fElapsed)
     sSceneMgr->Render(fElapsed);
     sDesktopMgr->Render(fElapsed);
     sRenderMgr->Render(fElapsed);
+
+    return m_runFlag;
 }
