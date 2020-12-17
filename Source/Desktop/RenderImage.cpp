@@ -13,9 +13,9 @@ RenderImage::RenderImage(void)
 
 RenderImage::~RenderImage(void)
 {
-//	SAFE_DELETE(m_imageTex);
-//	SAFE_DELETE(m_imageTech);
-//	SAFE_DELETE(m_grayImageTech);
+	SAFE_DELETE(m_imageTex);
+	SAFE_DELETE(m_drawUniform);
+	SAFE_DELETE(m_resSet);
 }
 
 bool RenderImage::Init()
@@ -52,8 +52,6 @@ void RenderImage::RenderRect(const Rect2Di& imageRect, const Rect2Di& drawRect, 
 	uniform.round = round;
 	uniform.scale = (float32)drawRect.GetWidth() / drawRect.GetHeight();
 	m_drawUniform->CopyData(&uniform, sizeof(DrawUniform));
-
-	m_resSet->UpdateSet();
 
     float32 texLeft = 0;
     float32 texTop = 0;
@@ -101,8 +99,6 @@ void RenderImage::RenderGrayRect(const Rect2Di& imageRect, const Rect2Di& drawRe
 	uniform.round = round;
     uniform.scale = (rightBottom.x - leftTop.x) / (rightBottom.y - leftTop.y);
 	m_drawUniform->CopyData(&uniform, sizeof(DrawUniform));
-
-	m_resSet->UpdateSet();
 
     float32 texLeft = 0;
     float32 texTop = 0;

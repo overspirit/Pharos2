@@ -18,7 +18,7 @@ bool WorldFrame::Init()
 	m_renderFont = sDesktopMgr->GenerateRenderFont("Font/simhei.ttf");
     if(m_renderFont == nullptr) return false;
 	
-	m_renderFont->SetFontCharSize(48, 48);
+	m_renderFont->SetFontCharSize(28, 28);
 
 	return true;
 }
@@ -56,12 +56,12 @@ void WorldFrame::Render(float32 fElapsed)
 
 	uint32 fps = sRenderMgr->GetFramesPerSecond();
 	sprintf(buf, "FPS:%d", fps);
-	m_renderFont->RenderText(buf, -1, 100, 58);
+	m_renderFont->RenderText(buf, -1, 16, 8);
 	
 	const char8* adapterName = sRenderer->GetAdapterName();
 	uint32 memorySize = sRenderer->GetAdapterMemorySize();
 	sprintf(buf, "%s %dMB ", adapterName, memorySize);
-	m_renderFont->RenderText(buf, -1, 100, 102);
+	m_renderFont->RenderText(buf, -1, 16, 32);
 
 	for (auto obj : m_childList)
 	{
