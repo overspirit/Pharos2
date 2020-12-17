@@ -15,8 +15,6 @@ namespace Pharos
 
             virtual bool SetVertexTexture(uint32 slot, RenderTexture* tex) = 0;
             virtual bool SetFragmentTexture(uint32 slot, RenderTexture* tex) = 0;
-
-            virtual void UpdateSet() = 0;
         };
     }
 }

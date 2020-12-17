@@ -11,6 +11,12 @@ namespace Pharos
 			INDICES_BUFFER = 2,
 			BUFFER_TYPE_NUM,
 		};
+		
+		enum IndexElementType
+		{
+			IET_UINT32,
+			IET_UINT16,
+		};
 
 		class RenderBuffer
 		{

@@ -20,6 +20,9 @@ VulkanInitializeHelper::VulkanInitializeHelper(void)
 
 	m_queue = VK_NULL_HANDLE;
 	m_queueFamilyIndex = -1;
+	
+	m_debugMsger = VK_NULL_HANDLE;
+	m_callback = VK_NULL_HANDLE;
 }
 
 VulkanInitializeHelper::~VulkanInitializeHelper(void)
@@ -178,9 +181,9 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
     createInfo.pfnCallback = vkDebugReportCallbackEXT;
     createInfo.pUserData = nullptr;
 
-	VkDebugReportCallbackEXT callback;
+	
 	auto func = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(inst, "vkCreateDebugReportCallbackEXT");
-	res = func(inst, &createInfo, nullptr, &callback);
+	res = func(inst, &createInfo, nullptr, &m_callback);
 	if (res != VK_SUCCESS)
 	{
 		return VK_NULL_HANDLE;
@@ -188,7 +191,24 @@ VkInstance VulkanInitializeHelper::CreateInstance(const char* sourface_extension
 
 #endif
 
+
 	return inst;
+}
+
+void VulkanInitializeHelper::Destroy()
+{
+#if defined(_LINUX_PLATFORM_)
+
+	auto func = (PFN_vkDestroyDebugReportCallbackEXT)vkGetInstanceProcAddr(m_inst, "vkDestroyDebugReportCallbackEXT");
+	func(m_inst, m_callback, nullptr);	
+	
+#endif
+
+	vkDestroyDevice(m_device, NULL);
+	
+	vkDestroySurfaceKHR(m_inst, m_surface, NULL);
+
+	vkDestroyInstance(m_inst, NULL);
 }
 
 VkPhysicalDevice VulkanInitializeHelper::EnumPhysicalDevice(VkInstance inst)
@@ -444,7 +464,3 @@ uint32 VulkanInitializeHelper::GetMemoryTypeIndex(uint32 typeBits, VkFlags requi
 	return 0xFFFFFFFF;
 }
 
-void VulkanInitializeHelper::Destroy()
-{
-	vkDestroyInstance(m_inst, NULL);
-}

@@ -33,6 +33,7 @@ namespace Pharos
 
 			File						m_logFile;
 			VkDebugUtilsMessengerEXT	m_debugMsger;
+			VkDebugReportCallbackEXT	m_callback;
 
 		private:
 			VkInstance CreateInstance(const char* sourface_extension);

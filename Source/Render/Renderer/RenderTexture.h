@@ -23,7 +23,7 @@ namespace Pharos
 			uint32			m_eleSize;
 
 		public:
-			virtual void SetSampleState(RenderSamplerState* state) = 0;
+			virtual void SetSampleState(const SamplerStateDesc& state) = 0;
 
 			virtual bool CopyFromData(const void* pImageData, uint32 nDataSize) = 0;
 			virtual bool CopyRectFromData(const void* pData, uint32 nDataSize, const Rect2Di& rt) = 0;
@@ -33,6 +33,8 @@ namespace Pharos
 			virtual uint32 GetWidth() const { return m_width; }
 			virtual uint32 GetHeight() const { return m_height; }
 			virtual EPixelFormat GetFormat() const { return m_fmt; }
+
+			virtual bool Save(const char8* path) = 0;
 		};
 	}
 }

@@ -6,67 +6,21 @@ VulkanRenderPipeline::VulkanRenderPipeline(VkDevice device)
 	m_device = device;
 
 	m_pipeline = VK_NULL_HANDLE;
+	m_pipelineLayout = VK_NULL_HANDLE;
 
-	m_rasterState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-    m_rasterState.pNext = NULL;
-    m_rasterState.flags = 0;
-    m_rasterState.polygonMode = VK_POLYGON_MODE_FILL;
-    m_rasterState.cullMode = VK_CULL_MODE_BACK_BIT;//VK_CULL_MODE_FRONT_BIT;
-    m_rasterState.frontFace = VK_FRONT_FACE_CLOCKWISE; //VK_FRONT_FACE_COUNTER_CLOCKWISE
-    m_rasterState.depthClampEnable = VK_FALSE;
-    m_rasterState.rasterizerDiscardEnable = VK_FALSE;
-    m_rasterState.depthBiasEnable = VK_FALSE;
-    m_rasterState.depthBiasConstantFactor = 0;
-    m_rasterState.depthBiasClamp = 0;
-    m_rasterState.depthBiasSlopeFactor = 0;
-    m_rasterState.lineWidth = 1.0f;
+	m_shaderStages = NULL;
 
-	m_attachmentState[0].colorWriteMask = 0xf;
-    m_attachmentState[0].blendEnable = VK_FALSE;
-    m_attachmentState[0].alphaBlendOp = VK_BLEND_OP_ADD;
-    m_attachmentState[0].colorBlendOp = VK_BLEND_OP_ADD;
-    m_attachmentState[0].srcColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-    m_attachmentState[0].dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-    m_attachmentState[0].srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-    m_attachmentState[0].dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-
-    m_blendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-    m_blendState.flags = 0;
-    m_blendState.pNext = NULL;
-    m_blendState.attachmentCount = 1;
-    m_blendState.pAttachments = m_attachmentState;
-    m_blendState.logicOpEnable = VK_FALSE;
-    m_blendState.logicOp = VK_LOGIC_OP_NO_OP;
-    m_blendState.blendConstants[0] = 1.0f;
-    m_blendState.blendConstants[1] = 1.0f;
-    m_blendState.blendConstants[2] = 1.0f;
-    m_blendState.blendConstants[3] = 1.0f;
-
-	m_depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-    m_depthStencilState.pNext = NULL;
-    m_depthStencilState.flags = 0;
-    m_depthStencilState.depthTestEnable = VK_TRUE;
-    m_depthStencilState.depthWriteEnable = VK_TRUE;
-    m_depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
-    m_depthStencilState.depthBoundsTestEnable = VK_FALSE;
-    m_depthStencilState.stencilTestEnable = VK_FALSE;
-    m_depthStencilState.back.failOp = VK_STENCIL_OP_KEEP;
-    m_depthStencilState.back.passOp = VK_STENCIL_OP_KEEP;
-    m_depthStencilState.back.compareOp = VK_COMPARE_OP_ALWAYS;
-    m_depthStencilState.back.compareMask = 0;
-    m_depthStencilState.back.reference = 0;
-    m_depthStencilState.back.depthFailOp = VK_STENCIL_OP_KEEP;
-    m_depthStencilState.back.writeMask = 0;
-    m_depthStencilState.minDepthBounds = 0;
-    m_depthStencilState.maxDepthBounds = 0;
-    m_depthStencilState.stencilTestEnable = VK_FALSE;
-    m_depthStencilState.front = m_depthStencilState.back;
+	m_rasterState = GetVulkanRasterizationState(RasterizerStateDesc());
+    m_blendState = GetVulkanBlendState(BlendStateDesc(), m_attachmentState);
+	m_depthStencilState = GetVulkanDepthStencilState(DepthStencilStateDesc());
 
 	m_drawType = EDT_TRIANGLELIST;
 }
 
 VulkanRenderPipeline::~VulkanRenderPipeline()
-{
+{	
+	vkDestroyPipeline(m_device, m_pipeline, NULL);
+	vkDestroyPipelineLayout(m_device, m_pipelineLayout, NULL);
 }
 
 bool VulkanRenderPipeline::SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum)
@@ -117,68 +71,46 @@ bool VulkanRenderPipeline::SetProgramShader(RenderProgram* program)
 	return true;
 }
 
-void VulkanRenderPipeline::SetBlendState(RenderBlendState* state)
+void VulkanRenderPipeline::SetBlendState(const BlendStateDesc& state)
 {
-	//BlendStateDesc	blendDesc;
-	//blendState.CreateState(blendDesc);
+	m_blendState = GetVulkanBlendState(state, m_attachmentState);
+}
 
-	VulkanBlendState* blendState = static_cast<VulkanBlendState*>(state);
+void VulkanRenderPipeline::SetRasterizerState(const RasterizerStateDesc& state)
+{
+	m_rasterState = GetVulkanRasterizationState(state);
+}
 
-	m_blendState = blendState->GetStateCreateInfo();
-	VkPipelineColorBlendAttachmentState* attachState = blendState->GetAttachmentState();
+void VulkanRenderPipeline::SetDepthStencilState(const DepthStencilStateDesc& state)
+{
+	m_depthStencilState = GetVulkanDepthStencilState(state);	
+}
 
-	for(uint32 i = 0; i < m_blendState.attachmentCount; i++)
+VkPipelineLayout VulkanRenderPipeline::MakeVulkanPipelineLayout(VkDescriptorSetLayout descSetLayout)
+{
+	if (m_pipelineLayout == VK_NULL_HANDLE)
 	{
-		m_attachmentState[i] = attachState[i];
+		VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
+		pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		pPipelineLayoutCreateInfo.pNext = NULL;
+		pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+		pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
+		pPipelineLayoutCreateInfo.setLayoutCount = descSetLayout != NULL ? 1 : 0;
+		pPipelineLayoutCreateInfo.pSetLayouts = descSetLayout != NULL ? &descSetLayout : NULL;
+
+		VkResult res = vkCreatePipelineLayout(m_device, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
+		assert(res == VK_SUCCESS);
 	}
 
-	m_blendState.pAttachments = m_attachmentState;	
+	return m_pipelineLayout; 
 }
 
-void VulkanRenderPipeline::SetRasterizerState(RenderRasterizerState* state)
-{
-	//RasterizerStateDesc rasterdesc;
-	//rasterState.CreateState(rasterdesc);
-
-	VulkanRasterizerState* rasterState = static_cast<VulkanRasterizerState*>(state);
-	
-	m_rasterState = rasterState->GetStateCreateInfo();
-}
-
-void VulkanRenderPipeline::SetDepthStencilState(RenderDepthStencilState* state)
-{
-	//DepthStencilStateDesc	depthStencilDesc;
-	//depthStencilState.CreateState(depthStencilDesc);
-
-    VulkanDepthStencilState* depthStencilState = static_cast<VulkanDepthStencilState*>(state);
-
-	m_depthStencilState = depthStencilState->GetStateCreateInfo();
-}
-
-
-VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSetLayout, VkRenderPass renderPass)
-{
-	if (renderPass == VK_NULL_HANDLE)
-	{
-		return VK_NULL_HANDLE;
-	}
-	
-	if (m_pipeline != VK_NULL_HANDLE) //todo: 信息发生变化要重新建立 
+VkPipeline VulkanRenderPipeline::MakeVulkanPipeline(VkRenderPass renderPass)
+{	
+	if (m_pipeline != VK_NULL_HANDLE)
 	{
 		return m_pipeline;	
 	}
-
-    VkPipelineLayoutCreateInfo pPipelineLayoutCreateInfo = {};
-    pPipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pPipelineLayoutCreateInfo.pNext = NULL;
-    pPipelineLayoutCreateInfo.pushConstantRangeCount = 0;
-    pPipelineLayoutCreateInfo.pPushConstantRanges = NULL;
-    pPipelineLayoutCreateInfo.setLayoutCount = descSetLayout != NULL ? 1 : 0;
-    pPipelineLayoutCreateInfo.pSetLayouts = descSetLayout != NULL ? &descSetLayout : NULL;
-
-    VkResult res = vkCreatePipelineLayout(m_device, &pPipelineLayoutCreateInfo, NULL, &m_pipelineLayout);
-    assert(res == VK_SUCCESS);
-
 
     VkDynamicState dynamicStateEnables[2];
     dynamicStateEnables[0] = VK_DYNAMIC_STATE_VIEWPORT;
@@ -200,7 +132,6 @@ VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSet
     vp.pScissors = NULL;
     vp.pViewports = NULL;
 
-
     VkPipelineMultisampleStateCreateInfo ms;
     ms.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     ms.pNext = NULL;
@@ -211,8 +142,6 @@ VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSet
     ms.alphaToCoverageEnable = VK_FALSE;
     ms.alphaToOneEnable = VK_FALSE;
     ms.minSampleShading = 0.0;
-
-
 
     CHECK_ENUM(0, EDT_POINTLIST);
     CHECK_ENUM(1, EDT_LINELIST);
@@ -258,7 +187,7 @@ VkPipeline VulkanRenderPipeline::GetVulkanPipeline(VkDescriptorSetLayout descSet
     pipeline.renderPass = renderPass;
     pipeline.subpass = 0;
 
-    res = vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipeline, NULL, &m_pipeline);
+    VkResult res = vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipeline, NULL, &m_pipeline);
     assert(res == VK_SUCCESS);
 
 	return m_pipeline;

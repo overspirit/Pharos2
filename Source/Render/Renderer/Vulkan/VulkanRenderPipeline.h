@@ -33,18 +33,18 @@ namespace Pharos
 			VkFormat GetVulkanFormat(VertElementType elementType, uint32 elementNum);
 			uint32 GetVertElementSize(VertElementType elementType, uint32 elementNum);	
 
-		public:
-			VkPipeline GetVulkanPipeline(VkDescriptorSetLayout descSetLayout, VkRenderPass renderPass);
-			VkPipelineLayout GetVulkanPipelineLayout() { return m_pipelineLayout; }
+		public:			
+			VkPipelineLayout MakeVulkanPipelineLayout(VkDescriptorSetLayout descSetLayout);
+			VkPipeline MakeVulkanPipeline(VkRenderPass renderPass);
 
 		public:
 			virtual bool SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum);
 
 			virtual bool SetProgramShader(RenderProgram* program);			
 
-			virtual void SetBlendState(RenderBlendState* state);
-			virtual void SetRasterizerState(RenderRasterizerState* state);
-			virtual void SetDepthStencilState(RenderDepthStencilState* state);
+			virtual void SetBlendState(const BlendStateDesc& state);
+			virtual void SetRasterizerState(const RasterizerStateDesc& state);
+			virtual void SetDepthStencilState(const DepthStencilStateDesc& state);
 
 			virtual void SetDrawType(DrawType drawType) { m_drawType = drawType; }		
 		};

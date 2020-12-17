@@ -8,12 +8,13 @@ namespace Pharos
 		{
 		public:
 			RenderVariable(uint32 slot, RenderResourceSet* resSet)
-			{				
-				m_slot = slot;
-				m_resSet = resSet;
-
+			{		
 				m_dataBuf = nullptr;
 				m_dataOffset = 0;
+
+				m_slot = slot;
+				m_tex = nullptr;
+				m_resSet = resSet;	
 			}
 
 			RenderVariable(MemoryBuffer* membuf, uint32 offset)
@@ -22,11 +23,13 @@ namespace Pharos
 				m_dataOffset = offset;
 				
 				m_slot = 0;
+				m_tex = nullptr;
 				m_resSet = nullptr;
 			}
 
 			virtual ~RenderVariable()
 			{
+				SAFE_DELETE(m_tex);
 			}
 
 		private:
@@ -34,6 +37,7 @@ namespace Pharos
 			uint32				m_dataOffset;
 
 			uint32					m_slot;
+			RenderTexture*			m_tex;
 			RenderResourceSet*		m_resSet;
 
 		public:
@@ -54,6 +58,7 @@ namespace Pharos
 
 			void SetValue(RenderTexture* tex)
 			{
+				m_tex = tex;
 				m_resSet->SetFragmentTexture(m_slot, tex);
 			}
 		};

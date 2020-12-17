@@ -7,7 +7,7 @@ namespace Pharos
 	namespace Render
 	{
 		//VkFormat转换成EPixelFormat
-		inline EPixelFormat MetalFormat2PixelFormat(VkFormat fmt)
+		inline EPixelFormat VkFormat2PixelFormat(VkFormat fmt)
 		{
 			switch (fmt)
 			{
@@ -69,7 +69,7 @@ namespace Pharos
 		}
 
 		//EPixelFormat转换成VkFormat
-		inline VkFormat PixelFormat2MetalFormat(EPixelFormat pf)
+		inline VkFormat PixelFormat2VkFormat(EPixelFormat pf)
 		{
 			CHECK_ENUM(0, EPF_RGBA32_FLOAT);
 			CHECK_ENUM(1, EPF_RGBA32_UINT);
@@ -243,5 +243,98 @@ namespace Pharos
 
 			return 0;
 		}
-	}
+		
+		inline VkPipelineColorBlendStateCreateInfo GetVulkanBlendState(const BlendStateDesc& desc, VkPipelineColorBlendAttachmentState* attachState)
+        {
+			const static VkBlendFactor BLEND_FUNC_MAP[] = {
+				VK_BLEND_FACTOR_ZERO,
+				VK_BLEND_FACTOR_ONE,
+				VK_BLEND_FACTOR_SRC_COLOR,
+				VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR,
+				VK_BLEND_FACTOR_SRC_ALPHA,
+				VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+				VK_BLEND_FACTOR_DST_COLOR,
+				VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR,
+				VK_BLEND_FACTOR_DST_ALPHA,
+				VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA};
+				
+			const static VkBlendOp BLEND_OP_MAP[] = {
+				VK_BLEND_OP_ADD,
+				VK_BLEND_OP_SUBTRACT,
+				VK_BLEND_OP_REVERSE_SUBTRACT,
+				VK_BLEND_OP_MIN,
+				VK_BLEND_OP_MAX};
+					
+			attachState[0].colorWriteMask = 0xf;
+			attachState[0].blendEnable = desc.blendEnable ? VK_TRUE : VK_FALSE;
+            attachState[0].alphaBlendOp = BLEND_OP_MAP[desc.blendOpAlpha];
+            attachState[0].colorBlendOp = BLEND_OP_MAP[desc.blendOp];
+            attachState[0].srcColorBlendFactor = BLEND_FUNC_MAP[desc.srcBlend];
+            attachState[0].dstColorBlendFactor = BLEND_FUNC_MAP[desc.destBlend];
+            attachState[0].srcAlphaBlendFactor = BLEND_FUNC_MAP[desc.srcBlendAlpha];
+            attachState[0].dstAlphaBlendFactor = BLEND_FUNC_MAP[desc.destBlendAlpha];
+			
+			VkPipelineColorBlendStateCreateInfo blendState;
+			blendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+			blendState.flags = 0;
+			blendState.pNext = NULL;
+			blendState.attachmentCount = 1;
+			blendState.pAttachments = attachState;
+			blendState.logicOpEnable = VK_FALSE;
+			blendState.logicOp = VK_LOGIC_OP_NO_OP;
+			blendState.blendConstants[0] = 1.0f;
+			blendState.blendConstants[1] = 1.0f;
+			blendState.blendConstants[2] = 1.0f;
+			blendState.blendConstants[3] = 1.0f;
+
+			return blendState;			
+		}
+
+		inline VkPipelineDepthStencilStateCreateInfo GetVulkanDepthStencilState(const DepthStencilStateDesc& desc)
+		{
+			VkPipelineDepthStencilStateCreateInfo	depthStencilState;    
+			depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+			depthStencilState.pNext = NULL;
+			depthStencilState.flags = 0;
+			depthStencilState.depthTestEnable = VK_TRUE;
+			depthStencilState.depthWriteEnable = VK_TRUE;
+			depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+			depthStencilState.depthBoundsTestEnable = VK_FALSE;
+			depthStencilState.stencilTestEnable = VK_FALSE;
+			depthStencilState.back.failOp = VK_STENCIL_OP_KEEP;
+			depthStencilState.back.passOp = VK_STENCIL_OP_KEEP;
+			depthStencilState.back.compareOp = VK_COMPARE_OP_ALWAYS;
+			depthStencilState.back.compareMask = 0;
+			depthStencilState.back.reference = 0;
+			depthStencilState.back.depthFailOp = VK_STENCIL_OP_KEEP;
+			depthStencilState.back.writeMask = 0;
+			depthStencilState.minDepthBounds = 0;
+			depthStencilState.maxDepthBounds = 0;
+			depthStencilState.stencilTestEnable = VK_FALSE;
+			depthStencilState.front = depthStencilState.back;
+
+			return depthStencilState;
+		}
+
+		inline VkPipelineRasterizationStateCreateInfo GetVulkanRasterizationState(const RasterizerStateDesc& desc)
+		{
+			VkPipelineRasterizationStateCreateInfo rasterState;			
+			rasterState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+			rasterState.pNext = NULL;
+			rasterState.flags = 0;
+			rasterState.polygonMode = VK_POLYGON_MODE_FILL;
+			rasterState.cullMode = VK_CULL_MODE_BACK_BIT;
+			rasterState.frontFace = VK_FRONT_FACE_CLOCKWISE;
+			rasterState.depthClampEnable = VK_FALSE;
+			rasterState.rasterizerDiscardEnable = VK_FALSE;
+			rasterState.depthBiasEnable = VK_FALSE;
+			rasterState.depthBiasConstantFactor = 0;
+			rasterState.depthBiasClamp = 0;
+			rasterState.depthBiasSlopeFactor = 0;
+			rasterState.lineWidth = 1.0f;
+
+			return rasterState;
+
+		}
+    }
 }

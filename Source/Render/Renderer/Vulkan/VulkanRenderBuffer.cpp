@@ -6,11 +6,18 @@ VulkanRenderBuffer::VulkanRenderBuffer(BufferType type, VkDevice device)
     m_type = type;
     m_device = device;
 
-    //m_mapPtr = nullptr;
+    m_bufferInfo.buffer = VK_NULL_HANDLE;
+    m_bufferInfo.offset = 0;
+    m_bufferInfo.range = 0;
+    
+    m_memory = VK_NULL_HANDLE;
+    m_reqSize = 0;
 }
 
 VulkanRenderBuffer::~VulkanRenderBuffer()
 {
+    vkDestroyBuffer(m_device, m_bufferInfo.buffer, NULL);
+    vkFreeMemory(m_device, m_memory, NULL);
 }
 
 bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
@@ -38,11 +45,6 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
     vkGetBufferMemoryRequirements(m_device, buffer, &mem_reqs);
     VkFlags requirementsMask = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
 
-    // if (m_type == UNIFORM_BUFFFER)
-    // {
-    //     requirementsMask = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-    // }
-
     VkMemoryAllocateInfo alloc_info = {};
     alloc_info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     alloc_info.pNext = NULL;
@@ -51,8 +53,6 @@ bool VulkanRenderBuffer::Allocate(uint32 bufSize, MemoryBuffer* buf)
 
     res = vkAllocateMemory(m_device, &alloc_info, NULL, &m_memory);
     assert(res == VK_SUCCESS);
-
-
 
     if (buf != nullptr)
     {

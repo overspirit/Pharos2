@@ -7,43 +7,38 @@ namespace Pharos
 		class VulkanRenderTarget : public RenderTarget
 		{
 		public:
-			VulkanRenderTarget(VkDevice device);
+			VulkanRenderTarget(VkDevice device, int32 width, int32 height);
 			virtual ~VulkanRenderTarget(void);
 
 		protected:
 			VkDevice			m_device;
 			
 			VkRenderPass		m_renderPass;
+			VkFramebuffer		m_frameBuffer;	
 			VkClearValue		m_clearValues[2];
 
-		protected:
-			VkRenderPass CreateRenderPass(VkDevice device, VkFormat colorFormat, VkFormat depthStencilFormat = VK_FORMAT_MAX_ENUM);
-			VkImageView CreateSurfaceImageViews(VkDevice device, VkFormat format, VkImage image, VkImageAspectFlags flag);
+			vector<VkAttachmentDescription>		m_attachments;
+			vector<VkAttachmentReference>		m_colorReferenceList;
+			VkAttachmentReference				m_depthReference;
+
+			vector<VulkanRenderTexture*>		m_colorAttachmentList;
+			VulkanRenderTexture*				m_depthAttachment;
+
+			vector<VkImageView>			m_imageViewList;
 
 		public:
 			VkRenderPass GetCurrRenderPass() { return m_renderPass; }
 
-			virtual VkRenderPassBeginInfo GetRenderPassBeginInfo();
+			virtual VkRenderPassBeginInfo MakeRenderPassBeginInfo();
 
 		public:
-			virtual bool Init(int32 width, int32 height);
+			virtual void SetClear(Color4 color, float32 depth = 1.0f, uint32 stencil = 0);
 
-			virtual void SetClear(Color4 color = 0xFF000000, float32 depth = 1.0f, uint32 stencil = 0);
-
-			virtual RenderTexture* GenerateColorAttach(uint32 slot, EPixelFormat fmt);
 			virtual void SetColorAttach(uint32 slot, RenderTexture* tex);
-			virtual RenderTexture* GenerateDepthAttach(EPixelFormat fmt);
-			virtual void SetDepthAttach(RenderTexture* tex);
-			virtual RenderTexture* GenerateStencilAttach(EPixelFormat fmt);
-			virtual void SetStencilAttach(RenderTexture* tex);
-			
 			virtual RenderTexture* GetColorAttachTexture(uint32 slot);
-			virtual RenderTexture* GetDepthAttachTexture();
-			virtual RenderTexture* GetStencilAttachTexture();
-			
-			virtual EPixelFormat GetColorAttachFormat(uint32 slot);
-			virtual EPixelFormat GetDepthAttachFormat();
-			virtual EPixelFormat GetStencilAttachFormat();
+
+			virtual void SetDepthStencilAttach(RenderTexture* tex);
+			virtual RenderTexture* GetDepthStencilAttachTexture();			
 		};
 	}
 }

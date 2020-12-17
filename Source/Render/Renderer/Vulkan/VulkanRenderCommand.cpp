@@ -1,31 +1,16 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-VulkanRenderCommand::VulkanRenderCommand(VkDevice device, VkCommandBuffer cmdBuf, VulkanRenderTarget* renderTarget)
+VulkanRenderCommand::VulkanRenderCommand(VkDevice device, VkCommandBuffer cmdBuf)
 {
     m_device = device;
     m_cmdBuf = cmdBuf;
-    m_renderTarget = renderTarget;
-
-    // m_pipelineLayout = VK_NULL_HANDLE;
-
-    // m_descPool = VK_NULL_HANDLE;
-
-    // m_viewport.width = (float)m_renderTarget->GetWidth();
-    // m_viewport.height = (float)m_renderTarget->GetHeight();
-    // m_viewport.minDepth = (float)0.0f;
-    // m_viewport.maxDepth = (float)1.0f;
-    // m_viewport.x = 0;
-    // m_viewport.y = 0;
-
-    // m_scissor.extent.width =  (float)m_renderTarget->GetWidth();
-    // m_scissor.extent.height = (float)m_renderTarget->GetHeight();
-    // m_scissor.offset.x = 0;
-    // m_scissor.offset.y = 0;
+    m_renderTarget = NULL;
 }
 
 VulkanRenderCommand::~VulkanRenderCommand()
 {
+    
 }
 
 void VulkanRenderCommand::BeginCommand()
@@ -38,10 +23,28 @@ void VulkanRenderCommand::BeginCommand()
 
     VkResult res = vkBeginCommandBuffer(m_cmdBuf, &cmd_buf_info);
     assert(res == VK_SUCCESS);
-    
-    VkRenderPassBeginInfo beginPassInfo = m_renderTarget->GetRenderPassBeginInfo();
+}
+
+void VulkanRenderCommand::EndCommand()
+{    
+    VkResult res = vkEndCommandBuffer(m_cmdBuf);
+    assert(res == VK_SUCCESS);
+}
+
+void VulkanRenderCommand::BeginRenderTarget(RenderTarget* target)
+{
+    assert(target != NULL);
+
+	m_renderTarget = static_cast<VulkanRenderTarget*>(target);
+            
+    VkRenderPassBeginInfo beginPassInfo = m_renderTarget->MakeRenderPassBeginInfo();
 
     vkCmdBeginRenderPass(m_cmdBuf, &beginPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+}
+
+void VulkanRenderCommand::EndRenderTarget()
+{
+    vkCmdEndRenderPass(m_cmdBuf);
 }
 
 void VulkanRenderCommand::SetDebugLabel(const char8* label)
@@ -81,32 +84,29 @@ void VulkanRenderCommand::SetIndexBuffer(RenderBuffer* indexBuffer, IndexElement
     vkCmdBindIndexBuffer(m_cmdBuf, bufferInfo.buffer, 0, type[indexType]);    
 }
 
-void VulkanRenderCommand::SetPipeline(RenderResourceSet* resSet, RenderPipeline* pipeline)
-{
-    VulkanRenderPipeline* vulkanPipeline = static_cast<VulkanRenderPipeline*>(pipeline);
-        
+void VulkanRenderCommand::SetRenderStaging(RenderResourceSet* resSet, RenderPipeline* pipeline)
+{        
     VkRenderPass renderPass = m_renderTarget->GetCurrRenderPass();
 
     VkDescriptorSetLayout descLayout = NULL;
     VkDescriptorSet descSet = NULL;
-
     if (resSet != NULL)
     {
         VulkanDesciptorSet* vulkanDescSet = static_cast<VulkanDesciptorSet*>(resSet);
-        descLayout = vulkanDescSet->GetVulkanDescriptorSetLayout();
-        descSet = vulkanDescSet->GetVulkanDescriptorSet();
+        descLayout = vulkanDescSet->MakeVulkanDescriptorSetLayout();
+        descSet = vulkanDescSet->MakeVulkanDescriptorSet();
     }
+    
+    VulkanRenderPipeline* pipelineObj = static_cast<VulkanRenderPipeline*>(pipeline);
+    VkPipelineLayout vulkanPipelineLayout = pipelineObj->MakeVulkanPipelineLayout(descLayout);
+    VkPipeline vulkanPipeline = pipelineObj->MakeVulkanPipeline(renderPass);
+    if (vulkanPipeline == VK_NULL_HANDLE) return;
 
-    VkPipeline pl = vulkanPipeline->GetVulkanPipeline(descLayout, renderPass);
-    VkPipelineLayout pipelineLayout = vulkanPipeline->GetVulkanPipelineLayout();
-
-    if (pl == VK_NULL_HANDLE) return;
-
-    vkCmdBindPipeline(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, pl);    
+    vkCmdBindPipeline(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, vulkanPipeline);    
     
     if (descSet != NULL)
     {
-        vkCmdBindDescriptorSets(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descSet, 0, NULL);
+        vkCmdBindDescriptorSets(m_cmdBuf, VK_PIPELINE_BIND_POINT_GRAPHICS, vulkanPipelineLayout, 0, 1, &descSet, 0, NULL);
     }
 }
 
@@ -140,11 +140,4 @@ void VulkanRenderCommand::DrawPrimitives(uint32 start, uint32 count)
 void VulkanRenderCommand::DrawIndexedPrimitives(uint32 start, uint32 count)
 {    
     vkCmdDrawIndexed(m_cmdBuf, count, 1, start, 0, 0);
-}
-
-void VulkanRenderCommand::EndCommand()
-{
-    vkCmdEndRenderPass(m_cmdBuf);
-    VkResult res = vkEndCommandBuffer(m_cmdBuf);
-    assert(res == VK_SUCCESS);
 }
