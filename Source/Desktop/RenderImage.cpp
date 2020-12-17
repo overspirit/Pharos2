@@ -75,13 +75,11 @@ void RenderImage::RenderRect(const Rect2Di& imageRect, const Rect2Di& drawRect, 
     	// Color 和 Texture 有互相遮蔽不了的问题(先画所有的Color,后画所有的Texture，Texture就覆盖了Color)，
     	// 所以暂时都以ImageTex来渲染
 
-    	m_imageTex = sRenderer->CreateTexture(1, 1, EPF_RGBA8_UNORM);
+    	m_imageTex = sRenderer->CreateTexture2D(1, 1, EPF_RGBA8_UNORM);
     	m_imageTex->CopyFromData(&m_color, sizeof(m_color));
 
 		m_resSet->SetFragmentTexture(0, m_imageTex);
     }
-
-    m_resSet->UpdateSet();
 
 	//建立顶点数据
 	DecalColorVertex vt[] =
@@ -134,13 +132,11 @@ void RenderImage::RenderGrayRect(const Rect2Di& imageRect, const Rect2Di& drawRe
         // Color 和 Texture 有互相遮蔽不了的问题(先画所有的Color,后画所有的Texture，Texture就覆盖了Color)，
         // 所以暂时都以ImageTex来渲染
 
-        m_imageTex = sRenderer->CreateTexture(1, 1, EPF_RGBA8_UNORM);
+        m_imageTex = sRenderer->CreateTexture2D(1, 1, EPF_RGBA8_UNORM);
         m_imageTex->CopyFromData(&m_color, sizeof(m_color));
 
         m_resSet->SetFragmentTexture(0, m_imageTex);
     }
-
-    m_resSet->UpdateSet();
 
 	//建立顶点数据
 	DecalColorVertex vt[] =
