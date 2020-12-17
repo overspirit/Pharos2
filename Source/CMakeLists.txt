@@ -42,13 +42,9 @@ endif()
 
 set(RENDER_FILES
         Render/Renderer/Vulkan/VulkanInitializeHelper.cpp
-        Render/Renderer/Vulkan/VulkanBlendState.cpp        
-        Render/Renderer/Vulkan/VulkanDepthStencilState.cpp        
-        Render/Renderer/Vulkan/VulkanRasterizerState.cpp
         Render/Renderer/Vulkan/VulkanRenderCommand.cpp        
         Render/Renderer/Vulkan/VulkanRenderBuffer.cpp
         Render/Renderer/Vulkan/VulkanRenderPipeline.cpp
-        Render/Renderer/Vulkan/VulkanSamplerState.cpp
         Render/Renderer/Vulkan/VulkanRenderTarget.cpp
         Render/Renderer/Vulkan/VulkanDefaultTarget.cpp
         Render/Renderer/Vulkan/VulkanRenderTexture.cpp

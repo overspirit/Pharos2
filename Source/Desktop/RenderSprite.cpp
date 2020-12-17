@@ -5,12 +5,17 @@
 
 RenderSprite::RenderSprite(void)
 {
-//	m_renderTech = nullptr;
+	m_drawColorObj = NULL;
+	
+	m_drawTextureObj = NULL;
+	m_drawFontObj = NULL;
+	
+	m_vertCount = 0;
 }
 
 RenderSprite::~RenderSprite(void)
 {
-//	SAFE_DELETE(m_renderTech);
+
 }
 
 bool RenderSprite::Init()
@@ -41,7 +46,6 @@ bool RenderSprite::Init()
 	blendDesc.srcBlendAlpha = BLEND_SRC_ALPHA;
 	blendDesc.destBlendAlpha = BLEND_INV_SRC_ALPHA;
 	blendDesc.blendOpAlpha = BLEND_OP_ADD;
-	m_blendState = sRenderer->CreateBlendState(blendDesc);
 
 	//sprite color
 	/////////////////////////////////////////////////////////////////////
@@ -53,7 +57,7 @@ bool RenderSprite::Init()
     m_spriteColorPipeline = sRenderer->GenerateRenderPipeline();
     m_spriteColorPipeline->SetInputLayoutDesc(desc, 3);
     m_spriteColorPipeline->SetProgramShader(m_spriteColorShader);
-    m_spriteColorPipeline->SetBlendState(m_blendState);
+    m_spriteColorPipeline->SetBlendState(blendDesc);
 	/////////////////////////////////////////////////////////////////////
 
     //sprite texture
@@ -66,7 +70,7 @@ bool RenderSprite::Init()
     m_spriteTexturePipeline = sRenderer->GenerateRenderPipeline();
     m_spriteTexturePipeline->SetInputLayoutDesc(desc, 3);
     m_spriteTexturePipeline->SetProgramShader(m_spriteTextureShader);
-    m_spriteTexturePipeline->SetBlendState(m_blendState);
+    m_spriteTexturePipeline->SetBlendState(blendDesc);
     /////////////////////////////////////////////////////////////////////
 
 
@@ -81,7 +85,7 @@ bool RenderSprite::Init()
 	m_distanceFontPipeline = sRenderer->GenerateRenderPipeline();
 	m_distanceFontPipeline->SetInputLayoutDesc(desc, 3);
 	m_distanceFontPipeline->SetProgramShader(m_distanceFontShader);
-	m_distanceFontPipeline->SetBlendState(m_blendState);
+	m_distanceFontPipeline->SetBlendState(blendDesc);
 	/////////////////////////////////////////////////////////////////////
 
 	return true;
@@ -89,7 +93,20 @@ bool RenderSprite::Init()
 
 void RenderSprite::Destroy()
 {
+	SAFE_DELETE(m_drawColorObj);
+	SAFE_DELETE(m_drawTextureObj);
+	SAFE_DELETE(m_drawFontObj);
+	
+	SAFE_DELETE(m_vertBuf);
 
+	SAFE_DELETE(m_spriteColorShader);
+	SAFE_DELETE(m_spriteColorPipeline);
+
+	SAFE_DELETE(m_spriteTextureShader);
+	SAFE_DELETE(m_spriteTexturePipeline);
+	
+	SAFE_DELETE(m_distanceFontShader);	
+	SAFE_DELETE(m_distanceFontPipeline);
 }
 
 void RenderSprite::DrawColor2D(const DecalColorVertex* vertData, uint32 vertNum, RenderResourceSet* resSet)

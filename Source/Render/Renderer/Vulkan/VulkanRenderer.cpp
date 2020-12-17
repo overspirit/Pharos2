@@ -3,6 +3,17 @@
 
 VulkanRenderer::VulkanRenderer(void)
 {
+	m_device = VK_NULL_HANDLE;
+	
+	m_cmdPool = VK_NULL_HANDLE;
+	m_cmdBuf = VK_NULL_HANDLE;
+	m_descPool = VK_NULL_HANDLE;
+	
+	m_queue = VK_NULL_HANDLE;
+	
+	m_swapchain = VK_NULL_HANDLE;
+
+	m_defaultTarget = NULL;
 }
 
 VulkanRenderer::~VulkanRenderer(void)
@@ -25,7 +36,7 @@ bool VulkanRenderer::Init()
 	m_queue = sInitHelper->GetVulkanQueue();
 
 	uint32	queueFamilyIndex = sInitHelper->GetQueueFamilyIndex();
-	VkSwapchainKHR swapchain = sInitHelper->GetSwapchain();
+	m_swapchain = sInitHelper->GetSwapchain();
 	int32 surfaceWidth = sInitHelper->GetWindowSurfaceWidth();
 	int32 surfaceHeight = sInitHelper->GetWindowSurfaceHeight();
 	VkFormat surfaceColorFormat = sInitHelper->GetWindowSurfaceColorFormat();
@@ -40,17 +51,23 @@ bool VulkanRenderer::Init()
 	m_descPool = CreateDescriptorPool(m_device);
 	if (m_descPool == VK_NULL_HANDLE) return false;
 
-	m_semaphore = CreateSemaphore(m_device);
-	if(m_semaphore == VK_NULL_HANDLE) return false;
-
-	m_defaultTarget = new VulkanDefaultTarget(m_device, m_semaphore);
-	m_defaultTarget->CreateDefaultTarget(swapchain, surfaceWidth, surfaceHeight, surfaceColorFormat, surfaceDepthFormat);
+	m_defaultTarget = new VulkanDefaultTarget(m_device, surfaceWidth, surfaceHeight, m_swapchain);
+	m_defaultTarget->InitDefaultTarget(surfaceColorFormat, surfaceDepthFormat);
 
 	return true;
 }
 
 void VulkanRenderer::Destroy()
 {
+	vkDestroySwapchainKHR(m_device, m_swapchain, NULL);
+
+	vkDestroyDescriptorPool(m_device, m_descPool, NULL);
+
+	vkFreeCommandBuffers(m_device, m_cmdPool, 1, &m_cmdBuf);
+	vkDestroyCommandPool(m_device, m_cmdPool, NULL);
+
+	SAFE_DELETE(m_defaultTarget);
+
 	sInitHelper->Destroy();
 }
 
@@ -74,6 +91,7 @@ bool VulkanRenderer::Create(const DeviceConfig& cfg)
 void VulkanRenderer::Commit()
 {
     VkFence drawFence = m_defaultTarget->GetCurrentFence();
+	VkSemaphore semaphore = m_defaultTarget->GetSemaphore();
 
 	const VkCommandBuffer cmd_bufs[] = {m_cmdBuf};
     VkPipelineStageFlags pipe_stage_flags = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
@@ -82,12 +100,14 @@ void VulkanRenderer::Commit()
     submit_info[0].pNext = NULL;
     submit_info[0].sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
     submit_info[0].waitSemaphoreCount = 1;
-    submit_info[0].pWaitSemaphores = &m_semaphore;
+    submit_info[0].pWaitSemaphores = &semaphore;
     submit_info[0].pWaitDstStageMask = &pipe_stage_flags;
     submit_info[0].commandBufferCount = 1;
     submit_info[0].pCommandBuffers = cmd_bufs;
     submit_info[0].signalSemaphoreCount = 0;
     submit_info[0].pSignalSemaphores = NULL;
+
+	vkResetFences(m_device, 1, &drawFence);
 
     VkResult res = vkQueueSubmit(m_queue, 1, submit_info, drawFence);
     assert(res == VK_SUCCESS);
@@ -99,51 +119,45 @@ void VulkanRenderer::Commit()
 	//vkDestroyFence(m_device, drawFence, NULL);
 }
 
-//
-//RenderProgram* VulkanRenderer::GenerateRenderProgram()
-//{
-//    return new VulkanShaderProgram();
-//}
-//
 RenderBuffer *VulkanRenderer::GenerateRenderBuffer(BufferType type)
 {
 	return new VulkanRenderBuffer(type, m_device);;
 }
 
-RenderTexture* VulkanRenderer::CreateTexture(int32 width, int32 height, EPixelFormat fmt)
+RenderTexture* VulkanRenderer::CreateTexture2D(int32 width, int32 height, EPixelFormat fmt)
 {
 	VulkanRenderTexture* texture = new VulkanRenderTexture(m_device, m_cmdPool, m_queue);
-	if (!texture->Create(width, height, fmt))
+	if (!texture->Create2D(width, height, fmt))
 	{
 		SAFE_DELETE(texture);
 		return nullptr;
 	}
 	return texture;
 }
-//
-//RenderTexture* VulkanRenderer::CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt)
-//{
-//    VulkanTexture* texture = new VulkanTexture();
-//    if (!texture->CreateTargetTexture(width, height, fmt))
-//    {
-//        SAFE_DELETE(texture);
-//        return nullptr;
-//    }
-//    
-//    return texture;
-//}
-//
-//RenderTexture* VulkanRenderer::CreateDepthTexture(int32 width, int32 height)
-//{
-//    VulkanTexture* texture = new VulkanTexture();
-//    if (!texture->CreateDepthTexture(width, height))
-//    {
-//        SAFE_DELETE(texture);
-//        return nullptr;
-//    }
-//    
-//    return texture;
-//}
+
+RenderTexture* VulkanRenderer::CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt)
+{
+    VulkanRenderTexture* texture = new VulkanRenderTexture(m_device, m_cmdPool, m_queue);
+
+    if (fmt == EPF_D32_FLOAT_S8_UINT || fmt == EPF_D32_FLOAT || fmt == EPF_D24_UNORM_S8_UINT || fmt == EPF_D16_UNORM)
+    {
+        if (!texture->CreateDepthAttachment(width, height, fmt))
+        {
+            SAFE_DELETE(texture);
+            return nullptr;
+        }
+    }
+    else
+    {
+        if (!texture->CreateColorAttatchment(width, height, fmt))
+        {
+            SAFE_DELETE(texture);
+            return nullptr;
+        }
+    }
+	
+    return texture;
+}
 
 RenderTexture* VulkanRenderer::LoadTexture(const char8* szPath)
 {
@@ -173,67 +187,13 @@ RenderProgram* VulkanRenderer::GenerateRenderProgram()
 }
 
 RenderTarget* VulkanRenderer::CreateRenderTarget(int32 width, int32 height)
-{
-	//    VulkanFrameBuffer* frameBuf = new VulkanFrameBuffer();
-	//    if (!frameBuf->InitFrameBuffer(width, height))
-	//    {
-	//        SAFE_DELETE(frameBuf);
-	//        return nullptr;
-	//    }
-	//
-	//    return frameBuf;
-
-	return nullptr;
+{	
+	return new VulkanRenderTarget(m_device, width, height);;
 }
 
-RenderSamplerState* VulkanRenderer::CreateSampleState(const SamplerStateDesc& desc)
+RenderCommand* VulkanRenderer::GenerateRenderCommand()
 {
-	VulkanSamplerState* state = new VulkanSamplerState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderBlendState* VulkanRenderer::CreateBlendState(const BlendStateDesc& desc)
-{
-	VulkanBlendState* state = new VulkanBlendState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderRasterizerState* VulkanRenderer::CreateRasterizerState(const RasterizerStateDesc& desc)
-{
-	VulkanRasterizerState* state = new VulkanRasterizerState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderDepthStencilState* VulkanRenderer::CreateDepthStencilState(const DepthStencilStateDesc& desc)
-{
-	VulkanDepthStencilState* state = new VulkanDepthStencilState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-
-	return state;
-}
-
-RenderCommand* VulkanRenderer::GenerateRenderCommand(RenderTarget* renderTarget)
-{
-	return new VulkanRenderCommand(m_device, m_cmdBuf, static_cast<VulkanRenderTarget*>(renderTarget));
+	return new VulkanRenderCommand(m_device, m_cmdBuf);
 }
 
 RenderPipeline* VulkanRenderer::GenerateRenderPipeline()
@@ -298,20 +258,6 @@ VkCommandBuffer VulkanRenderer::CreateCommandBuffer(VkDevice device, VkCommandPo
     if(res != VK_SUCCESS) return VK_NULL_HANDLE;
 
 	return cmdBuf;
-}
-
-VkSemaphore VulkanRenderer::CreateSemaphore(VkDevice device)
-{
-	VkSemaphoreCreateInfo semaphoreCreateInfo;
-    semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-    semaphoreCreateInfo.pNext = NULL;
-    semaphoreCreateInfo.flags = 0;	
-
-	VkSemaphore semaphore;
-    VkResult res = vkCreateSemaphore(device, &semaphoreCreateInfo, NULL, &semaphore);
-    if(res != VK_SUCCESS) return VK_NULL_HANDLE;
-
-	return semaphore;
 }
 
 VkFence VulkanRenderer::CreateDrawFence(VkDevice device)

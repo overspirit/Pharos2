@@ -15,7 +15,6 @@ namespace Pharos
 
 			Package*	m_libPackage;
 
-
 			VkShaderModule		m_vertShader;
 			VkShaderModule		m_fragShader;
 

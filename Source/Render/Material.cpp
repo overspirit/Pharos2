@@ -102,15 +102,20 @@ void Material::SetTextureParamValue(const char8* valueName, RenderTexture* textu
             m_colorTextureVar->SetValue(texture);
         }
     }
+    else
+    {
+        SAFE_DELETE(texture);
+    }
+    
 }
 
 void Material::SetShaderProgram(const char8* techName, RenderProgram* renderProgram)
 {
 	DepthStencilStateDesc desc;
-	m_depthState = sRenderer->CreateDepthStencilState(desc);
+    //desc.backStencilDepthFailOp = xxx;
 	
     m_renderPipeline = sRenderer->GenerateRenderPipeline();
-	m_renderPipeline->SetDepthStencilState(m_depthState);
+	m_renderPipeline->SetDepthStencilState(desc);
 	m_renderPipeline->SetProgramShader(renderProgram);
 	
     m_renderSet = sRenderer->GenerateRenderResuourceSet();
@@ -139,8 +144,6 @@ void Material::UpdateParamValue()
 			m_renderSet->SetVertexUniformBuffer(i, uniformSet.uniformBuf);
 		}
     }
-
-	m_renderSet->UpdateSet();
 }
 
 uint32 Material::AddUniformaVariable(const char8* name, uint32 size, uint32 slot)

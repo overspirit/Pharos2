@@ -17,8 +17,7 @@ namespace Pharos
         
 			VkDescriptorImageInfo		m_imageInfo;
 
-			uint32_t 						m_mipLevels;
-			vector<VkBufferImageCopy>		m_copyRegions;
+			uint32_t 					m_mipLevels;
 
 			VkImage						m_image;
 			VkImageView					m_imageView;
@@ -30,10 +29,11 @@ namespace Pharos
 
 			VkDeviceMemory				m_deviceMemory;			
 
-		private:
-			bool CreateVulkanStagingBuffer(uint32 imageSize);
+		private:		
+			bool CreateVulkanImage(VkImageAspectFlags aspect, VkImageUsageFlags usage); 
 			bool CreateVulkanSampler();
-			bool CreateVulkanImage(); 		
+			bool CreateVulkanStagingBuffer(uint32 imageSize);			
+			bool CreateVulkanDeviceMemory();		
 
 		public:
 			bool FlushVulkanImage();
@@ -41,7 +41,9 @@ namespace Pharos
 			VkDescriptorImageInfo& GetVulkanImageInfo() { return m_imageInfo; }
 			
 		public:
-			virtual bool Create(int32 width, int32 height, EPixelFormat fmt);
+			virtual bool Create2D(int32 width, int32 height, EPixelFormat fmt);
+			virtual bool CreateColorAttatchment(int32 width, int32 height, EPixelFormat fmt);
+			virtual bool CreateDepthAttachment(int32 width, int32 height, EPixelFormat fmt);
 			virtual bool LoadFromFile(const char8* szPath);
 			virtual bool LoadFromImage(const Image* pImage);	
 
@@ -51,11 +53,13 @@ namespace Pharos
 			virtual bool CopyFromTexture(RenderTexture* srcTex);
 			virtual bool CopyRectFromTexture(RenderTexture* srcTex, const Rect2Di& srcRect, const Rect2Di& destRect);
 
-			virtual void SetSampleState(RenderSamplerState* state);
+			virtual void SetSampleState(const SamplerStateDesc& state);
 
 			virtual uint32 GetWidth() const { return m_width; }
 			virtual uint32 GetHeight() const { return m_height; }
 			virtual EPixelFormat GetFormat() const { return m_fmt; }
+
+			virtual bool Save(const char8* path);
 		};
 	}
 }

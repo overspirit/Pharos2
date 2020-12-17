@@ -53,6 +53,8 @@ namespace Pharos
 		public:
 			virtual bool LoadEffectFile(const char8* szPath);
 
+			virtual void Destroy();
+
 			virtual Material* GenerateMaterial(const char8* tech);
 			
 			virtual uint32 GetMaterialNum() { return m_materialList.size(); }

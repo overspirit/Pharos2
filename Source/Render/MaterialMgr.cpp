@@ -134,6 +134,18 @@ bool MaterialMgr::LoadEffectFile(const char8* szPath)
 	return true;
 }
 
+void MaterialMgr::Destroy()
+{
+	for (auto iter : m_techList)
+	{
+		SAFE_DELETE(iter.second.renderProgram);
+	}
+
+	m_techList.clear();
+	
+	m_materialList.clear();
+}
+
 Material* MaterialMgr::GenerateMaterial(const char8* tech)
 {
 	if (m_techList.find(tech) == m_techList.end()) return nullptr;

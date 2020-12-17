@@ -26,17 +26,15 @@ namespace Pharos
 			VkDescriptorSet			m_descSet;
 
 		public:
-			VkDescriptorSet GetVulkanDescriptorSet() { return m_descSet; }
-			VkDescriptorSetLayout GetVulkanDescriptorSetLayout() { return m_descSetLayout; }
-
+			VkDescriptorSet MakeVulkanDescriptorSet();
+			VkDescriptorSetLayout MakeVulkanDescriptorSetLayout();
+			
 		public:
             virtual bool SetVertexUniformBuffer(uint32 slot, RenderBuffer* buffer);
             virtual bool SetFragmentUniformBuffer(uint32 slot, RenderBuffer* buffer);
 
             virtual bool SetVertexTexture(uint32 slot, RenderTexture* tex);
             virtual bool SetFragmentTexture(uint32 slot, RenderTexture* tex);
-
-			virtual void UpdateSet();
 		};
 	}
 }

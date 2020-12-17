@@ -61,9 +61,9 @@ namespace Pharos
             
             virtual bool SetProgramShader(RenderProgram* program) = 0;
 			
-            virtual void SetBlendState(RenderBlendState* state) = 0;
-            virtual void SetRasterizerState(RenderRasterizerState* state) = 0;
-			virtual void SetDepthStencilState(RenderDepthStencilState* state) = 0;
+            virtual void SetBlendState(const BlendStateDesc& state) = 0;
+            virtual void SetRasterizerState(const RasterizerStateDesc& state) = 0;
+			virtual void SetDepthStencilState(const DepthStencilStateDesc& state) = 0;
 
             virtual void SetDrawType(DrawType drawType) = 0;
         };

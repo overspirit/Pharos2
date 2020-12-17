@@ -31,11 +31,15 @@ void ResourceManager::Destroy()
 		ResBase* res = iter->second;
 		SAFE_DELETE(res);
 	}
+	
+	m_storageResList.clear();
 
 	for (uint32 i = 0; i < m_pendingResList.size(); i++)
 	{
 		SAFE_DELETE(m_pendingResList[i]);
 	}
+
+	m_pendingResList.clear();
 
 	FreeImage_DeInitialise();
 

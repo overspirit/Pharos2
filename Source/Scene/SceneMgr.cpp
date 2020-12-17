@@ -22,6 +22,8 @@ void SceneMgr::Destroy()
 		SceneNode* sceneNode = iter.second;
 		SAFE_DELETE(sceneNode);
 	}
+
+	m_sceneNodeList.clear();
 }
 
 OctreeScene* SceneMgr::CreateScene()

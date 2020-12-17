@@ -42,7 +42,8 @@ namespace Pharos
 			virtual bool onInputMessage(const tagInputMsg& msg);
 
 			virtual void AttachEventCallback(IControlViewer* viewer, EVENT_CALLBACK callback);
-
+			virtual void DettachAllEventCallback();
+			
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
 

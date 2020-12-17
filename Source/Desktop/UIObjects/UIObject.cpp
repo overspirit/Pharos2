@@ -83,6 +83,11 @@ void UIObject::AttachEventCallback(IControlViewer* viewer, EVENT_CALLBACK callba
 	m_callbackList.push_back(std::make_pair(viewer, callback));
 }
 
+void UIObject::DettachAllEventCallback()
+{
+	m_callbackList.clear();
+}
+
 const char8* UIObject::GetAttributeStringValue(XmlNode* node, const char8* name)
 {
 	XmlAttribute* attr = node->GetAttribute(name);

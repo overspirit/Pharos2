@@ -7,55 +7,43 @@ namespace Pharos
 		class VulkanDefaultTarget : public VulkanRenderTarget
 		{
 		public:
-			VulkanDefaultTarget(VkDevice device, VkSemaphore semaphore);
+			VulkanDefaultTarget(VkDevice device, int32 width, int32 height, VkSwapchainKHR swapchain);
 			virtual ~VulkanDefaultTarget(void);
 
-		private:
-			VkSemaphore			m_semaphore;
-			VkSwapchainKHR		m_swapchain;			
+		private:			
+			VkSwapchainKHR		m_swapchain;	
 
-			vector<VkImage>		m_swapchainImages;
-			vector<VkImageView>	m_swapchainImageViews;
-			vector<VkFence>		m_swapchainFence;
+			VkSemaphore			m_semaphore;		
+
+			vector<VkImage>			m_colorImages;
+			vector<VkImageView>		m_colorImageViews;
 
 			vector<VkFramebuffer>	m_frameBufList;			
 			uint32					m_currFrameIndex;
 
-			Color4f			m_clearColor;
-			float32			m_clearDepth;
-			float32 		m_clearStencil;
+			VkFence				m_swapchainFence;
 
 		private:
-			VkImage CreateDepthImage(int width, int height, VkFormat depth_format);
-			VkFence CreateDrawFence(VkDevice device);
+			bool CreateColorAttachment(VkFormat colorFormat);
+			void CreateRenderPass(VkFormat colorFormat, VkFormat depthStencilFormat);
 
 		public:
-			bool CreateDefaultTarget(VkSwapchainKHR swapchain, int32 width, int32 height, VkFormat colorFormat, VkFormat depthFormat);
+			bool InitDefaultTarget(VkFormat colorFormat, VkFormat depthFormat);
+
 			void PresentQueue(VkQueue queue);
-			VkFence GetCurrentFence() { return m_swapchainFence[0]; }
 
-			virtual VkRenderPassBeginInfo GetRenderPassBeginInfo();
+			VkFence GetCurrentFence() { return m_swapchainFence; }
+			VkSemaphore GetSemaphore() { return m_semaphore; }
 
+			virtual VkRenderPassBeginInfo MakeRenderPassBeginInfo();
 
 		public:
-			virtual bool Init(int32 width, int32 height);
-
-			virtual void SetClear(Color4 color = 0xFF000000, float32 depth = 1.0f, uint32 stencil = 0);
-
-			virtual RenderTexture* GenerateColorAttach(uint32 slot, EPixelFormat fmt);
-			virtual void SetColorAttach(uint32 slot, RenderTexture* tex);
-			virtual RenderTexture* GenerateDepthAttach(EPixelFormat fmt);
-			virtual void SetDepthAttach(RenderTexture* tex);
-			virtual RenderTexture* GenerateStencilAttach(EPixelFormat fmt);
-			virtual void SetStencilAttach(RenderTexture* tex);
-			
+			virtual void SetColorAttach(uint32 slot, RenderTexture* tex);		
 			virtual RenderTexture* GetColorAttachTexture(uint32 slot);
-			virtual RenderTexture* GetDepthAttachTexture();
-			virtual RenderTexture* GetStencilAttachTexture();
+
+			virtual void SetDepthStencilAttach(RenderTexture* tex);
+			virtual RenderTexture* GetDepthStencilAttachTexture();
 			
-			virtual EPixelFormat GetColorAttachFormat(uint32 slot);
-			virtual EPixelFormat GetDepthAttachFormat();
-			virtual EPixelFormat GetStencilAttachFormat();
 		};
 	}
 }

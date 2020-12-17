@@ -3,10 +3,7 @@
 #include "RenderDefine.h"
 #include "VertexDefine.h"
 
-#include "Renderer/RenderSamplerState.h"
-#include "Renderer/RenderBlendState.h"
-#include "Renderer/RenderDepthStencilState.h"
-#include "Renderer/RenderRasterizerState.h"
+#include "Renderer/RenderState.h"
 #include "Renderer/RenderTexture.h"
 #include "Renderer/RenderTarget.h"
 #include "Renderer/RenderBuffer.h"
@@ -15,7 +12,6 @@
 #include "Renderer/RenderPipeline.h"
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"
-
 
 //Windows
 //////////////////////////////////////////////////////////////////////////
@@ -98,10 +94,6 @@
 
 #include "Renderer/Vulkan/VulkanUtils.h"
 #include "Renderer/Vulkan/VulkanInitializeHelper.h"
-#include "Renderer/Vulkan/VulkanBlendState.h"
-#include "Renderer/Vulkan/VulkanDepthStencilState.h"
-#include "Renderer/Vulkan/VulkanRasterizerState.h"
-#include "Renderer/Vulkan/VulkanSamplerState.h"
 #include "Renderer/Vulkan/VulkanRenderTexture.h"
 #include "Renderer/Vulkan/VulkanRenderTarget.h"
 #include "Renderer/Vulkan/VulkanDefaultTarget.h"

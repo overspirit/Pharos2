@@ -22,10 +22,15 @@ VulkanShaderProgram::VulkanShaderProgram(VkDevice device)
 	m_shaderStages[1].module = VK_NULL_HANDLE;
 
 	m_libPackage = nullptr;
+	
+	m_vertShader = VK_NULL_HANDLE;
+	m_fragShader = VK_NULL_HANDLE;
 }
 
 VulkanShaderProgram::~VulkanShaderProgram()
 {
+	vkDestroyShaderModule(m_device, m_vertShader, NULL);
+	vkDestroyShaderModule(m_device, m_fragShader, NULL);
 }
 
 bool VulkanShaderProgram::SetLibraryWithPath(const char8* libPath)

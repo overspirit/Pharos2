@@ -198,7 +198,7 @@ bool VulkanDesciptorSet::SetFragmentTexture(uint32 slot, RenderTexture* tex)
     return true;
 }
 
-void VulkanDesciptorSet::UpdateSet()
+VkDescriptorSetLayout VulkanDesciptorSet::MakeVulkanDescriptorSetLayout()
 {
     if (m_descSetLayout == VK_NULL_HANDLE)
     {
@@ -213,6 +213,11 @@ void VulkanDesciptorSet::UpdateSet()
         assert(res == VK_SUCCESS); 
     }
 
+    return m_descSetLayout;
+}
+
+VkDescriptorSet VulkanDesciptorSet::MakeVulkanDescriptorSet()
+{
     if (m_descSet == VK_NULL_HANDLE)
     {
         VkDescriptorSetAllocateInfo alloc_info[1];
@@ -232,4 +237,6 @@ void VulkanDesciptorSet::UpdateSet()
         
         vkUpdateDescriptorSets(m_device, m_writeDescSets.size(), m_writeDescSets.data(), 0, NULL);
     }
+
+    return m_descSet;
 }

@@ -11,13 +11,11 @@ namespace Pharos
 			virtual ~VulkanRenderBuffer();
 
 		protected:
-			VkDevice			m_device;
-
+			VkDevice					m_device;
+					
 			VkDescriptorBufferInfo		m_bufferInfo;
 
 			VkDeviceMemory		m_memory;
-			//uint8*				m_mapPtr;
-
 			uint32				m_reqSize;
 
 		public:

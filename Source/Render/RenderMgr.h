@@ -21,16 +21,16 @@ namespace Pharos
 			Renderer*				m_renderer;
 
 			RenderTarget*			m_defaultTarget;
-			RenderCommand*			m_defaultCommand;
-			
-//			RenderTarget*			m_finalTarget;
-//			RenderCommand*			m_finalCommand;
-//			RenderTexture*			m_finalTexture;
-			
-			RenderBuffer*			m_quadVertBuf;
+			RenderCommand*			m_defaultCommand;			
 
-			map<string, RenderProgram*>		m_programList;
-			map<string, RenderPipeline*>	m_pipelineList;
+			RenderResourceSet*		m_finalResourceSet;
+			RenderProgram*			m_finalProgram;
+			RenderPipeline*			m_finalPipeline;
+			RenderTarget*			m_finalTarget;
+			RenderTexture*			m_finalColorTexture;
+			RenderTexture*			m_finalDepthTexture;
+
+			RenderBuffer*			m_quadVertBuf;
 
 			//使用blockCount主要是为了优化，防止blockList反复变换大小
 			vector<RenderObject*>		m_renderObjList;
@@ -55,8 +55,6 @@ namespace Pharos
 
 			virtual RenderObject* GenerateRenderObject();
 			
-			virtual void SetDefaultClearParam(Color4 color, float32 depth, uint32 stencil);
-
 			virtual void RegisterRenderCallback(IRenderCallback* callback);
 
 			virtual RenderBuffer* GetQuadVertBuffer() { return m_quadVertBuf; }
@@ -64,6 +62,8 @@ namespace Pharos
 
 			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
+
+			virtual void SaveRenderTarget(const char8* path);
 		};
 	}
 }

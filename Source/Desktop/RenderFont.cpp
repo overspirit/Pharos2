@@ -21,6 +21,10 @@ RenderFont::RenderFont(void)
 
 RenderFont::~RenderFont(void)
 {
+	SAFE_DELETE(m_resSet);
+	
+	SAFE_DELETE(m_fontBuffer);
+	
 //	SAFE_DELETE(m_fontTech);
 //	SAFE_DELETE(m_fontShadowTech);
 }
@@ -61,7 +65,6 @@ void RenderFont::RenderText(const char8* text, int32 textLen, int32 x, int32 y)
 	m_resSet->SetVertexUniformBuffer(1, m_fontBuffer);
 	m_resSet->SetFragmentUniformBuffer(2, m_fontBuffer);
 	m_resSet->SetFragmentTexture(0, m_fontTex);
-	m_resSet->UpdateSet();
 
 	// if (COLOR_A(m_charShadowColor) != 0x00 && m_charShadowOffset.width != 0 && m_charShadowOffset.height != 0)
 	// {

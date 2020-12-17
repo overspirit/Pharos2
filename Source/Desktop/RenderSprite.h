@@ -21,8 +21,6 @@ namespace Pharos
 			RenderObject*		m_drawTextureObj;
 			RenderObject*		m_drawFontObj;
 
-			RenderBlendState*	m_blendState;
-
 			RenderProgram*		m_spriteColorShader;
 			RenderPipeline*		m_spriteColorPipeline;
 

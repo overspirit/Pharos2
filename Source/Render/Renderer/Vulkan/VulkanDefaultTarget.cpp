@@ -1,153 +1,203 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-VulkanDefaultTarget::VulkanDefaultTarget(VkDevice device, VkSemaphore semaphore) : VulkanRenderTarget(device)
-{
-	m_semaphore = semaphore;
+VulkanDefaultTarget::VulkanDefaultTarget(VkDevice device, int32 width, int32 height, VkSwapchainKHR swapchain) 
+: VulkanRenderTarget(device, width, height)
+{	
+    m_swapchain = swapchain;
 
-    m_clearColor = Color4f(1.0f, 1.0f, 1.0f, 1.0f);
-    m_clearDepth = 1.0f;
-    m_clearStencil = 0;
+    m_semaphore = NULL;    
+    
+    m_currFrameIndex = 0;    
+
+    m_swapchainFence = VK_NULL_HANDLE;
 }
 
 VulkanDefaultTarget::~VulkanDefaultTarget(void)
 {
-}
+    SAFE_DELETE(m_depthAttachment);     // default target 要自己删除深度纹理，
 
-bool VulkanDefaultTarget::Init(int32 width, int32 height)
-{
-	return true;
-}
-
-bool VulkanDefaultTarget::CreateDefaultTarget(VkSwapchainKHR swapchain, int32 width, int32 height, VkFormat colorFormat, VkFormat depthFormat)
-{	
-	m_renderPass = CreateRenderPass(m_device, colorFormat, depthFormat);
-	if(m_renderPass == VK_NULL_HANDLE) return false;
-
-	uint32 swapchainImageCount = 0;
-	VkResult res = vkGetSwapchainImagesKHR(m_device, swapchain, &swapchainImageCount, NULL);
-    if(res != VK_SUCCESS) return false;
-
-	m_swapchainImages.resize(swapchainImageCount);
-    res = vkGetSwapchainImagesKHR(m_device, swapchain, &swapchainImageCount, m_swapchainImages.data());
-    if(res != VK_SUCCESS) return false;
-
-    VkImage depthImage = CreateDepthImage(width, height, depthFormat);
-    VkImageView depthImageView = CreateSurfaceImageViews(m_device, depthFormat, depthImage, VK_IMAGE_ASPECT_DEPTH_BIT);
-
-    for (VkImage image : m_swapchainImages)
+    for (VkImageView imageView : m_colorImageViews)
     {
-	    VkImageView colorImageView = CreateSurfaceImageViews(m_device, colorFormat, image, VK_IMAGE_ASPECT_COLOR_BIT);
-        if(colorImageView == VK_NULL_HANDLE) return false;        
-	
+        vkDestroyImageView(m_device, imageView, NULL);
+    }    
+
+    vkDestroySemaphore(m_device, m_semaphore, NULL);
+
+    for (VkFramebuffer frameBuf : m_frameBufList)
+    {
+        vkDestroyFramebuffer(m_device, frameBuf, NULL);
+    }
+    
+    vkDestroyFence(m_device, m_swapchainFence, NULL);
+}
+
+void VulkanDefaultTarget::CreateRenderPass(VkFormat colorFormat, VkFormat depthStencilFormat)
+{
+    VkAttachmentDescription colorAttachment;
+    colorAttachment.format = colorFormat;
+    colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+    colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+    colorAttachment.flags = 0;
+    m_attachments.push_back(colorAttachment);
+
+    VkAttachmentDescription depthStencilAttachment;
+    depthStencilAttachment.format = depthStencilFormat;
+    depthStencilAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+    depthStencilAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    depthStencilAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    depthStencilAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    depthStencilAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
+    depthStencilAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    depthStencilAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    depthStencilAttachment.flags = 0;
+    m_attachments.push_back(depthStencilAttachment);
+
+    VkAttachmentReference colorReference = {};
+    colorReference.attachment = 0;
+    colorReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    m_colorReferenceList.push_back(colorReference);
+
+    m_depthReference.attachment = 1;
+    m_depthReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+    VkSubpassDescription subpass = {};
+    subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subpass.flags = 0;
+    subpass.inputAttachmentCount = 0;
+    subpass.pInputAttachments = NULL;
+    subpass.colorAttachmentCount = m_colorReferenceList.size();
+    subpass.pColorAttachments = m_colorReferenceList.data();
+    subpass.pResolveAttachments = NULL;
+    subpass.pDepthStencilAttachment = &m_depthReference;
+    subpass.preserveAttachmentCount = 0;
+    subpass.pPreserveAttachments = NULL;
+
+    VkSubpassDependency subpassDependency = {};
+    subpassDependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+    subpassDependency.dstSubpass = 0;
+    subpassDependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    subpassDependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    subpassDependency.srcAccessMask = 0;
+    subpassDependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    subpassDependency.dependencyFlags = 0;
+
+    VkRenderPassCreateInfo renderPassCreateInfo = {};
+    renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    renderPassCreateInfo.pNext = NULL;
+    renderPassCreateInfo.attachmentCount = m_attachments.size();
+    renderPassCreateInfo.pAttachments = m_attachments.data();
+    renderPassCreateInfo.subpassCount = 1;
+    renderPassCreateInfo.pSubpasses = &subpass;
+    renderPassCreateInfo.dependencyCount = 1;
+    renderPassCreateInfo.pDependencies = &subpassDependency;
+
+    VkResult res = vkCreateRenderPass(m_device, &renderPassCreateInfo, NULL, &m_renderPass);
+    assert (res == VK_SUCCESS);
+}
+
+bool VulkanDefaultTarget::CreateColorAttachment(VkFormat colorFormat)
+{
+    uint32 swapchainImageCount = 0;
+    VkResult res = vkGetSwapchainImagesKHR(m_device, m_swapchain, &swapchainImageCount, NULL);
+    if (res != VK_SUCCESS)
+        return false;
+
+    m_colorImages.resize(swapchainImageCount);
+    res = vkGetSwapchainImagesKHR(m_device, m_swapchain, &swapchainImageCount, m_colorImages.data());
+    if (res != VK_SUCCESS)
+        return false;
+
+    for (VkImage image : m_colorImages)
+    {
+        VkImageViewCreateInfo imageViewCreateInfo = {};
+        imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        imageViewCreateInfo.pNext = NULL;
+        imageViewCreateInfo.format = colorFormat;
+        imageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_R;
+        imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_G;
+        imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_B;
+        imageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_A;
+        imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+        imageViewCreateInfo.subresourceRange.levelCount = 1;
+        imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+        imageViewCreateInfo.subresourceRange.layerCount = 1;
+        imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        imageViewCreateInfo.flags = 0;
+        imageViewCreateInfo.image = image;
+
+        VkImageView imageView;
+        VkResult res = vkCreateImageView(m_device, &imageViewCreateInfo, NULL, &imageView);
+        assert(res == VK_SUCCESS);
+
+        m_colorImageViews.push_back(imageView);
+    }
+
+    return true;
+}
+
+bool VulkanDefaultTarget::InitDefaultTarget(VkFormat colorFormat, VkFormat depthFormat)
+{
+    CreateColorAttachment(colorFormat);    
+
+    m_depthAttachment = (VulkanRenderTexture*)sRenderer->CreateTargetTexture(m_width, m_height, VkFormat2PixelFormat(depthFormat));
+    VkImageView depthImageView = m_depthAttachment->GetVulkanImageInfo().imageView;
+
+    CreateRenderPass(colorFormat, depthFormat);
+
+    for (VkImageView colorImageView : m_colorImageViews)
+    {
         VkImageView attachments[2];
         attachments[0] = colorImageView;
         attachments[1] = depthImageView;
 
-        VkFramebufferCreateInfo fb_info = {};
-        fb_info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        fb_info.pNext = NULL;
-        fb_info.renderPass = m_renderPass;
-        fb_info.attachmentCount = 2;
-        fb_info.pAttachments = attachments;
-        fb_info.width = width;
-        fb_info.height = height;
-        fb_info.layers = 1;
+        VkFramebufferCreateInfo frameBufferCreateInfo = {};
+        frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+        frameBufferCreateInfo.pNext = NULL;
+        frameBufferCreateInfo.renderPass = m_renderPass;
+        frameBufferCreateInfo.attachmentCount = 2;
+        frameBufferCreateInfo.pAttachments = attachments;
+        frameBufferCreateInfo.width = m_width;
+        frameBufferCreateInfo.height = m_height;
+        frameBufferCreateInfo.layers = 1;
 
         VkFramebuffer frameBuffer;
-        res = vkCreateFramebuffer(m_device, &fb_info, NULL, &frameBuffer);
+        VkResult res = vkCreateFramebuffer(m_device, &frameBufferCreateInfo, NULL, &frameBuffer);
         if(res != VK_SUCCESS) return false;
 
-        m_swapchainImageViews.push_back(colorImageView);
         m_frameBufList.push_back(frameBuffer);
-
-        VkFence fence = CreateDrawFence(m_device);
-        m_swapchainFence.push_back(fence);
     }
 
-    m_swapchainImages.push_back(depthImage);
-    m_swapchainImageViews.push_back(depthImageView);
-
-    m_swapchain = swapchain;
-	m_width = width;
-	m_height = height; 
-
-	return true;
-}
-
-VkImage VulkanDefaultTarget::CreateDepthImage(int width, int height, VkFormat depth_format)
-{
-    const static VkSampleCountFlagBits NUM_SAMPLES = VK_SAMPLE_COUNT_1_BIT;
-
-    VkImageCreateInfo image_info = {};
-    image_info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-    image_info.pNext = NULL;
-    image_info.imageType = VK_IMAGE_TYPE_2D;
-    image_info.format = depth_format;
-    image_info.extent.width = width;
-    image_info.extent.height = height;
-    image_info.extent.depth = 1;
-    image_info.mipLevels = 1;
-    image_info.arrayLayers = 1;
-    image_info.samples = NUM_SAMPLES;
-    image_info.tiling = sInitHelper->GetDepthImageTiling(depth_format);
-    image_info.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-    image_info.queueFamilyIndexCount = 0;
-    image_info.pQueueFamilyIndices = NULL;
-    image_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    image_info.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-    image_info.flags = 0;    
-
-    VkImage depthImage;
-    VkResult res = vkCreateImage(m_device, &image_info, NULL, &depthImage);
-    if(res != VK_SUCCESS) return VK_NULL_HANDLE;    
-
-    VkMemoryRequirements mem_reqs;
-    vkGetImageMemoryRequirements(m_device, depthImage, &mem_reqs);
-
-    VkMemoryAllocateInfo mem_alloc = {};
-    mem_alloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    mem_alloc.pNext = NULL;
-    mem_alloc.allocationSize = 0;
-    mem_alloc.memoryTypeIndex = 0;
-    mem_alloc.allocationSize = mem_reqs.size;
-    mem_alloc.memoryTypeIndex = sInitHelper->GetMemoryTypeIndex(mem_reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT); 
-
-    VkDeviceMemory imageMemory;
-    res = vkAllocateMemory(m_device, &mem_alloc, NULL, &imageMemory);
-    if(res != VK_SUCCESS) return VK_NULL_HANDLE;
-
-    res = vkBindImageMemory(m_device, depthImage, imageMemory, 0);
-    if(res != VK_SUCCESS) return VK_NULL_HANDLE;
-
-    return depthImage;
-}
-
-VkFence VulkanDefaultTarget::CreateDrawFence(VkDevice device)
-{
     VkFenceCreateInfo fenceInfo;
     fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
     fenceInfo.pNext = NULL;
     fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-    VkFence fence;
-    VkResult res = vkCreateFence(device, &fenceInfo, NULL, &fence);
-    if(res != VK_SUCCESS) return VK_NULL_HANDLE;
+    VkResult res = vkCreateFence(m_device, &fenceInfo, NULL, &m_swapchainFence);
+    if(res != VK_SUCCESS) return false;
 
-    return fence;
+
+	VkSemaphoreCreateInfo semaphoreCreateInfo;
+    semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+    semaphoreCreateInfo.pNext = NULL;
+    semaphoreCreateInfo.flags = 0;	
+
+    res = vkCreateSemaphore(m_device, &semaphoreCreateInfo, NULL, &m_semaphore);
+    if(res != VK_SUCCESS) return false;
+
+	return true;
 }
 
-VkRenderPassBeginInfo VulkanDefaultTarget::GetRenderPassBeginInfo()
+VkRenderPassBeginInfo VulkanDefaultTarget::MakeRenderPassBeginInfo()
 {
     VkResult res = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_semaphore, VK_NULL_HANDLE, &m_currFrameIndex);
     assert(res == VK_SUCCESS);
-
-    m_clearValues[0].color.float32[0] = m_clearColor.r;
-    m_clearValues[0].color.float32[1] = m_clearColor.g;
-    m_clearValues[0].color.float32[2] = m_clearColor.b;
-    m_clearValues[0].color.float32[3] = m_clearColor.a;
-    m_clearValues[1].depthStencil.depth = m_clearDepth;
-    m_clearValues[1].depthStencil.stencil = m_clearStencil;
 
     VkRenderPassBeginInfo rp_begin;
     rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -176,7 +226,7 @@ void VulkanDefaultTarget::PresentQueue(VkQueue queue)
     presentInfo.waitSemaphoreCount = 0;
     presentInfo.pResults = NULL;
 
-    VkFence waitFence = m_swapchainFence[0];
+    VkFence waitFence = m_swapchainFence;
 
     VkResult res = VK_NOT_READY;
     do
@@ -191,66 +241,20 @@ void VulkanDefaultTarget::PresentQueue(VkQueue queue)
     assert((res == VK_SUCCESS) || (res == VK_SUBOPTIMAL_KHR)); //VK_SUBOPTIMAL_KHR 可能是横纵向反了。。
 }
 
-void VulkanDefaultTarget::SetClear(Color4 color, float32 depth, uint32 stencil)
+void VulkanDefaultTarget::SetColorAttach(uint32 slot, RenderTexture* tex)
 {
-    m_clearColor = Color4f(color);
-    m_clearDepth = depth;
-    m_clearStencil = stencil;
 }
 
-RenderTexture *VulkanDefaultTarget::GenerateColorAttach(uint32 slot, EPixelFormat fmt)
+RenderTexture* VulkanDefaultTarget::GetColorAttachTexture(uint32 slot)
 {
 	return nullptr;
 }
 
-void VulkanDefaultTarget::SetColorAttach(uint32 slot, RenderTexture *tex)
+void VulkanDefaultTarget::SetDepthStencilAttach(RenderTexture* tex)
 {
 }
 
-RenderTexture *VulkanDefaultTarget::GenerateDepthAttach(EPixelFormat fmt)
+RenderTexture* VulkanDefaultTarget::GetDepthStencilAttachTexture()
 {
 	return nullptr;
-}
-
-void VulkanDefaultTarget::SetDepthAttach(RenderTexture *tex)
-{
-}
-
-RenderTexture *VulkanDefaultTarget::GenerateStencilAttach(EPixelFormat fmt)
-{
-	return nullptr;
-}
-
-void VulkanDefaultTarget::SetStencilAttach(RenderTexture *tex)
-{
-}
-
-RenderTexture *VulkanDefaultTarget::GetColorAttachTexture(uint32 slot)
-{
-	return nullptr;
-}
-
-RenderTexture *VulkanDefaultTarget::GetDepthAttachTexture()
-{
-	return nullptr;
-}
-
-RenderTexture *VulkanDefaultTarget::GetStencilAttachTexture()
-{
-	return nullptr;
-}
-
-EPixelFormat VulkanDefaultTarget::GetColorAttachFormat(uint32 slot)
-{
-	return EPF_END;
-}
-
-EPixelFormat VulkanDefaultTarget::GetDepthAttachFormat()
-{
-	return EPF_END;
-}
-
-EPixelFormat VulkanDefaultTarget::GetStencilAttachFormat()
-{
-	return EPF_END;
 }

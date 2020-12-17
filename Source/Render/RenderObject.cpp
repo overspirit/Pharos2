@@ -59,7 +59,7 @@ void RenderObject::Draw()
     {
         renderBlock.pipeline->SetDrawType(renderBlock.drawType);
 
-        m_renderCmd->SetPipeline(renderBlock.resSet, renderBlock.pipeline);
+        m_renderCmd->SetRenderStaging(renderBlock.resSet, renderBlock.pipeline);
 
         m_renderCmd->SetVertexBuffer(renderBlock.vertBuf);	    
 

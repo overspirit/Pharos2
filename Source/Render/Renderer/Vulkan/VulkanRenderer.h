@@ -18,8 +18,9 @@ namespace Pharos
 			VkDescriptorPool	m_descPool;
 
 			VkQueue				m_queue;
-			VkSemaphore			m_semaphore;
-
+			
+			VkSwapchainKHR		m_swapchain;
+			
 			VulkanDefaultTarget*		m_defaultTarget;
 
 		private:			
@@ -41,20 +42,15 @@ namespace Pharos
 			virtual uint32 GetAdapterMemorySize() const;
             
 			virtual RenderBuffer* GenerateRenderBuffer(BufferType type);
-			virtual RenderTexture* CreateTexture(int32 width, int32 height, EPixelFormat fmt);
+			virtual RenderTexture* CreateTexture2D(int32 width, int32 height, EPixelFormat fmt);
+			virtual RenderTexture* CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt);
 			virtual RenderTexture* LoadTexture(const char8* szPath);
-			virtual RenderTexture* LoadTexture(const Image* image);
-            
+			virtual RenderTexture* LoadTexture(const Image* image);            
             virtual RenderProgram* GenerateRenderProgram();
 			virtual RenderTarget* CreateRenderTarget(int32 width, int32 height);
-			virtual RenderSamplerState* CreateSampleState(const SamplerStateDesc& desc);
-			virtual RenderBlendState* CreateBlendState(const BlendStateDesc& desc);
-			virtual RenderRasterizerState* CreateRasterizerState(const RasterizerStateDesc& desc);
-			virtual RenderDepthStencilState* CreateDepthStencilState(const DepthStencilStateDesc& desc);
             virtual RenderPipeline* GenerateRenderPipeline();
-			virtual RenderResourceSet* GenerateRenderResuourceSet();
-            
-            virtual RenderCommand* GenerateRenderCommand(RenderTarget* renderTarget);
+			virtual RenderResourceSet* GenerateRenderResuourceSet();            
+            virtual RenderCommand* GenerateRenderCommand();
 		};
 	}
 }
