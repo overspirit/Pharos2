@@ -133,6 +133,38 @@ function compileFont() {
     echo "compile Font success!!!"
 }
 
+function compileCopy() {
+    output_lib=$1/Copy.lib
+    echo "compiling Copy lib..."
+    echo "output lib: ${output_lib}"
+
+    echo "compile CopyVS..."
+    glslangValidator ${COMPILE_DIR}/Copy.vert -V -o ${COMPILE_DIR}/CopyVS.spv
+    if [ $? -eq 0 ];then
+        echo "compile success!!!"
+    else 
+        echo "compile fail!!!"
+        return 1
+    fi
+
+    echo "compile CopyPS..."
+    glslangValidator ${COMPILE_DIR}/Copy.frag -V -o ${COMPILE_DIR}/CopyPS.spv
+    if [ $? -eq 0 ];then
+        echo "compile success!!!"
+    else 
+        echo "compile fail!!!"
+        return 1
+    fi
+
+    zip -j ${output_lib} \
+        ${COMPILE_DIR}/CopyVS.spv \
+        ${COMPILE_DIR}/CopyPS.spv
+
+    rm ${COMPILE_DIR}/*.spv
+
+    echo "compile Copy success!!!"
+}
+
 function main() {
     output_dir=$1
 
@@ -144,7 +176,9 @@ function main() {
     compileSkeletal ${output_dir}
     compileSprite2D ${output_dir}
     compileFont ${output_dir}
+    compileCopy ${output_dir}
 }
 
 # main entry
 main $@
+
