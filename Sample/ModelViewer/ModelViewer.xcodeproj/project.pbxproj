@@ -162,7 +162,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"copy data folder to output app...\"\nmkdir ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Shader/* ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Font ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Interface ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\n";
+			shellScript = "echo \"copy data folder to output app...\"\nmkdir ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Shader ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Font ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Interface ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Model ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
