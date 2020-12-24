@@ -18,6 +18,9 @@ namespace Pharos
 				Color4f charColor;
 				Color4f outlineColor;
 				float outlineScale;
+                float dummy1;
+                float dummy2;
+                float dummy3;
 			};
 
 		private:

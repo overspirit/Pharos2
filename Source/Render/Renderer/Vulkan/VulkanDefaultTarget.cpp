@@ -196,10 +196,19 @@ bool VulkanDefaultTarget::InitDefaultTarget(VkFormat colorFormat, VkFormat depth
 
 VkRenderPassBeginInfo VulkanDefaultTarget::MakeRenderPassBeginInfo()
 {
-    VkResult res = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_semaphore, VK_NULL_HANDLE, &m_currFrameIndex);
-    assert(res == VK_SUCCESS);
+    VkRenderPassBeginInfo rp_begin = {};
+    rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 
-    VkRenderPassBeginInfo rp_begin;
+    VkResult res = vkAcquireNextImageKHR(m_device, m_swapchain, UINT64_MAX, m_semaphore, VK_NULL_HANDLE, &m_currFrameIndex);
+    if (res == VK_ERROR_SURFACE_LOST_KHR)
+    {
+        //重建swapchain
+        //...
+        vkDeviceWaitIdle(m_device);
+
+        return rp_begin;
+    }
+
     rp_begin.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     rp_begin.pNext = NULL;
     rp_begin.renderPass = m_renderPass;

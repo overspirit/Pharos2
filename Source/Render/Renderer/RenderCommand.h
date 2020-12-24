@@ -15,7 +15,7 @@ namespace Pharos
             virtual void BeginCommand() = 0;
             virtual void EndCommand() = 0;
 
-            virtual void BeginRenderTarget(RenderTarget* target) = 0;
+            virtual bool BeginRenderTarget(RenderTarget* target) = 0;
             virtual void EndRenderTarget() = 0;
 			
             virtual void SetVertexBuffer(RenderBuffer* buffer) = 0;		

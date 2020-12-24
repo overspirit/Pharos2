@@ -144,7 +144,7 @@ void RenderSprite::DrawFont2D(const DecalColorVertex* vertData, uint32 vertNum, 
 
 void RenderSprite::Render()
 {
-	m_vertBuf->CopyData(m_vertMemBuf, m_vertCount * sizeof(DecalColorVertex));
+	m_vertBuf->CopyData(m_vertMemBuf);
 
 	sRenderMgr->DoRender(m_drawColorObj);
     sRenderMgr->DoRender(m_drawTextureObj);

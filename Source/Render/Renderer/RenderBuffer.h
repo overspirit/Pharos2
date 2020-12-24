@@ -17,6 +17,10 @@ namespace Pharos
 			IET_UINT32,
 			IET_UINT16,
 		};
+    
+        /*
+         注意：!!! copy 相关方法中的 offset 不起作用
+         */
 
 		class RenderBuffer
 		{

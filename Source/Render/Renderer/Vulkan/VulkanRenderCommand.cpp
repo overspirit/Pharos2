@@ -31,15 +31,18 @@ void VulkanRenderCommand::EndCommand()
     assert(res == VK_SUCCESS);
 }
 
-void VulkanRenderCommand::BeginRenderTarget(RenderTarget* target)
+bool VulkanRenderCommand::BeginRenderTarget(RenderTarget* target)
 {
     assert(target != NULL);
 
 	m_renderTarget = static_cast<VulkanRenderTarget*>(target);
             
     VkRenderPassBeginInfo beginPassInfo = m_renderTarget->MakeRenderPassBeginInfo();
+    if (beginPassInfo.renderPass == NULL || beginPassInfo.framebuffer == NULL) return false;
 
     vkCmdBeginRenderPass(m_cmdBuf, &beginPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+    return true;
 }
 
 void VulkanRenderCommand::EndRenderTarget()

@@ -59,11 +59,11 @@ bool RenderMgr::Init()
 	m_finalProgram->CompileFragmentFunctionWithName("CopyPS");	
 	m_finalPipeline->SetProgramShader(m_finalProgram);
 		
-	int32 targetWidth = 2048;//m_defaultTarget->GetWidth();
-	int32 targetHeight = 2048;//m_defaultTarget->GetHeight();
+	int32 targetWidth = m_defaultTarget->GetWidth();
+	int32 targetHeight = m_defaultTarget->GetHeight();
 	
 	m_finalColorTexture = m_renderer->CreateTargetTexture(targetWidth, targetHeight, EPF_RGBA8_UNORM);
-	m_finalDepthTexture = m_renderer->CreateTargetTexture(targetWidth, targetHeight, EPF_D24_UNORM_S8_UINT);
+	m_finalDepthTexture = m_renderer->CreateTargetTexture(targetWidth, targetHeight, EPF_D32_FLOAT_S8_UINT);
 
 	m_finalResourceSet = m_renderer->GenerateRenderResuourceSet();
 	m_finalResourceSet->SetFragmentTexture(0, m_finalColorTexture);
@@ -112,7 +112,9 @@ bool RenderMgr::StartUp(const RenderParam& param)
 	if (!m_renderer->Create(cfg)) return false;
 
 	m_renderParam = param;
-	//m_clearColor = param.backColor;	
+	//m_clearColor = param.backColor;
+    
+    m_finalTarget->SetClear(cfg.backColor);
 	
 	return true;
 }
@@ -220,31 +222,32 @@ void RenderMgr::Render(float32 fElapsed)
 	}
 
 	m_defaultCommand->EndRenderTarget();
+    
+    
+    
+    if (m_defaultCommand->BeginRenderTarget(m_defaultTarget))
+	{
+        width = m_defaultTarget->GetWidth();
+        height = m_defaultTarget->GetHeight();
 
+        viewRect.right = width;
+        viewRect.bottom = height;
+        m_defaultCommand->SetViewport(viewRect, 0, 1.0f);
 
-	width = m_defaultTarget->GetWidth();
-    height = m_defaultTarget->GetHeight();
+        scissorRect.right = width;
+        scissorRect.bottom = height;
+        m_defaultCommand->SetScissorRect(scissorRect);
+        
+		m_defaultCommand->SetVertexBuffer(m_quadVertBuf);
+		m_defaultCommand->SetRenderStaging(m_finalResourceSet, m_finalPipeline);
 
-	viewRect.right = width;
-	viewRect.bottom = height;
-	m_defaultCommand->SetViewport(viewRect, 0, 1.0f);
+		m_defaultCommand->DrawPrimitives(0, 6);
 
-	scissorRect.right = width;
-	scissorRect.bottom = height;
-	m_defaultCommand->SetScissorRect(scissorRect);
+		m_defaultCommand->EndRenderTarget();
+		m_defaultCommand->EndCommand();
 
-	m_defaultCommand->BeginRenderTarget(m_defaultTarget);
-
-
-	m_defaultCommand->SetVertexBuffer(m_quadVertBuf);
-	m_defaultCommand->SetRenderStaging(m_finalResourceSet, m_finalPipeline);
-	
-	m_defaultCommand->DrawPrimitives(0, 6);
-
-	m_defaultCommand->EndRenderTarget();
-	m_defaultCommand->EndCommand();
-	
-	m_renderer->Commit();	
+		m_renderer->Commit();
+	}
 
 	m_renderObjList.clear();
 
