@@ -4,9 +4,11 @@
 MetalRenderPipeline::MetalRenderPipeline(id<MTLDevice> device)
 {
 	m_device = device;
-	m_stateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    m_pipelineStateDesc = [[MTLRenderPipelineDescriptor alloc] init];
 	
-	m_depthState = nullptr;
+	//m_depthState = nullptr;
+    
+    m_drawType = EDT_TRIANGLELIST;
 }
 
 MetalRenderPipeline::~MetalRenderPipeline()
@@ -39,38 +41,9 @@ bool MetalRenderPipeline::SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 
 		mtlVertexDescriptor.layouts[layoutIndex].stepFunction = MTLVertexStepFunctionPerVertex;
 	}
 	
-	m_stateDescriptor.vertexDescriptor = mtlVertexDescriptor;
+    m_pipelineStateDesc.vertexDescriptor = mtlVertexDescriptor;
 	
 	return true;
-}
-
-void MetalRenderPipeline::SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat depthFmt, EPixelFormat stencilFmt)
-{	
-	if(m_pipelineState != nullptr)
-	{
-		m_pipelineState = nullptr;
-	}
-	
-	//m_stateDescriptor.label = @"MyPipeline";
-	//m_stateDescriptor.sampleCount = 1;
-	
-	for(int i = 0; i < 8; i++)
-	{
-		if(colorFmt[i] != EPF_END)
-		{
-			m_stateDescriptor.colorAttachments[i].pixelFormat = PixelFormat2MetalFormat(colorFmt[i]);
-		}
-	}
-	
-	if(depthFmt != EPF_END)
-	{
-		m_stateDescriptor.depthAttachmentPixelFormat = PixelFormat2MetalFormat(depthFmt);
-	}
-	
-	if(stencilFmt != EPF_END)
-	{
-		m_stateDescriptor.stencilAttachmentPixelFormat = PixelFormat2MetalFormat(stencilFmt);
-	}
 }
 
 bool MetalRenderPipeline::SetProgramShader(RenderProgram* program)
@@ -83,45 +56,133 @@ bool MetalRenderPipeline::SetProgramShader(RenderProgram* program)
 	MetalShaderProgram* shaderProgram = static_cast<MetalShaderProgram*>(program);
 	if(shaderProgram != nullptr)
 	{
-		m_stateDescriptor.vertexFunction = shaderProgram->GetVertexFunction();
-		m_stateDescriptor.fragmentFunction = shaderProgram->GetFragmentFunction();
+        m_pipelineStateDesc.vertexFunction = shaderProgram->GetVertexFunction();
+        m_pipelineStateDesc.fragmentFunction = shaderProgram->GetFragmentFunction();
 	}
+    
+    MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
+    depthStateDesc.depthCompareFunction = MTLCompareFunctionLessEqual;
+    depthStateDesc.depthWriteEnabled = YES;
 	
+    m_depthStencilState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];
+    
 	return true;
 }
 
-void MetalRenderPipeline::SetBlendState(RenderBlendState* state)
+void MetalRenderPipeline::SetBlendState(const BlendStateDesc& state)
 {
-
+//    MTLBlendFactorZero = 0,
+//    MTLBlendFactorOne = 1,
+//    MTLBlendFactorSourceColor = 2,
+//    MTLBlendFactorOneMinusSourceColor = 3,
+//    MTLBlendFactorSourceAlpha = 4,
+//    MTLBlendFactorOneMinusSourceAlpha = 5,
+//    MTLBlendFactorDestinationColor = 6,
+//    MTLBlendFactorOneMinusDestinationColor = 7,
+//    MTLBlendFactorDestinationAlpha = 8,
+//    MTLBlendFactorOneMinusDestinationAlpha = 9,
+//    MTLBlendFactorSourceAlphaSaturated = 10,
+//    MTLBlendFactorBlendColor = 11,
+//    MTLBlendFactorOneMinusBlendColor = 12,
+//    MTLBlendFactorBlendAlpha = 13,
+//    MTLBlendFactorOneMinusBlendAlpha = 14,
+//
+//    MTLBlendOperationAdd = 0,
+//    MTLBlendOperationSubtract = 1,
+//    MTLBlendOperationReverseSubtract = 2,
+//    MTLBlendOperationMin = 3,
+//    MTLBlendOperationMax = 4,
+    
+    for(int i = 0; i < 8; i++)
+    {
+        if(m_pipelineStateDesc.colorAttachments[i].pixelFormat != MTLPixelFormatInvalid)
+        {
+            m_pipelineStateDesc.colorAttachments[i].blendingEnabled = true;
+            m_pipelineStateDesc.colorAttachments[i].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].rgbBlendOperation = MTLBlendOperationAdd;
+            m_pipelineStateDesc.colorAttachments[i].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].alphaBlendOperation = MTLBlendOperationAdd;
+        }
+        
+    }
+    
+//    bool blendEnable;
+//    bool alphaToCoverageEnable;
+//    EBlendFunc srcBlend;
+//    EBlendFunc destBlend;
+//    EBlendOP blendOp;
+//    EBlendFunc srcBlendAlpha;
+//    EBlendFunc destBlendAlpha;
+//    EBlendOP blendOpAlpha;
 }
 
-void MetalRenderPipeline::SetRasterizerState(RenderRasterizerState* state)
+void MetalRenderPipeline::SetRasterizerState(const RasterizerStateDesc& state)
 {
-
+    
 }
 
-void MetalRenderPipeline::SetDepthStencilState(RenderDepthStencilState* state)
+void MetalRenderPipeline::SetDepthStencilState(const DepthStencilStateDesc& state)
 {
-	m_depthState = static_cast<MetalDepthStencilState*>(state);
+    MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
+    depthStateDesc.depthCompareFunction = MTLCompareFunctionAlways;
+    depthStateDesc.depthWriteEnabled = YES;
+    
+    m_depthStencilState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];
+}
+
+void MetalRenderPipeline::SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat depthFmt, EPixelFormat stencilFmt)
+{
+    if(m_pipelineState != nullptr)
+    {
+        m_pipelineState = nullptr;
+    }
+    
+    //m_stateDescriptor.label = @"MyPipeline";
+    //m_stateDescriptor.sampleCount = 1;
+    
+    for(int i = 0; i < 8; i++)
+    {
+        if(colorFmt[i] != EPF_END)
+        {
+            m_pipelineStateDesc.colorAttachments[i].pixelFormat = PixelFormat2MetalFormat(colorFmt[i]);
+            
+            m_pipelineStateDesc.colorAttachments[i].blendingEnabled = true;
+            m_pipelineStateDesc.colorAttachments[i].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].rgbBlendOperation = MTLBlendOperationAdd;
+            m_pipelineStateDesc.colorAttachments[i].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+            m_pipelineStateDesc.colorAttachments[i].alphaBlendOperation = MTLBlendOperationAdd;
+        }
+    }
+    
+    if(depthFmt != EPF_END)
+    {
+        m_pipelineStateDesc.depthAttachmentPixelFormat = PixelFormat2MetalFormat(depthFmt);
+    }
+    
+    if(stencilFmt != EPF_END)
+    {
+        m_pipelineStateDesc.stencilAttachmentPixelFormat = PixelFormat2MetalFormat(stencilFmt);
+    }
 }
 
 void MetalRenderPipeline::ApplyToEncoder(id<MTLRenderCommandEncoder> encoder)
 {
+    [encoder setDepthStencilState:m_depthStencilState];
+    
 	if(m_pipelineState == nullptr)
 	{
-		if (m_depthState != nullptr)
-		{
-			m_depthState->ApplyDevice(encoder);
-		}
-		
-		NSError* error = nil;
-		m_pipelineState = [m_device newRenderPipelineStateWithDescriptor: m_stateDescriptor error: &error];
+        NSError* error = nil;
+		m_pipelineState = [m_device newRenderPipelineStateWithDescriptor: m_pipelineStateDesc error: &error];
 		if (!m_pipelineState)
 		{
 			NSLog(@"Failed to created pipeline state, error %@", error);
 		}
 	}
-	
+
 	[encoder setRenderPipelineState : m_pipelineState];
 }
 

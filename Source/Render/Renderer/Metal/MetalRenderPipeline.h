@@ -13,11 +13,11 @@ namespace Pharos
 		private:
 			id<MTLDevice>   m_device;
 			
+            id<MTLDepthStencilState>       m_depthStencilState;            
+            
 			id<MTLRenderPipelineState>		m_pipelineState;
-			MTLRenderPipelineDescriptor*	m_stateDescriptor;
-			
-			MetalDepthStencilState*			m_depthState;
-			
+			MTLRenderPipelineDescriptor*	m_pipelineStateDesc;
+						
 			DrawType		m_drawType;
 		
 		private:
@@ -26,18 +26,16 @@ namespace Pharos
 
 		public:
 			virtual bool SetInputLayoutDesc(const VertLayoutDesc* desc, uint32 descNum);
-
+            virtual void SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat depthFmt, EPixelFormat stencilFmt);
 			virtual bool SetProgramShader(RenderProgram* program);
 
-			virtual void SetBlendState(RenderBlendState* state);
-			virtual void SetRasterizerState(RenderRasterizerState* state);
-			virtual void SetDepthStencilState(RenderDepthStencilState* state);
+            virtual void SetBlendState(const BlendStateDesc& state);
+            virtual void SetRasterizerState(const RasterizerStateDesc& state);
+            virtual void SetDepthStencilState(const DepthStencilStateDesc& state);
 			
 			virtual void SetDrawType(DrawType drawType) { m_drawType = drawType; }
 			virtual DrawType GetDrawType() { return m_drawType; }
-			
-			virtual void SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat depthFmt, EPixelFormat stencilFmt);
-			
+						
 			virtual void ApplyToEncoder(id<MTLRenderCommandEncoder> encoder);
 		};
 	}

@@ -32,24 +32,22 @@ namespace Pharos
 			virtual void Commit();
 
 			virtual RenderTarget* GetDefaultRenderTarget() { return m_defaultTarget; }
-			virtual const char8* GetAdapterName() const { return NULL; }
-			virtual uint32 GetAdapterMemorySize() const { return 0; }
+			virtual const char8* GetAdapterName() const { return [m_device.name UTF8String]; }
+			virtual uint32 GetAdapterMemorySize() const { return (uint32)(m_device.recommendedMaxWorkingSetSize / 1024 / 1024); }
 
 			virtual RenderBuffer* GenerateRenderBuffer(BufferType type);
-			virtual RenderTexture* CreateTexture(int32 width, int32 height, EPixelFormat fmt);
+			virtual RenderTexture* CreateTexture2D(int32 width, int32 height, EPixelFormat fmt);
+            virtual RenderTexture* CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt);
 			virtual RenderTexture* LoadTexture(const char8* szPath);
 			virtual RenderTexture* LoadTexture(const Image* image);
 
 			virtual RenderProgram* GenerateRenderProgram();
 			virtual RenderTarget* CreateRenderTarget(int32 width, int32 height);
-			virtual RenderSamplerState* CreateSampleState(const SamplerStateDesc& desc);
-			virtual RenderBlendState* CreateBlendState(const BlendStateDesc& desc);
-			virtual RenderRasterizerState* CreateRasterizerState(const RasterizerStateDesc& desc);
-			virtual RenderDepthStencilState* CreateDepthStencilState(const DepthStencilStateDesc& desc);
+			
 			virtual RenderResourceSet* GenerateRenderResuourceSet();
 			virtual RenderPipeline* GenerateRenderPipeline();
 
-			virtual RenderCommand* GenerateRenderCommand(RenderTarget* renderTarget);
+			virtual RenderCommand* GenerateRenderCommand();
 		};
 	}
 }

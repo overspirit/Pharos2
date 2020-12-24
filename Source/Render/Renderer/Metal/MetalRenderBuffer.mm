@@ -3,7 +3,7 @@
 
 MetalRenderBuffer::MetalRenderBuffer(BufferType type, id<MTLDevice> device)
 {
-	m_type = type;
+    m_type = type;
 	m_device = device;
 }
 

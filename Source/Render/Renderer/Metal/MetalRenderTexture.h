@@ -19,20 +19,20 @@ namespace Pharos
 			
 		public:
 			virtual bool Create(int32 width, int32 height, EPixelFormat fmt);
-			
-			virtual bool MakeColorAttach(int32 width, int32 height, EPixelFormat fmt);
-			virtual bool MakeDepthAttach(int32 width, int32 height, EPixelFormat fmt);
+			virtual bool CreateColorAttach(int32 width, int32 height, EPixelFormat fmt);
+			virtual bool CreateDepthAttach(int32 width, int32 height, EPixelFormat fmt);
 
-		public:
 			virtual bool LoadFromFile(const char8* szPath);
 			virtual bool LoadFromImage(const Image* pImage);
+            
+            virtual bool Save(const char8* path);
 
 			virtual bool CopyFromData(const void* pImageData, uint32 nDataSize);
 			virtual bool CopyRectFromData(const void* pData, uint32 nDataSize, const Rect2Di& rt);
 			virtual bool CopyFromTexture(RenderTexture* srcTex);
 			virtual bool CopyRectFromTexture(RenderTexture* srcTex, const Rect2Di& srcRect, const Rect2Di& destRect);
 
-			virtual void SetSampleState(RenderSamplerState* state);
+			virtual void SetSampleState(const SamplerStateDesc& state);
 
 			virtual uint32 GetWidth() const { return m_width; }
 			virtual uint32 GetHeight() const { return m_height; }

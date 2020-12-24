@@ -1,11 +1,10 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-MetalViewRenderTarget::MetalViewRenderTarget(id<MTLDevice> device, MTKView* view) : MetalRenderTarget(device)
+MetalViewRenderTarget::MetalViewRenderTarget(id<MTLDevice> device, MTKView* view)
+: MetalRenderTarget(device, view.bounds.size.width, view.bounds.size.height)
 {
-	m_view = view;
-	
-	m_passDesc = view.currentRenderPassDescriptor;
+	m_view = view;	
 }
 
 MetalViewRenderTarget::~MetalViewRenderTarget(void)
@@ -15,9 +14,7 @@ MetalViewRenderTarget::~MetalViewRenderTarget(void)
 MTLRenderPassDescriptor* MetalViewRenderTarget::GetMetalPassDescriptor()
 {
 	m_passDesc = m_view.currentRenderPassDescriptor;
-	m_view.clearColor = MTLClearColorMake(0.5f, 0.5f, 0.5f, 1.0f);
-	id <MTLTexture> depthTexture = m_view.depthStencilTexture;
-	MTLRenderPassDepthAttachmentDescriptor* depthAttachDesc = m_passDesc.depthAttachment;
+    
 	return m_passDesc;	
 }
 
@@ -31,6 +28,26 @@ void MetalViewRenderTarget::SetClear(Color4 color, float32 depth, uint32 stencil
 	m_view.clearStencil = stencil;
 }
 
+void MetalViewRenderTarget::SetColorAttach(uint32 slot, RenderTexture* tex)
+{
+    
+}
+
+RenderTexture* MetalViewRenderTarget::GetColorAttachTexture(uint32 slot)
+{
+    return NULL;
+}
+
+void MetalViewRenderTarget::SetDepthStencilAttach(RenderTexture* tex)
+{
+    
+}
+
+RenderTexture* MetalViewRenderTarget::GetDepthStencilAttachTexture()
+{
+    return NULL;
+}
+
 EPixelFormat MetalViewRenderTarget::GetColorAttachFormat(uint32 slot)
 {
 	MTLPixelFormat metalPixelFormat = m_passDesc.colorAttachments[slot].texture.pixelFormat;
@@ -40,11 +57,5 @@ EPixelFormat MetalViewRenderTarget::GetColorAttachFormat(uint32 slot)
 EPixelFormat MetalViewRenderTarget::GetDepthAttachFormat()
 {
 	MTLPixelFormat metalPixelFormat = m_passDesc.depthAttachment.texture.pixelFormat;
-	return MetalFormat2PixelFormat(metalPixelFormat);
-}
-
-EPixelFormat MetalViewRenderTarget::GetStencilAttachFormat()
-{
-	MTLPixelFormat metalPixelFormat = m_passDesc.stencilAttachment.texture.pixelFormat;
 	return MetalFormat2PixelFormat(metalPixelFormat);
 }

@@ -44,16 +44,31 @@ bool MetalRenderTexture::LoadFromImage(const Image* image)
 		[m_texture replaceRegion : region mipmapLevel : 0 withBytes : imageBytes bytesPerRow : 4 * width];
 	}
 
+    m_width = width;
+    m_height = height;
+    m_fmt = EPF_BGRA8_UNORM;
+    m_eleSize = 4;
+    
 	return true;
 }
 
 bool MetalRenderTexture::Create(int32 width, int32 height, EPixelFormat fmt)
 {
+    MTLTextureDescriptor* textureDescriptor = [[MTLTextureDescriptor alloc] init];
+    textureDescriptor.pixelFormat = PixelFormat2MetalFormat(fmt);
+    textureDescriptor.width = width;
+    textureDescriptor.height = height;
+    m_texture = [m_device newTextureWithDescriptor : textureDescriptor]; // 创建纹理
+    
+    m_width = width;
+    m_height = height;
+    m_fmt = fmt;
+    m_eleSize = GetPFSize(fmt);
+    
 	return true;
 }
 
-
-bool MetalRenderTexture::MakeColorAttach(int32 width, int32 height, EPixelFormat fmt)
+bool MetalRenderTexture::CreateColorAttach(int32 width, int32 height, EPixelFormat fmt)
 {
 	MTLPixelFormat metalFormat = PixelFormat2MetalFormat(fmt);
 	MTLTextureDescriptor* textureDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalFormat width:width height:height mipmapped:NO];
@@ -69,7 +84,7 @@ bool MetalRenderTexture::MakeColorAttach(int32 width, int32 height, EPixelFormat
 	return true;
 }
 
-bool MetalRenderTexture::MakeDepthAttach(int32 width, int32 height, EPixelFormat fmt)
+bool MetalRenderTexture::CreateDepthAttach(int32 width, int32 height, EPixelFormat fmt)
 {
 	MTLPixelFormat metalFormat = PixelFormat2MetalFormat(fmt);
 	MTLTextureDescriptor* textureDesc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:metalFormat width:width height:height mipmapped:NO];
@@ -83,16 +98,41 @@ bool MetalRenderTexture::MakeDepthAttach(int32 width, int32 height, EPixelFormat
 	m_fmt = fmt;
 	
 	return true;
+}
+
+bool MetalRenderTexture::Save(const char8* path)
+{
+    return true;
 }
 
 bool MetalRenderTexture::CopyFromData(const void* pImageData, uint32 nDataSize)
 {
-
+    MTLRegion region = { { 0, 0, 0 }, {m_width, m_height, 1} }; // 纹理上传的范围
+    Byte* imageBytes = (Byte*)pImageData;
+    if (imageBytes)
+    {
+        [m_texture replaceRegion : region mipmapLevel : 0 withBytes : imageBytes bytesPerRow : m_eleSize * m_width];
+    }
+    
 	return true;
 }
 
 bool MetalRenderTexture::CopyRectFromData(const void* pData, uint32 nDataSize, const Rect2Di& rt)
 {
+    MTLRegion region;
+    region.origin.x = rt.left;
+    region.origin.y = rt.top;
+    region.origin.z = 0;
+    region.size.width = rt.GetWidth();
+    region.size.height = rt.GetHeight();
+    region.size.depth = 1;
+
+    Byte* imageBytes = (Byte*)pData;
+    if (imageBytes)
+    {
+        [m_texture replaceRegion : region mipmapLevel : 0 withBytes : imageBytes bytesPerRow : m_eleSize * rt.GetWidth()];
+    }
+    
 	return true;
 }
 
@@ -106,7 +146,7 @@ bool MetalRenderTexture::CopyRectFromTexture(RenderTexture* srcTex, const Rect2D
 	return true;
 }
 
-void MetalRenderTexture::SetSampleState(RenderSamplerState* state)
+void MetalRenderTexture::SetSampleState(const SamplerStateDesc& state)
 {
 }
 

@@ -19,14 +19,12 @@ namespace Pharos
 			vector<MetalRenderTexture*>		m_fragTexList;
 			
 		public:
-			virtual void SetVertexUniformBuffer(uint32 slot, RenderBuffer* buffer);
-			virtual void SetFragmentUniformBuffer(uint32 slot, RenderBuffer* buffer);
+			virtual bool SetVertexUniformBuffer(uint32 slot, RenderBuffer* buffer);
+			virtual bool SetFragmentUniformBuffer(uint32 slot, RenderBuffer* buffer);
 
-			virtual void SetVertexTexture(uint32 slot, RenderTexture* tex);
-			virtual void SetFragmentTexture(uint32 slot, RenderTexture* tex);
-			
-			virtual bool UpdateSet();
-			
+			virtual bool SetVertexTexture(uint32 slot, RenderTexture* tex);
+			virtual bool SetFragmentTexture(uint32 slot, RenderTexture* tex);
+						
 			virtual void ApplyResourceSet(id <MTLRenderCommandEncoder> renderEncoder);
 		};
 	}

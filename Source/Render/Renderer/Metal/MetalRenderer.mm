@@ -13,32 +13,34 @@ IMPL_MAKE_RENDERER(MetalRenderer)
 
 bool MetalRenderer::Init()
 {
+    m_device = MTLCreateSystemDefaultDevice();
+    
+    m_view = (__bridge id)sKernel->GetWindowHandle();
+    m_view.device = m_device;
+    m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+    m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+    m_view.sampleCount = 1;    
+    m_view.preferredFramesPerSecond = 120;
+
+    m_commandQueue = [m_device newCommandQueue];
+    m_currCmdBuffer = [m_commandQueue commandBuffer];
+    
+    m_defaultTarget = new MetalViewRenderTarget(m_device, m_view);
+    
 	return true;
 }
 
 void MetalRenderer::Destroy()
 {
+    SAFE_DELETE(m_defaultTarget);
 }
 
 bool MetalRenderer::Create(const DeviceConfig& cfg)
 {
-	m_device = MTLCreateSystemDefaultDevice();
+    Color4f clearColor = cfg.backColor;
 	
-	Color4f clearColor = cfg.backColor;
-
-	m_view = (__bridge id)sKernel->GetWindowHandle();
-	m_view.device = m_device;
-	m_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
-	m_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
-	m_view.sampleCount = 1;
-	m_view.clearColor = MTLClearColorMake(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-	m_view.preferredFramesPerSecond = 60;
-
-	m_commandQueue = [m_device newCommandQueue];
-	m_currCmdBuffer = [m_commandQueue commandBuffer];
-	
-	m_defaultTarget = new MetalViewRenderTarget(m_device, m_view);
-	
+    m_view.clearColor = MTLClearColorMake(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+    
 	return true;
 }
 
@@ -69,7 +71,7 @@ RenderBuffer* MetalRenderer::GenerateRenderBuffer(BufferType type)
 	return new MetalRenderBuffer(type, m_device);
 }
 
-RenderTexture* MetalRenderer::CreateTexture(int32 width, int32 height, EPixelFormat fmt)
+RenderTexture* MetalRenderer::CreateTexture2D(int32 width, int32 height, EPixelFormat fmt)
 {
 	MetalRenderTexture* texture = new MetalRenderTexture(m_device);
 	if (!texture->Create(width, height, fmt))
@@ -79,6 +81,30 @@ RenderTexture* MetalRenderer::CreateTexture(int32 width, int32 height, EPixelFor
 	}
 
 	return texture;
+}
+
+RenderTexture* MetalRenderer::CreateTargetTexture(int32 width, int32 height, EPixelFormat fmt)
+{
+    MetalRenderTexture* texture = new MetalRenderTexture(m_device);
+
+    if (fmt == EPF_D32_FLOAT_S8_UINT || fmt == EPF_D32_FLOAT || fmt == EPF_D24_UNORM_S8_UINT || fmt == EPF_D16_UNORM)
+    {
+        if (!texture->CreateDepthAttach(width, height, fmt))
+        {
+            SAFE_DELETE(texture);
+            return nullptr;
+        }
+    }
+    else
+    {
+        if (!texture->CreateColorAttach(width, height, fmt))
+        {
+            SAFE_DELETE(texture);
+            return nullptr;
+        }
+    }
+    
+    return texture;
 }
 
 RenderTexture* MetalRenderer::LoadTexture(const char8* szPath)
@@ -111,66 +137,13 @@ RenderProgram* MetalRenderer::GenerateRenderProgram()
 }
 
 RenderTarget* MetalRenderer::CreateRenderTarget(int32 width, int32 height)
-{
-	MetalRenderTarget* renderTarget = new MetalRenderTarget(m_device);
-	if(!renderTarget->InitRenderPass(width, height))
-	{
-		SAFE_DELETE(renderTarget);
-		return nullptr;
-	}
-	
-	return renderTarget;
+{	
+    return new MetalRenderTarget(m_device, width, height);;
 }
 
-RenderSamplerState* MetalRenderer::CreateSampleState(const SamplerStateDesc& desc)
+RenderCommand* MetalRenderer::GenerateRenderCommand()
 {
-	MetalSamplerState* state = new MetalSamplerState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderBlendState* MetalRenderer::CreateBlendState(const BlendStateDesc& desc)
-{
-	MetalBlendState* state = new MetalBlendState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderRasterizerState* MetalRenderer::CreateRasterizerState(const RasterizerStateDesc& desc)
-{
-	MetalRasterizerState* state = new MetalRasterizerState();
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderDepthStencilState* MetalRenderer::CreateDepthStencilState(const DepthStencilStateDesc& desc)
-{
-	MetalDepthStencilState* state = new MetalDepthStencilState(m_device);
-	if (!state->CreateState(desc))
-	{
-		SAFE_DELETE(state);
-		return nullptr;
-	}
-	return state;
-}
-
-RenderCommand* MetalRenderer::GenerateRenderCommand(RenderTarget* renderTarget)
-{
-	MetalRenderCommand* command = new MetalRenderCommand(this, static_cast<MetalRenderTarget*>(renderTarget));
-	
-	return command;
+    return new MetalRenderCommand(this);
 }
 
 RenderResourceSet* MetalRenderer::GenerateRenderResuourceSet()
