@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //standard
 //////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,7 @@
 #include <deque>
 #include <queue>
 #include <set>
+#include <thread>
 
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -75,6 +76,7 @@ using namespace std;
 
 #endif
 
+#include <netinet/in.h>
 #include <mach/mach_time.h>
 #include <unistd.h>
 
@@ -116,7 +118,7 @@ using namespace std;
 #include <dlfcn.h>
 #include <unistd.h>
 #include <sys/resource.h>
-
+#include <linux/in.h>
 #include <time.h>
 
 #include <cstring>
