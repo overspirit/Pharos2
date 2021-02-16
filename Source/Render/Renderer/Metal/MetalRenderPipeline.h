@@ -18,6 +18,8 @@ namespace Pharos
 			id<MTLRenderPipelineState>		m_pipelineState;
 			MTLRenderPipelineDescriptor*	m_pipelineStateDesc;
 						
+            RasterizerStateDesc     m_rasterizerState;
+            
 			DrawType		m_drawType;
 		
 		private:

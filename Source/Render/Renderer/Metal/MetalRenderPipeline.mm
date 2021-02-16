@@ -5,9 +5,7 @@ MetalRenderPipeline::MetalRenderPipeline(id<MTLDevice> device)
 {
 	m_device = device;
     m_pipelineStateDesc = [[MTLRenderPipelineDescriptor alloc] init];
-	
-	//m_depthState = nullptr;
-    
+	    
     m_drawType = EDT_TRIANGLELIST;
 }
 
@@ -59,75 +57,57 @@ bool MetalRenderPipeline::SetProgramShader(RenderProgram* program)
         m_pipelineStateDesc.vertexFunction = shaderProgram->GetVertexFunction();
         m_pipelineStateDesc.fragmentFunction = shaderProgram->GetFragmentFunction();
 	}
-    
-    MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
-    depthStateDesc.depthCompareFunction = MTLCompareFunctionLessEqual;
-    depthStateDesc.depthWriteEnabled = YES;
-	
-    m_depthStencilState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];
+        
+    SetDepthStencilState(DepthStencilStateDesc());
     
 	return true;
 }
 
 void MetalRenderPipeline::SetBlendState(const BlendStateDesc& state)
 {
-//    MTLBlendFactorZero = 0,
-//    MTLBlendFactorOne = 1,
-//    MTLBlendFactorSourceColor = 2,
-//    MTLBlendFactorOneMinusSourceColor = 3,
-//    MTLBlendFactorSourceAlpha = 4,
-//    MTLBlendFactorOneMinusSourceAlpha = 5,
-//    MTLBlendFactorDestinationColor = 6,
-//    MTLBlendFactorOneMinusDestinationColor = 7,
-//    MTLBlendFactorDestinationAlpha = 8,
-//    MTLBlendFactorOneMinusDestinationAlpha = 9,
-//    MTLBlendFactorSourceAlphaSaturated = 10,
-//    MTLBlendFactorBlendColor = 11,
-//    MTLBlendFactorOneMinusBlendColor = 12,
-//    MTLBlendFactorBlendAlpha = 13,
-//    MTLBlendFactorOneMinusBlendAlpha = 14,
-//
-//    MTLBlendOperationAdd = 0,
-//    MTLBlendOperationSubtract = 1,
-//    MTLBlendOperationReverseSubtract = 2,
-//    MTLBlendOperationMin = 3,
-//    MTLBlendOperationMax = 4,
+    MTLBlendFactor blendFactor[] = {
+        MTLBlendFactorZero,                 //BLEND_ZERO
+        MTLBlendFactorOne,                  //BLEND_ONE
+        MTLBlendFactorSourceColor,          //BLEND_SRC_COLOR
+        MTLBlendFactorOneMinusSourceColor,  //BLEND_INV_SRC_COLOR
+        MTLBlendFactorSourceAlpha,          //BLEND_SRC_ALPHA
+        MTLBlendFactorOneMinusSourceAlpha,  //BLEND_INV_SRC_ALPHA
+        MTLBlendFactorDestinationColor,     //BLEND_DEST_COLOR
+        MTLBlendFactorOneMinusDestinationColor, //BLEND_INV_DEST_COLOR
+        MTLBlendFactorDestinationAlpha,     //BLEND_DEST_ALPHA
+        MTLBlendFactorOneMinusDestinationAlpha, //BLEND_INV_DEST_ALPHA
+    };
+
+    MTLBlendOperation blendOp[] = {
+        MTLBlendOperationAdd,           //BLEND_OP_ADD
+        MTLBlendOperationSubtract,      //BLEND_OP_SUBTRACT
+        MTLBlendOperationReverseSubtract,   //BLEND_OP_REV_SUBTRACT
+        MTLBlendOperationMin,   //BLEND_OP_MIN
+        MTLBlendOperationMax,   //BLEND_OP_MAX
+    };
     
     for(int i = 0; i < 8; i++)
     {
-        if(m_pipelineStateDesc.colorAttachments[i].pixelFormat != MTLPixelFormatInvalid)
-        {
-            m_pipelineStateDesc.colorAttachments[i].blendingEnabled = true;
-            m_pipelineStateDesc.colorAttachments[i].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].rgbBlendOperation = MTLBlendOperationAdd;
-            m_pipelineStateDesc.colorAttachments[i].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].alphaBlendOperation = MTLBlendOperationAdd;
-        }
-        
+        m_pipelineStateDesc.colorAttachments[i].blendingEnabled = state.blendEnable ? YES : NO;
+        m_pipelineStateDesc.colorAttachments[i].sourceRGBBlendFactor = blendFactor[state.srcBlend];
+        m_pipelineStateDesc.colorAttachments[i].destinationRGBBlendFactor = blendFactor[state.destBlend];
+        m_pipelineStateDesc.colorAttachments[i].rgbBlendOperation = blendOp[state.blendOp];
+        m_pipelineStateDesc.colorAttachments[i].sourceAlphaBlendFactor = blendFactor[state.srcBlendAlpha];
+        m_pipelineStateDesc.colorAttachments[i].destinationAlphaBlendFactor = blendFactor[state.destBlendAlpha];
+        m_pipelineStateDesc.colorAttachments[i].alphaBlendOperation = blendOp[state.blendOpAlpha];
     }
     
-//    bool blendEnable;
-//    bool alphaToCoverageEnable;
-//    EBlendFunc srcBlend;
-//    EBlendFunc destBlend;
-//    EBlendOP blendOp;
-//    EBlendFunc srcBlendAlpha;
-//    EBlendFunc destBlendAlpha;
-//    EBlendOP blendOpAlpha;
+    m_pipelineStateDesc.alphaToCoverageEnabled = state.alphaToCoverageEnable ? YES : NO;
 }
 
 void MetalRenderPipeline::SetRasterizerState(const RasterizerStateDesc& state)
 {
-    
+    m_rasterizerState = state; //metal 没有一个object存储光栅化状态，所有光栅化状态均在encoder 对象中
 }
 
 void MetalRenderPipeline::SetDepthStencilState(const DepthStencilStateDesc& state)
 {
-    MTLDepthStencilDescriptor *depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
-    depthStateDesc.depthCompareFunction = MTLCompareFunctionAlways;
-    depthStateDesc.depthWriteEnabled = YES;
+    MTLDepthStencilDescriptor *depthStateDesc = GetVulkanDepthStencilStateDesc(state);
     
     m_depthStencilState = [m_device newDepthStencilStateWithDescriptor:depthStateDesc];
 }
@@ -138,23 +118,16 @@ void MetalRenderPipeline::SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat 
     {
         m_pipelineState = nullptr;
     }
-    
-    //m_stateDescriptor.label = @"MyPipeline";
-    //m_stateDescriptor.sampleCount = 1;
-    
+        
     for(int i = 0; i < 8; i++)
     {
         if(colorFmt[i] != EPF_END)
         {
             m_pipelineStateDesc.colorAttachments[i].pixelFormat = PixelFormat2MetalFormat(colorFmt[i]);
-            
-            m_pipelineStateDesc.colorAttachments[i].blendingEnabled = true;
-            m_pipelineStateDesc.colorAttachments[i].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].rgbBlendOperation = MTLBlendOperationAdd;
-            m_pipelineStateDesc.colorAttachments[i].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-            m_pipelineStateDesc.colorAttachments[i].alphaBlendOperation = MTLBlendOperationAdd;
+        }
+        else
+        {
+            m_pipelineStateDesc.colorAttachments[i].blendingEnabled = NO;   //metal要求format不正确不能开启blend
         }
     }
     
@@ -171,7 +144,12 @@ void MetalRenderPipeline::SetTargetFormat(EPixelFormat colorFmt[], EPixelFormat 
 
 void MetalRenderPipeline::ApplyToEncoder(id<MTLRenderCommandEncoder> encoder)
 {
-    [encoder setDepthStencilState:m_depthStencilState];
+    if (m_depthStencilState != nil)
+    {
+        [encoder setDepthStencilState:m_depthStencilState];
+    }
+        
+    SetMetalRasterizerState(encoder, m_rasterizerState);
     
 	if(m_pipelineState == nullptr)
 	{
