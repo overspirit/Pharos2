@@ -36,6 +36,8 @@ namespace Pharos
 			vector<RenderObject*>		m_renderObjList;
 			//uint32						m_blockCount;
 
+			IRenderCallback*		m_renderCallback;
+
 		private:
 			void InitQuadBuffer();
 			
@@ -60,7 +62,6 @@ namespace Pharos
 			virtual RenderBuffer* GetQuadVertBuffer() { return m_quadVertBuf; }
 			virtual void DrawFullScreenQuad(RenderTexture* tex);
 
-			virtual void Update(float32 fElapsed);
 			virtual void Render(float32 fElapsed);
 
 			virtual void SaveRenderTarget(const char8* path);

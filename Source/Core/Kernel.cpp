@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Kernel::Kernel()
@@ -89,15 +89,19 @@ void Kernel::onWindowChangeSize(int32 width, int32 height)
 
 int32 Kernel::Run(float32 fElapsed)
 {
-    if (m_pApp != nullptr) m_pApp->Update(fElapsed);
+    if (m_pApp != nullptr) m_pApp->onPreSceneUpdate(fElapsed);
 
     sSceneMgr->Update(fElapsed);
-    sDesktopMgr->Update(fElapsed);
-    sRenderMgr->Update(fElapsed);
 
-    sSceneMgr->Render(fElapsed);
-    sDesktopMgr->Render(fElapsed);
+    if (m_pApp != nullptr) m_pApp->onPostSceneUpdate(fElapsed);
+
+    sDesktopMgr->Update(fElapsed);
+
+    if (m_pApp != nullptr) m_pApp->onPreRender(fElapsed);
+    
     sRenderMgr->Render(fElapsed);
 
+    if (m_pApp != nullptr) m_pApp->onPostRender(fElapsed);
+    
     return m_runFlag;
 }

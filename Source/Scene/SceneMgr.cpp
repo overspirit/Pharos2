@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 SceneMgr::SceneMgr()
@@ -94,12 +94,4 @@ void SceneMgr::Update(float32 fElapsed)
   	//Sprite3D::Inst()->DrawLine(Vector3Df(0, 0, 0), Vector3Df(10.0f, 0, 0), 0xFFFF0000);
   	//Sprite3D::Inst()->DrawLine(Vector3Df(0, 0, 0), Vector3Df(0, 10.0f, 0), 0xFF00FF00);
   	//Sprite3D::Inst()->DrawLine(Vector3Df(0, 0, 0), Vector3Df(0, 0, 10.0f), 0xFF0000FF);
-}
-
-void SceneMgr::Render(float32 fElapsed)
-{
-	if (m_currScene != nullptr)
-	{
-		m_currScene->Render(fElapsed);
-	}
 }

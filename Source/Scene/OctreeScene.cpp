@@ -138,11 +138,6 @@ void OctreeScene::Update(float32 fElapsed)
 	//Sprite3D::Inst()->DrawGridPlane(m_mapSize.width, m_mapSize.height, 0xFF00FFFF);
 }
 
-void OctreeScene::Render(float32 fElapsed)
-{
-
-}
-
 void OctreeScene::AddSceneNode(SceneNode* pNode)
 {
 	if (pNode == nullptr) return;
@@ -168,3 +163,23 @@ void OctreeScene::RemoveSceneNode(SceneNode* pNode)
 	TreeNode* pOwner = pNode->GetTreeOwner();
 	pOwner->RemoveOwnItem(pNode);
 }
+
+SceneNode* OctreeScene::GetSceneNode(uint32 index)
+{
+    return index < (uint32)m_nodeList.size() ? m_nodeList[index] : nullptr;
+}
+
+SceneNode* OctreeScene::GetSceneNode(const char8* name)
+{
+    for (vector<SceneNode*>::iterator iter = m_nodeList.begin(); iter != m_nodeList.end(); iter++)
+    {
+        SceneNode* childNode = *iter;
+        if (strcmp(childNode->GetNodeName(), name) == 0)
+        {
+            return childNode;
+        }
+    }
+    
+    return nullptr;
+}
+

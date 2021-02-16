@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-Material::Material()
+Material::Material(const char8* materialName)
 {
+    m_materialName = materialName;
+    
     m_renderPipeline = nullptr;
     m_renderSet = nullptr;
 
@@ -109,18 +111,78 @@ void Material::SetTextureParamValue(const char8* valueName, RenderTexture* textu
     
 }
 
-void Material::SetShaderProgram(const char8* techName, RenderProgram* renderProgram)
+void Material::SetShaderProgram(RenderProgram* renderProgram)
 {
-	DepthStencilStateDesc desc;
-    //desc.backStencilDepthFailOp = xxx;
-	
     m_renderPipeline = sRenderer->GenerateRenderPipeline();
-	m_renderPipeline->SetDepthStencilState(desc);
 	m_renderPipeline->SetProgramShader(renderProgram);
 	
     m_renderSet = sRenderer->GenerateRenderResuourceSet();
+}
 
-    m_techName = techName;
+void Material::SetTransparentEnabled(bool enabled)
+{
+    m_blendState.blendEnable = enabled;
+    m_blendState.alphaToCoverageEnable = false;
+    m_blendState.srcBlend = BLEND_SRC_ALPHA;
+    m_blendState.destBlend = BLEND_INV_SRC_ALPHA;
+    m_blendState.blendOp = BLEND_OP_ADD;
+    m_blendState.srcBlendAlpha = BLEND_SRC_ALPHA;
+    m_blendState.destBlendAlpha = BLEND_INV_SRC_ALPHA;
+    m_blendState.blendOpAlpha = BLEND_OP_ADD;
+    
+    m_renderPipeline->SetBlendState(m_blendState);
+}
+
+void Material::SetForceDepthWrite(bool force)
+{
+    m_depthState.depthEnable = true;
+    m_depthState.depthWriteMask = DEPTH_WRITE_ALL;
+    m_depthState.depthFunc = force ? COMPARISON_ALWAYS : COMPARISON_LESS;
+    m_depthState.stencilEnable = false;
+    m_depthState.stencilRefValue = 0;
+    m_depthState.stencilWriteMask = 0xFF;
+    m_depthState.frontStencilFailOp = STENCIL_OP_KEEP;
+    m_depthState.frontStencilDepthFailOp = STENCIL_OP_KEEP;
+    m_depthState.frontStencilPassOp = STENCIL_OP_KEEP;
+    m_depthState.frontStencilFunc = COMPARISON_ALWAYS;
+    m_depthState.backStencilFailOp = STENCIL_OP_KEEP;
+    m_depthState.backStencilDepthFailOp = STENCIL_OP_KEEP;
+    m_depthState.backStencilPassOp = STENCIL_OP_KEEP;
+    m_depthState.backStencilFunc = COMPARISON_ALWAYS;
+    
+    m_renderPipeline->SetDepthStencilState(m_depthState);
+}
+
+void Material::SetCullBackFace(bool cull)
+{
+    m_rasterizerState.fillMode = FILL_SOLID;
+    m_rasterizerState.cullMode = cull ? CULL_BACK : CULL_NONE;
+    //m_rasterizerState.frontCounterClockwise = false;
+    m_rasterizerState.depthBias = 0;
+    m_rasterizerState.depthBiasClamp = 0;
+    m_rasterizerState.slopeScaledDepthBias = 0;
+    m_rasterizerState.depthClipEnable = true;
+    m_rasterizerState.scissorEnable = false;
+    m_rasterizerState.multisampleEnable = false;
+    m_rasterizerState.antialiasedLineEnable = false;
+    
+    m_renderPipeline->SetRasterizerState(m_rasterizerState);
+}
+
+void Material::SetClockwiseFrontFace(bool clockwise)
+{
+    m_rasterizerState.fillMode = FILL_SOLID;
+    //m_rasterizerState.cullMode = CULL_BACK;
+    m_rasterizerState.frontCounterClockwise = !clockwise;
+    m_rasterizerState.depthBias = 0;
+    m_rasterizerState.depthBiasClamp = 0;
+    m_rasterizerState.slopeScaledDepthBias = 0;
+    m_rasterizerState.depthClipEnable = true;
+    m_rasterizerState.scissorEnable = false;
+    m_rasterizerState.multisampleEnable = false;
+    m_rasterizerState.antialiasedLineEnable = false;
+    
+    m_renderPipeline->SetRasterizerState(m_rasterizerState);
 }
 
 void Material::SetTextureVariable(const char8* name, uint32 slot)

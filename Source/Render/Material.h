@@ -4,10 +4,11 @@ namespace Pharos
 {
 	namespace Render
 	{
+		//shader, 状态， 参数， 纹理， 目标
 		class Material
 		{
 		public:
-			Material();
+            Material(const char8* materialName);
 			virtual ~Material();
 
 		private:
@@ -19,11 +20,15 @@ namespace Pharos
 			};
 
 		private:
-			string	m_techName;
+            string      m_materialName;
 			
 			RenderPipeline*		m_renderPipeline;
 			RenderResourceSet*	m_renderSet;
 
+            BlendStateDesc          m_blendState;
+            RasterizerStateDesc     m_rasterizerState;
+            DepthStencilStateDesc   m_depthState;
+            
 			RenderVariable*		m_viewVar;
 			RenderVariable*		m_projVar;
 			RenderVariable*		m_worldVar;
@@ -47,7 +52,11 @@ namespace Pharos
 
 			virtual void UpdateParamValue();
 
-			virtual void SetShaderProgram(const char8* techName, RenderProgram* renderProgram);						
+			virtual void SetShaderProgram(RenderProgram* renderProgram);
+			virtual void SetTransparentEnabled(bool enabled);
+            virtual void SetForceDepthWrite(bool force);
+            virtual void SetCullBackFace(bool cull);
+            virtual void SetClockwiseFrontFace(bool clockwise);
 
 			virtual void SetTextureVariable(const char8* name, uint32 slot);
 			virtual uint32 AddUniformaVariable(const char8* name, uint32 size, uint32 slot);

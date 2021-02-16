@@ -51,7 +51,6 @@ namespace Pharos
 			virtual void onViewDestroy();
 
 			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
 
 			virtual RenderFont* GenerateRenderFont(const char8* fontFilePath);
 			virtual RenderImage* GenerateRenderImage();

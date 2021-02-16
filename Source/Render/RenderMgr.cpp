@@ -20,6 +20,8 @@ RenderMgr::RenderMgr()
 
     m_quadVertBuf = nullptr;
 
+	m_renderCallback = nullptr;
+
     //m_blockCount = 0;
 }
 
@@ -154,7 +156,7 @@ RenderObject* RenderMgr::GenerateRenderObject()
 
 void RenderMgr::RegisterRenderCallback(IRenderCallback* callback)
 {
-	//m_renderCallback = callback;
+	m_renderCallback = callback;
 }
 
 Vector2Df RenderMgr::GetPosFromWindowPos(int32 x, int32 y)
@@ -188,11 +190,6 @@ void RenderMgr::DrawFullScreenQuad(RenderTexture* tex)
 	
 }
 
-void RenderMgr::Update(float32 fElapsed)
-{
-
-}
-
 void RenderMgr::Render(float32 fElapsed)
 {	
 	m_defaultCommand->BeginCommand();
@@ -214,14 +211,14 @@ void RenderMgr::Render(float32 fElapsed)
 	scissorRect.bottom = height;
 	m_defaultCommand->SetScissorRect(scissorRect);
 
-	m_defaultCommand->BeginRenderTarget(m_finalTarget);
-
-	for(RenderObject* obj : m_renderObjList)
-	{
-		obj->Draw();
-	}
-
-	m_defaultCommand->EndRenderTarget();
+//	m_defaultCommand->BeginRenderTarget(m_finalTarget);
+//
+//	for(RenderObject* obj : m_renderObjList)
+//	{
+//		obj->Draw();
+//	}
+//
+//	m_defaultCommand->EndRenderTarget();
     
     
     
@@ -238,10 +235,15 @@ void RenderMgr::Render(float32 fElapsed)
         scissorRect.bottom = height;
         m_defaultCommand->SetScissorRect(scissorRect);
         
-		m_defaultCommand->SetVertexBuffer(m_quadVertBuf);
-		m_defaultCommand->SetRenderStaging(m_finalResourceSet, m_finalPipeline);
+		//m_defaultCommand->SetVertexBuffer(m_quadVertBuf);
+		//m_defaultCommand->SetRenderStaging(m_finalResourceSet, m_finalPipeline);
 
-		m_defaultCommand->DrawPrimitives(0, 6);
+        for(RenderObject* obj : m_renderObjList)
+        {
+            obj->Draw();
+        }
+
+		//m_defaultCommand->DrawPrimitives(0, 6);
 
 		m_defaultCommand->EndRenderTarget();
 		m_defaultCommand->EndCommand();

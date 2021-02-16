@@ -233,22 +233,19 @@ void DesktopMgr::onViewDestroy()
 void DesktopMgr::Update(float32 fElapsed)
 {
 	if (m_worldFrame != nullptr) m_worldFrame->Update(fElapsed);
-}
 
-void DesktopMgr::Render(float32 fElapsed)
-{
-	if (m_worldFrame == nullptr) return;
+	//if (m_worldFrame == nullptr) return;
 
 	//IFrameBuffer* defFrameBuf = g_pDevice->GetDefaultFrameBuffer();
 	//defFrameBuf->ClearFrameBuffer(0x00, 1.0f, 0);
 
 	//g_pDevice->SetFrameBuffer(defFrameBuf);
 
-	m_worldFrame->Render(fElapsed);
+	//m_worldFrame->Render(fElapsed);
 
 	//m_renderLayout->CopyVertexBuffer(&m_layoutBuffer, m_vertCount * sizeof(DecalColorVertex));
 
 	//sRenderMgr->DoRender(m_renderBlock);
 
-	sRenderSpirite->Render();
+	sRenderSpirite->Draw();
 }

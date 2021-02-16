@@ -152,8 +152,8 @@ Material* MaterialMgr::GenerateMaterial(const char8* tech)
 	
 	TechniqueInfo& techInfo = m_techList[tech];	
 
-	Material* material = new Material();
-	material->SetShaderProgram(techInfo.techName.c_str(), techInfo.renderProgram);
+	Material* material = new Material(techInfo.techName.c_str());
+	material->SetShaderProgram(techInfo.renderProgram);
 
 	for (UniformInfo& uniformInfo : techInfo.uniformInfos)
 	{
