@@ -239,7 +239,7 @@ namespace Pharos
 			case EPF_D16_UNORM: return 2;
 			}
 
-			assert(false);
+			//assert(false);
 
 			return 0;
 		}
@@ -292,39 +292,80 @@ namespace Pharos
 
 		inline VkPipelineDepthStencilStateCreateInfo GetVulkanDepthStencilState(const DepthStencilStateDesc& desc)
 		{
+			const static VkCompareOp compareOps[] = {
+				VK_COMPARE_OP_NEVER, //COMPARISON_NEVER
+				VK_COMPARE_OP_LESS, //COMPARISON_LESS
+				VK_COMPARE_OP_EQUAL, //COMPARISON_EQUAL
+				VK_COMPARE_OP_LESS_OR_EQUAL, //COMPARISON_LESS_EQUAL
+				VK_COMPARE_OP_GREATER, //COMPARISON_GREATER
+				VK_COMPARE_OP_NOT_EQUAL, //COMPARISON_NOT_EQUAL
+				VK_COMPARE_OP_GREATER_OR_EQUAL, //COMPARISON_GREATER_EQUAL
+				VK_COMPARE_OP_ALWAYS, //COMPARISON_ALWAYS
+			};
+
+			const static VkStencilOp stencilOps[] = {
+				VK_STENCIL_OP_KEEP, //STENCIL_OP_KEEP
+				VK_STENCIL_OP_ZERO, //STENCIL_OP_ZERO
+				VK_STENCIL_OP_REPLACE, //STENCIL_OP_REPLACE
+				VK_STENCIL_OP_INCREMENT_AND_CLAMP, //STENCIL_OP_INCR_SAT
+				VK_STENCIL_OP_DECREMENT_AND_CLAMP, //STENCIL_OP_DECR_SAT
+				VK_STENCIL_OP_INVERT, //STENCIL_OP_INVERT
+				VK_STENCIL_OP_INCREMENT_AND_WRAP, //STENCIL_OP_INCR
+				VK_STENCIL_OP_DECREMENT_AND_WRAP, //STENCIL_OP_DECR
+			};
+
 			VkPipelineDepthStencilStateCreateInfo	depthStencilState;    
 			depthStencilState.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 			depthStencilState.pNext = NULL;
 			depthStencilState.flags = 0;
-			depthStencilState.depthTestEnable = VK_TRUE;
+			depthStencilState.depthTestEnable = desc.depthEnable ? VK_TRUE : VK_FALSE;
 			depthStencilState.depthWriteEnable = VK_TRUE;
-			depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+			depthStencilState.depthCompareOp = compareOps[desc.depthFunc];
 			depthStencilState.depthBoundsTestEnable = VK_FALSE;
-			depthStencilState.stencilTestEnable = VK_FALSE;
-			depthStencilState.back.failOp = VK_STENCIL_OP_KEEP;
-			depthStencilState.back.passOp = VK_STENCIL_OP_KEEP;
-			depthStencilState.back.compareOp = VK_COMPARE_OP_ALWAYS;
+
+			depthStencilState.stencilTestEnable = desc.stencilEnable ? VK_TRUE : VK_FALSE;
+			depthStencilState.back.failOp = stencilOps[desc.backStencilFailOp];
+			depthStencilState.back.passOp = stencilOps[desc.backStencilPassOp];
+			depthStencilState.back.compareOp = compareOps[desc.backStencilFunc];
 			depthStencilState.back.compareMask = 0;
 			depthStencilState.back.reference = 0;
-			depthStencilState.back.depthFailOp = VK_STENCIL_OP_KEEP;
+			depthStencilState.back.depthFailOp = stencilOps[desc.backStencilDepthFailOp];
 			depthStencilState.back.writeMask = 0;
+
+			depthStencilState.front.failOp = stencilOps[desc.frontStencilFailOp];
+			depthStencilState.front.passOp = stencilOps[desc.frontStencilPassOp];
+			depthStencilState.front.compareOp = compareOps[desc.frontStencilFunc];
+			depthStencilState.front.compareMask = 0;
+			depthStencilState.front.reference = 0;
+			depthStencilState.front.depthFailOp = stencilOps[desc.frontStencilDepthFailOp];
+			depthStencilState.front.writeMask = 0;
+
 			depthStencilState.minDepthBounds = 0;
 			depthStencilState.maxDepthBounds = 0;
-			depthStencilState.stencilTestEnable = VK_FALSE;
-			depthStencilState.front = depthStencilState.back;
 
 			return depthStencilState;
 		}
 
 		inline VkPipelineRasterizationStateCreateInfo GetVulkanRasterizationState(const RasterizerStateDesc& desc)
 		{
+			const static VkPolygonMode polygonMode[] = {
+					VK_POLYGON_MODE_LINE, //FILL_WIREFRAME
+					VK_POLYGON_MODE_FILL, //FILL_SOLID
+			};
+
+			const static VkCullModeFlagBits cullMode[] = {
+					VK_CULL_MODE_NONE, //CULL_NONE
+					VK_CULL_MODE_FRONT_BIT, //CULL_FRONT
+					VK_CULL_MODE_BACK_BIT, //CULL_BACK
+			};
+
 			VkPipelineRasterizationStateCreateInfo rasterState;			
 			rasterState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 			rasterState.pNext = NULL;
 			rasterState.flags = 0;
-			rasterState.polygonMode = VK_POLYGON_MODE_FILL;
-			rasterState.cullMode = VK_CULL_MODE_BACK_BIT;
-			rasterState.frontFace = VK_FRONT_FACE_CLOCKWISE;
+			rasterState.polygonMode = polygonMode[desc.fillMode];
+			rasterState.cullMode = cullMode[desc.cullMode];
+			rasterState.frontFace = desc.frontCounterClockwise ? VK_FRONT_FACE_COUNTER_CLOCKWISE : VK_FRONT_FACE_CLOCKWISE;
 			rasterState.depthClampEnable = VK_FALSE;
 			rasterState.rasterizerDiscardEnable = VK_FALSE;
 			rasterState.depthBiasEnable = VK_FALSE;
