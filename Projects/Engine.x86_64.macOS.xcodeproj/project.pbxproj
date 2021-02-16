@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7300B4C25DBC4150087F8BF /* BorderShine.metal in Sources */ = {isa = PBXBuildFile; fileRef = C7300B4B25DBC4150087F8BF /* BorderShine.metal */; };
+		C7300B5125DBC5F70087F8BF /* Lambert.metal in Sources */ = {isa = PBXBuildFile; fileRef = C7300B4E25DBC5F70087F8BF /* Lambert.metal */; };
+		C7300B5225DBC5F70087F8BF /* Phong.metal in Sources */ = {isa = PBXBuildFile; fileRef = C7300B4F25DBC5F70087F8BF /* Phong.metal */; };
+		C7300B5325DBC5F70087F8BF /* Blinn.metal in Sources */ = {isa = PBXBuildFile; fileRef = C7300B5025DBC5F70087F8BF /* Blinn.metal */; };
 		C7360A102590C2EA007D1BC9 /* RenderState.h in Headers */ = {isa = PBXBuildFile; fileRef = C7360A0F2590C2EA007D1BC9 /* RenderState.h */; };
 		C7398C1624B73A1C0092BF6E /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7398C1424B73A1C0092BF6E /* File.cpp */; };
 		C7398C1724B73A1C0092BF6E /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C1524B73A1C0092BF6E /* File.h */; };
@@ -30,7 +34,6 @@
 		C769A9462465514800C30621 /* IMetalCommandFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = C769A9452465514800C30621 /* IMetalCommandFactory.h */; };
 		C7C6A11B24754CF40001D9FF /* RenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7C6A11924754CF40001D9FF /* RenderObject.cpp */; };
 		C7C6A11C24754CF40001D9FF /* RenderObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C6A11A24754CF40001D9FF /* RenderObject.h */; };
-		F944EA5F2444260B00B6D702 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = F944EA5E2444260B00B6D702 /* Shaders.metal */; };
 		F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83E8243734400002DFF0 /* CompileConfig.h */; };
 		F97F83EE243734400002DFF0 /* PreCompile.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83EA243734400002DFF0 /* PreCompile.h */; };
 		F97F842F243C2BD50002DFF0 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F97F842E243C2BD50002DFF0 /* main.mm */; };
@@ -174,6 +177,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C7300B4B25DBC4150087F8BF /* BorderShine.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = BorderShine.metal; path = ../Source/Render/Shader/Metal/BorderShine.metal; sourceTree = "<group>"; };
+		C7300B4E25DBC5F70087F8BF /* Lambert.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Lambert.metal; path = ../Source/Render/Shader/Metal/Lambert.metal; sourceTree = "<group>"; };
+		C7300B4F25DBC5F70087F8BF /* Phong.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Phong.metal; path = ../Source/Render/Shader/Metal/Phong.metal; sourceTree = "<group>"; };
+		C7300B5025DBC5F70087F8BF /* Blinn.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Blinn.metal; path = ../Source/Render/Shader/Metal/Blinn.metal; sourceTree = "<group>"; };
+		C7300B5525DBC6140087F8BF /* Phong.fxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Phong.fxml; path = ../Source/Render/Shader/Phong.fxml; sourceTree = "<group>"; };
+		C7300B5625DBC6140087F8BF /* BorderShine.fxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = BorderShine.fxml; path = ../Source/Render/Shader/BorderShine.fxml; sourceTree = "<group>"; };
+		C7300B5725DBC6140087F8BF /* Blinn.fxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Blinn.fxml; path = ../Source/Render/Shader/Blinn.fxml; sourceTree = "<group>"; };
+		C7300B5825DBC6140087F8BF /* Lambert.fxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Lambert.fxml; path = ../Source/Render/Shader/Lambert.fxml; sourceTree = "<group>"; };
 		C7360A0F2590C2EA007D1BC9 /* RenderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderState.h; path = ../Source/Render/Renderer/RenderState.h; sourceTree = "<group>"; };
 		C7398C1424B73A1C0092BF6E /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = File.cpp; path = ../Source/Core/macOS/File.cpp; sourceTree = "<group>"; };
 		C7398C1524B73A1C0092BF6E /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.h; path = ../Source/Core/macOS/File.h; sourceTree = "<group>"; };
@@ -200,7 +211,6 @@
 		C7C6A11924754CF40001D9FF /* RenderObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderObject.cpp; path = ../Source/Render/RenderObject.cpp; sourceTree = "<group>"; };
 		C7C6A11A24754CF40001D9FF /* RenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderObject.h; path = ../Source/Render/RenderObject.h; sourceTree = "<group>"; };
 		F90BE5762435C21B0018A7F2 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F944EA5E2444260B00B6D702 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = ../Source/Render/Shader/Metal/Shaders.metal; sourceTree = "<group>"; };
 		F97F83E8243734400002DFF0 /* CompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompileConfig.h; path = ../Source/CompileConfig.h; sourceTree = "<group>"; };
 		F97F83EA243734400002DFF0 /* PreCompile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreCompile.h; path = ../Source/PreCompile.h; sourceTree = "<group>"; };
 		F97F842E243C2BD50002DFF0 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = main.mm; path = ../Source/Core/macOS/main.mm; sourceTree = "<group>"; };
@@ -361,9 +371,9 @@
 		F90BE56D2435C21B0018A7F2 = {
 			isa = PBXGroup;
 			children = (
-				F97F83F0243734430002DFF0 /* Source */,
 				F97F8492243C7CC20002DFF0 /* Frameworks */,
 				F90BE5772435C21B0018A7F2 /* Products */,
+				F97F83F0243734430002DFF0 /* Source */,
 			);
 			sourceTree = "<group>";
 		};
@@ -556,6 +566,10 @@
 			isa = PBXGroup;
 			children = (
 				F9D9816A243EFDB90028DD41 /* Metal */,
+				C7300B5725DBC6140087F8BF /* Blinn.fxml */,
+				C7300B5625DBC6140087F8BF /* BorderShine.fxml */,
+				C7300B5825DBC6140087F8BF /* Lambert.fxml */,
+				C7300B5525DBC6140087F8BF /* Phong.fxml */,
 				C7398C3F24B7425F0092BF6E /* Skeletal.fxml */,
 				C7398C4024B7425F0092BF6E /* Sprite3D.fxml */,
 			);
@@ -565,9 +579,12 @@
 		F9D9816A243EFDB90028DD41 /* Metal */ = {
 			isa = PBXGroup;
 			children = (
+				C7300B5025DBC5F70087F8BF /* Blinn.metal */,
+				C7300B4E25DBC5F70087F8BF /* Lambert.metal */,
+				C7300B4F25DBC5F70087F8BF /* Phong.metal */,
+				C7300B4B25DBC4150087F8BF /* BorderShine.metal */,
 				C74F713925933E1300CC940F /* Copy.metal */,
 				C74F713C25933E1300CC940F /* Font.metal */,
-				F944EA5E2444260B00B6D702 /* Shaders.metal */,
 				C74F713A25933E1300CC940F /* Skeletal.metal */,
 				C74F7144259340F900CC940F /* Sprite2D.metal */,
 				C7398C4124B742D60092BF6E /* Sprite3D.metal */,
@@ -827,7 +844,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "MY_PROJECT_DIR=\"${PROJECT_DIR}/..\"\nSHADER_DIR=\"${MY_PROJECT_DIR}/Source/Render/Shader\"\nSRC_METAL_DIR=\"${SHADER_DIR}/Metal\"\nOUTPUT_DIR=\"${MY_PROJECT_DIR}/Data/Shader/\"\nmkdir ${OUTPUT_DIR}\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite3D.metal -o ${PROJECT_TEMP_DIR}/Sprite3D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite3D.lib ${PROJECT_TEMP_DIR}/Sprite3D.air \ncp -r ${SHADER_DIR}/Sprite3D.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Skeletal.metal -o ${PROJECT_TEMP_DIR}/Skeletal.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Skeletal.lib ${PROJECT_TEMP_DIR}/Skeletal.air \ncp -r ${SHADER_DIR}/Skeletal.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Copy.metal -o ${PROJECT_TEMP_DIR}/Copy.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Copy.lib ${PROJECT_TEMP_DIR}/Copy.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite2D.metal -o ${PROJECT_TEMP_DIR}/Sprite2D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite2D.lib ${PROJECT_TEMP_DIR}/Sprite2D.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Font.metal -o ${PROJECT_TEMP_DIR}/Font.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Font.lib ${PROJECT_TEMP_DIR}/Font.air \n";
+			shellScript = "MY_PROJECT_DIR=\"${PROJECT_DIR}/..\"\nSHADER_DIR=\"${MY_PROJECT_DIR}/Source/Render/Shader\"\nSRC_METAL_DIR=\"${SHADER_DIR}/Metal\"\nOUTPUT_DIR=\"${MY_PROJECT_DIR}/Data/Shader/\"\nmkdir ${OUTPUT_DIR}\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite3D.metal -o ${PROJECT_TEMP_DIR}/Sprite3D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite3D.lib ${PROJECT_TEMP_DIR}/Sprite3D.air \ncp -r ${SHADER_DIR}/Sprite3D.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Skeletal.metal -o ${PROJECT_TEMP_DIR}/Skeletal.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Skeletal.lib ${PROJECT_TEMP_DIR}/Skeletal.air \ncp -r ${SHADER_DIR}/Skeletal.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/BorderShine.metal -o ${PROJECT_TEMP_DIR}/BorderShine.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/BorderShine.lib ${PROJECT_TEMP_DIR}/BorderShine.air \ncp -r ${SHADER_DIR}/BorderShine.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Copy.metal -o ${PROJECT_TEMP_DIR}/Copy.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Copy.lib ${PROJECT_TEMP_DIR}/Copy.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite2D.metal -o ${PROJECT_TEMP_DIR}/Sprite2D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite2D.lib ${PROJECT_TEMP_DIR}/Sprite2D.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Font.metal -o ${PROJECT_TEMP_DIR}/Font.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Font.lib ${PROJECT_TEMP_DIR}/Font.air \n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -845,6 +862,7 @@
 				F9D98228243F0BDD0028DD41 /* Button.cpp in Sources */,
 				F9D981F5243F0BA00028DD41 /* TreeNode.cpp in Sources */,
 				F9D9811E243EFB110028DD41 /* MetalRenderer.mm in Sources */,
+				C7300B5125DBC5F70087F8BF /* Lambert.metal in Sources */,
 				F9D981D2243F06190028DD41 /* XmlNode.cpp in Sources */,
 				C7398C4224B742D60092BF6E /* Sprite3D.metal in Sources */,
 				F9D981B0243EFF6C0028DD41 /* MetalRenderBuffer.mm in Sources */,
@@ -852,7 +870,6 @@
 				F9D98124243EFB560028DD41 /* RenderMgr.cpp in Sources */,
 				F9D981D6243F06190028DD41 /* Properties.cpp in Sources */,
 				F97F848F243C65880002DFF0 /* PlatformMacOS.mm in Sources */,
-				F944EA5F2444260B00B6D702 /* Shaders.metal in Sources */,
 				F9D98238243F0BDD0028DD41 /* Texture.cpp in Sources */,
 				F9D981CB243F06190028DD41 /* XmlDocument.cpp in Sources */,
 				F9D981CD243F06190028DD41 /* Font.cpp in Sources */,
@@ -861,6 +878,7 @@
 				F9D981EB243F0BA00028DD41 /* GridNode.cpp in Sources */,
 				F9D98152243EFCEF0028DD41 /* Mesh.cpp in Sources */,
 				F9D98235243F0BDD0028DD41 /* UIObject.cpp in Sources */,
+				C7300B5225DBC5F70087F8BF /* Phong.metal in Sources */,
 				F9D98208243F0BC10028DD41 /* RenderSprite.cpp in Sources */,
 				F9D981A4243EFF6C0028DD41 /* MetalRenderTarget.mm in Sources */,
 				F9D981A1243EFF6C0028DD41 /* MetalShaderProgram.mm in Sources */,
@@ -876,6 +894,7 @@
 				F9F95FA92446F6AD0012DE8A /* MetalRenderPipeline.mm in Sources */,
 				F9D98232243F0BDD0028DD41 /* Slider.cpp in Sources */,
 				F9D98233243F0BDD0028DD41 /* Progress.cpp in Sources */,
+				C7300B5325DBC5F70087F8BF /* Blinn.metal in Sources */,
 				C74F713D25933E1400CC940F /* Copy.metal in Sources */,
 				F9D98237243F0BDD0028DD41 /* WorldFrame.cpp in Sources */,
 				C7C6A11B24754CF40001D9FF /* RenderObject.cpp in Sources */,
@@ -895,6 +914,7 @@
 				F97F849F243C7E740002DFF0 /* Timer.cpp in Sources */,
 				F9D9822E243F0BDD0028DD41 /* Frame.cpp in Sources */,
 				F9D981CC243F06190028DD41 /* ResourceManager.cpp in Sources */,
+				C7300B4C25DBC4150087F8BF /* BorderShine.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

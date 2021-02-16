@@ -44,7 +44,8 @@ bool RenderMgr::Init()
 
 	//Load Effect file
 	sMaterialMgr->LoadEffectFile("Shader/Sprite3D.fxml");
-	sMaterialMgr->LoadEffectFile("Shader/Skeletal.fxml");	
+	sMaterialMgr->LoadEffectFile("Shader/Skeletal.fxml");
+    sMaterialMgr->LoadEffectFile("Shader/BorderShine.fxml");
 	
 	VertLayoutDesc desc[] =
 	{

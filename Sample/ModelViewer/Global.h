@@ -1,7 +1,9 @@
-﻿#pragma once
+#pragma once
 
 #include "Pharos.h"
 
-//using namespace Pharos::Core;
+#include <fbxsdk.h>
 
+#include "Converter.h"
 #include "MyApp.h"
+

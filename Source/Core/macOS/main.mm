@@ -60,7 +60,8 @@ void addMonitor()
         NSEventMaskOtherMouseDown | NSEventMaskOtherMouseUp |
         NSEventMaskScrollWheel | NSEventMaskMouseMoved |
         NSEventMaskLeftMouseDragged | NSEventMaskRightMouseDragged | NSEventMaskOtherMouseDragged |
-        NSEventMaskKeyDown | NSEventMaskKeyUp;
+    NSEventMaskKeyDown | NSEventMaskKeyUp;
+    //| NSEventMaskFlagsChanged | NSEventMaskAppKitDefined | NSEventMaskSystemDefined | NSEventMaskApplicationDefined | NSEventMaskPeriodic | NSEventTypePeriodic;
 
     monitorId = [NSEvent addLocalMonitorForEventsMatchingMask : mask handler : ^NSEvent*_Nullable(NSEvent *event) {
         //NSLog(@"local monitor: %@", event);
@@ -103,7 +104,6 @@ const char* OpenFileDialog(const char* defaultPath)
         dirPath = [NSString stringWithUTF8String:defaultPath];
     }
     
-    
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setDirectoryURL: [NSURL URLWithString: dirPath]];
     [panel setAllowsMultipleSelection:NO];
@@ -125,13 +125,6 @@ int main(int argc, const char * argv[])
 	NSApplication* applicaton = [NSApplication sharedApplication];
 	AppDelegate* delegate = [[AppDelegate alloc] init];
 	applicaton.delegate = delegate;
-
-	NSEventMask mask = NSEventMaskLeftMouseDown | NSEventMaskLeftMouseUp |
-		NSEventMaskRightMouseDown | NSEventMaskRightMouseUp |
-		NSEventMaskOtherMouseDown | NSEventMaskOtherMouseUp |
-		NSEventMaskScrollWheel | NSEventMaskMouseMoved |
-		NSEventMaskLeftMouseDragged | NSEventMaskRightMouseDragged | NSEventMaskOtherMouseDragged |
-		NSEventMaskKeyDown | NSEventMaskKeyUp;
 
     addMonitor();
 

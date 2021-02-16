@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C78B115925D95FFE004E4953 /* Converter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C78B115325D95B3E004E4953 /* Converter.cpp */; };
+		C78B115C25D96027004E4953 /* libfbxsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C78B115B25D96027004E4953 /* libfbxsdk.a */; };
 		F97F83E72437340A0002DFF0 /* libEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F97F83E62437340A0002DFF0 /* libEngine.a */; };
 		F97F847F243C4D810002DFF0 /* MyApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97F847E243C4D810002DFF0 /* MyApp.cpp */; };
 		F97F8498243C7D270002DFF0 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F97F8497243C7D270002DFF0 /* AppKit.framework */; };
@@ -16,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C78B115225D95B3E004E4953 /* Converter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Converter.h; sourceTree = "<group>"; };
+		C78B115325D95B3E004E4953 /* Converter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Converter.cpp; sourceTree = "<group>"; };
+		C78B115B25D96027004E4953 /* libfbxsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfbxsdk.a; path = ../../External/fbx_sdk/lib/clang/release/libfbxsdk.a; sourceTree = "<group>"; };
 		F90BE4DD2435BC9C0018A7F2 /* ModelViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97F83E62437340A0002DFF0 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97F8430243C2DB90002DFF0 /* ModelViewer.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ModelViewer.entitlements; sourceTree = "<group>"; };
@@ -34,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C78B115C25D96027004E4953 /* libfbxsdk.a in Frameworks */,
 				F97F84AF243C95CA0002DFF0 /* ModelIO.framework in Frameworks */,
 				F97F84AD243C95950002DFF0 /* Metal.framework in Frameworks */,
 				F97F84A8243C857E0002DFF0 /* MetalKit.framework in Frameworks */,
@@ -48,6 +54,8 @@
 		F90BE4D42435BC9C0018A7F2 = {
 			isa = PBXGroup;
 			children = (
+				C78B115325D95B3E004E4953 /* Converter.cpp */,
+				C78B115225D95B3E004E4953 /* Converter.h */,
 				F97F847C243C4D810002DFF0 /* Global.h */,
 				F97F847E243C4D810002DFF0 /* MyApp.cpp */,
 				F97F847D243C4D810002DFF0 /* MyApp.h */,
@@ -69,6 +77,7 @@
 		F97F83E52437340A0002DFF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C78B115B25D96027004E4953 /* libfbxsdk.a */,
 				F97F84AE243C95CA0002DFF0 /* ModelIO.framework */,
 				F97F84A5243C857E0002DFF0 /* Metal.framework */,
 				F97F84A6243C857E0002DFF0 /* MetalKit.framework */,
@@ -162,7 +171,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"copy data folder to output app...\"\nmkdir ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Shader ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Font ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Interface ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Model ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\n";
+			shellScript = "echo \"copy data folder to output app...\"\nmkdir ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Shader ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Font ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Interface ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\ncp -r ${PROJECT_DIR}/../../Data/Model ${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\n\ncp -r ${PROJECT_DIR}/../../External/fbx_sdk/lib/clang/release/libfbxsdk.dylib ${BUILT_PRODUCTS_DIR}/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -171,6 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C78B115925D95FFE004E4953 /* Converter.cpp in Sources */,
 				F97F847F243C4D810002DFF0 /* MyApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,20 +308,26 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = Q9K3JMNPJ8;
 				HEADER_SEARCH_PATHS = (
-					"../../External/FreeImage-3.17.0/Include",
-					"../../External/libpng-1.6.29/Source",
-					"../../External/libjpeg-9b/Source",
-					"../../External/freetype-2.8/Include",
-					"../../External/zlib-1.2.11/Source",
-					../../External/rapidXml,
-					../../External/rapidjson,
-					../../External/dlmalloc,
-					../../Source,
+					"${PROJECT_DIR}/../../External/FreeImage-3.17.0/Include",
+					"${PROJECT_DIR}/../../External/libpng-1.6.29/Source",
+					"${PROJECT_DIR}/../../External/libjpeg-9b/Source",
+					"${PROJECT_DIR}/../../External/freetype-2.8/Include",
+					"${PROJECT_DIR}/../../External/zlib-1.2.11/Source",
+					"${PROJECT_DIR}/../../External/rapidXml",
+					"${PROJECT_DIR}/../../External/rapidjson",
+					"${PROJECT_DIR}/../../External/dlmalloc",
+					"${PROJECT_DIR}/../../External/fbx_sdk/include",
+					"${PROJECT_DIR}/../../Source",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../External/fbx_sdk/lib/clang/debug",
+					"$(PROJECT_DIR)/../../External/fbx_sdk/lib/clang/libstdcpp/debug",
+					"$(PROJECT_DIR)/../../External/fbx_sdk/lib/clang/release",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = mindbrain.ModelViewer;
@@ -328,20 +344,26 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = Q9K3JMNPJ8;
 				HEADER_SEARCH_PATHS = (
-					"../../External/FreeImage-3.17.0/Include",
-					"../../External/libpng-1.6.29/Source",
-					"../../External/libjpeg-9b/Source",
-					"../../External/freetype-2.8/Include",
-					"../../External/zlib-1.2.11/Source",
-					../../External/rapidXml,
-					../../External/rapidjson,
-					../../External/dlmalloc,
-					../../Source,
+					"${PROJECT_DIR}/../../External/FreeImage-3.17.0/Include",
+					"${PROJECT_DIR}/../../External/libpng-1.6.29/Source",
+					"${PROJECT_DIR}/../../External/libjpeg-9b/Source",
+					"${PROJECT_DIR}/../../External/freetype-2.8/Include",
+					"${PROJECT_DIR}/../../External/zlib-1.2.11/Source",
+					"${PROJECT_DIR}/../../External/rapidXml",
+					"${PROJECT_DIR}/../../External/rapidjson",
+					"${PROJECT_DIR}/../../External/dlmalloc",
+					"${PROJECT_DIR}/../../External/fbx_sdk/include",
+					"${PROJECT_DIR}/../../Source",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../External/fbx_sdk/lib/clang/debug",
+					"$(PROJECT_DIR)/../../External/fbx_sdk/lib/clang/libstdcpp/debug",
+					"$(PROJECT_DIR)/../../External/fbx_sdk/lib/clang/release",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = mindbrain.ModelViewer;

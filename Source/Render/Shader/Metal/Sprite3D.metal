@@ -71,6 +71,7 @@ typedef struct
 {
 	float4 pos [[position]];
 	float4 color;
+    float size [[point_size]];
 } ColorInOut;
 
 typedef struct
@@ -97,6 +98,8 @@ vertex ColorInOut Sprite3DNormalVS(VertexNormal in [[stage_in]],
 	float d = clamp(dot(-ligDir, in.normal), 0.0, 1.0);
 	out.color = d * sceneLight.g_light_color + sceneLight.g_environment_color;
 
+    out.size = 3;
+    
     return out;
 }
 
@@ -112,6 +115,8 @@ vertex ColorInOut Sprite3DColorVS(VertexColor in [[stage_in]],
 	
     out.color = in.color;
 
+    out.size = 3;
+    
     return out;
 }
 
@@ -166,7 +171,7 @@ vertex TextureInOut Sprite3DTextureWithNormalVS(VertexNormalTexture in [[stage_i
 
 fragment float4 Sprite3DColorPS(ColorInOut in [[stage_in]])
 {
-	return in.color;
+    return in.color;
 }
 
 fragment float4 Sprite3DTexturePS(TextureInOut in [[stage_in]], texture2d<float> colorMap [[ texture(4) ]])

@@ -46,7 +46,7 @@ bool MyApp::Init()
 	param.fullScreen = false;
 	param.gammaEnabled = false;
 	param.hdrEnabled = false;
-	param.backColor = 0xFF3F3F3F;
+	param.backColor = 0xFF8F8F8F;
 	sRenderMgr->StartUp(param);
 
 	sRenderMgr->RegisterRenderCallback(this);
@@ -230,6 +230,9 @@ bool MyApp::onLoopPlayClick(UIObject* obj, const EventArgs& eventArgs)
 
 bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 {
+    string openFilePath = OpenFileDialog(NULL);
+    if (openFilePath.empty()) return false;
+    
     /*
 	OPENFILENAME ofn;
 	TCHAR szFileName[MAX_PATH] = _T("");
@@ -249,21 +252,38 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 	Utils::unicode_to_utf8((char16*)szFileName, -1, buf, MAX_PATH);
 
 	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter(buf);*/
-	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter("Model/Ifrit/Ifrit.sceneml");
-	sceneImporter->ImportScene(m_scene);
-	SAFE_DELETE(sceneImporter);
-
-	SceneNode* sceneNode = m_scene->GetSceneNode(0);
-	m_model = sceneNode->GetModel(0);
-
-	for (uint32 i = 0; i < m_model->GetAnimationNum(); i++)
-	{
-		const char8* animName = m_model->GetAnimationName(i);
-		m_animNameList.push_back(animName);
-	}
-
-	SetSliderFromAnimation();
-
+    
+    Utils::Path path(openFilePath.c_str());
+    if(strcmp(path.GetFileExtension(), ".fbx") == 0)
+    {
+        Converter converter;
+        converter.OpenFbx(openFilePath.c_str());
+        
+        string fullPath = path.GetFullPath();
+        string fileName = path.GetFileName();
+        
+        openFilePath = fullPath + fileName + ".sceneml";
+        converter.SetName(fileName.c_str());
+        converter.Save(openFilePath.c_str());
+        
+        //printf(openFilePath.c_str());
+    }
+    
+    
+    SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter(openFilePath.c_str());//"Model/Ifrit/Ifrit.sceneml");
+    sceneImporter->ImportScene(m_scene);
+    SAFE_DELETE(sceneImporter);
+    
+    SceneNode* sceneNode = m_scene->GetSceneNode((uint32)0);
+    m_model = sceneNode->GetModel(0);
+    
+    for (uint32 i = 0; i < m_model->GetAnimationNum(); i++)
+    {
+        const char8* animName = m_model->GetAnimationName(i);
+        m_animNameList.push_back(animName);
+    }
+    
+    SetSliderFromAnimation();
 
 	return true;
 }
