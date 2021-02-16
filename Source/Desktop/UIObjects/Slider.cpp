@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Slider::Slider()
@@ -97,6 +97,8 @@ void Slider::SetValue(float32 value)
 
 void Slider::Update(float32 fElapsed)
 {
+    if (m_bHidden) return;
+    
 	Frame::Update(fElapsed);
 
 	int32 thumbCenterX = 0, thumbCenterY = 0;
@@ -138,28 +140,15 @@ void Slider::Update(float32 fElapsed)
 	if (m_thumbBackTex != nullptr)
 	{
 		m_thumbBackTex->SetDrawRect(m_rtThumb);
+        
+        m_thumbBackTex->Update(fElapsed);
 	}
 
 	if (m_currThumbTex != nullptr)
 	{
 		m_currThumbTex->SetDrawRect(m_rtThumb);
-	}
-}
-
-void Slider::Render(float32 fElapsed)
-{
-	if (m_bHidden) return;
-
-	Frame::Render(fElapsed);
-
-	if (m_thumbBackTex != nullptr)
-	{
-		m_thumbBackTex->Render(fElapsed);
-	}
-
-	if (m_currThumbTex != nullptr)
-	{
-		m_currThumbTex->Render(fElapsed);
+        
+        m_currThumbTex->Update(fElapsed);
 	}
 }
 

@@ -43,7 +43,7 @@ bool RenderFont::LoadFont(const char8* fontFilePath)
 	return true;
 }
 
-void RenderFont::RenderText(const char8* text, int32 textLen, int32 x, int32 y)
+void RenderFont::DrawText(const char8* text, int32 textLen, int32 x, int32 y)
 {
 	uint32 vertNum = FillTextVertBuffer(text, textLen, x, y);
 	

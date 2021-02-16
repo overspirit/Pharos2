@@ -47,6 +47,10 @@ bool RenderSprite::Init()
 	blendDesc.destBlendAlpha = BLEND_INV_SRC_ALPHA;
 	blendDesc.blendOpAlpha = BLEND_OP_ADD;
 
+	DepthStencilStateDesc depthState;
+	depthState.depthEnable = true;
+	depthState.depthFunc = COMPARISON_ALWAYS;
+
 	//sprite color
 	/////////////////////////////////////////////////////////////////////
     m_spriteColorShader = sRenderer->GenerateRenderProgram();
@@ -58,6 +62,7 @@ bool RenderSprite::Init()
     m_spriteColorPipeline->SetInputLayoutDesc(desc, 3);
     m_spriteColorPipeline->SetProgramShader(m_spriteColorShader);
     m_spriteColorPipeline->SetBlendState(blendDesc);
+	m_spriteColorPipeline->SetDepthStencilState(depthState);
 	/////////////////////////////////////////////////////////////////////
 
     //sprite texture
@@ -71,6 +76,7 @@ bool RenderSprite::Init()
     m_spriteTexturePipeline->SetInputLayoutDesc(desc, 3);
     m_spriteTexturePipeline->SetProgramShader(m_spriteTextureShader);
     m_spriteTexturePipeline->SetBlendState(blendDesc);
+	m_spriteTexturePipeline->SetDepthStencilState(depthState);
     /////////////////////////////////////////////////////////////////////
 
 
@@ -86,6 +92,7 @@ bool RenderSprite::Init()
 	m_distanceFontPipeline->SetInputLayoutDesc(desc, 3);
 	m_distanceFontPipeline->SetProgramShader(m_distanceFontShader);
 	m_distanceFontPipeline->SetBlendState(blendDesc);
+	m_distanceFontPipeline->SetDepthStencilState(depthState);
 	/////////////////////////////////////////////////////////////////////
 
 	return true;
@@ -142,7 +149,7 @@ void RenderSprite::DrawFont2D(const DecalColorVertex* vertData, uint32 vertNum, 
 	m_vertCount += vertNum;
 }
 
-void RenderSprite::Render()
+void RenderSprite::Draw()
 {
 	m_vertBuf->CopyData(m_vertMemBuf);
 

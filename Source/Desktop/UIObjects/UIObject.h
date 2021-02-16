@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -45,7 +45,6 @@ namespace Pharos
 			virtual void DettachAllEventCallback();
 			
 			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
 
 			virtual const char8* GetName() { return m_name.c_str(); }
 			virtual const char8* GetObjectType() { return m_type.c_str(); }

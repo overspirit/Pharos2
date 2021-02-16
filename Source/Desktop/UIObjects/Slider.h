@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -48,7 +48,6 @@ namespace Pharos
 			virtual void SetValue(float32 value);
 			virtual float32 GetValue() { return m_currValue; }
 			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
 		};
 	}
 }

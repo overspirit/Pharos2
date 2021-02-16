@@ -50,7 +50,7 @@ namespace Pharos
 		public:
 			bool LoadFont(const char8* fontFilePath);
 
-			void RenderText(const char8* text, int32 textLen, int32 x, int32 y);
+			void DrawText(const char8* text, int32 textLen, int32 x, int32 y);
 
 			void SetFontCharSize(int32 width, int32 height);
 			void SetFontCharColor(Color4 charColor);

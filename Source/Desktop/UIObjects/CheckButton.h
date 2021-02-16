@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -23,7 +23,6 @@ namespace Pharos
 			virtual bool LoadFromXml(XmlNode* xmlNode);
 
 			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
 		};
 	}
 }

@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Frame::Frame(void)
@@ -120,6 +120,8 @@ bool Frame::onMouseMove(const tagInputMsg& msg)
 
 void Frame::Update(float32 fElapsed)
 {
+    if (m_bHidden) return;
+    
 	if (m_backDropTex != nullptr)
 	{
 		m_backDropTex->Update(fElapsed);
@@ -130,22 +132,5 @@ void Frame::Update(float32 fElapsed)
 	for (auto obj : m_childList)
 	{
 		obj->Update(fElapsed);
-	}
-}
-
-void Frame::Render(float32 fElapsed)
-{	
-	if (m_bHidden) return;
-
-	if (m_backDropTex != nullptr)
-	{
-		m_backDropTex->Render(fElapsed);
-	}
-
-	UIObject::Render(fElapsed);
-
-	for (auto obj : m_childList)
-	{
-		obj->Render(fElapsed);
 	}
 }

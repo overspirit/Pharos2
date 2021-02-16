@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 UIObject::UIObject(void)
@@ -238,9 +238,6 @@ void UIObject::Update(float32 fElapsed)
 
 	m_size = m_rect.GetSize();
 	m_center = m_rect.GetCenter();
-}
-
-void UIObject::Render(float32 fElapsed)
-{
+    
 	//sRenderSpirite->RenderWireFrame(0xFFDF932B, Rect2Di(m_rect.left - 1, m_rect.top - 1, m_rect.right + 1, m_rect.bottom + 1));
 }

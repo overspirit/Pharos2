@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -22,7 +22,6 @@ namespace Pharos
 			virtual void SetText(const char8* text) { m_showText = text; }
 
 			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
 		};
 	}
 }

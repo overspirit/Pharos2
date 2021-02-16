@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 FontString::FontString(void)
@@ -36,9 +36,6 @@ bool FontString::LoadFromXml(XmlNode* xmlNode)
 void FontString::Update(float32 fElapsed)
 {
 	UIObject::Update(fElapsed);
-}
-
-void FontString::Render(float32 fElapsed)
-{
-	m_renderFont->RenderText(m_showText.c_str(), -1, m_rect.left, m_rect.top);
+    
+	m_renderFont->DrawText(m_showText.c_str(), -1, m_rect.left, m_rect.top);
 }

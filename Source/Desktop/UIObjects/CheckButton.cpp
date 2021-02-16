@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 CheckButton::CheckButton(void)
@@ -54,27 +54,17 @@ bool CheckButton::onLeftButtonUp(const tagInputMsg& msg)
 
 void CheckButton::Update(float32 fElapsed)
 {
+    if (m_bHidden) return;
+    
 	Button::Update(fElapsed);
 
 	if (m_isCheck && m_checkTex != nullptr)
 	{
 		m_checkTex->Update(fElapsed);
 	}
-}
-
-void CheckButton::Render(float32 fElapsed)
-{
-	if (m_bHidden) return;
-
-	Frame::Render(fElapsed);
-
-	if (m_isCheck && m_checkTex != nullptr)
-	{
-		m_checkTex->Render(fElapsed);
-	}
-
-	if (m_currTex != nullptr)
-	{
-		m_currTex->Render(fElapsed);
-	}
+    
+    if (m_currTex != nullptr)
+    {
+        m_currTex->Update(fElapsed);
+    }
 }

@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Progress::Progress(void)
@@ -40,6 +40,8 @@ bool Progress::LoadFromXml(XmlNode* xmlNode)
 
 void Progress::Update(float32 fElapsed)
 {
+    if (m_bHidden) return;
+    
 	Frame::Update(fElapsed);
 
 	//计算进度条比例位置
@@ -70,18 +72,8 @@ void Progress::Update(float32 fElapsed)
 	if (m_progressTex != nullptr)
 	{
 		m_progressTex->SetDrawRect(m_progressRect);
-	}
-}
-
-void Progress::Render(float32 fElapsed)
-{
-	if (m_bHidden) return;
-
-	Frame::Render(fElapsed);
-
-	if (m_progressTex != nullptr)
-	{
-		m_progressTex->Render(fElapsed);
+        
+        m_progressTex->Update(fElapsed);
 	}
 }
 

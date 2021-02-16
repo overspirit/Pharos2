@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Texture::Texture(void)
@@ -48,11 +48,6 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 void Texture::Update(float32 fElapsed)
 {
 	UIObject::Update(fElapsed);
-}
-
-void Texture::Render(float32 fElapsed)
-{
-	UIObject::Render(fElapsed);
-
+    
 	m_renderImage->RenderRect(m_imageRect, m_rect, m_round);
 }

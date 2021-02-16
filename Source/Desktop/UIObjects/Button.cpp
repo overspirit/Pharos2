@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Button::Button(void)
@@ -36,24 +36,14 @@ bool Button::LoadFromXml(XmlNode* xmlNode)
 
 void Button::Update(float32 fElapsed)
 {
+    if (m_bHidden) return;
+    
 	if (m_currTex != nullptr)
 	{
 		m_currTex->Update(fElapsed);
 	}
 
 	Frame::Update(fElapsed);
-}
-
-void Button::Render(float32 fElapsed)
-{
-	if (m_bHidden) return;
-
-	Frame::Render(fElapsed);
-
-	if (m_currTex != nullptr)
-	{
-		m_currTex->Render(fElapsed);
-	}	
 }
 
 void Button::SetState(ButtonState state)

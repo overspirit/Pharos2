@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -38,7 +38,6 @@ namespace Pharos
 			virtual void AddChild(UIObject* child);
 
 			virtual void Update(float32 fElapsed);
-			virtual void Render(float32 fElapsed);
 
 			virtual void SetEnable(bool enable) { m_bEnable = enable; }
 			virtual void SetHidden(bool hidden) { m_bHidden = hidden; }

@@ -38,7 +38,7 @@ namespace Pharos
 			virtual bool Init();
 			virtual void Destroy();
 
-			virtual void Render();
+			virtual void Draw();
 			
 			virtual void DrawColor2D(const DecalColorVertex* vertData, uint32 vertNum, RenderResourceSet* resSet);
 			virtual void DrawTexture2D(const DecalColorVertex* vertData, uint32 vertNum, RenderResourceSet* resSet);
