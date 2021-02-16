@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 #undef new
@@ -19,17 +19,13 @@ XmlDocument::~XmlDocument()
 	clear();
 }
 
-bool XmlDocument::CreateRootNode(const char8* name)
+bool XmlDocument::Create(File* file)
 {
-	if (m_first_node != nullptr) return false;
-
-	xml_node<char8>* node = this->allocate_node(node_element);
-	this->append_node(node);
-
-	XmlNode* myNode = (XmlNode*)node;
-	myNode->SetName(name);
-	
-	return true;
+    if (file == NULL) return false;
+    
+    m_strFilePath = file->GetPath();
+    
+    return true;
 }
 
 bool XmlDocument::Open(File* file)
@@ -55,7 +51,10 @@ bool XmlDocument::Open(File* file)
 
 bool XmlDocument::Save(const char8* path)
 {
-	if (path == nullptr && m_strFilePath.empty()) return false;
+    if (path == nullptr && m_strFilePath.empty()) return false;
+    
+    const char8* savePath = m_strFilePath.c_str();;
+    if (path != nullptr) savePath = path;
 
 	string text;
 	text += DEFAULT_DECL;
@@ -65,19 +64,29 @@ bool XmlDocument::Save(const char8* path)
 		internal::print_node(back_inserter(text), m_first_node, 0, 0);
 	}
 
-	const char8* filePath = m_strFilePath.c_str();
-	if (path != nullptr) filePath = path;
-
 	File file;
-	if (!file.Create(filePath, true)) return false;
+	if (!file.Create(savePath, true)) return false;
 	file.Write(text.c_str(), (uint32)text.length());
 
 	return true;
 }
 
+XmlNode* XmlDocument::AppendRootNode(const char8* name)
+{
+    if (m_first_node != nullptr) return NULL;
+
+    xml_node<char8>* node = this->allocate_node(node_element);
+    this->append_node(node);
+
+    XmlNode* myNode = (XmlNode*)node;
+    myNode->SetName(name);
+    
+	return (XmlNode*)this->first_node();
+}
+
 XmlNode* XmlDocument::GetRootNode()
 {
-	return (XmlNode*)this->first_node();
+    return (XmlNode*)this->first_node();
 }
 
 xml_node<char8>* XmlDocument::allocate_node(node_type type, const char8* name, const char8* value, size_t name_size, size_t value_size)

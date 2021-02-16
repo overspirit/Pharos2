@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Font::Font(FT_Library fontLib)
@@ -27,6 +27,11 @@ Font::~Font()
 	}
 
 	SAFE_DELETE(m_filter);
+}
+
+bool Font::Create(File* file)
+{
+    return false;
 }
 
 bool Font::Open(File* file)
@@ -179,8 +184,8 @@ void Font::LoadDisChar(char16 ch)
 
 bool Font::SaveCharBitmap(const char8* path)
 {
-	Image* image = (Image*)sResMgr->GenerateResource(ERT_IMAGE);
-	image->CreateImage(m_samplerSize, m_samplerSize);
+	Image* image = (Image*)sResMgr->CreateResource(ERT_IMAGE, path);
+	image->SetImageSize(m_samplerSize, m_samplerSize);
 
 	uint32* imageData = (uint32*)image->GetDataPointer();
 
@@ -190,7 +195,7 @@ bool Font::SaveCharBitmap(const char8* path)
 		imageData[i] = 0xFF000000 | gray << 16 | gray << 8 | gray;
 	}
 
-	bool ret = image->Save(path);
+	bool ret = image->Save();
 
 	return ret;
 }
@@ -512,8 +517,8 @@ bool GlyphFilter::SaveFilterImage(const char8* path)
 		filterMap[i] = (uint8)((m_filter[i] - minValue) / (maxValue - minValue) * 255.0f);
 	}
 
-	Image* image = (Image*)sResMgr->GenerateImage("");
-	image->CreateImage(m_char_size, m_char_size);
+	Image* image = (Image*)sResMgr->CreateResource(ERT_IMAGE, path);
+	image->SetImageSize(m_char_size, m_char_size);
 
 	uint32* imageData = (uint32*)image->GetDataPointer();
 
@@ -523,7 +528,7 @@ bool GlyphFilter::SaveFilterImage(const char8* path)
 		imageData[i] = 0xFF000000 | gray << 16 | gray << 8 | gray;
 	}
 
-	bool ret = image->Save(path);
+	bool ret = image->Save();
 
 	return ret;
 }

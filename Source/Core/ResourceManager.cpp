@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 //#pragma message("------------------------------------资源的异步加载未完成!!!------------------------------------")
@@ -46,162 +46,143 @@ void ResourceManager::Destroy()
 	FT_Done_FreeType(m_fontLib);
 }
 
-File* ResourceManager::CreateResourceFile(const char8* path)
+File* ResourceManager::QueryResourceHandler(const char8* path, bool opened)
 {
 	if (path == nullptr || path[0] == '\0') return nullptr;
 	
 	File* file = new File();	
 
-	string fullPath = m_currWorkPath + path;
-	if (file->Open(fullPath.c_str()))
-	{
-		Utils::Path tmp_path(fullPath.c_str());
-		m_currWorkPath = tmp_path.GetFullPath();
+    string checkPathes[] = {
+        m_currWorkPath + path,
+        string(sKernel->GetHomeDirectoryPath()) + path,
+        string(sKernel->GetBundleDirectoryPath()) + path,
+        path
+    };
+    
+    for (const string& checkPath : checkPathes)
+    {
+        bool ret = false;
+        if (opened) ret = file->Open(checkPath.c_str());
+        else ret = file->Create(checkPath.c_str(), true);
+        
+        if (ret)
+        {
+            Utils::Path tmp_path(checkPath.c_str());
+            m_currWorkPath = tmp_path.GetFullPath();
 
-		return file;
-	}
-
-	string homePath = sKernel->GetHomeDirectoryPath();
-	fullPath = homePath + path;
-	if (file->Open(fullPath.c_str()))
-	{
-		Utils::Path tmp_path(fullPath.c_str());
-		m_currWorkPath = tmp_path.GetFullPath();
-		return file;
-	}
-
-	string bundlePath = sKernel->GetBundleDirectoryPath();
-	fullPath = bundlePath + path;
-	if (file->Open(fullPath.c_str()))
-	{
-		Utils::Path tmp_path(fullPath.c_str());
-		m_currWorkPath = tmp_path.GetFullPath();
-		return file;
-	}
-
+            return file;
+        }
+    }
+    
 	SAFE_DELETE(file);
 	return nullptr;
 }
 
-ResBase* ResourceManager::FindResource(const char8* path, ResType type)
-{
-	auto iter = m_storageResList.find(path);
-	if (iter != m_storageResList.end())
-	{
-		ResBase* res = iter->second;
-		ResType resType = res->GetResType();
-		assert(resType == type);
-		return res;
-	}
 
-	return NULL;
+ResBase* ResourceManager::GenerateResource(ResType resType, const char8* path)
+{
+    auto iter = m_storageResList.find(path);
+    if (iter != m_storageResList.end())
+    {
+        ResBase* res = iter->second;
+        assert(res->GetResType() == resType);
+        return res;
+    }
+    
+    File* file = QueryResourceHandler(path, true);
+    if (file == NULL)
+    {
+        return NULL;
+    }
+
+    ResBase* res = nullptr;
+    switch (resType)
+    {
+        case ERT_FONT: res = new Font(m_fontLib); break;
+        case ERT_IMAGE: res = new Image(); break;
+        case ERT_XML: res = new XmlDocument(); break;
+        case ERT_PACKAGE: res = new Package(); break;
+    }
+    
+    if (res == nullptr)
+    {
+        SAFE_DELETE(file);
+        return res;
+    }
+
+    if (!res->Open(file))
+    {
+        SAFE_DELETE(file);
+        SAFE_DELETE(res);
+        return nullptr;
+    }
+    
+    m_storageResList[path] = res;
+
+    SAFE_DELETE(file);
+	return res;
 }
 
-ResBase* ResourceManager::GenerateResource(ResType resType, const char8* resKey, File* file)
+ResBase* ResourceManager::CreateResource(ResType resType, const char8* path)
 {
-	ResBase* res = nullptr;
+    auto iter = m_storageResList.find(path);
+    if (iter != m_storageResList.end())
+    {
+        ResBase* res = iter->second;
+        assert(res->GetResType() == resType);
+        return res;
+    }
+    
+    File* file = QueryResourceHandler(path, false);
+    if (file == NULL)
+    {
+        return NULL;
+    }
 
-	switch (resType)
-	{
-		case ERT_FONT: res = new Font(m_fontLib); break;
-		case ERT_IMAGE: res = new Image(); break;
-		case ERT_XML: res = new XmlDocument(); break;
-		case ERT_PACKAGE: res = new Package(); break;
-		default: return nullptr;
-	}
+    ResBase* res = nullptr;
+    switch (resType)
+    {
+        case ERT_FONT: res = new Font(m_fontLib); break;
+        case ERT_IMAGE: res = new Image(); break;
+        case ERT_XML: res = new XmlDocument(); break;
+        case ERT_PACKAGE: res = new Package(); break;
+    }
+    
+    if (res == nullptr)
+    {
+        SAFE_DELETE(file);
+        return res;
+    }
 
-	if (resKey == nullptr)
-	{
-		m_pendingResList.push_back(res);
-	}
-	else
-	{
-		if (file == NULL)
-		{
-			return NULL;			
-		}
+    if (!res->Create(file))
+    {
+        SAFE_DELETE(file);
+        SAFE_DELETE(res);
+        return nullptr;
+    }
+    
+    m_pendingResList.push_back(res);
 
-		if (!res->Open(file))
-		{
-			SAFE_DELETE(res);
-			return nullptr;
-		}
-
-		m_storageResList[resKey] = res;
-	}
-	
-
-	return res;
+    SAFE_DELETE(file);
+    return res;
 }
 
 Font* ResourceManager::GenerateFont(const char8* path)
 {
-	ResBase* res = FindResource(path, ERT_FONT);
-	if (res != nullptr)
-	{
-		return (Font*)res;
-	}
-
-	File* resFile = CreateResourceFile(path);
-	if (resFile == nullptr) return nullptr;
-	
-	res = GenerateResource(ERT_FONT, path, resFile);
-
-	SAFE_DELETE(resFile);
-
-	return (Font*)res;
+    return (Font*)GenerateResource(ERT_FONT, path);;
 }
 
 Image* ResourceManager::GenerateImage(const char8* path)
 {
-	ResBase* res = FindResource(path, ERT_IMAGE);
-	if (res != nullptr)
-	{
-		return (Image*)res;
-	}
-
-	File* resFile = CreateResourceFile(path);
-	if (resFile == nullptr) return nullptr;
-
-	res = GenerateResource(ERT_IMAGE, path, resFile);
-
-	SAFE_DELETE(resFile);
-
-	return (Image*)res;
+    return (Image*)GenerateResource(ERT_IMAGE, path);
 }
 
 XmlDocument* ResourceManager::GenerateXmlDocument(const char8* path)
 {
-	ResBase* res = FindResource(path, ERT_XML);
-	if (res != nullptr)
-	{
-		return (XmlDocument*)res;
-	}
-
-	File* resFile = CreateResourceFile(path);
-	if (resFile == nullptr) return nullptr;
-
-	res = GenerateResource(ERT_XML, path, resFile);
-
-	SAFE_DELETE(resFile);
-
-	return (XmlDocument*)res;
+    return (XmlDocument*)GenerateResource(ERT_XML, path);
 }
 
 Package* ResourceManager::GeneratePackage(const char8* path)
 {
-	ResBase* res = FindResource(path, ERT_PACKAGE);
-	if (res != nullptr)
-	{
-		return (Package*)res;
-	}
-
-	File* resFile = CreateResourceFile(path);
-	if (resFile == nullptr) return nullptr;
-
-	res = GenerateResource(ERT_PACKAGE, path, resFile);
-
-	SAFE_DELETE(resFile);
-
-	return (Package*)res;
+    return (Package*)GenerateResource(ERT_PACKAGE, path);
 }

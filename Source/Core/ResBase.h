@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -26,6 +26,7 @@ namespace Pharos
 			ResType		m_resType;			
 
 		protected:
+            virtual bool Create(File* file) = 0;
 			virtual bool Open(File* file) = 0;	
 
 		public:

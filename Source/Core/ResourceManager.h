@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -21,23 +21,21 @@ namespace Pharos
 			vector<ResBase*>		m_pendingResList;
 
 			string			m_currWorkPath;
-
-		private:			
-			ResBase* FindResource(const char8* path, ResType type);
-
+            
 		public:
 			virtual bool Init();			
 			virtual void Destroy();
 
 		public:
-			Font* GenerateFont(const char8* path);
-			Image* GenerateImage(const char8* path);
-			XmlDocument* GenerateXmlDocument(const char8* path);
-			Package* GeneratePackage(const char8* path);
-
-			ResBase* GenerateResource(ResType resType, const char8* resKey = NULL, File* file = nullptr);
-
-			File* CreateResourceFile(const char8* path);
+            File* QueryResourceHandler(const char8* path, bool opened);
+            
+			ResBase* GenerateResource(ResType resType, const char8* path);
+            ResBase* CreateResource(ResType resType, const char8* path);
+            
+            Font* GenerateFont(const char8* path);
+            Image* GenerateImage(const char8* path);
+            XmlDocument* GenerateXmlDocument(const char8* path);
+            Package* GeneratePackage(const char8* path);
 		};
 	}
 }

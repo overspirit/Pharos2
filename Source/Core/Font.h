@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -84,6 +84,7 @@ namespace Pharos
 			void LoadDisChar(char16 ch);
 
 		public:
+            virtual bool Create(File* file);
 			virtual bool Open(File* file);
 
 			virtual float32* GetDisCharData(char16 ch);

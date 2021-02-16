@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Image::Image()
@@ -17,12 +17,13 @@ Image::~Image()
 	}
 }
 
-bool Image::CreateImage(int32 width, int32 height)
+bool Image::Create(File* file)
 {
-	m_dib = FreeImage_Allocate(width, height, 32);
-	if (m_dib == nullptr) return false;
-
-	return true;
+    if (file == NULL) return false;
+    
+    m_strFilePath = file->GetPath();
+    
+    return true;
 }
 
 bool Image::Open(File* file)
@@ -58,15 +59,28 @@ bool Image::Open(File* file)
     return true;
 }
 
+bool Image::SetImageSize(int32 width, int32 height)
+{
+    m_dib = FreeImage_Allocate(width, height, 32);
+    if (m_dib == nullptr) return false;
+
+    return true;
+}
+
 bool Image::Save(const char8* path)
 {	
 	//char16 buf[255];
 	//Utils::utf8_to_unicode(path, -1, buf, 255);
 
 	//wcscat(buf, L".bmp");
+    
+    if (path == nullptr && m_strFilePath.empty()) return false;
+    
+    const char8* savePath = m_strFilePath.c_str();;
+    if (path != nullptr) savePath = path;
 
 	//???没有通过file接口保存，需要指定回调
-	return (FreeImage_Save(FIF_BMP, m_dib, path) == TRUE);
+	return (FreeImage_Save(FIF_BMP, m_dib, savePath) == TRUE);
 }
 
 uint32 Image::GetWidth() const

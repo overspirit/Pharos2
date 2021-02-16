@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -27,6 +27,7 @@ namespace Pharos
 			static long     SeekPackage(voidpf opaque, voidpf stream, ZPOS64_T offset, int origin);
 
 		public:
+            virtual bool Create(File* file);
 			virtual bool Open(File* file);
 
 		public:

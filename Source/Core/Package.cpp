@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 Package::Package()
@@ -21,6 +21,11 @@ Package::~Package()
 	{
 		SAFE_DELETE(iter.second);
 	}
+}
+
+bool Package::Create(File* file)
+{
+    return false;
 }
 
 bool Package::Open(File* file)

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -16,11 +16,12 @@ namespace Pharos
 			FIBITMAP*		m_dib;
 
 		public:
+            virtual bool Create(File* file);
 			virtual bool Open(File* file);
 
 		public:
-			virtual bool CreateImage(int32 width, int32 height);			
-			virtual bool Save(const char8* path);
+			virtual bool SetImageSize(int32 width, int32 height);			
+			virtual bool Save(const char8* path = NULL);
 
 			virtual uint32 GetWidth() const;
 			virtual uint32 GetHeight() const;
