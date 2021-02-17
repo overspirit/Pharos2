@@ -139,16 +139,12 @@ void Slider::Update(float32 fElapsed)
 
 	if (m_thumbBackTex != nullptr)
 	{
-		m_thumbBackTex->SetDrawRect(m_rtThumb);
-        
-        m_thumbBackTex->Update(fElapsed);
+		m_thumbBackTex->DrawRect(m_rtThumb);
 	}
 
 	if (m_currThumbTex != nullptr)
 	{
-		m_currThumbTex->SetDrawRect(m_rtThumb);
-        
-        m_currThumbTex->Update(fElapsed);
+		m_currThumbTex->DrawRect(m_rtThumb);
 	}
 }
 

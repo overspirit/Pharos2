@@ -71,9 +71,7 @@ void Progress::Update(float32 fElapsed)
 
 	if (m_progressTex != nullptr)
 	{
-		m_progressTex->SetDrawRect(m_progressRect);
-        
-        m_progressTex->Update(fElapsed);
+		m_progressTex->DrawRect(m_progressRect);
 	}
 }
 

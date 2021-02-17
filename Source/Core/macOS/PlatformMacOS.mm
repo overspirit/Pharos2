@@ -64,8 +64,9 @@ void PlatformMacOS::onKeyboardEvent(NSEvent* keyEvent)
 
 void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 {
-	uint32 x = mouseEvent.locationInWindow.x;
-	uint32 y = m_view.drawableSize.height - mouseEvent.locationInWindow.y;
+    NSPoint mousePos = [m_window convertPointFromScreen : NSEvent.mouseLocation];
+	uint32 x = mousePos.x;
+	uint32 y = m_view.drawableSize.height - mousePos.y;
 
 	MouseEvent myEvent;
 	myEvent.button = MOUSE_NUM;

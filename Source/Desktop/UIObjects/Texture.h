@@ -22,7 +22,7 @@ namespace Pharos
 		public:
 			virtual bool LoadFromXml(XmlNode* xmlNode);
 
-			virtual void SetDrawRect(const Rect2Di& rect) { m_rect = rect; }
+            virtual void DrawRect(const Rect2Di& rect);
 
 			virtual void Update(float32 fElapsed);
 		};

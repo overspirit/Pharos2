@@ -45,6 +45,13 @@ bool Texture::LoadFromXml(XmlNode* xmlNode)
 	return true;
 }
 
+void Texture::DrawRect(const Rect2Di& rect)
+{
+    m_rect = rect;
+    
+    m_renderImage->RenderRect(m_imageRect, m_rect, m_round);
+}
+
 void Texture::Update(float32 fElapsed)
 {
 	UIObject::Update(fElapsed);
