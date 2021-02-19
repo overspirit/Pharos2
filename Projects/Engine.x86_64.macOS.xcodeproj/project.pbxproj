@@ -510,6 +510,7 @@
 				F9D98122243EFB560028DD41 /* RenderGlobal.h */,
 				F9D98121243EFB560028DD41 /* RenderMgr.cpp */,
 				F9D98123243EFB560028DD41 /* RenderMgr.h */,
+				C7398C1E24B73A740092BF6E /* RenderVariable.h */,
 				F9D9813E243EFCEF0028DD41 /* Skeleton.cpp */,
 				F9D98147243EFCEF0028DD41 /* Skeleton.h */,
 				F9D98149243EFCEF0028DD41 /* VertexDefine.h */,
@@ -530,7 +531,6 @@
 				C7398C2224B73AA50092BF6E /* RenderResourceSet.h */,
 				F9D9812F243EFCD70028DD41 /* RenderTarget.h */,
 				F9D98130243EFCD70028DD41 /* RenderTexture.h */,
-				C7398C1E24B73A740092BF6E /* RenderVariable.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";

@@ -206,8 +206,5 @@
    <Group
       location = "container:"
       name = "Tools">
-      <FileRef
-         location = "group:../Tools/FBX2SceneML/FBX2SceneML.xcodeproj">
-      </FileRef>
    </Group>
 </Workspace>
