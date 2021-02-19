@@ -11,6 +11,7 @@ MyApp::MyApp()
 
 	m_bLeftDown = false;
 	m_bRightDown = false;
+    m_bMidDown = false;
 
 	m_model = nullptr;
 
@@ -49,7 +50,7 @@ bool MyApp::Init()
 	param.backColor = 0xFF8F8F8F;
 	sRenderMgr->StartUp(param);
 
-	sRenderMgr->RegisterRenderCallback(this);
+	//sRenderMgr->RegisterRenderCallback(this);
 
 	//Scene
 	//////////////////////////////////////////////////////////////////////////
@@ -107,6 +108,10 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 	{
 		m_bRightDown = (event.state == STATE_DOWN) ? true : false;
 	}
+    else if (event.button == MOUSE_MID)
+    {
+        m_bMidDown = (event.state == STATE_DOWN) ? true : false;
+    }
 	else
 	{
 		m_camera->Stretch(event.wheel / 120.0f);
@@ -120,6 +125,10 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 	{
 		m_camera->Round(Vector2Df((float32)event.ox, (float32)event.oy));
 	}
+    else if (m_bMidDown)
+    {
+        m_camera->Drag(Vector2Df((float32)event.ox, (float32)event.oy));
+    }
 
 	return false;
 }
@@ -228,9 +237,22 @@ bool MyApp::onLoopPlayClick(UIObject* obj, const EventArgs& eventArgs)
 	return true;
 }
 
+XmlNode* AppendVectorNode(XmlNode* parent, const char8* name, const Vector3Df& v)
+{
+    XmlNode* vectorNode = parent->AppendChild(name);
+    
+    XmlAttribute* vectorAttr = vectorNode->AppendAttribute("v");
+    
+    char buf[255];
+    sprintf(buf, "%.6f %.6f %.6f", v.x, v.y, v.z);
+    vectorAttr->SetValue(buf);
+    
+    return vectorNode;
+}
+
 bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 {
-    string openFilePath = OpenFileDialog(NULL);
+    string openFilePath = OpenFileDialog(sKernel->GetHomeDirectoryPath());
     if (openFilePath.empty()) return false;
     
     /*
@@ -314,7 +336,7 @@ void MyApp::SetSliderFromAnimation()
 	m_totalFrameLabel->SetText(buf);
 }
 
-void MyApp::Update(float32 fElapsed)
+void MyApp::onPreSceneUpdate(float32 fElapsed)
 {
 	m_elapsed = fElapsed;
 
@@ -349,9 +371,4 @@ void MyApp::Update(float32 fElapsed)
 	char8 buf[32];
 	sprintf(buf, "%d", frame);
 	m_currFrameLabel->SetText(buf);
-}
-
-void MyApp::onRender(float32 elapsed)
-{
-
 }

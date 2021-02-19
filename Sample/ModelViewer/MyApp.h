@@ -1,7 +1,7 @@
-﻿#pragma once
+#pragma once
 
 //IControlViewer放在第一位，防止出现IControlViewer中类成员函数指针注册时出现的编译警告
-class MyApp : public IControlViewer, public IRenderCallback, public IApplication
+class MyApp : public IControlViewer, public IApplication
 {
 public:
 	MyApp();
@@ -13,6 +13,7 @@ private:
 	Model*					m_model;
 	bool			m_bLeftDown;
 	bool			m_bRightDown;
+    bool            m_bMidDown;
 
 	float32			m_elapsed;
 
@@ -47,7 +48,6 @@ public:
 	virtual bool onMouseEvent(const MouseEvent& event);
 	virtual bool onKeyboardEvent(const KeyEvent& event);
 
-	virtual void Update(float32 fElapsed);
-	virtual void onRender(float32 elapsed);
+	virtual void onPreSceneUpdate(float32 fElapsed);
 };
 

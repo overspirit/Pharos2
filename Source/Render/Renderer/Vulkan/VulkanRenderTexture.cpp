@@ -519,13 +519,13 @@ bool VulkanRenderTexture::Save(const char8* path)
     res = vkMapMemory(m_device, m_stagingMemory, 0, mem_reqs.size, 0, (void**)&data);
 	if (res != VK_SUCCESS) return false;
 
-	Image* image = (Image*)sResMgr->GenerateResource(ResType::ERT_IMAGE);
-	image->CreateImage(m_width, m_height);
+	Image* image = (Image*)sResMgr->CreateResource(ResType::ERT_IMAGE, path);
+	image->SetImageSize(m_width, m_height);
 	uint8* buffer = (uint8*)image->GetDataPointer();	
 
 	memcpy(buffer, data, m_width * m_height * 4);
 	
-	image->Save(path);
+	image->Save();
 
     vkUnmapMemory(m_device, m_stagingMemory);
 

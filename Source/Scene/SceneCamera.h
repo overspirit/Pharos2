@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -69,6 +69,9 @@ namespace Pharos
 			//拉近或拉远，即改变摄像机和观察点的距离
 			virtual void Stretch(float32 fMove);
 
+            //拖拽屏幕
+            virtual void Drag(const Vector2Df& vtMove);
+            
 			virtual void SetPosition(const Vector3Df& vPos);			//设置摄像机位置	
 			virtual const Vector3Df& GetPosition() const { return m_vEye; }		//获取摄像机位置	
 			virtual void SetLookAtPt(const Vector3Df& vTarget);			//设置观察点

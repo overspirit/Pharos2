@@ -30,12 +30,6 @@ bool PlatformMacOS::Init()
 	[m_window center];
 	[m_window makeKeyWindow];
 
-	//    m_trackingArea = [[NSTrackingArea alloc] initWithRect:wnd_rect options: NSTrackingMouseMoved | NSTrackingActiveInKeyWindow owner:delegate userInfo:nil];
-	//    [m_view addTrackingArea: m_trackingArea];
-
-	//    NSWindowController* windowController = delegate;
-	//    windowController.window = m_window;
-
 	[NSApp beginModalSessionForWindow : m_window];
 
 	m_timer.Reset();
@@ -59,7 +53,16 @@ void PlatformMacOS::Destroy()
 
 void PlatformMacOS::onKeyboardEvent(NSEvent* keyEvent)
 {
-	//NSLog(@"key event type: %lu, char: %@", keyEvent.type, keyEvent.characters);
+	//NSLog(@"key event type: %lu, char: %@", keyEvent.type, keyEvent.characters);        
+        
+    KeyEvent myEvent;
+    myEvent.key = (KEY_CODE)keyEvent.keyCode;//([keyEvent.characters UTF8String][0]);
+    myEvent.state = (CODE_STATE)((keyEvent.type - NSEventTypeKeyDown) + STATE_DOWN);
+    myEvent.shift = false;
+    myEvent.ctrl = false;
+    myEvent.alt = false;
+    
+    sKernel->onKeyboardEvent(myEvent);
 }
 
 void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
@@ -67,7 +70,13 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
     NSPoint mousePos = [m_window convertPointFromScreen : NSEvent.mouseLocation];
 	uint32 x = mousePos.x;
 	uint32 y = m_view.drawableSize.height - mousePos.y;
-
+    uint32 z = 0;
+    
+    if ([mouseEvent hasPreciseScrollingDeltas])
+    {
+        z = (uint32)mouseEvent.scrollingDeltaY;
+    }
+    
 	MouseEvent myEvent;
 	myEvent.button = MOUSE_NUM;
 	myEvent.state = STATE_KEEP;
@@ -75,7 +84,7 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 	myEvent.y = y;
 	myEvent.ox = x - m_mousePos.x;
 	myEvent.oy = y - m_mousePos.y;
-	myEvent.wheel = 0;
+	myEvent.wheel = z;
 	myEvent.shift = false;
 	myEvent.ctrl = false;
 	myEvent.alt = false;

@@ -114,14 +114,15 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
 
 	Material* material = sMaterialMgr->GenerateMaterial(materialData.techName.c_str());
-	
+    if(material == NULL) return NULL;
+    
 	for (auto texIter : materialData.samplerDataList)
 	{
 		string texName = texIter.first;
 		const SamplerData& sampleData = texIter.second;
 		string texPath = sampleData.texPath;
 		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
-		material->SetTextureParamValue(texName.c_str(), tex);
+		material->SetTextureParamValue(tex);
 	}
 
 	// for (auto varIter : materialData.varList)

@@ -138,3 +138,16 @@ CopyPS=(
 
 compile "Copy" "${CopyVS[*]}" "${CopyPS[*]}"
 ################################################################################
+
+#BorderShine
+################################################################################
+BorderShineVS=(
+  BorderShine.vert
+)
+
+BorderShinePS=(
+  BorderShine.frag
+)
+
+compile "BorderShine" "${BorderShineVS[*]}" "${BorderShinePS[*]}"
+################################################################################

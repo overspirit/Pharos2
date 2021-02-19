@@ -92,7 +92,7 @@ void OctreeScene::SetSceneSize(const Size2Di& mapSize, uint32 sceneHeight)
 
 void OctreeScene::Update(float32 fElapsed)
 {
-	const Vector3Df& cameraPos = m_camera->GetPosition();
+//	const Vector3Df& cameraPos = m_camera->GetPosition();
 	const Matrix4& viewMat = m_camera->GetViewMatrix();
 	const Matrix4& projMat = m_camera->GetProjMatrix();
 

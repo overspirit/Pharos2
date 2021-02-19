@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 SceneCamera::SceneCamera()
@@ -194,6 +194,21 @@ void SceneCamera::Stretch(float32 fMove)
  	m_mView.GetInverse(m_mWorld);
 
 	BuildFrustum(m_mView, m_mProj);
+}
+
+void SceneCamera::Drag(const Vector2Df& vtMove)
+{
+    Vector3Df vt = m_mWorld.TransformVector(Vector3Df(-vtMove.x, vtMove.y, 0));
+    vt.Normalize();    
+    
+    m_vEye += (vt * 0.1f);
+    m_vLookAt += (vt * 0.1f);
+    
+    m_mView.BuildCameraLookAtMatrixLH(m_vEye, m_vLookAt, m_vUp);
+    
+    m_mView.GetInverse(m_mWorld);
+    
+    BuildFrustum(m_mView, m_mProj);
 }
 
 void SceneCamera::SetPosition(const Vector3Df& vPos)
