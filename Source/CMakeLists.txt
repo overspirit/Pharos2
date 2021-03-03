@@ -57,7 +57,7 @@ set(RENDER_FILES
         Render/Model.cpp
         Render/Skeleton.cpp
         Render/RenderObject.cpp
-        Render/MaterialMgr.cpp  
+        Render/RenderHelper.cpp
         Render/RenderMgr.cpp        
 )
 

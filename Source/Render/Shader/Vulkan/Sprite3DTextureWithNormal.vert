@@ -19,10 +19,15 @@ uniform cbPerModel
 layout (std140, row_major, binding = 2)
 uniform cbSceneLight
 {
+    vec4 g_light_dir;
     vec4 g_light_color;
-    vec4 g_environment_color;
-    vec3 g_light_direction;
 } sceneLight;
+
+layout (std140, row_major, binding = 3)
+uniform cbPerMaterial
+{
+    vec4 g_material_color;
+} perMaterial;
 
 
 layout (location = 0) in vec3 pos;
@@ -38,7 +43,8 @@ void main()
     gl_Position = vec4(pos, 1.0) * (perModel.g_world * perScene.g_view * perScene.g_proj);
     gl_Position.y = -gl_Position.y;
 
-    float d = dot(-sceneLight.g_light_direction, normal);
-    oColor = d * sceneLight.g_light_color + sceneLight.g_environment_color;       
+    vec3 lightDir = -sceneLight.g_light_dir.xyz;
+    float d = dot(lightDir, normal);
+    oColor = d * sceneLight.g_light_color + perMaterial.g_material_color;
     oTex = tex;
 }

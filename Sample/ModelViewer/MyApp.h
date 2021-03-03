@@ -11,6 +11,8 @@ private:
 	OctreeScene*			m_scene;
 	SceneCamera*			m_camera;
 	Model*					m_model;
+    Material*               m_material;
+    
 	bool			m_bLeftDown;
 	bool			m_bRightDown;
     bool            m_bMidDown;
@@ -37,7 +39,11 @@ private:
 	virtual bool onLoopPlayClick(UIObject* obj, const EventArgs& eventArgs);
 	virtual bool onOpenFileClick(UIObject* obj, const EventArgs& eventArgs);
 	virtual bool onFrameSliderValueChange(UIObject* obj, const EventArgs& eventArgs);
-
+    virtual bool onAmbientRatioValueChange(UIObject* obj, const EventArgs& eventArgs);
+    virtual bool onDiffuseRatioValueChange(UIObject* obj, const EventArgs& eventArgs);
+    virtual bool onSpecularRatioValueChange(UIObject* obj, const EventArgs& eventArgs);
+    virtual bool onSpecularPowValueChange(UIObject* obj, const EventArgs& eventArgs);
+    
 	virtual void SetSliderFromAnimation();
 
 public:

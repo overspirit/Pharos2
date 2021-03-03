@@ -11,6 +11,12 @@ Material::Material(const char8* materialName)
     m_sceneParamBuf = nullptr;
     m_modelParamBuf = nullptr;
     m_lightParamBuf = nullptr;
+    m_materialParamBuf = nullptr;
+    
+    m_lightParam.lightDir = Vector4Df(0.577350259f, -0.577350259f, 0.577350259f, 1.0f);
+    m_lightParam.lightColor = 0xFFFFFFFF;
+    m_materialParam.albedoPow = Vector4Df(0.3f, 0.4f, 0.3f, 16.0f);
+    m_materialParam.materialColor = 0xFF3F3F3F;
 }
 
 Material::~Material()
@@ -21,6 +27,7 @@ Material::~Material()
     SAFE_DELETE(m_sceneParamBuf);
     SAFE_DELETE(m_modelParamBuf);
     SAFE_DELETE(m_lightParamBuf);
+    SAFE_DELETE(m_materialParamBuf);
 }
 
 bool Material::InitWithShaderProgram(RenderProgram* renderProgram)
@@ -39,12 +46,16 @@ bool Material::InitWithShaderProgram(RenderProgram* renderProgram)
     m_lightParamBuf = sRenderer->GenerateRenderBuffer(UNIFORM_BUFFFER);
     m_lightParamBuf->Allocate(sizeof(SceneLight));
     
+    m_materialParamBuf = sRenderer->GenerateRenderBuffer(UNIFORM_BUFFFER);
+    m_materialParamBuf->Allocate(sizeof(PerMaterial));
+    
     return true;
 }
 
-void Material::SetViewParamValue(const Matrix4& viewMat)
+void Material::SetViewParamValue(const Matrix4& viewMat, const Vector3Df& cameraPos)
 {
     m_sceneParam.view = viewMat;
+    m_sceneParam.camerPos = Vector4Df(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
 }
 
 void Material::SetProjParamValue(const Matrix4& projMat)
@@ -76,14 +87,49 @@ void Material::SetLightDirectionParamValue(const Vector3Df& lightDir)
     m_lightParam.lightDir = Vector4Df(lightDir.x, lightDir.y, lightDir.z, 0);
 }
 
-void Material::SetEnvironmentColorParamValue(Color4 envColor)
-{
-    m_lightParam.environmentColor = envColor;
-}
-
 void Material::SetLightColorParamValue(Color4 lightColor)
 {
     m_lightParam.lightColor = lightColor;
+}
+
+void Material::SetMaterialColorParamValue(Color4 color)
+{
+    m_materialParam.materialColor = color;
+}
+
+void Material::SetAbmbinetColorParamValue(Color4 color)
+{
+    m_materialParam.ambientColor = color;
+}
+
+void Material::SetDiffuseColorParamValue(Color4 color)
+{
+    m_materialParam.diffuseColor = color;
+}
+
+void Material::SetSpecularColorParamValue(Color4 color)
+{
+    m_materialParam.specularColor = color;
+}
+
+void Material::SetAbmbinetRatioParamValue(float32 ratio)
+{
+    m_materialParam.albedoPow.x = ratio;
+}
+
+void Material::SetDiffuseRatioParamValue(float32 ratio)
+{
+    m_materialParam.albedoPow.y = ratio;
+}
+
+void Material::SetSpecularRatioParamValue(float32 ratio)
+{
+    m_materialParam.albedoPow.z = ratio;
+}
+
+void Material::SetSpecularPowParamValue(float32 pow)
+{
+    m_materialParam.albedoPow.w = pow;
 }
 
 void Material::SetTextureParamValue(RenderTexture* texture)
@@ -160,11 +206,17 @@ void Material::SetClockwiseFrontFace(bool clockwise)
 void Material::UpdateParamValue()
 {    
     m_sceneParamBuf->CopyData(&m_sceneParam, sizeof(PerScene));
-    m_renderSet->SetVertexUniformBuffer(0, m_sceneParamBuf);
-    
     m_modelParamBuf->CopyData(&m_modelParam, sizeof(PerModel));
-    m_renderSet->SetVertexUniformBuffer(1, m_modelParamBuf);
-    
     m_lightParamBuf->CopyData(&m_lightParam, sizeof(SceneLight));
+    m_materialParamBuf->CopyData(&m_materialParam, sizeof(PerMaterial));
+    
+    m_renderSet->SetVertexUniformBuffer(0, m_sceneParamBuf);
+    m_renderSet->SetVertexUniformBuffer(1, m_modelParamBuf);
     m_renderSet->SetVertexUniformBuffer(2, m_lightParamBuf);
+    m_renderSet->SetVertexUniformBuffer(3, m_materialParamBuf);
+    
+    m_renderSet->SetFragmentUniformBuffer(0, m_sceneParamBuf);
+    m_renderSet->SetFragmentUniformBuffer(1, m_modelParamBuf);
+    m_renderSet->SetFragmentUniformBuffer(2, m_lightParamBuf);
+    m_renderSet->SetFragmentUniformBuffer(3, m_materialParamBuf);
 }

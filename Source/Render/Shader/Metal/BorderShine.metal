@@ -25,14 +25,6 @@ typedef struct
     matrix_float4x4 g_world;
 } cbPerModel;
 
-
-typedef struct
-{
-    float4 g_light_color;
-    float4 g_environment_color;
-    float4 g_light_direction;
-} cbSceneLight;
-
 typedef struct
 {
     float3 pos [[attribute(0)]];
@@ -49,8 +41,7 @@ typedef struct
 
 vertex ColorInOut BorderShineVS(VertexColor in [[stage_in]],
                                   constant cbPerScene& perScene [[ buffer(0) ]],
-                                  constant cbPerModel& perModel [[ buffer(1) ]],
-                                  constant cbSceneLight& sceneLight [[ buffer(2) ]])
+                                  constant cbPerModel& perModel [[ buffer(1) ]])
 {
     ColorInOut out;
 

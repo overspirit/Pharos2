@@ -1,438 +1,766 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UI>
-  <Frame name="Console" enable="true" hidden="false">
-
-    <Region>
-
-      <Size y="150"/>
-
-      <Anchor point="TopLeft" relativePoint="BottomLeft">
-        <Offset x="0" y="150"/>
-      </Anchor>
-
-      <Anchor point="TopRight" relativePoint="BottomRight">
-        <Offset x="0" y="-150"/>
-      </Anchor>
-
-    </Region>
-
-    <BackDrop>
-      <Texture color="0x3F000000"/>
-
-      <EdgeInsets left="5" top="5" right="5" bottom="5"/>
-
-    </BackDrop>
-
-    <Frames>
-
-      <Button name="PauseAnim" enable="true" hidden="false">
-
+    <Frame name="Console" enable="true" hidden="false">
+        
         <Region>
-
-          <Size x="64" y="64"/>
-
-          <Anchor point="Center" relativePoint="Center">
-            <Offset y="-16"/>
-          </Anchor>
-
+            
+            <Size y="150"/>
+            
+            <Anchor point="TopLeft" relativePoint="BottomLeft">
+                <Offset x="0" y="150"/>
+            </Anchor>
+            
+            <Anchor point="TopRight" relativePoint="BottomRight">
+                <Offset x="0" y="-150"/>
+            </Anchor>
+            
         </Region>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
+        
         <BackDrop>
-          <Texture file="Interface/ViewerPanel/Pause.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            <Texture color="0x3F000000"/>
+            
+            <EdgeInsets left="5" top="5" right="5" bottom="5"/>
+            
         </BackDrop>
-
-      </Button>
-
-
-
-      <Button name="PlayAnim" enable="true" hidden="false">
-
-        <Region>
-
-          <Size x="64" y="64"/>
-
-          <Anchor point="Center" relativePoint="Center">
-            <Offset x="0" y="-16"/>
-          </Anchor>
-
-        </Region>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/Play.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-      </Button>
-
-
-
-
-      <!--<Button name="StopAnim" enable="true" hidden="false">
-
-        <Region>
-
-          <Size x="64" y="64"/>
-
-          <Anchor point="Center" relativePoint="Center">
+        
+        <Frames>
+            
+            <Button name="PauseAnim" enable="true" hidden="false">
+                
+                <Region>
+                    
+                    <Size x="64" y="64"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset y="-16"/>
+                    </Anchor>
+                    
+                </Region>
+                
+                <PushStyle>
+                    <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </PushStyle>
+                
+                <HighlightStyle>
+                    <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </HighlightStyle>
+                
+                <DisableStyle>
+                    <Texture color="0xFFFFFFFF"/>
+                </DisableStyle>
+                
+                <BackDrop>
+                    <Texture file="Interface/ViewerPanel/Pause.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+            </Button>
+            
+            
+            
+            <Button name="PlayAnim" enable="true" hidden="false">
+                
+                <Region>
+                    
+                    <Size x="64" y="64"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="0" y="-16"/>
+                    </Anchor>
+                    
+                </Region>
+                
+                <PushStyle>
+                    <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </PushStyle>
+                
+                <HighlightStyle>
+                    <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </HighlightStyle>
+                
+                <DisableStyle>
+                    <Texture color="0xFFFFFFFF"/>
+                </DisableStyle>
+                
+                <BackDrop>
+                    <Texture file="Interface/ViewerPanel/Play.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+            </Button>
+            
+            
+            
+            
+            <!--<Button name="StopAnim" enable="true" hidden="false">
+            
+            <Region>
+            
+            <Size x="64" y="64"/>
+            
+            <Anchor point="Center" relativePoint="Center">
             <Offset x="32" y="0"/>
-          </Anchor>
-
-        </Region>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/Stop.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-      </Button>-->
-
-
-
-      <Button name="PrevAnim" enable="true" hidden="false">
-
-        <Region>
-
-          <Size x="48" y="48"/>
-
-          <Anchor point="Center" relativePoint="Center">
-            <Offset x="-100" y="-12"/>
-          </Anchor>
-
-        </Region>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/Prev.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-      </Button>
-
-      <Button name="NextAnim" enable="true" hidden="false">
-
-        <Region>
-
-          <Size x="48" y="48"/>
-
-          <Anchor point="Center" relativePoint="Center">
-            <Offset x="100" y="-12"/>
-          </Anchor>
-
-        </Region>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/Next.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-      </Button>
-
-      <Button name="OpenFile" enable="true" hidden="false">
-
-        <Region>
-
-          <Size x="48" y="48"/>
-
-          <Anchor point="Center" relativePoint="Center">
-            <Offset y="0"/>
-          </Anchor>
-
-          <Anchor point="Left" relativePoint="Left">
-            <Offset x="32"/>
-          </Anchor>
-
-        </Region>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/Open.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-      </Button>
-
-      <Slider name="AnimFrame" enable="true" hidden="false" min="1" max="5" step="0.5" value="0" wheel_speed="0.5" put_type="Horizontal">
-
-        <Region>
-          <Size y="5"/>
-
-          <Anchor point="Center" relativePoint="Center">
-            <Offset y="42"/>
-          </Anchor>
-
-          <Anchor point="Left" relativePoint="Left">
-            <Offset x="400"/>
-          </Anchor>
-
-          <Anchor point="Right" relativePoint="Right">
-            <Offset x="-400"/>
-          </Anchor>
-        </Region>
-
-
-        <BackDrop>
-          <!--<Texture color="0xFF5E5E5E"/>-->
-          <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-        <Thumb>
-
-          <BackStyle>
-            <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-          </BackStyle>
-
-          <PushStyle>
-            <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-          </PushStyle>
-
-          <HighlightStyle>
-            <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-          </HighlightStyle>
-
-          <DisableStyle>
-            <Texture color="0xFFFFFFFF"/>
-          </DisableStyle>
-
-          <Size x="32" y="32"/>
-
-          <EdgeInsets left="0" top="0" right="0" bottom="0"/>
-
-        </Thumb>
-
-        <Frames>
-          <FontString name="FrameBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
-
-            <Region>
-              <Size x="32" y="32"/>
-
-              <Anchor point="Center" relativePoint="Center">
-                <Offset y="0"/>
-              </Anchor>
-
-              <Anchor point="Right" relativePoint="Left">
-                <Offset x="-10"/>
-              </Anchor>
+            </Anchor>
+            
             </Region>
-
-          </FontString>
-
-          <FontString name="FrameEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
-
-            <Region>
-              <Size x="32" y="32"/>
-
-              <Anchor point="Center" relativePoint="Center">
-                <Offset y="0"/>
-              </Anchor>
-
-              <Anchor point="Left" relativePoint="Right">
-                <Offset x="10"/>
-              </Anchor>
-
-            </Region>
-          </FontString>
-        </Frames>
-
-      </Slider>
-
-      <!--<Slider name="AnimSpeed" enable="true" hidden="false" min="0" max="2.0" step="0" value="1.0" wheel_speed="0.5" put_type="Horizontal">
-
-        <Region>
-
-          <Size x="128" y="32"/>
-
-          <Anchor point="Center" relativePoint="Center">
-		  <Offset x="-100" y="50"/>
-          </Anchor>
-
-		  <Anchor point="Bottom" relativePoint="Bottom"/>
-		  
-        </Region>
-
-        <Thumb>
-
-          <BackStyle>
-            <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-          </BackStyle>
-
-          <PushStyle>
-            <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-          </PushStyle>
-
-          <HighlightStyle>
-            <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-          </HighlightStyle>
-
-          <DisableStyle>
+            
+            <PushStyle>
+            <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            </PushStyle>
+            
+            <HighlightStyle>
+            <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            </HighlightStyle>
+            
+            <DisableStyle>
             <Texture color="0xFFFFFFFF"/>
-          </DisableStyle>
-
-          <Size x="32" y="32"/>
-
-          <EdgeInsets left="5" top="30" right="5" bottom="30"/>
-
-        </Thumb>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-      </Slider>
-
-      <Progress name="AnimFrame" enable="true" hidden="false" min="1" max="2" value="1.4" puttype="Horizontal">
-
-        <Region>
-          <Size y="5"/>
-
-          <Anchor point="Center" relativePoint="Center">
+            </DisableStyle>
+            
+            <BackDrop>
+            <Texture file="Interface/ViewerPanel/Stop.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            </BackDrop>
+            
+            </Button>-->
+            
+            
+            
+            <Button name="PrevAnim" enable="true" hidden="false">
+                
+                <Region>
+                    
+                    <Size x="48" y="48"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="-100" y="-12"/>
+                    </Anchor>
+                    
+                </Region>
+                
+                <PushStyle>
+                    <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </PushStyle>
+                
+                <HighlightStyle>
+                    <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </HighlightStyle>
+                
+                <DisableStyle>
+                    <Texture color="0xFFFFFFFF"/>
+                </DisableStyle>
+                
+                <BackDrop>
+                    <Texture file="Interface/ViewerPanel/Prev.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+            </Button>
+            
+            <Button name="NextAnim" enable="true" hidden="false">
+                
+                <Region>
+                    
+                    <Size x="48" y="48"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="100" y="-12"/>
+                    </Anchor>
+                    
+                </Region>
+                
+                <PushStyle>
+                    <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </PushStyle>
+                
+                <HighlightStyle>
+                    <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </HighlightStyle>
+                
+                <DisableStyle>
+                    <Texture color="0xFFFFFFFF"/>
+                </DisableStyle>
+                
+                <BackDrop>
+                    <Texture file="Interface/ViewerPanel/Next.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+            </Button>
+            
+            <Button name="OpenFile" enable="true" hidden="false">
+                
+                <Region>
+                    
+                    <Size x="48" y="48"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset y="0"/>
+                    </Anchor>
+                    
+                    <Anchor point="Left" relativePoint="Left">
+                        <Offset x="32"/>
+                    </Anchor>
+                    
+                </Region>
+                
+                <PushStyle>
+                    <Texture file="Interface/ViewerPanel/Push.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </PushStyle>
+                
+                <HighlightStyle>
+                    <Texture file="Interface/ViewerPanel/Highlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </HighlightStyle>
+                
+                <DisableStyle>
+                    <Texture color="0xFFFFFFFF"/>
+                </DisableStyle>
+                
+                <BackDrop>
+                    <Texture file="Interface/ViewerPanel/Open.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+            </Button>
+            
+            <Slider name="AnimFrame" enable="true" hidden="false" min="1" max="5" step="0.5" value="0" wheel_speed="0.5" put_type="Horizontal">
+                
+                <Region>
+                    <Size y="5"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset y="42"/>
+                    </Anchor>
+                    
+                    <Anchor point="Left" relativePoint="Left">
+                        <Offset x="400"/>
+                    </Anchor>
+                    
+                    <Anchor point="Right" relativePoint="Right">
+                        <Offset x="-400"/>
+                    </Anchor>
+                </Region>
+                
+                
+                <BackDrop>
+                    <!--<Texture color="0xFF5E5E5E"/>-->
+                    <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+                <Thumb>
+                    
+                    <BackStyle>
+                        <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </BackStyle>
+                    
+                    <PushStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </PushStyle>
+                    
+                    <HighlightStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </HighlightStyle>
+                    
+                    <DisableStyle>
+                        <Texture color="0xFFFFFFFF"/>
+                    </DisableStyle>
+                    
+                    <Size x="32" y="32"/>
+                    
+                    <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+                    
+                </Thumb>
+                
+                <Frames>
+                    <FontString name="FrameBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Right" relativePoint="Left">
+                                <Offset x="-10"/>
+                            </Anchor>
+                        </Region>
+                        
+                    </FontString>
+                    
+                    <FontString name="FrameEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Left" relativePoint="Right">
+                                <Offset x="10"/>
+                            </Anchor>
+                            
+                        </Region>
+                    </FontString>
+                </Frames>
+                
+            </Slider>
+            
+            <!--<Slider name="AnimSpeed" enable="true" hidden="false" min="0" max="2.0" step="0" value="1.0" wheel_speed="0.5" put_type="Horizontal">
+            
+            <Region>
+            
+            <Size x="128" y="32"/>
+            
+            <Anchor point="Center" relativePoint="Center">
+            <Offset x="-100" y="50"/>
+            </Anchor>
+            
+            <Anchor point="Bottom" relativePoint="Bottom"/>
+            
+            </Region>
+            
+            <Thumb>
+            
+            <BackStyle>
+            <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            </BackStyle>
+            
+            <PushStyle>
+            <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            </PushStyle>
+            
+            <HighlightStyle>
+            <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+            </HighlightStyle>
+            
+            <DisableStyle>
+            <Texture color="0xFFFFFFFF"/>
+            </DisableStyle>
+            
+            <Size x="32" y="32"/>
+            
+            <EdgeInsets left="5" top="30" right="5" bottom="30"/>
+            
+            </Thumb>
+            
+            <BackDrop>
+            <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+            </BackDrop>
+            
+            </Slider>
+            
+            <Progress name="AnimFrame" enable="true" hidden="false" min="1" max="2" value="1.4" puttype="Horizontal">
+            
+            <Region>
+            <Size y="5"/>
+            
+            <Anchor point="Center" relativePoint="Center">
             <Offset y="50"/>
-          </Anchor>
-
-		  <Anchor point="Left" relativePoint="Left">
-		  <Offset x="400"/>
-		  </Anchor>
-		  
-		  <Anchor point="Right" relativePoint="Right">
-		  <Offset x="-400"/>
-		  </Anchor>
-        </Region>
-
-        <Bar>
-          <Texture file="Interface/ViewerPanel/Box.bmp" left="467" top="43" right="503" bottom="58" color="0xFFFFFFFF"/>
-
-          <EdgeInsets left="10" top="10" right="10" bottom="10"/>
-        </Bar>
-
-        <BackDrop>
-          <Texture color="0xFF5E5E5E"/>
-        </BackDrop>
-
-      </Progress>-->
-
-
-      <CheckButton name="LoopPlay" enable="true" hidden="false">
-
-        <Region>
-
-          <Size x="24" y="24"/>
-
-          <Anchor point="Center" relativeTo="AnimFrame" relativePoint="Center">
-            <Offset y="0"/>
-          </Anchor>
-
-          <Anchor point="Left" relativeTo="AnimFrame" relativePoint="Right">
-            <Offset x="64"/>
-          </Anchor>
-
-        </Region>
-
-        <CheckStyle>
-          <Texture file="Interface/ViewerPanel/LoopCheck.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </CheckStyle>
-
-        <PushStyle>
-          <Texture file="Interface/ViewerPanel/LoopPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </PushStyle>
-
-        <HighlightStyle>
-          <Texture file="Interface/ViewerPanel/LoopHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </HighlightStyle>
-
-        <DisableStyle>
-          <Texture color="0xFFFFFFFF"/>
-        </DisableStyle>
-
-        <BackDrop>
-          <Texture file="Interface/ViewerPanel/LoopBack.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
-        </BackDrop>
-
-        <Frames>
-          <FontString name="LoopPlayLabel" font_file="Font/simhei.ttf" font_width="18" font_height="18" text="循环">
-
-            <Region>
-              <Size x="18" y="18"/>
-
-              <Anchor point="Center" relativePoint="Center">
-                <Offset y="-2"/>
-              </Anchor>
-
-              <Anchor point="Left" relativePoint="Right">
-                <Offset x="2"/>
-              </Anchor>
+            </Anchor>
+            
+            <Anchor point="Left" relativePoint="Left">
+            <Offset x="400"/>
+            </Anchor>
+            
+            <Anchor point="Right" relativePoint="Right">
+            <Offset x="-400"/>
+            </Anchor>
             </Region>
-
-          </FontString>
+            
+            <Bar>
+            <Texture file="Interface/ViewerPanel/Box.bmp" left="467" top="43" right="503" bottom="58" color="0xFFFFFFFF"/>
+            
+            <EdgeInsets left="10" top="10" right="10" bottom="10"/>
+            </Bar>
+            
+            <BackDrop>
+            <Texture color="0xFF5E5E5E"/>
+            </BackDrop>
+            
+            </Progress>-->
+            
+            
+            <CheckButton name="LoopPlay" enable="true" hidden="false">
+                
+                <Region>
+                    
+                    <Size x="24" y="24"/>
+                    
+                    <Anchor point="Center" relativeTo="AnimFrame" relativePoint="Center">
+                        <Offset y="0"/>
+                    </Anchor>
+                    
+                    <Anchor point="Left" relativeTo="AnimFrame" relativePoint="Right">
+                        <Offset x="64"/>
+                    </Anchor>
+                    
+                </Region>
+                
+                <CheckStyle>
+                    <Texture file="Interface/ViewerPanel/LoopCheck.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </CheckStyle>
+                
+                <PushStyle>
+                    <Texture file="Interface/ViewerPanel/LoopPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </PushStyle>
+                
+                <HighlightStyle>
+                    <Texture file="Interface/ViewerPanel/LoopHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </HighlightStyle>
+                
+                <DisableStyle>
+                    <Texture color="0xFFFFFFFF"/>
+                </DisableStyle>
+                
+                <BackDrop>
+                    <Texture file="Interface/ViewerPanel/LoopBack.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+                <Frames>
+                    <FontString name="LoopPlayLabel" font_file="Font/simhei.ttf" font_width="18" font_height="18" text="循环">
+                        
+                        <Region>
+                            <Size x="18" y="18"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="-2"/>
+                            </Anchor>
+                            
+                            <Anchor point="Left" relativePoint="Right">
+                                <Offset x="2"/>
+                            </Anchor>
+                        </Region>
+                        
+                    </FontString>
+                </Frames>
+                
+            </CheckButton>
+            
         </Frames>
+        
+    </Frame>
+    
+    <Frame name="RatioPanel" enable="true" hidden="false">
+        
+        <Region>
+            
+            <Size x="300" y="300"/>
+            
+            <Anchor point="TopRight" relativePoint="TopRight">
+                <Offset x="0" y="100"/>
+            </Anchor>
+            
+        </Region>
+        
+        <BackDrop>
+            <Texture color="0x3F000000"/>
+            
+            <EdgeInsets left="5" top="5" right="5" bottom="5"/>
+            
+        </BackDrop>
+        
+        <Frames>
+            <Slider name="AmbientRatio" enable="true" hidden="false" min="0" max="1.0" step="0" value="0" wheel_speed="0.1" put_type="Horizontal">
+                
+                <Region>
+                    <Size x="200" y="5"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="0" y="-85"/>
+                    </Anchor>
+                </Region>
+                
+                
+                <BackDrop>
+                    <!--<Texture color="0xFF5E5E5E"/>-->
+                    <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+                <Thumb>
+                    
+                    <BackStyle>
+                        <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </BackStyle>
+                    
+                    <PushStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </PushStyle>
+                    
+                    <HighlightStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </HighlightStyle>
+                    
+                    <DisableStyle>
+                        <Texture color="0xFFFFFFFF"/>
+                    </DisableStyle>
+                    
+                    <Size x="32" y="32"/>
+                    
+                    <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+                    
+                </Thumb>
+                
+                <Frames>
+                    <FontString name="AmbientRatioBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Right" relativePoint="Left">
+                                <Offset x="-10"/>
+                            </Anchor>
+                        </Region>
+                        
+                    </FontString>
+                    
+                    <FontString name="AmbientRatioEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Left" relativePoint="Right">
+                                <Offset x="10"/>
+                            </Anchor>
+                            
+                        </Region>
+                    </FontString>
+                </Frames>
+                
+            </Slider>
+            
+            <Slider name="DiffuseRatio" enable="true" hidden="false" min="0" max="1.0" step="0" value="0" wheel_speed="0.1" put_type="Horizontal">
+                
+                <Region>
+                    <Size x="200" y="5"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="0" y="-25"/>
+                    </Anchor>
+                </Region>
+                
+                
+                <BackDrop>
+                    <!--<Texture color="0xFF5E5E5E"/>-->
+                    <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+                <Thumb>
+                    
+                    <BackStyle>
+                        <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </BackStyle>
+                    
+                    <PushStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </PushStyle>
+                    
+                    <HighlightStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </HighlightStyle>
+                    
+                    <DisableStyle>
+                        <Texture color="0xFFFFFFFF"/>
+                    </DisableStyle>
+                    
+                    <Size x="32" y="32"/>
+                    
+                    <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+                    
+                </Thumb>
+                
+                <Frames>
+                    <FontString name="DiffuseRatioBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Right" relativePoint="Left">
+                                <Offset x="-10"/>
+                            </Anchor>
+                        </Region>
+                        
+                    </FontString>
+                    
+                    <FontString name="DiffuseRatioEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Left" relativePoint="Right">
+                                <Offset x="10"/>
+                            </Anchor>
+                            
+                        </Region>
+                    </FontString>
+                </Frames>
+                
+            </Slider>
+            
+            <Slider name="SpecularRatio" enable="true" hidden="false" min="0" max="1.0" step="0" value="0" wheel_speed="0.1" put_type="Horizontal">
+                
+                <Region>
+                    <Size x="200" y="5"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="0" y="25"/>
+                    </Anchor>
+                </Region>
+                
+                
+                <BackDrop>
+                    <!--<Texture color="0xFF5E5E5E"/>-->
+                    <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+                <Thumb>
+                    
+                    <BackStyle>
+                        <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </BackStyle>
+                    
+                    <PushStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </PushStyle>
+                    
+                    <HighlightStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </HighlightStyle>
+                    
+                    <DisableStyle>
+                        <Texture color="0xFFFFFFFF"/>
+                    </DisableStyle>
+                    
+                    <Size x="32" y="32"/>
+                    
+                    <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+                    
+                </Thumb>
+                
+                <Frames>
+                    <FontString name="SpecularRatioBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Right" relativePoint="Left">
+                                <Offset x="-10"/>
+                            </Anchor>
+                        </Region>
+                        
+                    </FontString>
+                    
+                    <FontString name="SpecularRatioEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Left" relativePoint="Right">
+                                <Offset x="10"/>
+                            </Anchor>
+                            
+                        </Region>
+                    </FontString>
+                </Frames>
+                
+            </Slider>
 
-      </CheckButton>
+            <Slider name="SpecularPow" enable="true" hidden="false" min="0" max="255" step="0" value="0" wheel_speed="0.1" put_type="Horizontal">
+                
+                <Region>
+                    <Size x="200" y="5"/>
+                    
+                    <Anchor point="Center" relativePoint="Center">
+                        <Offset x="0" y="85"/>
+                    </Anchor>
+                </Region>
+                
+                
+                <BackDrop>
+                    <!--<Texture color="0xFF5E5E5E"/>-->
+                    <Texture file="Interface/ViewerPanel/SpeedBack.png" left="0" top="0" right="128" bottom="32" color="0xFFFFFFFF"/>
+                </BackDrop>
+                
+                <Thumb>
+                    
+                    <BackStyle>
+                        <Texture file="Interface/ViewerPanel/Thumb.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </BackStyle>
+                    
+                    <PushStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbPush.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </PushStyle>
+                    
+                    <HighlightStyle>
+                        <Texture file="Interface/ViewerPanel/ThumbHighlight.png" left="0" top="0" right="128" bottom="128" color="0xFFFFFFFF"/>
+                    </HighlightStyle>
+                    
+                    <DisableStyle>
+                        <Texture color="0xFFFFFFFF"/>
+                    </DisableStyle>
+                    
+                    <Size x="32" y="32"/>
+                    
+                    <EdgeInsets left="0" top="0" right="0" bottom="0"/>
+                    
+                </Thumb>
+                
+                <Frames>
+                    <FontString name="SpecularPowBeginLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Right" relativePoint="Left">
+                                <Offset x="-10"/>
+                            </Anchor>
+                        </Region>
+                        
+                    </FontString>
+                    
+                    <FontString name="SpecularPowEndLabel" font_file="Font/simhei.ttf" font_width="24" font_height="24" text="0">
+                        
+                        <Region>
+                            <Size x="32" y="32"/>
+                            
+                            <Anchor point="Center" relativePoint="Center">
+                                <Offset y="0"/>
+                            </Anchor>
+                            
+                            <Anchor point="Left" relativePoint="Right">
+                                <Offset x="10"/>
+                            </Anchor>
+                            
+                        </Region>
+                    </FontString>
+                </Frames>
+                
+            </Slider>
 
-    </Frames>
-
-  </Frame>
-
+        </Frames>
+        
+    </Frame>
+    
 </UI>
