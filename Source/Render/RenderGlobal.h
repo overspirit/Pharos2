@@ -106,18 +106,17 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "RenderObject.h"
-#include "RenderVariable.h"
 #include "Material.h"
 #include "Mesh.h"
 #include "Skeleton.h"
 #include "Animation.h"
 #include "Model.h"
 #include "IRenderCallback.h"
-#include "MaterialMgr.h"
+#include "RenderHelper.h"
 #include "RenderMgr.h"
 
 #define sRenderMgr RenderMgr::Inst()
-#define sMaterialMgr MaterialMgr::Inst()
+#define sRenderHelper RenderHelper::Inst()
 #define sRenderer (sRenderMgr->GetCurrentRenderer())
 
 Pharos::Render::Renderer* MakeRenderer();

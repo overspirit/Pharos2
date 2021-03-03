@@ -43,10 +43,12 @@ bool RenderMgr::Init()
 	m_defaultCommand->SetDebugLabel("default render");
 
 	//Load Effect file
-	sMaterialMgr->LoadEffectFile("Shader/Sprite3D.fxml");
-	sMaterialMgr->LoadEffectFile("Shader/Skeletal.fxml");
-    sMaterialMgr->LoadEffectFile("Shader/BorderShine.fxml");
-	
+    sRenderHelper->LoadEffectFile("Shader/Sprite3D.fxml");
+    sRenderHelper->LoadEffectFile("Shader/Skeletal.fxml");
+    sRenderHelper->LoadEffectFile("Shader/BorderShine.fxml");
+	sRenderHelper->LoadEffectFile("Shader/Lambert.fxml");
+    sRenderHelper->LoadEffectFile("Shader/Blinn.fxml");
+    
 	VertLayoutDesc desc[] =
 	{
 		{ VET_FLOAT32, 3, VAL_POSITION, 0, 0 },
@@ -94,7 +96,12 @@ void RenderMgr::Destroy()
 
     SAFE_DELETE(m_quadVertBuf);
 
-    sMaterialMgr->Destroy();
+    for (auto renderObj : m_renderObjPool)
+    {
+        SAFE_DELETE(renderObj);
+    }
+    
+    sRenderHelper->Destroy();
 
     m_renderer->Destroy();
     SAFE_DELETE(m_renderer);
@@ -152,7 +159,11 @@ void RenderMgr::DoRender(RenderObject* obj)
 
 RenderObject* RenderMgr::GenerateRenderObject()
 {
-	return new RenderObject(m_defaultCommand);
+    RenderObject* renderObj = new RenderObject(m_defaultCommand);
+    
+    m_renderObjPool.push_back(renderObj);
+    
+    return renderObj;
 }
 
 void RenderMgr::RegisterRenderCallback(IRenderCallback* callback)

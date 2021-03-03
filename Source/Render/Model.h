@@ -6,10 +6,12 @@ namespace Pharos
 	{		
 		class Model
 		{
-		public:
-			Model();
+        private:
+			Model(const char8* name);
 			virtual ~Model();
 
+            friend class RenderHelper;
+            
 		private:
 			struct SubModel
 			{
@@ -19,6 +21,8 @@ namespace Pharos
 			};
 
 		private:
+            string      m_name;
+            
 			bool 		m_hidden;
 
 			Matrix4							m_offset;
@@ -41,13 +45,17 @@ namespace Pharos
 			void CalcSkelAnimMatrix(const SkelAnimation* anim, uint32 currFrameIndex, uint32 nextFrameIndex, float32 lerp);
 
 		public:
+            virtual const char8* GetName() { return m_name.c_str(); }
+            
 			virtual void SetHidden(bool hidden) { m_hidden = hidden; }
 
 			virtual uint32 AddSubModelMesh(Mesh* mesh);
 			virtual void AddSubModelMaterial(uint32 index, Material* material);
 			virtual uint32 GetSubModelNum() { return (uint32)m_subModelList.size(); }
 			virtual Mesh* GetSubModelMesh(uint32 index) { return m_subModelList[index].mesh; }
-
+            virtual uint32 GetSubModelMaterialNum(uint32 index) { return (uint32)m_subModelList[index].materialList.size(); }
+            virtual Material* GetSubModelMaterial(uint32 index, uint32 materialIndex) { return m_subModelList[index].materialList[materialIndex]; }
+            
 			virtual void SetBoneInfo(const char8* name, int32 id, int32 parentId, const Matrix4& bindPose);
 			virtual SkelAnimation& AddSkelAnimation(const char8* name);
 

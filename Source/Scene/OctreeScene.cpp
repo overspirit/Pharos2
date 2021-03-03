@@ -92,31 +92,12 @@ void OctreeScene::SetSceneSize(const Size2Di& mapSize, uint32 sceneHeight)
 
 void OctreeScene::Update(float32 fElapsed)
 {
-//	const Vector3Df& cameraPos = m_camera->GetPosition();
+	const Vector3Df& cameraPos = m_camera->GetPosition();
 	const Matrix4& viewMat = m_camera->GetViewMatrix();
 	const Matrix4& projMat = m_camera->GetProjMatrix();
 
-	//sRenderMgr->SetGlobalRenderEyePostion(cameraPos);
-	//sRenderMgr->SetGlobalRenderViewMatrix(viewMat);
-	//sRenderMgr->SetGlobalRenderProjMatrix(projMat);
-
-	//更新场景中所有材质,应该放到材质管理器里更新...
-	for (int i = 0; i < sMaterialMgr->GetMaterialNum(); i++)
-	{
-		Material* material = sMaterialMgr->GetMaterial(i);
-
-		material->SetViewParamValue(viewMat);
-		material->SetProjParamValue(projMat);
-
-		Vector3Df lightDir = Vector3Df(1.0f, -1.0f, 1.0f);
-		lightDir.Normalize();
-		material->SetLightDirectionParamValue(lightDir);
-		material->SetEnvironmentColorParamValue(0xFF4F4F4F);
-		material->SetLightColorParamValue(0xFFFFFFFF);		
-
-		material->UpdateParamValue();
-	}
-
+    sRenderHelper->SetAllMaterialParam(viewMat, projMat, cameraPos);
+    
 	const Frustum& frustum = m_camera->GetViewFrustum();
 	m_pTreeRoot->FrustumCulling(frustum);
 

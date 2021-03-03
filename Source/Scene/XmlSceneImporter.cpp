@@ -121,6 +121,7 @@ bool XmlSceneImporter::ReadModelChunk(XmlNode* node)
 			{
 				string modelName = nameAttr->GetStringValue();
 				ModelData& modelData = m_modelDataList[modelName];
+                modelData.name = modelName;
 
 				ReadModel(modelNode, modelData);
 			}
@@ -480,61 +481,132 @@ bool XmlSceneImporter::ReadMaterialChunk(XmlNode* node)
 	{
 		XmlNode* materialNode = materialListNode->GetChildNode(i);
 		XmlAttribute* materialNameAttr = materialNode->GetAttribute("name");
-		if (materialNameAttr != nullptr)
-		{
-			const char8* materialName = materialNameAttr->GetStringValue();
-			MaterialData& materialData = m_materialDataList[materialName];
-			materialData.materialName = materialName;
-
-			XmlAttribute* materialTechAttr = materialNode->GetAttribute("technique");
-			if (materialTechAttr != nullptr) materialData.techName = materialTechAttr->GetStringValue();
-
-			for (uint32 j = 0; j < materialNode->GetChildNum(); j++)
-			{
-				XmlNode* childNode = materialNode->GetChildNode(j);
-				XmlAttribute* nameAttr = childNode->GetAttribute("name");
-				XmlAttribute* valueAttr = childNode->GetAttribute("value");
-				const char8* childName = childNode->GetName();
-
-				if (strcmp(childName, "variable") == 0)
-				{
-					if (nameAttr != nullptr && valueAttr != nullptr)
-					{
-						const char8* varName = nameAttr->GetStringValue();
-						const char8* varValue = valueAttr->GetStringValue();
-						materialData.varList[varName] = varValue;
-					}
-				}
-				else if (strcmp(childName, "state") == 0)
-				{
-					if (nameAttr != nullptr && valueAttr != nullptr)
-					{
-						const char8* stateName = nameAttr->GetStringValue();
-						const char8* stateValue = valueAttr->GetStringValue();
-
-						materialData.stateList[stateName] = stateValue;
-					}
-				}
-				else if (strcmp(childName, "sampler") == 0)
-				{
-					if (nameAttr != nullptr)
-					{
-						const char8* sampleName = nameAttr->GetStringValue();
-						SamplerData& sampleData = materialData.samplerDataList[sampleName];
-						sampleData.samplerName = sampleName;
-
-						XmlNode* texNode = childNode->GetFirstNode("texture");
-						XmlAttribute* pathAttr = texNode->GetAttribute("path");
-						if (pathAttr != nullptr)
-						{
-							sampleData.samplerName = sampleName;
-							sampleData.texPath = pathAttr->GetStringValue();
-						}
-					}
-				}
-			}
-		}
-	}
+        XmlAttribute* materialTechAttr = materialNode->GetAttribute("technique");
+        
+        if (materialNameAttr == nullptr || materialTechAttr == nullptr) continue;
+        
+        const char8* materialName = materialNameAttr->GetStringValue();
+        MaterialData& materialData = m_materialDataList[materialName];
+        materialData.materialName = materialName;
+        materialData.techName = materialTechAttr->GetStringValue();
+        materialData.lightDir = Vector3Df(0.577350259f, -0.577350259f, 0.577350259f);
+        materialData.lightColor = 0xFFFFFFFF;
+        materialData.mateialColor = 0xFF3F3F3F;
+        materialData.ambientColor = 0xFFFFFFFF;
+        materialData.ambientAlbedo = 0.3f;
+        materialData.diffuseColor = 0xFFFFFFFF;
+        materialData.diffuseAlbedo = 0.4f;
+        materialData.specularColor = 0xFFFFFFFF;
+        materialData.specularAlbedo = 0.3f;
+        materialData.specularPow = 16.0f;
+        materialData.transparent = false;
+        materialData.forceDepth = false;
+        materialData.cullBack = false;
+        materialData.clockWise = true;
+        
+        XmlAttribute* materialColorAttr = materialNode->GetAttribute("color");
+        if (materialColorAttr != NULL)
+        {
+            materialData.mateialColor = materialColorAttr->GetColorValue();
+        }
+        
+        for (uint32 j = 0; j < materialNode->GetChildNum(); j++)
+        {
+            XmlNode* childNode = materialNode->GetChildNode(j);
+            const char8* childName = childNode->GetName();
+                        
+            if (strcmp(childName, "light") == 0)
+            {
+                Vector3Df lightDir;
+                if (ReadArray(childNode, "dir", (float32*)lightDir, 3))
+                {
+                    materialData.lightDir = lightDir;
+                }
+                
+                XmlAttribute* lightColorAttr = childNode->GetAttribute("value");
+                if (lightColorAttr != NULL)
+                {
+                    materialData.lightColor = lightColorAttr->GetColorValue();
+                }
+            }
+            else if (strcmp(childName, "ambient") == 0)
+            {
+                XmlAttribute* ambientColorAttr = childNode->GetAttribute("value");
+                if (ambientColorAttr != NULL)
+                {
+                    materialData.ambientColor = ambientColorAttr->GetColorValue();
+                }
+                
+                XmlAttribute* ambientAlbedoAttr = childNode->GetAttribute("albedo");
+                if (ambientAlbedoAttr != NULL)
+                {
+                    materialData.ambientAlbedo = ambientAlbedoAttr->GetFloatValue();
+                }
+                
+            }
+            else if (strcmp(childName, "diffuse") == 0)
+            {
+                XmlAttribute* diffuseColorAttr = childNode->GetAttribute("value");
+                if (diffuseColorAttr != NULL)
+                {
+                    materialData.diffuseColor = diffuseColorAttr->GetColorValue();
+                }
+                
+                XmlAttribute* diffuseAlbedoAttr = childNode->GetAttribute("albedo");
+                if (diffuseAlbedoAttr != NULL)
+                {
+                    materialData.diffuseAlbedo = diffuseAlbedoAttr->GetFloatValue();
+                }
+            }
+            else if (strcmp(childName, "specular") == 0)
+            {
+                XmlAttribute* specularColorAttr = childNode->GetAttribute("value");
+                if (specularColorAttr != NULL)
+                {
+                    materialData.specularColor = specularColorAttr->GetColorValue();
+                }
+                
+                XmlAttribute* specularAlbedoAttr = childNode->GetAttribute("albedo");
+                if (specularAlbedoAttr != NULL)
+                {
+                    materialData.specularAlbedo = specularAlbedoAttr->GetFloatValue();
+                }
+                
+                XmlAttribute* specularPowAttr = childNode->GetAttribute("pow");
+                if (specularPowAttr != NULL)
+                {
+                    materialData.specularPow = specularPowAttr->GetFloatValue();
+                }
+            }
+            else if (strcmp(childName, "state") == 0)
+            {
+                XmlAttribute* transparentAttr = childNode->GetAttribute("transparent");
+                if (transparentAttr != NULL)
+                {
+                    materialData.transparent = transparentAttr->GetBoolValue();
+                }
+                
+                XmlAttribute* forceDepthAttr = childNode->GetAttribute("force_depth");
+                if (forceDepthAttr != NULL)
+                {
+                    materialData.forceDepth = forceDepthAttr->GetBoolValue();
+                }
+                
+                XmlAttribute* cullBackAttr = childNode->GetAttribute("cull_back");
+                if (transparentAttr != NULL)
+                {
+                    materialData.cullBack = cullBackAttr->GetBoolValue();
+                }
+                
+                XmlAttribute* clockWiseAttr = childNode->GetAttribute("clock_wise");
+                if (transparentAttr != NULL)
+                {
+                    materialData.clockWise = clockWiseAttr->GetBoolValue();
+                }
+                
+            }
+        }
+    }
 
 	return true;
 }

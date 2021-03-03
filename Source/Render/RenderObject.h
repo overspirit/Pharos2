@@ -6,10 +6,12 @@ namespace Pharos
 	{
 		class RenderObject
 		{
-		public:
+        private:
 			RenderObject(RenderCommand* renderCmd);
 			virtual ~RenderObject();
 
+            friend class RenderMgr;
+            
 		private:
 			struct RenderBlock
 			{

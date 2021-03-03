@@ -14,7 +14,6 @@ GridNode::GridNode()
 
 GridNode::~GridNode()
 {
-	SAFE_DELETE(m_gridModel);
 }
 
 bool GridNode::BuildGridData()
@@ -45,14 +44,14 @@ bool GridNode::BuildGridData()
 		vertexData.Insert((i * 4 + 3) * sizeof(Vertex), &vt4, sizeof(Vertex));
 	}
 
-	Material* gridMaterial = sMaterialMgr->GenerateMaterial("Sprite3DColor");
+	Material* gridMaterial = sRenderHelper->GenerateMaterial("Sprite3DColor", "GridNodeMaterial");
 	
 
-	Mesh* gridMesh = new Mesh();
+    Mesh* gridMesh = sRenderHelper->GenerateMesh("GridNodeMesh");
 	gridMesh->SetMeshVertexData(&vertexData, gridNum * 4, vertDesc);
 	gridMesh->SetDrawType(Render::EDT_LINELIST);
 
-	Model* gridModel = new Model();
+    Model* gridModel = sRenderHelper->GenerateModel("GridNodeModel");
 	uint32 subModelIndex = gridModel->AddSubModelMesh(gridMesh);
 	gridModel->AddSubModelMaterial(subModelIndex, gridMaterial);
 
