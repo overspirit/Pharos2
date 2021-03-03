@@ -3,7 +3,7 @@
 
 PlatformMacOS::PlatformMacOS()
 {
-
+    m_mouseState = STATE_KEEP;
 }
 
 PlatformMacOS::~PlatformMacOS()
@@ -70,12 +70,7 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
     NSPoint mousePos = [m_window convertPointFromScreen : NSEvent.mouseLocation];
 	uint32 x = mousePos.x;
 	uint32 y = m_view.drawableSize.height - mousePos.y;
-    uint32 z = 0;
-    
-    if ([mouseEvent hasPreciseScrollingDeltas])
-    {
-        z = (uint32)mouseEvent.scrollingDeltaY;
-    }
+
     
 	MouseEvent myEvent;
 	myEvent.button = MOUSE_NUM;
@@ -84,7 +79,7 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 	myEvent.y = y;
 	myEvent.ox = x - m_mousePos.x;
 	myEvent.oy = y - m_mousePos.y;
-	myEvent.wheel = z;
+    myEvent.wheel = 0;
 	myEvent.shift = false;
 	myEvent.ctrl = false;
 	myEvent.alt = false;
@@ -99,13 +94,24 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 	case NSEventTypeOtherMouseUp: myEvent.button = MOUSE_MID; myEvent.state = STATE_UP; break;
 	case NSEventTypeLeftMouseDragged: myEvent.button = MOUSE_LEFT; myEvent.state = STATE_DOWN; break;
 	case NSEventTypeRightMouseDragged: myEvent.button = MOUSE_RIGHT; myEvent.state = STATE_DOWN; break;
-	case NSEventTypeScrollWheel: break;
+	case NSEventTypeScrollWheel: myEvent.wheel = (uint32)mouseEvent.scrollingDeltaY * 120; break;
 	case NSEventTypeOtherMouseDragged: myEvent.button = MOUSE_MID; myEvent.state = STATE_DOWN; break;
+    case NSEventTypeMouseMoved: break;
+        default: return;
 	}
-
+    
+    if (m_mouseState == myEvent.state)
+    {
+        myEvent.state = STATE_KEEP;
+    }
+    else
+    {
+        m_mouseState = myEvent.state;
+    }
+    
 	//NSLog(@"mouse event button:%d state:%d ox:%d oy:%d", myEvent.button,  myEvent.state, myEvent.ox, myEvent.oy);
 
-	sKernel->onMouseEvent(myEvent);
+    sKernel->onMouseEvent(myEvent);
 
 	m_mousePos.x = x;
 	m_mousePos.y = y;
