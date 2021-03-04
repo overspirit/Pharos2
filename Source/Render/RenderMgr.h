@@ -32,6 +32,8 @@ namespace Pharos
 
 			RenderBuffer*			m_quadVertBuf;
 
+            vector<RenderObject*>       m_renderObjPool;
+            
 			//使用blockCount主要是为了优化，防止blockList反复变换大小
 			vector<RenderObject*>		m_renderObjList;
 			//uint32						m_blockCount;

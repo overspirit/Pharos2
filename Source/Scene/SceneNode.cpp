@@ -1,4 +1,4 @@
-﻿#include "PreCompile.h"
+#include "PreCompile.h"
 #include "Pharos.h"
 
 SceneNode::SceneNode()
@@ -18,12 +18,6 @@ SceneNode::SceneNode()
 
 SceneNode::~SceneNode()
 {
-	for (Model* model : m_modelList)
-	{
-		SAFE_DELETE(model);
-	}
-
-	SAFE_DELETE(m_renderObj);
 }
 
 void SceneNode::InitNode(const char8* name, SceneNode* parent)

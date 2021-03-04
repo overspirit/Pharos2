@@ -28,12 +28,14 @@ typedef struct
 
 typedef struct
 {
+    float4 g_light_dir;
 	float4 g_light_color;
-	float4 g_environment_color;
-	float4 g_light_direction;
 } cbSceneLight;
 
-
+typedef struct
+{
+    float4 g_material_color;
+} cbPerMaterial;
 
 typedef struct
 {
@@ -87,16 +89,17 @@ typedef struct
 vertex ColorInOut Sprite3DNormalVS(VertexNormal in [[stage_in]],
 								   constant cbPerScene& perScene [[ buffer(0) ]],
 								   constant cbPerModel& perModel [[ buffer(1) ]],
-								   constant cbSceneLight& sceneLight [[ buffer(2) ]])
+								   constant cbSceneLight& sceneLight [[ buffer(2) ]],
+                                   constant cbPerMaterial& perMaterial [[ buffer(3) ]])
 {
     ColorInOut out;
 
     float4 position = float4(in.pos, 1.0);
 	out.pos =  perScene.g_proj * perScene.g_view * perModel.g_world * position;
 	
-	float3 ligDir = float3(sceneLight.g_light_direction);
+	float3 ligDir = float3(sceneLight.g_light_dir);
 	float d = clamp(dot(-ligDir, in.normal), 0.0, 1.0);
-	out.color = d * sceneLight.g_light_color + sceneLight.g_environment_color;
+	out.color = d * sceneLight.g_light_color + perMaterial.g_material_color;
 
     out.size = 3;
     
@@ -153,16 +156,17 @@ vertex TextureInOut Sprite3DTextureWithColorVS(VertexColorTexture in [[stage_in]
 vertex TextureInOut Sprite3DTextureWithNormalVS(VertexNormalTexture in [[stage_in]],
 												constant cbPerScene& perScene [[ buffer(0) ]],
 												constant cbPerModel& perModel [[ buffer(1) ]],
-												constant cbSceneLight& sceneLight [[ buffer(2) ]])
+												constant cbSceneLight& sceneLight [[ buffer(2) ]],
+                                                constant cbPerMaterial& perMaterial [[ buffer(3) ]])
 {
 	TextureInOut out;
 	
     float4 position = float4(in.pos, 1.0);
 	out.pos =  perScene.g_proj * perScene.g_view * perModel.g_world * position;
 	
-	float3 ligDir = float3(sceneLight.g_light_direction);
+	float3 ligDir = float3(sceneLight.g_light_dir);
 	float d = clamp(dot(-ligDir, in.normal), 0.0, 1.0);
-	out.color = d * sceneLight.g_light_color + sceneLight.g_environment_color;
+	out.color = d * sceneLight.g_light_color + perMaterial.g_material_color;
 	
 	out.tex = in.tex;
 	

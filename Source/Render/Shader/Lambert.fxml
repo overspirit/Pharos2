@@ -1,78 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <effect>
-  <library file="Shader/Sprite3D.lib"/>
+  <library file="Shader/Lambert.lib"/>
 
-  <variable type="texture" name="g_tex" bind="4"/>
-
-  <variable type="struct" name="cbPerScene" bind="0">
-    <member type="matrix4" name="g_view"/>
-    <member type="matrix4" name="g_proj"/>
-  </variable>
-
-  <variable type="struct" name="cbPerModel" bind="1">
-    <member type="matrix4" name="g_world"/>
-  </variable>
-
-  <variable type="struct" name="cbSceneLight" bind="2">
-    <member type="float4" name="g_light_color"/>
-    <member type="float4" name="g_environment_color"/>
-    <member type="float4" name="g_light_direction"/>
-  </variable>
-  
-  <technique name="Sprite3DTextureWithColor">
-    <param name="cull_mode" value="none"/>
-    <!--<param name="fill_mode" value="wireframe"/>-->
-      
-    <param name="vertex_shader" value="Sprite3DTextureWithColorVS"/>
-    <param name="pixel_shader" value="Sprite3DTexturePS"/>
+  <technique name="Lambert">
+    <param name="vertex_shader" value="LambertVS"/>
+    <param name="pixel_shader" value="LambertPS"/>
   </technique>
 
-  <technique name="Sprite3DTextureWithNormal">
-    <param name="cull_mode" value="none"/>
-    <!--<param name="fill_mode" value="wireframe"/>-->
-
-    <param name="blend_enable" value="true"/>
-    <param name="src_blend" value="src_alpha"/>
-    <param name="dest_blend" value="inv_src_alpha"/>
-    <param name="src_blend_alpha" value="src_alpha"/>
-    <param name="dest_blend_alpha" value="inv_src_alpha"/>
-
-    <param name="depth_func" value="less_equal"/>
-      
-    <param name="vertex_shader" value="Sprite3DTextureWithNormalVS"/>
-    <param name="pixel_shader" value="Sprite3DTexturePS"/>
-  </technique>
-
-  <technique name="Sprite3DColor">
-    <param name="cull_mode" value="none"/>
-    <!--<param name="fill_mode" value="wireframe"/>-->
-
-    <param name="vertex_shader" value="Sprite3DColorVS"/>
-    <param name="pixel_shader" value="Sprite3DColorPS"/>
-  </technique>
-
-  <technique name="Sprite3DNormal">
-    <param name="cull_mode" value="none"/>
-    <!--<param name="fill_mode" value="wireframe"/>
-
-    <param name="blend_enable" value="true"/>
-    <param name="src_blend" value="src_alpha"/>
-    <param name="dest_blend" value="inv_src_alpha"/>
-    <param name="src_blend_alpha" value="src_alpha"/>
-    <param name="dest_blend_alpha" value="inv_src_alpha"/>
-
-    <param name="depth_func" value="less_equal"/>-->
-      
-    <param name="vertex_shader" value="Sprite3DNormalVS"/>
-    <param name="pixel_shader" value="Sprite3DColorPS"/>
-  </technique>
-
-  <technique name="Sprite3DTexture">
-    <param name="cull_mode" value="none"/>
-    <!--<param name="fill_mode" value="wireframe"/>-->
-
-    <param name="vertex_shader" value="Sprite3DTextureVS"/>
-    <param name="pixel_shader" value="Sprite3DTexturePS"/>
-  </technique>
   
 </effect>

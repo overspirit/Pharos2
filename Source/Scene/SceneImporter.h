@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -23,11 +23,23 @@ namespace Pharos
 				string	materialName;
 
 				string	techName;
-				vector<string>	techDefines;
-
-				map<string, string>			varList;
-				map<string, SamplerData>	samplerDataList;
-				map<string, string>			stateList;
+                
+                Vector3Df lightDir;
+                Color4 lightColor;
+                
+                Color4 mateialColor;
+                Color4 ambientColor;
+                float32 ambientAlbedo;
+                Color4 diffuseColor;
+                float32 diffuseAlbedo;
+                Color4 specularColor;
+                float32 specularAlbedo;
+                float32 specularPow;
+                
+                bool transparent;
+                bool forceDepth;
+                bool cullBack;
+                bool clockWise;
 			};
 
 			struct MeshData
@@ -67,7 +79,8 @@ namespace Pharos
 					string id;
 					vector<string> materialList;
 				};
-
+                
+                string name;
 				vector<MeshInfo>	meshList;
 				vector<string>	skeletonList;
 				vector<string>	animList;

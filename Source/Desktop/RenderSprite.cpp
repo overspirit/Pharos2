@@ -99,11 +99,7 @@ bool RenderSprite::Init()
 }
 
 void RenderSprite::Destroy()
-{
-	SAFE_DELETE(m_drawColorObj);
-	SAFE_DELETE(m_drawTextureObj);
-	SAFE_DELETE(m_drawFontObj);
-	
+{	
 	SAFE_DELETE(m_vertBuf);
 
 	SAFE_DELETE(m_spriteColorShader);

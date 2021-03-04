@@ -18,7 +18,8 @@ namespace Pharos
 			NSTrackingArea* m_trackingArea;
 			NSResponder* m_wc;
 
-			Point2Di         m_mousePos;
+			Point2Di        m_mousePos;
+            CODE_STATE      m_mouseState;
 
 		public:
 			virtual bool Init();

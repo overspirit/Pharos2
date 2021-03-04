@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-Model::Model()
+Model::Model(const char8* name)
 {
+    m_name = name;
+    
 	m_hidden = false;
 
 	m_currAnim = nullptr;
@@ -14,15 +16,6 @@ Model::Model()
 
 Model::~Model()
 {
-	for (uint32 i = 0; i < m_subModelList.size(); i++)
-	{
-		SAFE_DELETE(m_subModelList[i].mesh);
-
-		for (auto* material : m_subModelList[i].materialList)
-		{
-			SAFE_DELETE(material);
-		}
-	}
 }
 
 uint32 Model::AddSubModelMesh(Mesh* mesh)

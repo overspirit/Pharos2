@@ -17,7 +17,7 @@ RenderObject::~RenderObject()
 
 uint32 RenderObject::AddRenderBlock(RenderBuffer* vertBuf, RenderPipeline* pipeline)
 {
-    uint32 blockIndex = m_blockList.size();
+    uint32 blockIndex = (uint32)m_blockList.size();
     m_blockList.resize(blockIndex + 1);
 
     RenderBlock& block = m_blockList[blockIndex];

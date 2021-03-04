@@ -6,10 +6,12 @@ namespace Pharos
 	{
 		class Mesh
 		{
-		public:
-			Mesh();
+        private:
+			Mesh(const char8* name);
 			virtual ~Mesh();
 
+            friend class RenderHelper;
+            
 		private:
 			string		m_meshName;
 
@@ -22,7 +24,7 @@ namespace Pharos
 			uint32					m_faceNum;
 
 		public:
-			virtual void SetMeshName(const char8* name) { m_meshName = name; }
+            virtual const char8* GetMeshName() { return m_meshName.c_str(); }
 
 			virtual void SetMeshVertexData(MemoryBuffer* vertexData, uint32 vertNum, const vector<VertLayoutDesc>& vertDesc);
 			virtual RenderBuffer* GetMeshVertexBuffer() { return m_vertBuf; }

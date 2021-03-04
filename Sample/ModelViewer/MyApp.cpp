@@ -8,7 +8,8 @@ MyApp::MyApp()
 	m_scene = nullptr;
 	m_camera = nullptr;
 	m_model = nullptr;
-
+    m_material = nullptr;
+    
 	m_bLeftDown = false;
 	m_bRightDown = false;
     m_bMidDown = false;
@@ -84,6 +85,10 @@ bool MyApp::Init()
 	sDesktopMgr->RegisterControlViewer("LoopPlay", this, (EVENT_CALLBACK)&MyApp::onLoopPlayClick);
 	sDesktopMgr->RegisterControlViewer("OpenFile", this, (EVENT_CALLBACK)&MyApp::onOpenFileClick);
 	sDesktopMgr->RegisterControlViewer("AnimFrame", this, (EVENT_CALLBACK)&MyApp::onFrameSliderValueChange);
+    sDesktopMgr->RegisterControlViewer("AmbientRatio", this, (EVENT_CALLBACK)&MyApp::onAmbientRatioValueChange);
+    sDesktopMgr->RegisterControlViewer("DiffuseRatio", this, (EVENT_CALLBACK)&MyApp::onDiffuseRatioValueChange);
+    sDesktopMgr->RegisterControlViewer("SpecularRatio", this, (EVENT_CALLBACK)&MyApp::onSpecularRatioValueChange);
+    sDesktopMgr->RegisterControlViewer("SpecularPow", this, (EVENT_CALLBACK)&MyApp::onSpecularPowValueChange);
 	//////////////////////////////////////////////////////////////////////////
 	return true;
 }
@@ -102,15 +107,15 @@ bool MyApp::onMouseEvent(const MouseEvent& event)
 {
 	if (event.button == MOUSE_LEFT)
 	{
-		m_bLeftDown = (event.state == STATE_DOWN) ? true : false;
+		m_bLeftDown = (event.state != STATE_UP) ? true : false;
 	}
 	else if (event.button == MOUSE_RIGHT)
 	{
-		m_bRightDown = (event.state == STATE_DOWN) ? true : false;
+		m_bRightDown = (event.state != STATE_UP) ? true : false;
 	}
     else if (event.button == MOUSE_MID)
     {
-        m_bMidDown = (event.state == STATE_DOWN) ? true : false;
+        m_bMidDown = (event.state != STATE_UP) ? true : false;
     }
 	else
 	{
@@ -298,6 +303,7 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
     
     SceneNode* sceneNode = m_scene->GetSceneNode((uint32)0);
     m_model = sceneNode->GetModel(0);
+    m_material = m_model->GetSubModelMaterial(0, 0);
     
     for (uint32 i = 0; i < m_model->GetAnimationNum(); i++)
     {
@@ -320,6 +326,41 @@ bool MyApp::onFrameSliderValueChange(UIObject* obj, const EventArgs& eventArgs)
 	}
 
 	return true;
+}
+
+bool MyApp::onAmbientRatioValueChange(UIObject* obj, const EventArgs& eventArgs)
+{
+    printf("onAmbientRatioValueChange value:%f\n", eventArgs.args[0].fa);
+    
+    m_material->SetAbmbinetRatioParamValue(eventArgs.args[0].fa);
+    return true;
+}
+
+bool MyApp::onDiffuseRatioValueChange(UIObject* obj, const EventArgs& eventArgs)
+{
+    printf("onDiffuseRatioValueChange value:%f\n", eventArgs.args[0].fa);
+    
+    m_material->SetDiffuseRatioParamValue(eventArgs.args[0].fa);
+    
+    return true;
+}
+
+bool MyApp::onSpecularRatioValueChange(UIObject* obj, const EventArgs& eventArgs)
+{
+    printf("onSpecularRatioValueChange value:%f\n", eventArgs.args[0].fa);
+    
+    m_material->SetSpecularRatioParamValue(eventArgs.args[0].fa);
+    
+    return true;
+}
+
+bool MyApp::onSpecularPowValueChange(UIObject* obj, const EventArgs& eventArgs)
+{
+    printf("onSpecularPowValueChange value:%f\n", eventArgs.args[0].fa);
+    
+    m_material->SetSpecularPowParamValue(eventArgs.args[0].fa);
+    
+    return true;
 }
 
 void MyApp::SetSliderFromAnimation()

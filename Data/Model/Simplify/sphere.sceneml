@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Scene>
   <materials_chunk>
-      <material name="Paint" technique="Sprite3DNormal"/>
+    	<material name="Paint" technique="Blinn" color="0xFFFFFFFF">
+			<light dir="0.577350259 -0.577350259 0.577350259" value="0xFFFFFFFF"/>
+			<ambient value="0xFFFFFFFF" albedo="0.0"/>
+			<diffuse value="0xFFFFFFFF"  albedo="0.5"/>
+			<specular value="0xFFFFFFFF" albedo="0.7" pow="32"/>
+			<state transparent="false" force_depth="false" cull_back="true" clock_wise="true"/>
+		</material>
   </materials_chunk>
 
 	<meshes_chunk>

@@ -14,9 +14,12 @@
   </variable>
 
   <variable type="struct" name="cbSceneLight" bind="2">
+    <member type="float4" name="g_light_dir"/>
     <member type="float4" name="g_light_color"/>
-    <member type="float4" name="g_environment_color"/>
-    <member type="float4" name="g_light_direction"/>
+  </variable>
+  
+  <variable type="struct" name="cbPerMaterial" bind="3">
+    <member type="float4" name="g_material_color"/>
   </variable>
   
   <technique name="Sprite3DTextureWithColor">

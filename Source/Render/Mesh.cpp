@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-Mesh::Mesh()
-{	
+Mesh::Mesh(const char8* name)
+{
+    m_meshName = name;
+    
 	m_vertBuf = nullptr;
 	m_indexBuf = nullptr;
 

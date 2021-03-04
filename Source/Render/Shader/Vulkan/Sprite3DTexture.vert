@@ -16,15 +16,6 @@ uniform cbPerModel
     mat4 g_world;
 } perModel;
 
-layout (std140, row_major, binding = 2)
-uniform cbSceneLight
-{
-    vec4 g_light_color;
-    vec4 g_environment_color;
-    vec3 g_light_direction;
-} sceneLight;
-
-
 layout (location = 0) in vec3 pos;
 layout (location = 7) in vec2 tex;
 

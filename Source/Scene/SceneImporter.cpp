@@ -56,7 +56,7 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 
 Model* SceneImporter::CreateModel(const ModelData& modelData)
 {
-	Model* model = new Model();
+    Model* model = sRenderHelper->GenerateModel(modelData.name.c_str());
 	
  	for (const ModelData::MeshInfo& meshInfo : modelData.meshList)
  	{
@@ -100,7 +100,7 @@ Model* SceneImporter::CreateModel(const ModelData& modelData)
 
 Mesh* SceneImporter::CreateMesh(const MeshData& meshData)
 {
-	Mesh* mesh = new Mesh();
+    Mesh* mesh = sRenderHelper->GenerateMesh(meshData.meshName.c_str());
 	
 	mesh->SetMeshVertexData((MemoryBuffer*)&meshData.vertexData, meshData.vertCount, meshData.vertDesc);
 	mesh->SetMeshIndexData((MemoryBuffer*)&meshData.indexData, meshData.faceCount);
@@ -113,64 +113,25 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
 {
 	Renderer* renderer = sRenderMgr->GetCurrentRenderer();
 
-	Material* material = sMaterialMgr->GenerateMaterial(materialData.techName.c_str());
+	Material* material = sRenderHelper->GenerateMaterial(materialData.techName.c_str(), materialData.materialName.c_str());
     if(material == NULL) return NULL;
     
-	for (auto texIter : materialData.samplerDataList)
-	{
-		string texName = texIter.first;
-		const SamplerData& sampleData = texIter.second;
-		string texPath = sampleData.texPath;
-		RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
-		material->SetTextureParamValue(tex);
-	}
-
-	// for (auto varIter : materialData.varList)
-	// {
-	// 	string varName = varIter.first;
-	// 	string varValue = varIter.second;
-
-	// 	PropType type = GetStringPropType(varValue.c_str());
-
-	// 	switch (type)
-	// 	{
-	// 		case Core::EPT_STRING:
-	// 		{
-
-	// 		}
-	// 		break;
-	// 		case Core::EPT_NUMBER:
-	// 		{
-	// 			float32 value = strtof(varIter.second.c_str(), nullptr);
-	// 			material->SetParameterValue(varName.c_str(), value);
-	// 		}
-	// 		break;
-	// 		case Core::EPT_VECTOR2:
-	// 		{
-	// 			Vector2Df value = ParseVector2(varIter.second.c_str());
-	// 			material->SetParameterValue(varName.c_str(), value);
-	// 		}
-	// 		break;
-	// 		case Core::EPT_VECTOR3:
-	// 		{
-	// 			Vector3Df value = ParseVector3(varIter.second.c_str());
-	// 			material->SetParameterValue(varName.c_str(), value);
-	// 		}
-	// 		break;
-	// 		case Core::EPT_VECTOR4:
-	// 		{
-	// 			Vector4Df value = ParseVector4(varIter.second.c_str());
-	// 			material->SetParameterValue(varName.c_str(), value);
-	// 		}
-	// 		break;
-	// 		case Core::EPT_MATRIX:
-	// 		{
-	// 			Matrix4 value = ParseMatrix4(varIter.second.c_str());
-	// 			material->SetParameterValue(varName.c_str(), value);
-	// 		}
-	// 		break;
-	// 	}
-	// }
+    material->SetLightDirectionParamValue(materialData.lightDir);
+    material->SetLightColorParamValue(materialData.lightColor);
+    
+    material->SetMaterialColorParamValue(materialData.mateialColor);
+    material->SetAbmbinetColorParamValue(materialData.ambientColor);
+    material->SetDiffuseColorParamValue(materialData.diffuseColor);
+    material->SetSpecularColorParamValue(materialData.specularColor);
+    material->SetAbmbinetRatioParamValue(materialData.ambientAlbedo);
+    material->SetDiffuseRatioParamValue(materialData.diffuseAlbedo);
+    material->SetSpecularRatioParamValue(materialData.specularAlbedo);
+    material->SetSpecularPowParamValue(materialData.specularPow);
+    
+    material->SetTransparentEnabled(materialData.transparent);
+    material->SetForceDepthWrite(materialData.forceDepth);
+    material->SetCullBackFace(materialData.cullBack);
+    material->SetClockwiseFrontFace(materialData.clockWise);
 
 	return material;
 }
@@ -353,60 +314,6 @@ void SceneImporter::SaveMaterialData(MaterialData& materialData, XmlNode* materi
 {
 	XmlNode* materialNode = materialRootNode->AppendChild("material");
 
-	//没有读取这个变量
-	//materialData.techDefines;
-
-	XmlAttribute* nameAttr = materialNode->AppendAttribute("name");
-	nameAttr->SetValue(materialData.materialName.c_str());
-
-	XmlAttribute* techniqueAttr = materialNode->AppendAttribute("technique");
-	techniqueAttr->SetValue(materialData.techName.c_str());
-
-	for (auto iter : materialData.varList)
-	{
-		XmlNode* varNode = materialNode->AppendChild("variable");
-		XmlAttribute* varNameAttr = varNode->AppendAttribute("name");
-		varNameAttr->SetValue(iter.first.c_str());
-
-		XmlAttribute* varValueAttr = varNode->AppendAttribute("value");
-		varValueAttr->SetValue(iter.second.c_str());
-
-// 		switch (iter.second.type)
-// 		{	
-// 			case EPT_STRING: varValueAttr->SetValue(iter.second.strValue.c_str()); break;
-// 			case EPT_NUMBER: varValueAttr->SetValue(iter.second.fValue); break;
-// 			case EPT_VECTOR2: varValueAttr->SetValue(iter.second.vt2Value); break;
-// 			case EPT_VECTOR3: varValueAttr->SetValue(iter.second.vt3Value); break;
-// 			case EPT_VECTOR4: varValueAttr->SetValue(iter.second.vt4Value); break;
-// 			case EPT_MATRIX: varValueAttr->SetValue(iter.second.matValue); break;
-// 		}		
-	}
-
-	for (auto iter : materialData.samplerDataList)
-	{
-		XmlNode* sampleNode = materialNode->AppendChild("sampler");
-
-		XmlAttribute* sampleNameAttr = sampleNode->AppendAttribute("name");
-		sampleNameAttr->SetValue(iter.second.samplerName.c_str());
-
-		//没读取纹理过滤状态...
-		//iter.second.stateDesc;
-
-		XmlNode* samplePathNode = sampleNode->AppendChild("texture");
-		XmlAttribute* samplePathAttr = samplePathNode->AppendAttribute("path");
-		samplePathAttr->SetValue(iter.second.texPath.c_str());
-	}	
-
-	for (auto iter : materialData.stateList)
-	{
-		XmlNode* stateNode = materialNode->AppendChild("state");
-
-		XmlAttribute* stateNameAttr = stateNode->AppendAttribute("name");
-		stateNameAttr->SetValue(iter.first.c_str());
-
-		XmlAttribute* stateValueAttr = stateNode->AppendAttribute("value");
-		stateValueAttr->SetValue(iter.second.c_str());
-	}
 }
 
 uint32 SceneImporter::SaveModelData(ModelData& modelData, XmlNode* modelRootNode)
