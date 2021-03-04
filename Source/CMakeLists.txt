@@ -33,7 +33,7 @@ else()
     list(APPEND CORE_FILES
             Core/Linux/glfw_window.cpp
             Core/Linux/PlatformLinux.cpp
-            Core/Linux/File.cpp
+            Core/Linux/File.cpp 
             Core/Linux/Timer.cpp
             Core/Linux/main.cpp
             )
@@ -96,9 +96,19 @@ target_link_libraries(${PROJECT_NAME} vulkan)
 target_link_libraries(${PROJECT_NAME} ${EXTERNAL_LIBS})
 
 if (ANDROID)
+
     find_library( log-lib log )
     target_link_libraries( ${PROJECT_NAME} ${log-lib} )
     target_link_libraries(${PROJECT_NAME} android.so)
+
 else()
+
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK REQUIRED gtk+-3.0)
+
     target_link_libraries(${PROJECT_NAME} xcb)
+    target_link_libraries(${PROJECT_NAME} ${GTK_LIBRARIES})
+    target_include_directories(${PROJECT_NAME} PUBLIC ${GTK_INCLUDE_DIRS})
+    target_compile_options(${PROJECT_NAME} PUBLIC ${GTK_CFLAGS_OTHER})
+    
 endif()
