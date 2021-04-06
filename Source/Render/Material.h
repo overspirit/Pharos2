@@ -92,6 +92,18 @@ namespace Pharos
             virtual void SetDiffuseRatioParamValue(float32 ratio);
             virtual void SetSpecularRatioParamValue(float32 ratio);
             virtual void SetSpecularPowParamValue(float32 pow);
+            
+            virtual const Vector3Df& GetLightDirectionParamValue() { return *(Vector3Df*)((float*)m_lightParam.lightDir); }
+            virtual Color4 GetLightColorParamValue() { return m_lightParam.lightColor; }
+            virtual Color4 GetMaterialColorParamValue() { return m_materialParam.materialColor; }
+            virtual Color4 GetAbmbinetColorParamValue() { return m_materialParam.ambientColor; }
+            virtual Color4 GetDiffuseColorParamValue() { return m_materialParam.diffuseColor; }
+            virtual Color4 GetSpecularColorParamValue() { return m_materialParam.specularColor; }
+            virtual float32 GetAbmbinetRatioParamValue() { return m_materialParam.albedoPow.x; }
+            virtual float32 GetDiffuseRatioParamValue() { return m_materialParam.albedoPow.y; }
+            virtual float32 GetSpecularRatioParamValue() { return m_materialParam.albedoPow.z; }
+            virtual float32 GetSpecularPowParamValue() { return m_materialParam.albedoPow.w; }
+            
 			virtual void SetTextureParamValue(RenderTexture* texture);
 			
 			virtual void SetTransparentEnabled(bool enabled);

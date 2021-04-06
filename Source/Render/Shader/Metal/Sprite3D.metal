@@ -185,6 +185,6 @@ fragment float4 Sprite3DTexturePS(TextureInOut in [[stage_in]], texture2d<float>
 								   min_filter::linear);
 	
 	float4 colorSample = colorMap.sample(colorSampler, in.tex.xy);
-	
-	return colorSample;
+    
+    return float4(colorSample.rgb * in.color.rgb, colorSample.a);
 }

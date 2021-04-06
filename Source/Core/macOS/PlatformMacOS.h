@@ -17,6 +17,8 @@ namespace Pharos
 			Timer			m_timer;
 			NSTrackingArea* m_trackingArea;
 			NSResponder* m_wc;
+            
+            Size2Di         m_viewSize;
 
 			Point2Di        m_mousePos;
             CODE_STATE      m_mouseState;

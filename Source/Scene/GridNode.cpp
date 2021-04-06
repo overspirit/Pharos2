@@ -48,7 +48,8 @@ bool GridNode::BuildGridData()
 	
 
     Mesh* gridMesh = sRenderHelper->GenerateMesh("GridNodeMesh");
-	gridMesh->SetMeshVertexData(&vertexData, gridNum * 4, vertDesc);
+    gridMesh->SetMeshVertexDesc(vertDesc);
+	gridMesh->SetMeshVertexData(&vertexData, gridNum * 4);
 	gridMesh->SetDrawType(Render::EDT_LINELIST);
 
     Model* gridModel = sRenderHelper->GenerateModel("GridNodeModel");

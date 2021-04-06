@@ -233,6 +233,8 @@ void Model::Prepare(RenderObject* renderObj)
 		uint32 vertNum = mesh->GetVertNum();
 		uint32 faceNum = mesh->GetFaceNum();
 
+        if (vertBuffer == NULL) continue;
+        
 		vector<Material*>& materialList = subModel.materialList;
 
 		for (Material* material : materialList)

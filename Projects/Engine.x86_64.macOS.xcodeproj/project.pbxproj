@@ -16,10 +16,7 @@
 		C7398C1724B73A1C0092BF6E /* File.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C1524B73A1C0092BF6E /* File.h */; };
 		C7398C1A24B73A480092BF6E /* Package.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7398C1824B73A480092BF6E /* Package.cpp */; };
 		C7398C1B24B73A480092BF6E /* Package.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C1924B73A480092BF6E /* Package.h */; };
-		C7398C2124B73A740092BF6E /* RenderVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C1E24B73A740092BF6E /* RenderVariable.h */; };
 		C7398C2324B73AA50092BF6E /* RenderResourceSet.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C2224B73AA50092BF6E /* RenderResourceSet.h */; };
-		C7398C2624B73AC20092BF6E /* MaterialMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7398C2424B73AC20092BF6E /* MaterialMgr.cpp */; };
-		C7398C2724B73AC20092BF6E /* MaterialMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C2524B73AC20092BF6E /* MaterialMgr.h */; };
 		C7398C2A24B73BA30092BF6E /* MetalResourceSet.h in Headers */ = {isa = PBXBuildFile; fileRef = C7398C2824B73BA30092BF6E /* MetalResourceSet.h */; };
 		C7398C2B24B73BA30092BF6E /* MetalResourceSet.mm in Sources */ = {isa = PBXBuildFile; fileRef = C7398C2924B73BA30092BF6E /* MetalResourceSet.mm */; };
 		C7398C4224B742D60092BF6E /* Sprite3D.metal in Sources */ = {isa = PBXBuildFile; fileRef = C7398C4124B742D60092BF6E /* Sprite3D.metal */; };
@@ -34,6 +31,8 @@
 		C769A9462465514800C30621 /* IMetalCommandFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = C769A9452465514800C30621 /* IMetalCommandFactory.h */; };
 		C7C6A11B24754CF40001D9FF /* RenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7C6A11924754CF40001D9FF /* RenderObject.cpp */; };
 		C7C6A11C24754CF40001D9FF /* RenderObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C6A11A24754CF40001D9FF /* RenderObject.h */; };
+		C7D05C2A25ECE1BC0053CA02 /* RenderHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D05C2825ECE1BC0053CA02 /* RenderHelper.h */; };
+		C7D05C2B25ECE1BC0053CA02 /* RenderHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7D05C2925ECE1BC0053CA02 /* RenderHelper.cpp */; };
 		F97F83EC243734400002DFF0 /* CompileConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83E8243734400002DFF0 /* CompileConfig.h */; };
 		F97F83EE243734400002DFF0 /* PreCompile.h in Headers */ = {isa = PBXBuildFile; fileRef = F97F83EA243734400002DFF0 /* PreCompile.h */; };
 		F97F842F243C2BD50002DFF0 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = F97F842E243C2BD50002DFF0 /* main.mm */; };
@@ -190,10 +189,7 @@
 		C7398C1524B73A1C0092BF6E /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.h; path = ../Source/Core/macOS/File.h; sourceTree = "<group>"; };
 		C7398C1824B73A480092BF6E /* Package.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Package.cpp; path = ../Source/Core/Package.cpp; sourceTree = "<group>"; };
 		C7398C1924B73A480092BF6E /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = ../Source/Core/Package.h; sourceTree = "<group>"; };
-		C7398C1E24B73A740092BF6E /* RenderVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderVariable.h; path = ../Source/Render/RenderVariable.h; sourceTree = "<group>"; };
 		C7398C2224B73AA50092BF6E /* RenderResourceSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderResourceSet.h; path = ../Source/Render/Renderer/RenderResourceSet.h; sourceTree = "<group>"; };
-		C7398C2424B73AC20092BF6E /* MaterialMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MaterialMgr.cpp; path = ../Source/Render/MaterialMgr.cpp; sourceTree = "<group>"; };
-		C7398C2524B73AC20092BF6E /* MaterialMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MaterialMgr.h; path = ../Source/Render/MaterialMgr.h; sourceTree = "<group>"; };
 		C7398C2824B73BA30092BF6E /* MetalResourceSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalResourceSet.h; path = ../Source/Render/Renderer/Metal/MetalResourceSet.h; sourceTree = "<group>"; };
 		C7398C2924B73BA30092BF6E /* MetalResourceSet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalResourceSet.mm; path = ../Source/Render/Renderer/Metal/MetalResourceSet.mm; sourceTree = "<group>"; };
 		C7398C3F24B7425F0092BF6E /* Skeletal.fxml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Skeletal.fxml; path = ../Source/Render/Shader/Skeletal.fxml; sourceTree = "<group>"; };
@@ -210,6 +206,8 @@
 		C769A9452465514800C30621 /* IMetalCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMetalCommandFactory.h; path = ../Source/Render/Renderer/Metal/IMetalCommandFactory.h; sourceTree = "<group>"; };
 		C7C6A11924754CF40001D9FF /* RenderObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderObject.cpp; path = ../Source/Render/RenderObject.cpp; sourceTree = "<group>"; };
 		C7C6A11A24754CF40001D9FF /* RenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderObject.h; path = ../Source/Render/RenderObject.h; sourceTree = "<group>"; };
+		C7D05C2825ECE1BC0053CA02 /* RenderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderHelper.h; path = ../Source/Render/RenderHelper.h; sourceTree = "<group>"; };
+		C7D05C2925ECE1BC0053CA02 /* RenderHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderHelper.cpp; path = ../Source/Render/RenderHelper.cpp; sourceTree = "<group>"; };
 		F90BE5762435C21B0018A7F2 /* libEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97F83E8243734400002DFF0 /* CompileConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompileConfig.h; path = ../Source/CompileConfig.h; sourceTree = "<group>"; };
 		F97F83EA243734400002DFF0 /* PreCompile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreCompile.h; path = ../Source/PreCompile.h; sourceTree = "<group>"; };
@@ -371,9 +369,9 @@
 		F90BE56D2435C21B0018A7F2 = {
 			isa = PBXGroup;
 			children = (
+				F97F83F0243734430002DFF0 /* Source */,
 				F97F8492243C7CC20002DFF0 /* Frameworks */,
 				F90BE5772435C21B0018A7F2 /* Products */,
-				F97F83F0243734430002DFF0 /* Source */,
 			);
 			sourceTree = "<group>";
 		};
@@ -498,19 +496,18 @@
 				F9D98148243EFCEF0028DD41 /* IRenderCallback.h */,
 				F9D98142243EFCEF0028DD41 /* Material.cpp */,
 				F9D9814B243EFCEF0028DD41 /* Material.h */,
-				C7398C2424B73AC20092BF6E /* MaterialMgr.cpp */,
-				C7398C2524B73AC20092BF6E /* MaterialMgr.h */,
 				F9D98143243EFCEF0028DD41 /* Mesh.cpp */,
 				F9D98146243EFCEF0028DD41 /* Mesh.h */,
 				F9D98141243EFCEF0028DD41 /* Model.cpp */,
 				F9D98145243EFCEF0028DD41 /* Model.h */,
-				C7C6A11924754CF40001D9FF /* RenderObject.cpp */,
-				C7C6A11A24754CF40001D9FF /* RenderObject.h */,
 				F9D98144243EFCEF0028DD41 /* RenderDefine.h */,
 				F9D98122243EFB560028DD41 /* RenderGlobal.h */,
+				C7D05C2925ECE1BC0053CA02 /* RenderHelper.cpp */,
+				C7D05C2825ECE1BC0053CA02 /* RenderHelper.h */,
 				F9D98121243EFB560028DD41 /* RenderMgr.cpp */,
 				F9D98123243EFB560028DD41 /* RenderMgr.h */,
-				C7398C1E24B73A740092BF6E /* RenderVariable.h */,
+				C7C6A11924754CF40001D9FF /* RenderObject.cpp */,
+				C7C6A11A24754CF40001D9FF /* RenderObject.h */,
 				F9D9813E243EFCEF0028DD41 /* Skeleton.cpp */,
 				F9D98147243EFCEF0028DD41 /* Skeleton.h */,
 				F9D98149243EFCEF0028DD41 /* VertexDefine.h */,
@@ -713,6 +710,7 @@
 				F9D981E9243F0BA00028DD41 /* SceneMgr.h in Headers */,
 				F9D981EF243F0BA00028DD41 /* TreeNode.h in Headers */,
 				F9D981F7243F0BA00028DD41 /* SceneImporter.h in Headers */,
+				C7D05C2A25ECE1BC0053CA02 /* RenderHelper.h in Headers */,
 				F9D9820B243F0BC10028DD41 /* DesktopGlobal.h in Headers */,
 				C75C8118245ABBF300CCEE69 /* MetalUtils.h in Headers */,
 				C7398C2324B73AA50092BF6E /* RenderResourceSet.h in Headers */,
@@ -722,7 +720,6 @@
 				F9D9814E243EFCEF0028DD41 /* Animation.h in Headers */,
 				F9D98156243EFCEF0028DD41 /* Skeleton.h in Headers */,
 				F97F84EC243D7E6F0002DFF0 /* Vector4D.h in Headers */,
-				C7398C2724B73AC20092BF6E /* MaterialMgr.h in Headers */,
 				F9D98154243EFCEF0028DD41 /* Model.h in Headers */,
 				F9D981D1243F06190028DD41 /* XmlDocument.h in Headers */,
 				F97F8483243C507B0002DFF0 /* TypesDef.h in Headers */,
@@ -743,7 +740,6 @@
 				F9D98234243F0BDD0028DD41 /* Button.h in Headers */,
 				F97F84C8243D7E5A0002DFF0 /* Util.h in Headers */,
 				F97F848E243C65880002DFF0 /* PlatformMacOS.h in Headers */,
-				C7398C2124B73A740092BF6E /* RenderVariable.h in Headers */,
 				C7398C2A24B73BA30092BF6E /* MetalResourceSet.h in Headers */,
 				F97F84F0243D7E6F0002DFF0 /* Rect2D.h in Headers */,
 				F9D9813A243EFCD70028DD41 /* RenderTarget.h in Headers */,
@@ -844,7 +840,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "MY_PROJECT_DIR=\"${PROJECT_DIR}/..\"\nSHADER_DIR=\"${MY_PROJECT_DIR}/Source/Render/Shader\"\nSRC_METAL_DIR=\"${SHADER_DIR}/Metal\"\nOUTPUT_DIR=\"${MY_PROJECT_DIR}/Data/Shader/\"\nmkdir ${OUTPUT_DIR}\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite3D.metal -o ${PROJECT_TEMP_DIR}/Sprite3D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite3D.lib ${PROJECT_TEMP_DIR}/Sprite3D.air \ncp -r ${SHADER_DIR}/Sprite3D.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Skeletal.metal -o ${PROJECT_TEMP_DIR}/Skeletal.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Skeletal.lib ${PROJECT_TEMP_DIR}/Skeletal.air \ncp -r ${SHADER_DIR}/Skeletal.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/BorderShine.metal -o ${PROJECT_TEMP_DIR}/BorderShine.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/BorderShine.lib ${PROJECT_TEMP_DIR}/BorderShine.air \ncp -r ${SHADER_DIR}/BorderShine.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Copy.metal -o ${PROJECT_TEMP_DIR}/Copy.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Copy.lib ${PROJECT_TEMP_DIR}/Copy.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite2D.metal -o ${PROJECT_TEMP_DIR}/Sprite2D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite2D.lib ${PROJECT_TEMP_DIR}/Sprite2D.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Font.metal -o ${PROJECT_TEMP_DIR}/Font.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Font.lib ${PROJECT_TEMP_DIR}/Font.air \n";
+			shellScript = "MY_PROJECT_DIR=\"${PROJECT_DIR}/..\"\nSHADER_DIR=\"${MY_PROJECT_DIR}/Source/Render/Shader\"\nSRC_METAL_DIR=\"${SHADER_DIR}/Metal\"\nOUTPUT_DIR=\"${MY_PROJECT_DIR}/Data/Shader/\"\nmkdir ${OUTPUT_DIR}\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite3D.metal -o ${PROJECT_TEMP_DIR}/Sprite3D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite3D.lib ${PROJECT_TEMP_DIR}/Sprite3D.air \ncp -r ${SHADER_DIR}/Sprite3D.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Skeletal.metal -o ${PROJECT_TEMP_DIR}/Skeletal.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Skeletal.lib ${PROJECT_TEMP_DIR}/Skeletal.air \ncp -r ${SHADER_DIR}/Skeletal.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/BorderShine.metal -o ${PROJECT_TEMP_DIR}/BorderShine.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/BorderShine.lib ${PROJECT_TEMP_DIR}/BorderShine.air \ncp -r ${SHADER_DIR}/BorderShine.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Blinn.metal -o ${PROJECT_TEMP_DIR}/Blinn.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Blinn.lib ${PROJECT_TEMP_DIR}/Blinn.air \ncp -r ${SHADER_DIR}/Blinn.fxml ${OUTPUT_DIR}/\n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Copy.metal -o ${PROJECT_TEMP_DIR}/Copy.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Copy.lib ${PROJECT_TEMP_DIR}/Copy.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Sprite2D.metal -o ${PROJECT_TEMP_DIR}/Sprite2D.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Sprite2D.lib ${PROJECT_TEMP_DIR}/Sprite2D.air \n\nxcrun -sdk macosx metal -c ${SRC_METAL_DIR}/Font.metal -o ${PROJECT_TEMP_DIR}/Font.air \nxcrun -sdk macosx metallib -o ${OUTPUT_DIR}/Font.lib ${PROJECT_TEMP_DIR}/Font.air \n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -888,7 +884,6 @@
 				F9D981C5243F06190028DD41 /* XmlAttribute.cpp in Sources */,
 				F9D981A8243EFF6C0028DD41 /* MetalRenderTexture.mm in Sources */,
 				C74F714025933E1400CC940F /* Font.metal in Sources */,
-				C7398C2624B73AC20092BF6E /* MaterialMgr.cpp in Sources */,
 				F9D9822D243F0BDD0028DD41 /* FontString.cpp in Sources */,
 				F9D9820F243F0BC10028DD41 /* RenderImage.cpp in Sources */,
 				F9F95FA92446F6AD0012DE8A /* MetalRenderPipeline.mm in Sources */,
@@ -904,6 +899,7 @@
 				F9D981F1243F0BA00028DD41 /* SceneImporter.cpp in Sources */,
 				F9D981F9243F0BA00028DD41 /* SceneMgr.cpp in Sources */,
 				C7398C1A24B73A480092BF6E /* Package.cpp in Sources */,
+				C7D05C2B25ECE1BC0053CA02 /* RenderHelper.cpp in Sources */,
 				C74F7145259340F900CC940F /* Sprite2D.metal in Sources */,
 				F9D981ED243F0BA00028DD41 /* SceneNode.cpp in Sources */,
 				F9D98159243EFCEF0028DD41 /* Animation.cpp in Sources */,

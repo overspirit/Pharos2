@@ -100,6 +100,8 @@ void RenderMgr::Destroy()
     {
         SAFE_DELETE(renderObj);
     }
+
+    m_renderObjPool.clear();
     
     sRenderHelper->Destroy();
 

@@ -35,7 +35,8 @@ SceneNode* SceneImporter::CreateNode(const SceneNodeData& data)
 	SceneNode* parentNode = sSceneMgr->GetSceneNode(data.parentName.c_str());
 
 	SceneNode* sceneNode = sSceneMgr->CreateSceneNode(data.nodeName.c_str(), parentNode);
-
+    if (sceneNode == nullptr) return NULL;
+    
 	sceneNode->SetLocalTransform(data.localTrans);
 	sceneNode->SetBoundingRadius(data.boundRadius);
 
@@ -101,8 +102,9 @@ Model* SceneImporter::CreateModel(const ModelData& modelData)
 Mesh* SceneImporter::CreateMesh(const MeshData& meshData)
 {
     Mesh* mesh = sRenderHelper->GenerateMesh(meshData.meshName.c_str());
-	
-	mesh->SetMeshVertexData((MemoryBuffer*)&meshData.vertexData, meshData.vertCount, meshData.vertDesc);
+
+    mesh->SetMeshVertexDesc(meshData.vertDesc);
+	mesh->SetMeshVertexData((MemoryBuffer*)&meshData.vertexData, meshData.vertCount);
 	mesh->SetMeshIndexData((MemoryBuffer*)&meshData.indexData, meshData.faceCount);
 	mesh->SetDrawType(meshData.drawType);
 	

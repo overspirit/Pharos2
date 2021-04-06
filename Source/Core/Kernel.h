@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 namespace Pharos
 {
@@ -30,6 +30,7 @@ namespace Pharos
 
 			virtual bool StartUp();
 			virtual void ShutingDown();
+            virtual bool isRunning() { return m_runFlag >= 0; }
 			virtual int32 Run(float32 fElapsed);
 
 			virtual void SetEngineHomePath(const char8* path) { m_homePath = path; }
