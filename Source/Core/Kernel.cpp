@@ -26,17 +26,18 @@ bool Kernel::Init(const void* hWnd, int32 wndWidth, int32 wndHeight)
     if (!sRenderMgr->Init()) return false;
     if (!sSceneMgr->Init()) return false;
     if (!sDesktopMgr->Init()) return false;
-	if (!sKernel->StartUp()) return false;
-
+	
+    m_pApp = NewApplication();
+    if (!m_pApp->Init()) return false;
+    
 	return true;
 }
 
 bool Kernel::StartUp()
 {
-	m_pApp = NewApplication();
-
-	if (!m_pApp->Init()) return false;
-
+    //打开窗口之类的...
+    //...
+    
     m_runFlag = 0;
 
 	return true;

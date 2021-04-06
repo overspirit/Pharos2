@@ -2,31 +2,6 @@
 <effect>
   <library file="Shader/Sprite3D.lib"/>
 
-  <variable type="texture" name="g_tex" bind="4"/>
-
-  <variable type="struct" name="cbPerScene" bind="0">
-    <member type="matrix4" name="g_view"/>
-    <member type="matrix4" name="g_proj"/>
-  </variable>
-
-  <variable type="struct" name="cbPerModel" bind="1">
-    <member type="matrix4" name="g_world"/>
-  </variable>
-
-  <variable type="struct" name="cbSceneLight" bind="2">
-    <member type="float4" name="g_light_color"/>
-    <member type="float4" name="g_environment_color"/>
-    <member type="float4" name="g_light_direction"/>
-  </variable>
-  
-  <technique name="Sprite3DTextureWithColor">
-    <param name="cull_mode" value="none"/>
-    <!--<param name="fill_mode" value="wireframe"/>-->
-      
-    <param name="vertex_shader" value="Sprite3DTextureWithColorVS"/>
-    <param name="pixel_shader" value="Sprite3DTexturePS"/>
-  </technique>
-
   <technique name="Sprite3DTextureWithNormal">
     <param name="cull_mode" value="none"/>
     <!--<param name="fill_mode" value="wireframe"/>-->

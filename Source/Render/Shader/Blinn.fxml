@@ -1,30 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <effect>
   <library file="Shader/Blinn.lib"/>
-
-  <variable type="texture" name="g_tex" bind="4"/>
-
-  <variable type="struct" name="cbPerScene" bind="0">
-    <member type="matrix4" name="g_view"/>
-    <member type="matrix4" name="g_proj"/>
-    <member type="float4" name="g_camera_pos"/>
-  </variable>
-
-  <variable type="struct" name="cbPerModel" bind="1">
-    <member type="matrix4" name="g_world"/>
-  </variable>
-
-  <variable type="struct" name="cbSceneLight" bind="2">
-    <member type="float4" name="g_light_dir"/>
-  </variable>
-  
-  <variable type="struct" name="cbPerMaterial" bind="3">
-    <member type="float4" name="g_material_color"/>
-    <member type="float4" name="g_ambient_color"/>
-    <member type="float4" name="g_diffuse_color"/>
-    <member type="float4" name="g_specular_color"/>
-    <member type="float4" name="g_albedo_pow"/>
-  </variable>
     
   <technique name="Blinn">
     <param name="cull_mode" value="none"/>

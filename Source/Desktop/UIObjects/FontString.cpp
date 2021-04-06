@@ -33,6 +33,13 @@ bool FontString::LoadFromXml(XmlNode* xmlNode)
 	return true;
 }
 
+void FontString::SetText(float32 value)
+{
+    char buf[32];
+    sprintf(buf, "%.2f", value);
+    m_showText = buf;
+}
+
 void FontString::Update(float32 fElapsed)
 {
 	UIObject::Update(fElapsed);

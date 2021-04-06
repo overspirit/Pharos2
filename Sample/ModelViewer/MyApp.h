@@ -30,6 +30,15 @@ private:
 	FontString*			m_currFrameLabel;
 	FontString*			m_totalFrameLabel;
 	Slider*				m_frameSlider;
+    
+    Slider*                m_abmbinetRatioSlider;
+    FontString*            m_abmbinetRatioLabel;
+    Slider*                m_diffuseRatioSlider;
+    FontString*            m_diffuseRatioLabel;
+    Slider*                m_specularRatioSlider;
+    FontString*            m_specularRatioLabel;
+    Slider*                m_specularPowSlider;
+    FontString*            m_specularPowLabel;
 
 private:
 	virtual bool onPlayAnimationClick(UIObject* obj, const EventArgs& eventArgs);

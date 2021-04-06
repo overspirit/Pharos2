@@ -185,6 +185,12 @@ Material* RenderHelper::GenerateMaterial(const char8* tech, const char8* name)
 
 Mesh* RenderHelper::GenerateMesh(const char8* name)
 {
+    auto iter = m_meshList.find(name);
+    if (iter != m_meshList.end())
+    {
+        return iter->second;
+    }
+    
     Mesh* mesh = new Mesh(name);
     
     m_meshList[name] = mesh;

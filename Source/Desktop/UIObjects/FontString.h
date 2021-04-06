@@ -20,7 +20,8 @@ namespace Pharos
 			virtual bool LoadFromXml(XmlNode* xmlNode);
 
 			virtual void SetText(const char8* text) { m_showText = text; }
-
+            virtual void SetText(float32 value);
+            
 			virtual void Update(float32 fElapsed);
 		};
 	}

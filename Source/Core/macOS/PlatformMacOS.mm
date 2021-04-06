@@ -41,7 +41,8 @@ bool PlatformMacOS::Init()
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());
 
-	if (!sKernel->Init((__bridge void*)m_view, wnd_width, wnd_height)) return false;
+    if (!sKernel->Init((__bridge void*)m_view, wnd_width, wnd_height)) return false;
+    //if (!sKernel->Init((__bridge void*)m_view, m_viewSize.width, m_viewSize.height)) return false;
 
 	return true;
 }
@@ -53,6 +54,8 @@ void PlatformMacOS::Destroy()
 
 void PlatformMacOS::onKeyboardEvent(NSEvent* keyEvent)
 {
+    if (!sKernel->isRunning()) return;
+    
 	//NSLog(@"key event type: %lu, char: %@", keyEvent.type, keyEvent.characters);        
         
     KeyEvent myEvent;
@@ -67,6 +70,8 @@ void PlatformMacOS::onKeyboardEvent(NSEvent* keyEvent)
 
 void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 {
+    if (!sKernel->isRunning()) return;
+    
     NSPoint mousePos = [m_window convertPointFromScreen : NSEvent.mouseLocation];
 	uint32 x = mousePos.x;
 	uint32 y = m_view.drawableSize.height - mousePos.y;
@@ -119,14 +124,21 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 
 void PlatformMacOS::onViewChangeSize(int32 width, int32 height)
 {
-	sKernel->onWindowChangeSize(width, height);
+    m_viewSize.width = width;
+    m_viewSize.height = height;
+    
+    if (!sKernel->isRunning()) return;
+    
+    sKernel->onWindowChangeSize(width, height);
 }
 
 void PlatformMacOS::Update()
 {
 	float32 fElapsed = m_timer.GetElapsedTime();
 
-	//NSLog(@"elapsed:%f", fElapsed);
+	//NSLog(@"elapsed:%f", fElapsed);    
 
-	sKernel->Run(fElapsed);
+    if (!sKernel->isRunning()) return;
+    
+    sKernel->Run(fElapsed);
 }

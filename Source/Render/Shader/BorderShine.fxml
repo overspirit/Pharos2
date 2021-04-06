@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <effect>
   <library file="Shader/BorderShine.lib"/>
-
-  <variable type="texture" name="g_tex" bind="4"/>
-
-  <variable type="struct" name="cbPerScene" bind="0">
-    <member type="matrix4" name="g_view"/>
-    <member type="matrix4" name="g_proj"/>
-  </variable>
-
-  <variable type="struct" name="cbPerModel" bind="1">
-    <member type="matrix4" name="g_world"/>
-  </variable>
   
   <technique name="BorderShine">
     <param name="cull_mode" value="none"/>

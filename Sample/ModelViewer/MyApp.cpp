@@ -28,6 +28,15 @@ MyApp::MyApp()
 	m_currFrameLabel = nullptr;
 	m_totalFrameLabel = nullptr;
 	m_frameSlider = nullptr;
+    
+    m_abmbinetRatioSlider = nullptr;
+    m_abmbinetRatioLabel = nullptr;
+    m_diffuseRatioSlider = nullptr;
+    m_diffuseRatioLabel = nullptr;
+    m_specularRatioSlider = nullptr;
+    m_specularRatioLabel = nullptr;
+    m_specularPowSlider = nullptr;
+    m_specularPowLabel = nullptr;
 }
 
 MyApp::~MyApp()
@@ -75,6 +84,16 @@ bool MyApp::Init()
 	m_totalFrameLabel = (FontString*)sDesktopMgr->GetControl("FrameEndLabel");
 	m_frameSlider = (Slider*)sDesktopMgr->GetControl("AnimFrame");
 
+    m_abmbinetRatioSlider = (Slider*)sDesktopMgr->GetControl("AmbientRatio");
+    m_diffuseRatioSlider = (Slider*)sDesktopMgr->GetControl("DiffuseRatio");
+    m_specularRatioSlider = (Slider*)sDesktopMgr->GetControl("SpecularRatio");
+    m_specularPowSlider = (Slider*)sDesktopMgr->GetControl("SpecularPow");
+    
+    m_abmbinetRatioLabel = (FontString*)sDesktopMgr->GetControl("AmbientRatioEndLabel");
+    m_diffuseRatioLabel = (FontString*)sDesktopMgr->GetControl("DiffuseRatioEndLabel");
+    m_specularRatioLabel = (FontString*)sDesktopMgr->GetControl("SpecularRatioEndLabel");
+    m_specularPowLabel = (FontString*)sDesktopMgr->GetControl("SpecularPowEndLabel");
+        
 	m_playBtn->SetHidden(false);
 	m_pauseBtn->SetHidden(true);
 
@@ -313,6 +332,21 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
     
     SetSliderFromAnimation();
 
+    float32 abmbinetRatio = m_material->GetAbmbinetRatioParamValue();
+    float32 diffuseRatio = m_material->GetDiffuseRatioParamValue();
+    float32 specularRatio = m_material->GetSpecularRatioParamValue();
+    float32 specularPow = m_material->GetSpecularPowParamValue();
+    
+    m_abmbinetRatioSlider->SetValue(abmbinetRatio);
+    m_diffuseRatioSlider->SetValue(diffuseRatio);
+    m_specularRatioSlider->SetValue(specularRatio);
+    m_specularPowSlider->SetValue(specularPow);
+    
+    m_abmbinetRatioLabel->SetText(abmbinetRatio);
+    m_diffuseRatioLabel->SetText(diffuseRatio);
+    m_specularRatioLabel->SetText(specularRatio);
+    m_specularPowLabel->SetText(specularPow);
+    
 	return true;
 }
 
@@ -330,35 +364,40 @@ bool MyApp::onFrameSliderValueChange(UIObject* obj, const EventArgs& eventArgs)
 
 bool MyApp::onAmbientRatioValueChange(UIObject* obj, const EventArgs& eventArgs)
 {
-    printf("onAmbientRatioValueChange value:%f\n", eventArgs.args[0].fa);
+    if (m_material == nullptr) return false;
     
     m_material->SetAbmbinetRatioParamValue(eventArgs.args[0].fa);
+    m_abmbinetRatioLabel->SetText(eventArgs.args[0].fa);
+    
     return true;
 }
 
 bool MyApp::onDiffuseRatioValueChange(UIObject* obj, const EventArgs& eventArgs)
 {
-    printf("onDiffuseRatioValueChange value:%f\n", eventArgs.args[0].fa);
+    if (m_material == nullptr) return false;
     
     m_material->SetDiffuseRatioParamValue(eventArgs.args[0].fa);
+    m_diffuseRatioLabel->SetText(eventArgs.args[0].fa);
     
     return true;
 }
 
 bool MyApp::onSpecularRatioValueChange(UIObject* obj, const EventArgs& eventArgs)
 {
-    printf("onSpecularRatioValueChange value:%f\n", eventArgs.args[0].fa);
+    if (m_material == nullptr) return false;
     
     m_material->SetSpecularRatioParamValue(eventArgs.args[0].fa);
+    m_specularRatioLabel->SetText(eventArgs.args[0].fa);
     
     return true;
 }
 
 bool MyApp::onSpecularPowValueChange(UIObject* obj, const EventArgs& eventArgs)
 {
-    printf("onSpecularPowValueChange value:%f\n", eventArgs.args[0].fa);
+    if (m_material == nullptr) return false;
     
     m_material->SetSpecularPowParamValue(eventArgs.args[0].fa);
+    m_specularPowLabel->SetText(eventArgs.args[0].fa);
     
     return true;
 }

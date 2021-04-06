@@ -439,7 +439,7 @@
         
         <Region>
             
-            <Size x="300" y="300"/>
+            <Size x="320" y="300"/>
             
             <Anchor point="TopRight" relativePoint="TopRight">
                 <Offset x="0" y="100"/>
@@ -461,7 +461,7 @@
                     <Size x="200" y="5"/>
                     
                     <Anchor point="Center" relativePoint="Center">
-                        <Offset x="0" y="-85"/>
+                        <Offset x="-20" y="-85"/>
                     </Anchor>
                 </Region>
                 
@@ -506,7 +506,7 @@
                             </Anchor>
                             
                             <Anchor point="Right" relativePoint="Left">
-                                <Offset x="-10"/>
+                                <Offset x="10"/>
                             </Anchor>
                         </Region>
                         
@@ -537,7 +537,7 @@
                     <Size x="200" y="5"/>
                     
                     <Anchor point="Center" relativePoint="Center">
-                        <Offset x="0" y="-25"/>
+                        <Offset x="-20" y="-25"/>
                     </Anchor>
                 </Region>
                 
@@ -582,7 +582,7 @@
                             </Anchor>
                             
                             <Anchor point="Right" relativePoint="Left">
-                                <Offset x="-10"/>
+                                <Offset x="10"/>
                             </Anchor>
                         </Region>
                         
@@ -613,7 +613,7 @@
                     <Size x="200" y="5"/>
                     
                     <Anchor point="Center" relativePoint="Center">
-                        <Offset x="0" y="25"/>
+                        <Offset x="-20" y="25"/>
                     </Anchor>
                 </Region>
                 
@@ -658,7 +658,7 @@
                             </Anchor>
                             
                             <Anchor point="Right" relativePoint="Left">
-                                <Offset x="-10"/>
+                                <Offset x="10"/>
                             </Anchor>
                         </Region>
                         
@@ -689,7 +689,7 @@
                     <Size x="200" y="5"/>
                     
                     <Anchor point="Center" relativePoint="Center">
-                        <Offset x="0" y="85"/>
+                        <Offset x="-20" y="85"/>
                     </Anchor>
                 </Region>
                 
@@ -734,7 +734,7 @@
                             </Anchor>
                             
                             <Anchor point="Right" relativePoint="Left">
-                                <Offset x="-10"/>
+                                <Offset x="10"/>
                             </Anchor>
                         </Region>
                         
