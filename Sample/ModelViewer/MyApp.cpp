@@ -257,9 +257,33 @@ XmlNode* AppendVectorNode(XmlNode* parent, const char8* name, const Vector3Df& v
 
 bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 {
-    string openFilePath = OpenFileDialog(sKernel->GetHomeDirectoryPath());
-    if (openFilePath.empty()) return false;
+#if defined(_LINUX_PLATFORM_)
+    // string openFilePath = OpenFileDialog(sKernel->GetHomeDirectoryPath());
+    // if (openFilePath.empty()) return false;
     
+	string openFilePath;
+
+	gtk_init(NULL, NULL);
+
+    int file_return;
+    GtkWidget *file =gtk_file_chooser_dialog_new("SelectFile",NULL,GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+    if(gtk_dialog_run(GTK_DIALOG(file))==GTK_RESPONSE_ACCEPT)
+	{
+		openFilePath = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file));
+		//printf(filename);
+	}
+		
+
+	//g_signal_connect(G_OBJECT(file),"destroy",G_CALLBACK(gtk_main_quit),NULL);
+
+	gtk_widget_destroy(file);
+	
+	while(gtk_events_pending())
+	{
+		gtk_main_iteration();
+	}
+#endif
+
     /*
 	OPENFILENAME ofn;
 	TCHAR szFileName[MAX_PATH] = _T("");
@@ -280,21 +304,21 @@ bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 
 	SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter(buf);*/
     
-    Utils::Path path(openFilePath.c_str());
-    if(strcmp(path.GetFileExtension(), ".fbx") == 0)
-    {
-        Converter converter;
-        converter.OpenFbx(openFilePath.c_str());
+    // Utils::Path path(openFilePath.c_str());
+    // if(strcmp(path.GetFileExtension(), ".fbx") == 0)
+    // {
+    //     Converter converter;
+    //     converter.OpenFbx(openFilePath.c_str());
         
-        string fullPath = path.GetFullPath();
-        string fileName = path.GetFileName();
+    //     string fullPath = path.GetFullPath();
+    //     string fileName = path.GetFileName();
         
-        openFilePath = fullPath + fileName + ".sceneml";
-        converter.SetName(fileName.c_str());
-        converter.Save(openFilePath.c_str());
+    //     openFilePath = fullPath + fileName + ".sceneml";
+    //     converter.SetName(fileName.c_str());
+    //     converter.Save(openFilePath.c_str());
         
-        //printf(openFilePath.c_str());
-    }
+    //     //printf(openFilePath.c_str());
+    // }
     
     
     SceneImporter* sceneImporter = sSceneMgr->CreateSceneImporter(openFilePath.c_str());//"Model/Ifrit/Ifrit.sceneml");
