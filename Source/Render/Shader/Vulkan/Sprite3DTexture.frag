@@ -13,5 +13,5 @@ layout (location = 0) out vec4 oColor;
 void main() 
 {
    vec4 texColor = textureLod(tex, texcoord, 0.0);
-   oColor = vec4((texColor.rgb + color.rgb), texColor.a);
+   oColor = vec4((texColor.rgb * color.rgb), texColor.a);
 }
