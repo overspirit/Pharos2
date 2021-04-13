@@ -56,13 +56,16 @@ bool VulkanDesciptorSet::SetVertexUniformBuffer(uint32 slot, RenderBuffer* buffe
 
         m_layoutBindings.resize(index + 1);
         m_writeDescSets.resize(index + 1);
+
+        ZeroMemory(&m_layoutBindings[index], sizeof(VkDescriptorSetLayoutBinding));
+        ZeroMemory(&m_writeDescSets[index], sizeof(VkWriteDescriptorSet));
     } 
 
     VkDescriptorSetLayoutBinding& layoutBindings = m_layoutBindings[index];
     layoutBindings.binding = slot;
     layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     layoutBindings.descriptorCount = 1;
-    layoutBindings.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+    layoutBindings.stageFlags = layoutBindings.stageFlags | VK_SHADER_STAGE_VERTEX_BIT;
     layoutBindings.pImmutableSamplers = NULL; 
 
     VkWriteDescriptorSet& writeDescSet = m_writeDescSets[index];
@@ -108,13 +111,16 @@ bool VulkanDesciptorSet::SetFragmentUniformBuffer(uint32 slot, RenderBuffer* buf
 
         m_layoutBindings.resize(index + 1);
         m_writeDescSets.resize(index + 1);
+
+        ZeroMemory(&m_layoutBindings[index], sizeof(VkDescriptorSetLayoutBinding));
+        ZeroMemory(&m_writeDescSets[index], sizeof(VkWriteDescriptorSet));
     } 
 
     VkDescriptorSetLayoutBinding& layoutBindings = m_layoutBindings[index];
     layoutBindings.binding = slot;
     layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     layoutBindings.descriptorCount = 1;
-    layoutBindings.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+    layoutBindings.stageFlags = layoutBindings.stageFlags | VK_SHADER_STAGE_FRAGMENT_BIT;
     layoutBindings.pImmutableSamplers = NULL; 
 
     VkWriteDescriptorSet& writeDescSet = m_writeDescSets[index];
@@ -174,11 +180,14 @@ bool VulkanDesciptorSet::SetFragmentTexture(uint32 slot, RenderTexture* tex)
 
         m_layoutBindings.resize(index + 1);
         m_writeDescSets.resize(index + 1);
+
+        ZeroMemory(&m_layoutBindings[index], sizeof(VkDescriptorSetLayoutBinding));
+        ZeroMemory(&m_writeDescSets[index], sizeof(VkWriteDescriptorSet));
     } 
 
     VkDescriptorSetLayoutBinding& layoutBindings = m_layoutBindings[index];
     layoutBindings.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    layoutBindings.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+    layoutBindings.stageFlags = layoutBindings.stageFlags | VK_SHADER_STAGE_FRAGMENT_BIT;
     layoutBindings.binding = slot;
     layoutBindings.descriptorCount = 1;
     layoutBindings.pImmutableSamplers = NULL;    

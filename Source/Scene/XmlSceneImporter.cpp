@@ -605,6 +605,26 @@ bool XmlSceneImporter::ReadMaterialChunk(XmlNode* node)
                 }
                 
             }
+			else if (strcmp(childName, "sampler") == 0)
+			{
+				XmlAttribute* typeAttr = childNode->GetAttribute("type");
+				if (typeAttr != nullptr)
+				{
+					XmlNode* texNode = childNode->GetFirstNode("texture");
+					if (texNode != NULL)
+					{
+						XmlAttribute* pathAttr = texNode->GetAttribute("path");						
+						if (pathAttr != NULL)
+						{
+							SamplerData sampleData;
+							sampleData.samplerType = typeAttr->GetStringValue();
+							sampleData.texPath = pathAttr->GetStringValue();
+							//sampleData.stateDesc = xxx;
+							materialData.samplerDataList.push_back(sampleData);
+						}
+					}
+				}
+			}
         }
     }
 

@@ -21,6 +21,10 @@ function main() {
 
     cp ${SHADER_DIR}/Sprite3D.fxml ${OUTPUT_DIR}
     cp ${SHADER_DIR}/Skeletal.fxml ${OUTPUT_DIR}
+    cp ${SHADER_DIR}/BorderShine.fxml ${OUTPUT_DIR}
+    cp ${SHADER_DIR}/Phong.fxml ${OUTPUT_DIR}
+    cp ${SHADER_DIR}/Blinn.fxml ${OUTPUT_DIR}
+    cp ${SHADER_DIR}/Lambert.fxml ${OUTPUT_DIR}
 }
 
 # main entry

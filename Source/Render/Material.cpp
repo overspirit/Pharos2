@@ -132,9 +132,14 @@ void Material::SetSpecularPowParamValue(float32 pow)
     m_materialParam.albedoPow.w = pow;
 }
 
-void Material::SetTextureParamValue(RenderTexture* texture)
+void Material::SetColorTextureParamValue(RenderTexture* texture)
 {
     m_renderSet->SetFragmentTexture(4, texture);
+}
+
+void Material::SetBumpTextureParamValue(RenderTexture* texture)
+{
+    m_renderSet->SetFragmentTexture(5, texture);
 }
 
 void Material::SetTransparentEnabled(bool enabled)

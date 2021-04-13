@@ -104,8 +104,9 @@ namespace Pharos
             virtual float32 GetSpecularRatioParamValue() { return m_materialParam.albedoPow.z; }
             virtual float32 GetSpecularPowParamValue() { return m_materialParam.albedoPow.w; }
             
-			virtual void SetTextureParamValue(RenderTexture* texture);
-			
+			virtual void SetColorTextureParamValue(RenderTexture* texture);
+			virtual void SetBumpTextureParamValue(RenderTexture* texture);
+
 			virtual void SetTransparentEnabled(bool enabled);
             virtual void SetForceDepthWrite(bool force);
             virtual void SetCullBackFace(bool cull);

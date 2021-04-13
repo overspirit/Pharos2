@@ -135,6 +135,23 @@ Material* SceneImporter::CreateMaterial(const MaterialData& materialData)
     material->SetCullBackFace(materialData.cullBack);
     material->SetClockwiseFrontFace(materialData.clockWise);
 
+	if (materialData.samplerDataList.size() > 0)
+	{
+		for (const SamplerData& sampleData : materialData.samplerDataList)
+		{
+			string texPath = sampleData.texPath;
+			RenderTexture* tex = renderer->LoadTexture(texPath.c_str());
+
+			if (strcmp(sampleData.samplerType.c_str(), "color") == 0)
+			{
+				material->SetColorTextureParamValue(tex);
+			}
+			else if (strcmp(sampleData.samplerType.c_str(), "bump") == 0)
+			{
+				material->SetBumpTextureParamValue(tex);
+			}
+		}
+	}
 	return material;
 }
 

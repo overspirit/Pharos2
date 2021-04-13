@@ -103,6 +103,8 @@ const char* GetMainBundleDirectory();
 
 #define MyWindow glfw_window
 
+string OpenFileDialog(const char* defaultPath);
+
 #endif
 //////////////////////////////////////////////////////////////////////////
 

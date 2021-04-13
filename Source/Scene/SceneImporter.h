@@ -13,7 +13,7 @@ namespace Pharos
 		protected:
 			struct SamplerData
 			{
-				string samplerName;
+				string samplerType;
 				string texPath;
 				SamplerStateDesc	stateDesc;
 			};
@@ -40,6 +40,8 @@ namespace Pharos
                 bool forceDepth;
                 bool cullBack;
                 bool clockWise;
+
+				vector<SamplerData> samplerDataList;
 			};
 
 			struct MeshData
