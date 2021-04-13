@@ -32,5 +32,9 @@ add_subdirectory(${ENGINE_DIR})
 
 #例子
 set(SAMPLE_DIR ${PROJECT_SOURCE_DIR}/Sample)
-add_subdirectory(${SAMPLE_DIR}/SceneDemo)
+#add_subdirectory(${SAMPLE_DIR}/SceneDemo)
 add_subdirectory(${SAMPLE_DIR}/ModelViewer)
+
+#工具
+set(TOOLS_DIR ${PROJECT_SOURCE_DIR}/Tools)
+add_subdirectory(${TOOLS_DIR}/MapExport)

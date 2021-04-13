@@ -33,19 +33,11 @@ function main() {
 
     echo "build_all"
 
-    ${SHADER_DIR}/copy.sh ${DATA_DIR}/Shader
+    ${SHADER_DIR}/compile.sh ${DATA_DIR}/Shader
     if [ $? -eq 0 ];then
         echo "copy success!!!"
     else 
         echo "copy fail!!!"
-        return 1
-    fi
-
-    ${VULKAN_SHADER_DIR}/compile.sh ${DATA_DIR}/Shader
-    if [ $? -eq 0 ];then
-        echo "compile success!!!"
-    else 
-        echo "compile fail!!!"
         return 1
     fi
 
@@ -64,8 +56,10 @@ function main() {
     mkdir output 
     cd output
     mkdir Sample
+    mkdir Tools
     cp -r ../build/Sample/SceneDemo/SceneDemo ./Sample/
     cp -r ../build/Sample/ModelViewer/ModelViewer ./Sample/
+    cp -r ../build/Tools/MapExport/MapExport ./Tools/
     cp -r ../Data/ ./
 }
 
