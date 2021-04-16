@@ -52,6 +52,12 @@ int32 PlatformAndroid::Run()
     {
         m_window->close();
     }
+    else if (ret > 0)
+    {
+        this->Destroy();
+
+        m_app->userData = NULL;
+    }
 
 	return ret;
 }

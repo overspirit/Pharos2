@@ -48,6 +48,11 @@ void Kernel::ShutingDown()
     m_runFlag = -1;
 }
 
+void Kernel::Restart()
+{
+    m_runFlag = 1;
+}
+
 void Kernel::Destroy()
 {
 	//由于Kernel的析构函数会进行一些内存回收工作

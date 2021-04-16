@@ -213,11 +213,6 @@ void VulkanInitializeHelper::Destroy()
 	vkDestroyInstance(m_inst, NULL);
 }
 
-void VulkanInitializeHelper::RecreateSwapchain()
-{
-	vkDestroySwapchainKHR(m_device, m_swapchain, NULL);
-}
-
 VkPhysicalDevice VulkanInitializeHelper::EnumPhysicalDevice(VkInstance inst)
 {
 	uint32_t gpu_count = 0;

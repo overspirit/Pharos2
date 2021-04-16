@@ -11,6 +11,8 @@ namespace Pharos
 
 		public:
 			virtual void onRender(float32 elapsed) = 0;
+
+			virtual void onDeviceLost() = 0;
 		};
 	}
 }

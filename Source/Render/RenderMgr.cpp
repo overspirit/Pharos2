@@ -257,6 +257,11 @@ void RenderMgr::Render(float32 fElapsed)
             obj->Draw();
         }
 
+        if (m_renderCallback != NULL)
+        {
+            m_renderCallback->onRender(fElapsed);
+        }
+
 		//m_defaultCommand->DrawPrimitives(0, 6);
 
 		m_defaultCommand->EndRenderTarget();
@@ -264,6 +269,13 @@ void RenderMgr::Render(float32 fElapsed)
 
 		m_renderer->Commit();
 	}
+    else
+	{
+    	if (m_renderCallback != NULL)
+		{
+    		m_renderCallback->onDeviceLost();
+		}
+    }
 
 	m_renderObjList.clear();
 

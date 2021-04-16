@@ -30,6 +30,7 @@ namespace Pharos
 
 			virtual bool StartUp();
 			virtual void ShutingDown();
+			virtual void Restart();
             virtual bool isRunning() { return m_runFlag >= 0; }
 			virtual int32 Run(float32 fElapsed);
 

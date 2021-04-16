@@ -54,7 +54,6 @@ namespace Pharos
 		public:
 			bool Initialize(MyWindow* window);
 			void Destroy();
-			void RecreateSwapchain();
 
 			const char8* GetDefaultPhysicalDeviceName() { return m_gpuName.c_str(); }
 			uint32 GetDefaultPhysicalDeviceMemorySize() { return m_gpuMemSize; }
