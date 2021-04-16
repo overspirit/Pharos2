@@ -16,7 +16,7 @@ namespace Pharos
 		private:
 			static void window_size_callback(GLFWwindow *window, int width, int height);
 			static void window_focus_callback(GLFWwindow *window, int focused);
-			static void key_callback(GLFWwindow *window, int key, int /*scancode*/, int action, int /*mods*/);
+			static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 			static void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
 			static void mouse_button_callback(GLFWwindow *window, int button, int action, int /*mods*/);
 			static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -25,6 +25,7 @@ namespace Pharos
 
 		private:
 			void on_mouse_event(int button, int action, int xpos, int ypos, int wheel);
+			void on_keyboard_event(int key, int action);
 
 		public:
 			virtual bool create_window(const char8 *title, uint32 width, uint32 height);

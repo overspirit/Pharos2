@@ -75,6 +75,11 @@ void glfw_window::on_mouse_event(int button, int action, int xpos, int ypos, int
 	sPlatform->onMouseEvent(button, action, xpos, ypos, wheel);
 }
 
+void glfw_window::on_keyboard_event(int key, int action)
+{
+	sPlatform->onKeyboardEvent(key, action);
+}
+
 void glfw_window::window_close_callback(GLFWwindow *window)
 {
 	glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -90,9 +95,11 @@ void glfw_window::window_focus_callback(GLFWwindow *window, int focused)
 
 }
 
-void glfw_window::key_callback(GLFWwindow *window, int key, int /*scancode*/, int action, int /*mods*/)
+void glfw_window::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
+	glfw_window* myWindow = (glfw_window*)glfwGetWindowUserPointer(window);
 
+	myWindow->on_keyboard_event(key, action);
 }
 
 void glfw_window::cursor_position_callback(GLFWwindow *window, double xpos, double ypos)

@@ -47,8 +47,20 @@ void PlatformLinux::Destroy()
 	SAFE_DELETE(m_window);
 }
 
-void PlatformLinux::onKeyboardEvent(const KeyEvent& keyEvent)
+void PlatformLinux::onKeyboardEvent(int32 key, int32 action)
 {
+	static CODE_STATE codes[2];
+	codes[GLFW_PRESS] = STATE_DOWN;
+	codes[GLFW_RELEASE] = STATE_UP;
+
+	KeyEvent myEvent;
+    myEvent.key = (KEY_CODE)key;
+    myEvent.state = (CODE_STATE)codes[action];
+    myEvent.shift = false;
+    myEvent.ctrl = false;
+    myEvent.alt = false;
+    
+    sKernel->onKeyboardEvent(myEvent);
 }
 
 void PlatformLinux::onMouseEvent(int32 mouse, int action, int32 posX, int32 posY, int32 wheel)
