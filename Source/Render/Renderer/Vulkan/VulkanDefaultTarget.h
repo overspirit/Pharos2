@@ -7,7 +7,7 @@ namespace Pharos
 		class VulkanDefaultTarget : public VulkanRenderTarget
 		{
 		public:
-			VulkanDefaultTarget(VkDevice device, int32 width, int32 height, VkSwapchainKHR swapchain);
+			VulkanDefaultTarget(VkDevice device, int32 width, int32 height);
 			virtual ~VulkanDefaultTarget(void);
 
 		private:			
@@ -28,7 +28,7 @@ namespace Pharos
 			void CreateRenderPass(VkFormat colorFormat, VkFormat depthStencilFormat);
 
 		public:
-			bool InitDefaultTarget(VkFormat colorFormat, VkFormat depthFormat);
+			bool InitDefaultTarget();
 
 			void PresentQueue(VkQueue queue);
 

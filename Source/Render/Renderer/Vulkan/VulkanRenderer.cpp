@@ -10,8 +10,6 @@ VulkanRenderer::VulkanRenderer(void)
 	m_descPool = VK_NULL_HANDLE;
 	
 	m_queue = VK_NULL_HANDLE;
-	
-	m_swapchain = VK_NULL_HANDLE;
 
 	m_defaultTarget = NULL;
 }
@@ -36,11 +34,8 @@ bool VulkanRenderer::Init()
 	m_queue = sInitHelper->GetVulkanQueue();
 
 	uint32	queueFamilyIndex = sInitHelper->GetQueueFamilyIndex();
-	m_swapchain = sInitHelper->GetSwapchain();
 	int32 surfaceWidth = sInitHelper->GetWindowSurfaceWidth();
 	int32 surfaceHeight = sInitHelper->GetWindowSurfaceHeight();
-	VkFormat surfaceColorFormat = sInitHelper->GetWindowSurfaceColorFormat();
-	VkFormat surfaceDepthFormat = sInitHelper->GetWindowSurfaceDepthFormat();
 
 	m_cmdPool = CreateCommandPool(m_device, queueFamilyIndex);
 	if(m_cmdPool == VK_NULL_HANDLE) return false;
@@ -51,16 +46,14 @@ bool VulkanRenderer::Init()
 	m_descPool = CreateDescriptorPool(m_device);
 	if (m_descPool == VK_NULL_HANDLE) return false;
 
-	m_defaultTarget = new VulkanDefaultTarget(m_device, surfaceWidth, surfaceHeight, m_swapchain);
-	m_defaultTarget->InitDefaultTarget(surfaceColorFormat, surfaceDepthFormat);
+	m_defaultTarget = new VulkanDefaultTarget(m_device, surfaceWidth, surfaceHeight);
+	m_defaultTarget->InitDefaultTarget();
 
 	return true;
 }
 
 void VulkanRenderer::Destroy()
 {
-	vkDestroySwapchainKHR(m_device, m_swapchain, NULL);
-
 	vkDestroyDescriptorPool(m_device, m_descPool, NULL);
 
 	vkFreeCommandBuffers(m_device, m_cmdPool, 1, &m_cmdBuf);

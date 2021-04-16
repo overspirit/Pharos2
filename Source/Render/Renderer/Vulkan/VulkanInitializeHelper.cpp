@@ -204,11 +204,18 @@ void VulkanInitializeHelper::Destroy()
 	
 #endif
 
+	vkDestroySwapchainKHR(m_device, m_swapchain, NULL);
+
 	vkDestroyDevice(m_device, NULL);
 	
 	vkDestroySurfaceKHR(m_inst, m_surface, NULL);
 
 	vkDestroyInstance(m_inst, NULL);
+}
+
+void VulkanInitializeHelper::RecreateSwapchain()
+{
+	vkDestroySwapchainKHR(m_device, m_swapchain, NULL);
 }
 
 VkPhysicalDevice VulkanInitializeHelper::EnumPhysicalDevice(VkInstance inst)

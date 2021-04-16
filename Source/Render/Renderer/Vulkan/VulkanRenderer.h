@@ -18,9 +18,7 @@ namespace Pharos
 			VkDescriptorPool	m_descPool;
 
 			VkQueue				m_queue;
-			
-			VkSwapchainKHR		m_swapchain;
-			
+						
 			VulkanDefaultTarget*		m_defaultTarget;
 
 		private:			

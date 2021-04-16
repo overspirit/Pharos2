@@ -1,10 +1,10 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
-VulkanDefaultTarget::VulkanDefaultTarget(VkDevice device, int32 width, int32 height, VkSwapchainKHR swapchain) 
+VulkanDefaultTarget::VulkanDefaultTarget(VkDevice device, int32 width, int32 height) 
 : VulkanRenderTarget(device, width, height)
 {	
-    m_swapchain = swapchain;
+    m_swapchain = nullptr;
 
     m_semaphore = NULL;    
     
@@ -142,8 +142,13 @@ bool VulkanDefaultTarget::CreateColorAttachment(VkFormat colorFormat)
     return true;
 }
 
-bool VulkanDefaultTarget::InitDefaultTarget(VkFormat colorFormat, VkFormat depthFormat)
+bool VulkanDefaultTarget::InitDefaultTarget()
 {
+    m_swapchain = sInitHelper->GetSwapchain();
+
+	VkFormat colorFormat = sInitHelper->GetWindowSurfaceColorFormat();
+	VkFormat depthFormat = sInitHelper->GetWindowSurfaceDepthFormat();
+
     CreateColorAttachment(colorFormat);    
 
     m_depthAttachment = (VulkanRenderTexture*)sRenderer->CreateTargetTexture(m_width, m_height, VkFormat2PixelFormat(depthFormat));
@@ -205,6 +210,8 @@ VkRenderPassBeginInfo VulkanDefaultTarget::MakeRenderPassBeginInfo()
         //重建swapchain
         //...
         vkDeviceWaitIdle(m_device);
+
+        
 
         return rp_begin;
     }
