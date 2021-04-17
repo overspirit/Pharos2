@@ -51,7 +51,35 @@
 
 @end
 
-id monitorId;
+id monitorId1;
+id monitorId2;
+
+void doEvent(NSEvent* event)
+{
+    NSApplication* applicaton = [NSApplication sharedApplication];
+    AppDelegate* delegate = (AppDelegate*)applicaton.delegate;
+    
+    switch (event.type)
+    {
+        case NSEventTypeKeyUp:
+        case NSEventTypeKeyDown:
+            [delegate keyEvent:event];
+            break;
+        case NSEventTypeLeftMouseDown:
+        case NSEventTypeLeftMouseUp:
+        case NSEventTypeRightMouseDown:
+        case NSEventTypeRightMouseUp:
+        case NSEventTypeOtherMouseDown:
+        case NSEventTypeOtherMouseUp:
+        case NSEventTypeMouseMoved:
+        case NSEventTypeScrollWheel:
+        case NSEventTypeLeftMouseDragged:
+        case NSEventTypeRightMouseDragged:
+        case NSEventTypeOtherMouseDragged:
+            [delegate mouseEvent:event];
+            break;
+    }
+}
 
 void addMonitor()
 {
@@ -62,41 +90,21 @@ void addMonitor()
         NSEventMaskLeftMouseDragged | NSEventMaskRightMouseDragged | NSEventMaskOtherMouseDragged |
     NSEventMaskKeyDown | NSEventMaskKeyUp;
     //| NSEventMaskFlagsChanged | NSEventMaskAppKitDefined | NSEventMaskSystemDefined | NSEventMaskApplicationDefined | NSEventMaskPeriodic | NSEventTypePeriodic;
-
-    monitorId = [NSEvent addLocalMonitorForEventsMatchingMask : mask handler : ^NSEvent*_Nullable(NSEvent *event) {
-        //NSLog(@"local monitor: %@", event);
-
-        NSApplication* applicaton = [NSApplication sharedApplication];
-        AppDelegate* delegate = (AppDelegate*)applicaton.delegate;
-
-        switch (event.type)
-        {
-            case NSEventTypeKeyUp:
-            case NSEventTypeKeyDown:
-                [delegate keyEvent:event];
-                break;
-            case NSEventTypeLeftMouseDown:
-            case NSEventTypeLeftMouseUp:
-            case NSEventTypeRightMouseDown:
-            case NSEventTypeRightMouseUp:
-            case NSEventTypeOtherMouseDown:
-            case NSEventTypeOtherMouseUp:
-            case NSEventTypeMouseMoved:
-            case NSEventTypeScrollWheel:
-            case NSEventTypeLeftMouseDragged:
-            case NSEventTypeRightMouseDragged:
-            case NSEventTypeOtherMouseDragged:
-                [delegate mouseEvent:event];
-                break;
-        }
-
+    
+//    monitorId1 = [NSEvent addGlobalMonitorForEventsMatchingMask : mask handler : ^void(NSEvent *event) {
+//        doEvent(event);
+//    }];
+    
+    monitorId2 = [NSEvent addLocalMonitorForEventsMatchingMask : mask handler : ^NSEvent* _Nullable(NSEvent *event) {
+        doEvent(event);
         return event;
     }];
 }
 
 const char* OpenFileDialog(const char* defaultPath)
 {
-    [NSEvent removeMonitor: monitorId];
+    [NSEvent removeMonitor: monitorId1];
+    [NSEvent removeMonitor: monitorId2];
     
     NSString* dirPath = NSHomeDirectory();
     if (defaultPath != NULL)

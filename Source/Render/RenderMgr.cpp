@@ -208,8 +208,9 @@ void RenderMgr::Render(float32 fElapsed)
 {	
 	m_defaultCommand->BeginCommand();
 
-	int32 width = m_finalTarget->GetWidth();
-    int32 height = m_finalTarget->GetHeight();
+    const Size2Di& wndSize = sKernel->GetWindowSize();
+    int32 width = wndSize.width;
+    int32 height = wndSize.height;
 
 	Rect2Di viewRect;
 	viewRect.left = 0;
@@ -238,8 +239,8 @@ void RenderMgr::Render(float32 fElapsed)
     
     if (m_defaultCommand->BeginRenderTarget(m_defaultTarget))
 	{
-        width = m_defaultTarget->GetWidth();
-        height = m_defaultTarget->GetHeight();
+        //width = m_defaultTarget->GetWidth();
+        //height = m_defaultTarget->GetHeight();
 
         viewRect.right = width;
         viewRect.bottom = height;

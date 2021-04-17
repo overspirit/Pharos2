@@ -41,8 +41,8 @@ bool PlatformMacOS::Init()
 	sKernel->SetEngineHomePath(homePath.c_str());
 	sKernel->SetEngineBundlePath(bundlePath.c_str());
 
-    if (!sKernel->Init((__bridge void*)m_view, wnd_width, wnd_height)) return false;
-    //if (!sKernel->Init((__bridge void*)m_view, m_viewSize.width, m_viewSize.height)) return false;
+    //if (!sKernel->Init((__bridge void*)m_view, wnd_width, wnd_height)) return false;
+    if (!sKernel->Init((__bridge void*)m_view, m_viewSize.width, m_viewSize.height)) return false;
 
 	return true;
 }
@@ -88,7 +88,7 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
 	myEvent.shift = false;
 	myEvent.ctrl = false;
 	myEvent.alt = false;
-
+    
 	switch (mouseEvent.type)
 	{
 	case NSEventTypeLeftMouseDown: myEvent.button = MOUSE_LEFT; myEvent.state = STATE_DOWN; break;
@@ -105,6 +105,8 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
         default: return;
 	}
     
+    // NSLog(@"mouse event button:%d state:%d ox:%d oy:%d", myEvent.button,  myEvent.state, myEvent.ox, myEvent.oy);
+    
     if (m_mouseState == myEvent.state)
     {
         myEvent.state = STATE_KEEP;
@@ -114,7 +116,7 @@ void PlatformMacOS::onMouseEvent(NSEvent* mouseEvent)
         m_mouseState = myEvent.state;
     }
     
-	//NSLog(@"mouse event button:%d state:%d ox:%d oy:%d", myEvent.button,  myEvent.state, myEvent.ox, myEvent.oy);
+	
 
     sKernel->onMouseEvent(myEvent);
 
@@ -127,7 +129,7 @@ void PlatformMacOS::onViewChangeSize(int32 width, int32 height)
     m_viewSize.width = width;
     m_viewSize.height = height;
     
-    if (!sKernel->isRunning()) return;
+    //if (!sKernel->isRunning()) return;
     
     sKernel->onWindowChangeSize(width, height);
 }
