@@ -49,6 +49,9 @@ namespace Pharos
                 Vector4Df albedoPow;
             };
             
+        private:
+            static RenderTexture*   s_unitTexture;
+            
 		private:
             string      m_materialName;
 			
@@ -70,6 +73,9 @@ namespace Pharos
 
             RenderBuffer*   m_materialParamBuf;
             PerMaterial      m_materialParam;
+            
+            RenderTexture*  m_colorTexture;
+            RenderTexture*  m_bumpTexture;
 
 		public:
 

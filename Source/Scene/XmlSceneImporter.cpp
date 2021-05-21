@@ -233,7 +233,16 @@ bool XmlSceneImporter::ReadMeshChunk(XmlNode* node)
 				tempVertData.Insert(offset, &pos, sizeof(pos));
 				currVertDesc.push_back({ VET_FLOAT32, 3, VAL_POSITION, offset, 0 });
 				offset += 12;
-
+                
+                XmlAttribute* colorAttr = pVertNode->GetAttribute("color");
+                if (colorAttr != nullptr)
+                {
+                    Color4 color = colorAttr->GetColorValue();
+                    tempVertData.Insert(offset, &color, sizeof(color));
+                    currVertDesc.push_back({ VET_UNORM8, 4, VAL_COLOR, offset, 0 });
+                    offset += 4;
+                }
+                
 				XmlNode* normalNode = pVertNode->GetFirstNode("normal");
 				if (normalNode != nullptr)
 				{

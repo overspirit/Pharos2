@@ -2,7 +2,7 @@
 //  main.m
 //  ModelViewer
 //
-//  Created by v_xiaowenzhang on 2020/4/2.
+//  Created by xiaowenzhang on 2020/4/2.
 //  Copyright © 2020 mindbrain. All rights reserved.
 //
 #include "PreCompile.h"

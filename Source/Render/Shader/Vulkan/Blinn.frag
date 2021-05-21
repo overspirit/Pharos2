@@ -3,6 +3,8 @@
 #extension GL_ARB_separate_shader_objects : enable
 #extension GL_ARB_shading_language_420pack : enable
 
+layout (binding = 4) uniform sampler2D colorTex;
+
 layout (std140, row_major, binding = 2)
 uniform cbSceneLight
 {
@@ -19,9 +21,10 @@ uniform cbPerMaterial
    vec4 g_albedo_pow;
 } perMaterial;
 
-
-layout (location = 0) in vec3 normal;
-layout (location = 1) in vec3 viewDir;
+layout (location = 0) in vec4 color;
+layout (location = 1) in vec3 normal;
+layout (location = 2) in vec3 viewDir;
+layout (location = 3) in vec2 texcoord;
 
 layout (location = 0) out vec4 oColor;
 
@@ -41,7 +44,7 @@ void main()
    vec3 specular = perMaterial.g_specular_color.rgb * specularLight * perMaterial.g_albedo_pow.z;
 
    vec4 materialColor = perMaterial.g_material_color;
-//    float4 colorSample = float4(1.0, 1.0, 1.0, 1.0);//colorMap.sample(colorSampler, in.tex.xy);
+   vec4 colorSample = textureLod(colorTex, texcoord, 0.0);
 
-   oColor = materialColor * vec4((ambient + diffuse + specular), 1.0);
+   oColor = color * materialColor * colorSample * vec4((ambient + diffuse + specular), 1.0);
 }

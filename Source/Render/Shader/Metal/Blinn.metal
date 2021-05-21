@@ -2,7 +2,7 @@
 //  Shaders.metal
 //  ModelViewer
 //
-//  Created by v_xiaowenzhang on 2020/4/7.
+//  Created by xiaowenzhang on 2020/4/7.
 //  Copyright © 2020 mindbrain. All rights reserved.
 //
 
@@ -44,16 +44,18 @@ typedef struct
 typedef struct
 {
     float3 pos [[attribute(0)]];
+    float4 color [[attribute(1)]];
     float3 normal [[attribute(2)]];
-	//float2 tex [[attribute(7)]];
+	float2 tex [[attribute(7)]];
 } Vertex;
 
 typedef struct
 {
 	float4 pos [[position]];
+    float4 color;
 	float3 normal;
     float3 viewDir;
-	//float2 tex;
+	float2 tex;
 } TextureInOut;
 
 vertex TextureInOut BlinnVS(Vertex in [[stage_in]],
@@ -67,9 +69,10 @@ vertex TextureInOut BlinnVS(Vertex in [[stage_in]],
     worldPos /= worldPos.w;
     
 	out.pos =  perScene.g_proj * perScene.g_view * worldPos;
+    out.color = in.color;
     out.normal = (perModel.g_world * float4(in.normal, 0)).xyz;
     out.viewDir = (perScene.g_camera_pos - worldPos).xyz;
-    //out.tex = in.tex;
+    out.tex = in.tex;
 	
 	return out;
 }
@@ -79,9 +82,7 @@ fragment float4 BlinnPS(TextureInOut in [[stage_in]],
                         constant cbSceneLight& sceneLight [[ buffer(2) ]],
                         constant cbPerMaterial& perMaterial [[ buffer(3) ]])
 {
-//	constexpr sampler colorSampler(mip_filter::linear,
-//								   mag_filter::linear,
-//								   min_filter::linear);
+	constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear);
 	
     float3 normal = normalize(in.normal);
     float3 viewDir = normalize(in.viewDir);
@@ -97,7 +98,7 @@ fragment float4 BlinnPS(TextureInOut in [[stage_in]],
     float3 specular = perMaterial.g_albedo_pow.z * specularLight * perMaterial.g_specular_color.rgb;
     
     float4 materialColor = perMaterial.g_material_color;
-//    float4 colorSample = float4(1.0, 1.0, 1.0, 1.0);//colorMap.sample(colorSampler, in.tex.xy);
+    float4 colorSample = colorMap.sample(colorSampler, in.tex.xy);
 	
-	return materialColor * float4((ambient + diffuse + specular), 1.0);
+	return in.color * materialColor * colorSample * float4((ambient + diffuse + specular), 1.0);
 }

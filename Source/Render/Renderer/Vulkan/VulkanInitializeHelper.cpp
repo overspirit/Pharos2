@@ -415,6 +415,12 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
 	m_surfaceWidth = swapchainExtent.width;
 	m_surfaceHeight = swapchainExtent.height;
 
+    VkPresentModeKHR presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
+
+#if defined(_ANDROID_PLATFORM_)
+    presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
+#endif
+
 	VkSwapchainCreateInfoKHR swapchain_ci = {};
     swapchain_ci.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     swapchain_ci.pNext = NULL;
@@ -426,7 +432,7 @@ VkSwapchainKHR VulkanInitializeHelper::CreateSwapchain(VkPhysicalDevice gpu, VkD
     swapchain_ci.preTransform = pre_transform;
     swapchain_ci.compositeAlpha = composite;
     swapchain_ci.imageArrayLayers = 1;
-    swapchain_ci.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;//VK_PRESENT_MODE_FIFO_KHR;  //垂直同步
+    swapchain_ci.presentMode = presentMode;
     swapchain_ci.oldSwapchain = VK_NULL_HANDLE;
     swapchain_ci.clipped = true;
     swapchain_ci.imageColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;

@@ -19,10 +19,14 @@ uniform cbPerModel
 
 
 layout (location = 0) in vec3 pos;
+layout (location = 1) in vec4 color;
 layout (location = 2) in vec3 normal;
+layout (location = 7) in vec2 texcoord;
 
-layout (location = 0) out vec3 oNormal;
-layout (location = 1) out vec3 oViewDir;
+layout (location = 0) out vec4 oColor;
+layout (location = 1) out vec3 oNormal;
+layout (location = 2) out vec3 oViewDir;
+layout (location = 3) out vec2 oTexcoord;
 
 void main() 
 {
@@ -31,6 +35,8 @@ void main()
     gl_Position = worldPos * perScene.g_view * perScene.g_proj;
     gl_Position.y = -gl_Position.y;
 
+    oColor = color;
     oNormal = (vec4(normal, 0.0) * perModel.g_world).xyz;
     oViewDir = (perScene.g_camera_pos - worldPos).xyz;
+    oTexcoord = texcoord;
 }

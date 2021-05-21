@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Pharos.h"
 
+RenderTexture* Material::s_unitTexture = nullptr;
+
 Material::Material(const char8* materialName)
 {
     m_materialName = materialName;
@@ -15,8 +17,16 @@ Material::Material(const char8* materialName)
     
     m_lightParam.lightDir = Vector4Df(0.577350259f, -0.577350259f, 0.577350259f, 1.0f);
     m_lightParam.lightColor = 0xFFFFFFFF;
+    
+    //m_materialParam.materialColor = 0xFF3F3F3F;
+    m_materialParam.materialColor = 0xFFFFFFFF;
+    m_materialParam.ambientColor = 0xFFFFFFFF;
+    m_materialParam.diffuseColor = 0xFFFFFFFF;
+    m_materialParam.specularColor = 0xFFFFFFFF;
     m_materialParam.albedoPow = Vector4Df(0.3f, 0.4f, 0.3f, 16.0f);
-    m_materialParam.materialColor = 0xFF3F3F3F;
+    
+    m_colorTexture = nullptr;
+    m_bumpTexture = nullptr;
 }
 
 Material::~Material()
@@ -28,10 +38,20 @@ Material::~Material()
     SAFE_DELETE(m_modelParamBuf);
     SAFE_DELETE(m_lightParamBuf);
     SAFE_DELETE(m_materialParamBuf);
+    
+    SAFE_DELETE(s_unitTexture);
 }
 
 bool Material::InitWithShaderProgram(RenderProgram* renderProgram)
 {
+    if (s_unitTexture == nullptr)
+    {
+        s_unitTexture = sRenderer->CreateTexture2D(1, 1, EPF_RGBA8_UNORM);
+        
+        Color4 unitTextureData = 0xFFFFFFFF;
+        s_unitTexture->CopyFromData(&unitTextureData, sizeof(Color4));
+    }
+    
     m_renderPipeline = sRenderer->GenerateRenderPipeline();
     m_renderPipeline->SetProgramShader(renderProgram);
     
@@ -48,6 +68,9 @@ bool Material::InitWithShaderProgram(RenderProgram* renderProgram)
     
     m_materialParamBuf = sRenderer->GenerateRenderBuffer(UNIFORM_BUFFFER);
     m_materialParamBuf->Allocate(sizeof(PerMaterial));
+    
+    m_colorTexture = s_unitTexture;
+    m_bumpTexture = s_unitTexture;
     
     return true;
 }
@@ -134,12 +157,12 @@ void Material::SetSpecularPowParamValue(float32 pow)
 
 void Material::SetColorTextureParamValue(RenderTexture* texture)
 {
-    m_renderSet->SetFragmentTexture(4, texture);
+    m_colorTexture = texture;
 }
 
 void Material::SetBumpTextureParamValue(RenderTexture* texture)
 {
-    m_renderSet->SetFragmentTexture(5, texture);
+    m_bumpTexture = texture;
 }
 
 void Material::SetTransparentEnabled(bool enabled)
@@ -224,4 +247,6 @@ void Material::UpdateParamValue()
     m_renderSet->SetFragmentUniformBuffer(1, m_modelParamBuf);
     m_renderSet->SetFragmentUniformBuffer(2, m_lightParamBuf);
     m_renderSet->SetFragmentUniformBuffer(3, m_materialParamBuf);
+    m_renderSet->SetFragmentTexture(4, m_colorTexture);
+    m_renderSet->SetFragmentTexture(5, m_bumpTexture);
 }

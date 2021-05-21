@@ -109,6 +109,9 @@ bool MyApp::Init()
     sDesktopMgr->RegisterControlViewer("SpecularRatio", this, (EVENT_CALLBACK)&MyApp::onSpecularRatioValueChange);
     sDesktopMgr->RegisterControlViewer("SpecularPow", this, (EVENT_CALLBACK)&MyApp::onSpecularPowValueChange);
 	//////////////////////////////////////////////////////////////////////////
+    
+    sKernel->StartUp();
+    
 	return true;
 }
 
@@ -276,32 +279,8 @@ XmlNode* AppendVectorNode(XmlNode* parent, const char8* name, const Vector3Df& v
 
 bool MyApp::onOpenFileClick(UIObject* obj, const EventArgs& eventArgs)
 {
-#if defined(_LINUX_PLATFORM_)
-    // string openFilePath = OpenFileDialog(sKernel->GetHomeDirectoryPath());
-    // if (openFilePath.empty()) return false;
-    
-	string openFilePath;
-
-	gtk_init(NULL, NULL);
-
-    int file_return;
-    GtkWidget *file =gtk_file_chooser_dialog_new("SelectFile",NULL,GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
-    if(gtk_dialog_run(GTK_DIALOG(file))==GTK_RESPONSE_ACCEPT)
-	{
-		openFilePath = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file));
-		//printf(filename);
-	}
-		
-
-	//g_signal_connect(G_OBJECT(file),"destroy",G_CALLBACK(gtk_main_quit),NULL);
-
-	gtk_widget_destroy(file);
-	
-	while(gtk_events_pending())
-	{
-		gtk_main_iteration();
-	}
-#endif
+    string openFilePath = OpenFileDialog(sKernel->GetHomeDirectoryPath());
+    if (openFilePath.empty()) return false;
 
     /*
 	OPENFILENAME ofn;

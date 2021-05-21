@@ -2,7 +2,7 @@
 //  Shaders.metal
 //  ModelViewer
 //
-//  Created by v_xiaowenzhang on 2020/4/7.
+//  Created by xiaowenzhang on 2020/4/7.
 //  Copyright © 2020 mindbrain. All rights reserved.
 //
 
